@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>류지환 Resume - Backend Engineer</title>
+<style>
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        font-size: 9.5pt;
+        color: #2c3e50;
+        max-width: 210mm;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+    }
+    
+    /* Header */
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #3498db;
+    }
+    
+    .header h1 {
+        font-size: 22pt;
+        margin: 0 0 5px 0;
+        color: #2c3e50;
+        font-weight: 700;
+    }
+    
+    .header .subtitle {
+        font-size: 12pt;
+        color: #7f8c8d;
+        margin: 0;
+    }
+    
+    /* Contact Info */
+    .contact-info {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+        font-size: 9pt;
+    }
+    
+    .contact-info a {
+        color: #3498db;
+        text-decoration: none;
+    }
+    
+    .contact-info span {
+        color: #95a5a6;
+    }
+    
+    /* About Section */
+    .about-section {
+        background: linear-gradient(90deg, #f8f9fa 0%, #fff 100%);
+        border-left: 4px solid #3498db;
+        padding: 15px 20px;
+        margin: 15px 0;
+        font-size: 9.5pt;
+        line-height: 1.7;
+        color: #34495e;
+    }
+    
+    .about-section p {
+        margin: 0;
+    }
+    
+    .about-section strong {
+        color: #2c3e50;
+    }
+    
+    /* Section Headers */
+    h2 {
+        font-size: 13pt;
+        color: #2c3e50;
+        border-left: 4px solid #3498db;
+        padding-left: 10px;
+        margin-top: 25px;
+        margin-bottom: 12px;
+        page-break-after: avoid;
+    }
+    
+    h3 {
+        font-size: 11pt;
+        color: #34495e;
+        margin-top: 15px;
+        margin-bottom: 8px;
+        page-break-after: avoid;
+    }
+    
+    /* Timeline Graph - Vertical Style */
+    .timeline-section {
+        margin: 25px 0;
+        page-break-inside: avoid;
+    }
+    
+    .timeline-section h2 {
+        border-left: 4px solid #3498db;
+        padding-left: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .timeline-container {
+        position: relative;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding: 12px 0 12px 20px;
+        border-left: none;
+    }
+    
+    /* Timeline dot */
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -27px;
+        top: 16px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 2px currentColor, 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .timeline-item.education::before { color: #3498db; background: #3498db; }
+    .timeline-item.project::before { color: #27ae60; background: #27ae60; }
+    .timeline-item.work::before { color: #e74c3c; background: #e74c3c; }
+    .timeline-item.current::before { 
+        color: #9b59b6; 
+        background: #9b59b6;
+        animation: pulse-dot 2s infinite;
+    }
+    
+    @keyframes pulse-dot {
+        0%, 100% { box-shadow: 0 0 0 2px #9b59b6, 0 2px 8px rgba(0,0,0,0.15); }
+        50% { box-shadow: 0 0 0 4px #9b59b6, 0 2px 12px rgba(155,89,182,0.4); }
+    }
+    
+    .timeline-item .item-period {
+        font-size: 8pt;
+        color: #7f8c8d;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 3px;
+    }
+    
+    .timeline-item .item-title {
+        font-size: 10pt;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+    
+    .timeline-item .item-desc {
+        font-size: 8.5pt;
+        color: #5d6d7e;
+        margin-top: 2px;
+    }
+    
+    .timeline-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 40px;
+    }
+    
+    .timeline-row > div {
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .timeline-row > div::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #3498db 0%, #9b59b6 100%);
+        border-radius: 2px;
+    }
+    
+    .timeline-legend {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        margin-top: 15px;
+        padding-left: 30px;
+        font-size: 8pt;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .legend-color {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    
+    .legend-color.education { background: #3498db; }
+    .legend-color.project { background: #27ae60; }
+    .legend-color.work { background: #e74c3c; }
+    .legend-color.current { background: #9b59b6; }
+    
+    /* Experience & Projects */
+    .experience-item, .project-item {
+        margin-bottom: 18px;
+        page-break-inside: avoid;
+    }
+    
+    .item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 5px;
+    }
+    
+    .item-title {
+        font-size: 11pt;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+    
+    .item-subtitle {
+        font-size: 9pt;
+        color: #7f8c8d;
+    }
+    
+    .item-period {
+        font-size: 9pt;
+        color: #95a5a6;
+        white-space: nowrap;
+    }
+    
+    .item-description {
+        font-size: 9pt;
+        color: #5d6d7e;
+        margin: 5px 0;
+        font-style: italic;
+    }
+    
+    /* Lists */
+    ul {
+        padding-left: 18px;
+        margin: 8px 0;
+    }
+    
+    li {
+        margin-bottom: 4px;
+        font-size: 9pt;
+    }
+    
+    li strong {
+        color: #2c3e50;
+    }
+    
+    /* Skills Grid */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 8px 15px;
+        font-size: 9pt;
+    }
+    
+    .skill-category {
+        font-weight: 700;
+        color: #3498db;
+    }
+    
+    .skill-items {
+        color: #5d6d7e;
+    }
+    
+    /* Metrics Highlight */
+    .metrics {
+        background: #f8f9fa;
+        border-left: 3px solid #27ae60;
+        padding: 10px 15px;
+        margin: 10px 0;
+        font-size: 9pt;
+    }
+    
+    .metrics strong {
+        color: #27ae60;
+    }
+    
+    /* Two Column Layout */
+    .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    /* Print Styles */
+    @media print {
+        body {
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #2c3e50;
+        }
+        
+        .timeline-section {
+            background: #f8f9fa !important;
+        }
+        
+        .timeline-bar {
+            -webkit-print-color-adjust: exact !important;
+        }
+        
+        h2 + ul, h3 + ul {
+            page-break-inside: avoid;
+        }
+        
+        .experience-item, .project-item {
+            page-break-inside: avoid;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h1>류지환 (Jihwan Ryu)</h1>
+    <p class="subtitle">Backend Engineer</p>
+    <div class="contact-info">
+        <span>ryoo0504@gmail.com</span>
+        <span>010-4008-0967</span>
+        <a href="https://github.com/mangowhoiscloud">GitHub</a> <a href="https://github.com/mng990" style="color:#95a5a6">(Legacy)</a>
+        <a href="https://rooftopsnow.tistory.com">Blog</a>
+        <a href="https://linkedin.com/in/jihwan-ryu-b6b04a202">LinkedIn</a>
+    </div>
+</div>
+
+<!-- About Me -->
+<div class="about-section">
+    <p>
+        <strong>분산 시스템 설계와 성능 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
+        Self-managed Kubernetes 기반 분산 비동기 클러스터를 구축·개발·배포하고, Observability 스택으로 수집한 관측 데이터를 기반으로 시스템을 개선합니다.
+        최근에는 Agentic AI와 LLM 기반 워크플로우에 관심을 갖고, 분산 환경에서의 AI 에이전트 고도화를 연구하고 있습니다.
+        기술 블로그를 통해 트러블슈팅 경험과 개발 과정을 꾸준히 기록합니다.
+    </p>
+</div>
+
+<!-- Timeline Section -->
+<div class="timeline-section">
+    <h2>Development Timeline</h2>
+    <div class="timeline-container">
+        <div class="timeline-row">
+            <div>
+                <div class="timeline-item education">
+                    <span class="item-period">2017.03 - 2023.08</span>
+                    <span class="item-title">부산대학교 컴퓨터공학부</span>
+                    <span class="item-desc">정보컴퓨터공학과 공학사 (군복무: 2018.02-2019.12)</span>
+                </div>
+                <div class="timeline-item project">
+                    <span class="item-period">2022.02 - 2022.11</span>
+                    <span class="item-title">Ethereum 경매 플랫폼</span>
+                    <span class="item-desc">Solidity, Web3.js, IPFS 기반 수산물 경매</span>
+                </div>
+                <div class="timeline-item project">
+                    <span class="item-period">2024.01 - 2024.06</span>
+                    <span class="item-title">UE5 PVE Game</span>
+                    <span class="item-desc">게임 엔진 개발 및 Unreal Engine 5 프로젝트</span>
+                </div>
+            </div>
+            <div>
+                <div class="timeline-item education">
+                    <span class="item-period">2024.06 - 2024.11</span>
+                    <span class="item-title">KakaoTech Bootcamp</span>
+                    <span class="item-desc">LLM-Cloud 기반 웹/앱 서버 인프라 개발</span>
+                </div>
+                <div class="timeline-item work">
+                    <span class="item-period">2024.12 - 2025.08</span>
+                    <span class="item-title">Rakuten Symphony Korea</span>
+                    <span class="item-desc">Cloud BU, CNP Storage 개발</span>
+                </div>
+                <div class="timeline-item current">
+                    <span class="item-period">2025.10 - Present</span>
+                    <span class="item-title">Eco2 Project</span>
+                    <span class="item-desc">2025 새싹톤 우수상(TOP4), Backend/Infra 고도화</span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-legend">
+            <div class="legend-item"><div class="legend-color education"></div>Education</div>
+            <div class="legend-item"><div class="legend-color project"></div>Project</div>
+            <div class="legend-item"><div class="legend-color work"></div>Work</div>
+            <div class="legend-item"><div class="legend-color current"></div>In Progress</div>
+        </div>
+    </div>
+</div>
+
+<!-- Professional Experience -->
+<h2>Professional Experience</h2>
+
+<div class="experience-item">
+    <div class="item-header">
+        <div>
+            <span class="item-title">Rakuten Symphony Korea</span>
+            <span class="item-subtitle"> - Cloud Engineer - Jr. Storage Developer (Server-side)</span>
+        </div>
+        <span class="item-period">Dec 2024 - Aug 2025</span>
+    </div>
+    <p class="item-description">Cloud BU | 정규직 | Rakuten CNP(Robin) 유지보수 및 Rakuten Object Storage 신규 개발</p>
+    <ul>
+        <li><strong>Robin Storage v5.5.0:</strong> 스냅샷 로딩 시 RDVM 상태 수집 RPC 개발, <code>RDVM_STATE</code> 동시 접근 crash 수정 (mutex_lock 검증 로직 추가), <code>SEGMENT_LOCK</code> 성능 저하 버그 픽스 (down_write -> down_read 전환)</li>
+        <li><strong>Rakuten OStore v1.0.0:</strong> Install-time root account 생성/주입 로직 설계 및 개발, 유저 deactivate 시 access key 미삭제 버그 수정</li>
+        <li><strong>Global Collaboration:</strong> 미국, 인도, 일본 지사 엔지니어와 Jira/Confluence/GitOps 기반 개발 협업, 소속 팀 대상 영문 기술 발표 경험 다수</li>
+    </ul>
+</div>
+
+<!-- Education & Certifications -->
+<h2>Education & Certifications</h2>
+
+<div class="two-column">
+    <div>
+        <h3>Education</h3>
+        <ul>
+            <li><strong>부산대학교</strong> 정보컴퓨터공학과 공학사 (2017.03 - 2023.08)</li>
+            <li><strong>카카오테크 부트캠프</strong> 백엔드 과정 (2024.06 - 2024.11)</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Certifications & Languages</h3>
+        <ul>
+            <li><strong>정보처리기사</strong> - HRD Korea (Dec 2024)</li>
+            <li><strong>OPIc IH</strong> - ACTFL (Sep 2024)</li>
+            <li>Korean (Native), English (Professional)</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Projects -->
+<h2>Projects</h2>
+
+<div class="project-item">
+    <div class="item-header">
+        <div>
+            <span class="item-title">Eco2 - Multi-LLM Vision Recycling Assistant</span>
+            <span class="item-subtitle"> | Backend & Infrastructure</span>
+        </div>
+        <span class="item-period">Oct 2025 - Present</span>
+    </div>
+    <p class="item-description">2025 AI 새싹톤 우수상 (TOP 4 / 183 teams) | GPT/Gemini Vision + Rule-based Retrieval 기반 AI 분리수거 도우미</p>
+    
+    <div class="metrics">
+        <strong>Performance:</strong> ext-authz VU 2,500 RPS 1,477, p99 275ms, 로컬 캐시 p99 2.3µs (Redis 대비 870배) | Scan SSE VU 300 완료율 99.9%<br>
+        <strong>Event Relay 도입 효과:</strong> VU 50/99% → VU 80/33% (이전) → VU 250/99.9%, VU 400/98.9%, VU 500/94% (현재)<br>
+        <strong>SSE Scan 포화 지점 (VU 600):</strong> Redis Pool 20→100, Celery Broker Pool 10→50, Greenlet M:1 단일 노드 CPU 포화 분석·해결
+    </div>
+    
+    <ul>
+        <li><strong>Infrastructure:</strong> 24-Node Self-managed Kubernetes (kubeadm), Istio Service Mesh (mTLS, VirtualService), Calico CNI, 용도별 분리된 Redis Cluster (Streams/Pub-Sub/Cache/Outbox)</li>
+        <li><strong>GitOps:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize, Canary 배포 전략, 오픈소스 Operator 활용으로 Zero-touch Deployment 구현</li>
+        <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임</li>
+        <li><strong>ext-authz (Go gRPC):</strong> RS256 JWT/JWKS 검증, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Redis 조회 제거 (870배 레이턴시 개선), HPA 2→4 pods 자동 스케일링</li>
+        <li><strong>Outbox Pattern:</strong> Redis Outbox + auth-relay Worker로 메시지 발행 보장, At-Least-Once + 멱등성 처리로 Exactly-Once Semantics 구현</li>
+        <li><strong>Event Relay Layer:</strong> Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구)</li>
+        <li><strong>KEDA:</strong> RabbitMQ 큐 길이, Redis Streams Pending 기반 이벤트 드리븐 오토스케일링 (scan-worker, event-router, character-match-worker)</li>
+        <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
+        <li><strong>Multi-LLM:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 (개발 중)</li>
+    </ul>
+</div>
+
+<div class="project-item">
+    <div class="item-header">
+        <div>
+            <span class="item-title">DREAM - Interactive Story Generation Service</span>
+            <span class="item-subtitle"> | Backend & Infrastructure</span>
+        </div>
+        <span class="item-period">Sep 2024</span>
+    </div>
+    <p class="item-description">LLM & RAG 기반 시니어 꿈 실현 스토리텔링 서비스 | KakaoTech Hackathon</p>
+    <ul>
+        <li>GitHub Actions, AWS CodeDeploy CI/CD 구축, 배포 시간 80% 단축</li>
+        <li>Swap 메모리, Docker 리소스 제한으로 EC2 안정화 (CPU 89%->40%)</li>
+        <li>Elasticsearch 벡터 검색, LangChain RAG 시스템 구축</li>
+    </ul>
+</div>
+
+<div class="project-item">
+    <div class="item-header">
+        <div>
+            <span class="item-title">Ethereum 기반 분산형 수산물 유통 플랫폼</span>
+            <span class="item-subtitle"> | Blockchain Developer</span>
+        </div>
+        <span class="item-period">Feb - Nov 2022</span>
+    </div>
+    <p class="item-description">Web3.0 기반 탈중앙화 경매 시스템 | 거래 및 유통 과정의 투명성·신뢰성 확보</p>
+    <ul>
+        <li><strong>ERC-1155 Multi-Token:</strong> 상품/경매/화폐 토큰을 단일 컨트랙트로 통합 관리, Solidity 스마트 컨트랙트 설계 및 개발</li>
+        <li><strong>Private Ethereum Network:</strong> geth 기반 자체 블록체인 네트워크 구축, Truffle/Ganache로 컨트랙트 배포 자동화</li>
+        <li><strong>DApp 연동:</strong> Web3.js + MetaMask 지갑 연동, IPFS 탈중앙화 스토리지로 상품 메타데이터 영구 저장</li>
+    </ul>
+</div>
+
+<!-- Technical Skills -->
+<h2>Technical Skills</h2>
+
+<div class="skills-grid">
+    <span class="skill-category">Language</span>
+    <span class="skill-items">Go, Python3, C, C++17, Java, Solidity</span>
+    
+    <span class="skill-category">Backend</span>
+    <span class="skill-items">FastAPI, Spring, gRPC, Protocol Buffers</span>
+    
+    <span class="skill-category">Infrastructure</span>
+    <span class="skill-items">Kubernetes, Istio, Calico CNI, Terraform, Ansible, Docker</span>
+    
+    <span class="skill-category">DevOps</span>
+    <span class="skill-items">ArgoCD, Helm, Kustomize, GitHub Actions, KEDA</span>
+    
+    <span class="skill-category">Database</span>
+    <span class="skill-items">PostgreSQL, Redis (Streams, Pub/Sub), Elasticsearch</span>
+    
+    <span class="skill-category">Messaging</span>
+    <span class="skill-items">RabbitMQ, Celery, Redis Streams</span>
+    
+    <span class="skill-category">Observability</span>
+    <span class="skill-items">Prometheus, Grafana, Jaeger, Kiali, OpenTelemetry, EFK Stack</span>
+    
+    <span class="skill-category">Cloud</span>
+    <span class="skill-items">AWS (EC2, S3, Route53, ALB, ACM, SSM)</span>
+</div>
+
+</body>
+</html>
