@@ -480,7 +480,7 @@
         <li><strong>Clean Architecture:</strong> Port/Adapter 기반 계층별 의존성 역전으로 Domain 로직 순수성 확보, Infrastructure 교체 용이성 확보 — CI 파이프라인을 도메인별 분기(services/workers/sse/ext-authz), path-based 트리거로 변경 감지 → Black/Ruff lint → Pytest → Build/Push Matrix 전략, Radon 복잡도 분석으로 AI 에이전트 생성 코드 품질 지속 관리</li>
         <li><strong>GitOps & Canary:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize — 단일 클러스터 내 서비스/개발 환경 분리를 위한 Canary 배포 전략으로 안전한 개발-배포 사이클 구현</li>
         <li><strong>ext-authz (Auth Offloading):</strong> 모든 호출이 JWT/Blacklist 검증을 거치는 클러스터 글로벌 초크 → 고성능 경량 서버(Go gRPC)로 분리, RS256 JWT/JWKS 검증, HPA 2→4 pods 자동 스케일링</li>
-        <li><strong>Local Cache Broadcasting:</strong> CQRS 분리로 READ 작업 비율이 집중된 도메인(ext-authz logout, Character catalog)에 한정 적용, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근</li>
+        <li><strong>Local Cache Broadcasting:</strong> CQRS 분리로 READ 작업 비율이 집중된 도메인(ext-authz JWT AuthN/AuthZ 검증, Character catalog)에 한정 적용, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근</li>
         <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임, Eventual Consistency 기반 정합성 보장</li>
         <li><strong>Outbox Pattern:</strong> Redis Outbox + auth-relay Worker로 메시지 발행 보장, At-Least-Once + 멱등성 처리로 Exactly-Once Semantics 구현</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
