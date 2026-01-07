@@ -474,7 +474,7 @@
     </div>
     
     <ul>
-        <li><strong>Scan API Pipeline:</strong> Vision(LLM) → Rule-based Retrieval → Answer(LLM, Structured JSON) → Reward 단방향 파이프라인, 8-10초 high-latency I/O bound 워크로드를 Gevent(비동기) + MQ + Event Relay로 분산 비동기 큐잉/오케스트레이션</li>
+        <li><strong>Scan API Pipeline:</strong> Vision(LLM) → Rule-based Retrieval → Answer(LLM) → Reward, Structured JSON + 시스템 프롬프트로 결정론적으로 구성한 단방향 파이프라인, 8-10초 high-latency I/O bound 워크로드를 Gevent(비동기) + MQ + Event Relay로 분산 비동기 큐잉/오케스트레이션</li>
         <li><strong>Infrastructure:</strong> 24-Node Self-managed Kubernetes (kubeadm), Istio Service Mesh (mTLS, VirtualService), Calico CNI, 용도별 분리된 Redis Cluster (Streams/Pub-Sub/Cache/Outbox)</li>
         <li><strong>GitOps & Canary:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize — 단일 클러스터 내 서비스/개발 환경 분리를 위한 Canary 배포 전략으로 안전한 개발-배포 사이클 구현</li>
         <li><strong>ext-authz (Auth Offloading):</strong> 모든 호출이 JWT/Blacklist 검증을 거치는 클러스터 글로벌 초크 → 고성능 경량 서버(Go gRPC)로 분리, RS256 JWT/JWKS 검증, HPA 2→4 pods 자동 스케일링</li>
