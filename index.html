@@ -526,10 +526,10 @@
     
     <h4 style="margin: 12px 0 6px 0; color: #1a73e8; font-size: 0.95em;">▸ Backend</h4>
     <ul>
+        <li><strong>DOMA + Clean Architecture:</strong> 24-Node 클러스터에 배치된 7개 도메인 서비스, SSE Gateway/Event Router/Worker 등 Integration 컴포넌트, MQ/Redis Streams 등 다수의 분산 시스템을 용이하게 오케스트레이션·조합하기 위해 적용 — 도메인별 독립 서비스/워커/스키마 분리(DOMA), 각 서비스 내부는 Port/Adapter 기반 4-Layer 분리, CQRS로 Command/Query 책임 분리, 의존성 역전으로 Adapter 교체 용이성 확보</li>
         <li><strong>Scan API Pipeline:</strong> Vision(LLM) → Rule-based Retrieval → Answer(LLM) → Reward, Structured JSON + 시스템 프롬프트로 결정론적으로 구성한 단방향 파이프라인 — LLM 2회 호출의 8-10초 high-latency I/O bound 워크로드 특성상 Gevent(Greenlet 비동기) 선택, MQ + Event Relay로 분산 비동기 큐잉/오케스트레이션, SSE로 클라이언트에게 실시간 진행상황 스트리밍</li>
         <li><strong>Multi-LLM & Resilience:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 — 모델사 API 불안정성 헷징을 위해 Stateless Reducer Pattern + 체크포인팅 + Fallback 도입, 중간 실패 시 LLM 재호출 없이 체크포인트에서 복구</li>
         <li><strong>Event Relay Layer:</strong> 단일 호출에 LLM API 2회 호출되는 고I/O 바운드 파이프라인의 동시 접속 부하 취약점 해결 — Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 50→300 (600% 향상), 시스템 포화 지점 VU 80→500 (625% 향상)</li>
-        <li><strong>DOMA + Clean Architecture:</strong> 도메인별 독립 서비스/워커/스키마 분리(Domain-Oriented Microservice Architecture), 각 서비스 내부는 Port/Adapter(Hexagonal) 기반 4-Layer 분리(Presentation→Application→Domain←Infrastructure), CQRS Gateway 패턴으로 Command/Query 책임 분리, 의존성 역전으로 Domain 순수성 확보 및 Adapter 교체 용이성 달성</li>
         <li><strong>Auth Offloading (ext-authz):</strong> 모든 호출이 JWT/Blacklist 검증을 거치는 클러스터 글로벌 초크 → 고성능 경량 서버(Go gRPC)로 분리, RS256 JWT/JWKS 검증, HPA 2→4 pods 자동 스케일링</li>
         <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임, Eventual Consistency 기반 정합성 보장</li>
         <li><strong>Local Cache Broadcasting:</strong> CQRS 분리로 READ 작업 비율이 집중된 도메인(ext-authz JWT AuthN/AuthZ 검증, Character catalog)에 한정 적용, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근</li>
