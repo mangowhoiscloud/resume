@@ -474,6 +474,7 @@
     </div>
     
     <ul>
+        <li><strong>Agent-Driven Development:</strong> 분산 클러스터(World Model) ↔ AI 에이전트(LLM) 상호작용 기반 개발(Google DeepMind 영감) — 코드베이스(SSOT)/터미널/Observability 스택으로 개발자와 AI 에이전트가 클러스터 상태를 주도적으로 파악·분석, 피드백 루프를 통한 점진적 고도화</li>
         <li><strong>Scan API Pipeline:</strong> Vision(LLM) → Rule-based Retrieval → Answer(LLM) → Reward, Structured JSON + 시스템 프롬프트로 결정론적으로 구성한 단방향 파이프라인, 8-10초 high-latency I/O bound 워크로드를 Gevent(비동기) + MQ + Event Relay로 분산 비동기 큐잉/오케스트레이션, SSE로 클라이언트에게 실시간 진행상황 이벤트 스트리밍</li>
         <li><strong>Multi-LLM & Resilience:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 — 모델사 API 불안정성 헷징을 위해 Stateless Reducer Pattern + 체크포인팅 + Fallback 도입, 중간 실패 시 LLM 재호출 없이 체크포인트에서 복구</li>
         <li><strong>Event Relay Layer:</strong> 단일 호출에 LLM API 2회 호출되는 고I/O 바운드 파이프라인의 동시 접속 부하 취약점 해결 — Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 50→300 (600% 향상), 시스템 포화 지점 VU 80→500 (625% 향상)</li>
@@ -487,7 +488,6 @@
         <li><strong>GitOps & Canary:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize — 단일 클러스터 내 서비스/개발 환경 분리를 위한 Canary 배포 전략으로 안전한 개발-배포 사이클 구현</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
-        <li><strong>Agent-Driven Development:</strong> 분산 클러스터(World Model) ↔ AI 에이전트(LLM) 상호작용 기반 개발(Google DeepMind 영감) — 코드베이스(SSOT)/터미널/Observability 스택으로 개발자와 AI 에이전트가 클러스터 상태를 주도적으로 파악·분석, 피드백 루프를 통한 점진적 고도화</li>
     </ul>
 </div>
 
