@@ -518,9 +518,9 @@
     </div>
     <p class="item-description">Web3.0 기반 탈중앙화 경매 시스템 | 거래 및 유통 과정의 투명성·신뢰성 확보</p>
     <ul>
-        <li><strong>Smart Contract Backend:</strong> ERC-1155 기반 상품/경매/화폐 Multi-Token을 단일 컨트랙트로 통합 관리, Solidity로 경매 비즈니스 로직(입찰, 낙찰, 정산) 온체인 구현</li>
-        <li><strong>Blockchain Infrastructure:</strong> geth 기반 Private Ethereum Network 구축·운영, Truffle/Ganache로 컨트랙트 배포 파이프라인 자동화</li>
-        <li><strong>DApp Integration:</strong> Web3.js + MetaMask 지갑 연동, IPFS 탈중앙화 스토리지로 상품 메타데이터 영구 저장</li>
+        <li><strong>Smart Contract Backend:</strong> ERC-1155 기반 상품/경매/화폐(MMT) Multi-Token 단일 컨트랙트 통합, 경매 비즈니스 로직(입찰/낙찰/정산/취소) + Governance 권한 관리 온체인 구현</li>
+        <li><strong>Supply Chain Traceability:</strong> 유통 이력 추적 체인 구현, 콜드체인 환경 데이터(온습도) 온체인 기록, 배송 상태 FSM(Empty→Prepare→Delivery)</li>
+        <li><strong>Blockchain Infrastructure:</strong> genesis.json 기반 Private Network(chainId 49277) 구성, Truffle/Ganache 배포 파이프라인 자동화, Web3.js + MetaMask + IPFS 연동</li>
     </ul>
 </div>
 
