@@ -485,7 +485,7 @@
         <li><strong>Event Relay Layer:</strong> 단일 호출에 LLM API 2회 호출되는 고I/O 바운드 파이프라인의 동시 접속 부하 취약점 해결 — Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 50→300 (600% 향상), 시스템 포화 지점 VU 80→500 (625% 향상)</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
-        <li><strong>Multi-LLM:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 (개발 중)</li>
+        <li><strong>Multi-LLM & Resilience:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 — 모델사 API 불안정성 헷징을 위해 Stateless Reducer Pattern + 체크포인팅 + Fallback 도입, 중간 실패 시 LLM 재호출 없이 체크포인트에서 복구</li>
     </ul>
 </div>
 
