@@ -487,7 +487,7 @@
         <li><strong>GitOps & Canary:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize — 단일 클러스터 내 서비스/개발 환경 분리를 위한 Canary 배포 전략으로 안전한 개발-배포 사이클 구현</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
-        <li><strong>Agent-Driven Development:</strong> Google DeepMind World Model-LLM 기법에서 영감, 코드베이스를 배포 클러스터의 SSOT로 설계 — AI 에이전트가 터미널/kubectl로 클러스터에 직접 접근해 관측 데이터 수집·분석 가능</li>
+        <li><strong>Agent-Driven Development:</strong> 분산 클러스터(World Model) ↔ AI 에이전트(LLM) 상호작용 기반 개발(Google DeepMind 영감) — 코드베이스(SSOT)/터미널/Observability 스택으로 개발자와 AI 에이전트가 클러스터 상태를 주도적으로 파악·분석, 피드백 루프를 통한 점진적 고도화</li>
     </ul>
 </div>
 
