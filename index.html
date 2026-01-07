@@ -359,8 +359,8 @@
 <div class="about-section">
     <p>
         <strong>분산 시스템 설계와 성능 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
-        Self-managed Kubernetes 기반 분산 비동기 클러스터를 구축·개발·배포하고, Observability 스택으로 수집한 관측 데이터를 기반으로 시스템을 개선합니다.
-        최근에는 Agentic AI와 LLM 기반 워크플로우에 관심을 갖고, 분산 환경에서의 AI 에이전트 고도화를 연구하고 있습니다.
+        Self-managed Kubernetes 기반 분산 비동기 클러스터를 구축·개발·배포하고, Observability 스택으로 수집한 관측 데이터를 AI 에이전트와 병행 분석하며 시스템을 개선합니다.
+        Google DeepMind의 World Model-LLM 상호작용 기법에서 영감을 받아, 성장하는 준 프로덕션 규모의 분산 클러스터 자체를 World Model로 동치하여 점진적·지속적인 개발을 이어가고 있습니다.
         기술 블로그를 통해 트러블슈팅 경험과 개발 과정을 꾸준히 기록합니다.
     </p>
 </div>
@@ -481,7 +481,7 @@
         <li><strong>Local Cache Broadcasting:</strong> ext-authz(logout), Character-worker(catalog) 등 수정이 빈번하지 않은 도메인 한정, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근, Eventual Consistency로 논리적 정합성 유지</li>
         <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임, Eventual Consistency 기반 정합성 보장</li>
         <li><strong>Outbox Pattern:</strong> Redis Outbox + auth-relay Worker로 메시지 발행 보장, At-Least-Once + 멱등성 처리로 Exactly-Once Semantics 구현</li>
-        <li><strong>Event Relay Layer:</strong> Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구)</li>
+        <li><strong>Event Relay Layer:</strong> Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 500% 증가, 시스템 포화 지점 VU 80→500 (625% 향상)</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
         <li><strong>Multi-LLM:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 (개발 중)</li>
