@@ -482,7 +482,7 @@
         <li><strong>Local Cache Broadcasting:</strong> ext-authz(logout), Character-worker(catalog) 등 수정이 빈번하지 않은 도메인 한정, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근, Eventual Consistency로 논리적 정합성 유지</li>
         <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임, Eventual Consistency 기반 정합성 보장</li>
         <li><strong>Outbox Pattern:</strong> Redis Outbox + auth-relay Worker로 메시지 발행 보장, At-Least-Once + 멱등성 처리로 Exactly-Once Semantics 구현</li>
-        <li><strong>Event Relay Layer:</strong> 단일 호출에 LLM API 2회 호출되는 고I/O 바운드 파이프라인의 동시 접속 부하 취약점 해결 — Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 600% 증가 (50→300), 시스템 포화 지점 VU 80→500 (625% 향상)</li>
+        <li><strong>Event Relay Layer:</strong> 단일 호출에 LLM API 2회 호출되는 고I/O 바운드 파이프라인의 동시 접속 부하 취약점 해결 — Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 50→300 (600% 향상), 시스템 포화 지점 VU 80→500 (625% 향상)</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
         <li><strong>Multi-LLM:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 (개발 중)</li>
