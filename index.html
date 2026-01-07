@@ -468,19 +468,21 @@
     <p class="item-description">2025 AI 새싹톤 우수상 (TOP 4 / 183 teams) | GPT/Gemini Vision + Rule-based Retrieval 기반 AI 분리수거 도우미</p>
     
     <div class="metrics">
-        <strong>Performance:</strong> ext-authz VU 2,500 RPS 1,477, p99 275ms, 로컬 캐시 p99 2.3µs | Scan SSE VU 300 완료율 99.9%<br>
-        <strong>Event Relay 도입 효과:</strong> VU 50/99% → VU 80/33% (이전) → VU 250/99.9%, VU 400/98.9%, VU 500/94% (현재)<br>
+        <strong>Performance:</strong> ext-authz VU 2,500 RPS 1,477, p99 275ms, 로컬 캐시 p99 2.3µs | Scan API SSE VU 300 완료율 99.9%<br>
+        <strong>Scan API Event Relay 도입:</strong> VU 50/99% → VU 80/33% (이전) → VU 250/99.9%, VU 400/98.9%, VU 500/94% (현재)<br>
         <strong>SSE Scan 포화 지점 (VU 600):</strong> Redis Pool 20→100, Celery Broker Pool 10→50, Greenlet M:1 단일 노드 CPU 포화 분석·해결
     </div>
     
     <ul>
+        <li><strong>Scan API Pipeline:</strong> Vision(LLM) → Rule-based Retrieval → Answer(LLM, Structured JSON) → Reward 단방향 파이프라인, 8-10초 high-latency I/O bound 워크로드를 Gevent(비동기) + MQ + Event Relay로 분산 비동기 큐잉/오케스트레이션</li>
         <li><strong>Infrastructure:</strong> 24-Node Self-managed Kubernetes (kubeadm), Istio Service Mesh (mTLS, VirtualService), Calico CNI, 용도별 분리된 Redis Cluster (Streams/Pub-Sub/Cache/Outbox)</li>
-        <li><strong>GitOps:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize, Canary 배포 전략, 오픈소스 Operator 활용으로 Zero-touch Deployment 구현</li>
-        <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임</li>
-        <li><strong>ext-authz (Go gRPC):</strong> RS256 JWT/JWKS 검증, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Redis 조회 제거, HPA 2→4 pods 자동 스케일링</li>
+        <li><strong>GitOps & Canary:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize — 단일 클러스터 내 서비스/개발 환경 분리를 위한 Canary 배포 전략으로 안전한 개발-배포 사이클 구현</li>
+        <li><strong>ext-authz (Auth Offloading):</strong> 모든 호출이 JWT/Blacklist 검증을 거치는 클러스터 글로벌 초크 → 고성능 경량 서버(Go gRPC)로 분리, RS256 JWT/JWKS 검증, HPA 2→4 pods 자동 스케일링</li>
+        <li><strong>Local Cache Broadcasting:</strong> ext-authz(logout), Character-worker(catalog) 등 수정이 빈번하지 않은 도메인 한정, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근, Eventual Consistency로 논리적 정합성 유지</li>
+        <li><strong>Persistence Offloading:</strong> 강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임, Eventual Consistency 기반 정합성 보장</li>
         <li><strong>Outbox Pattern:</strong> Redis Outbox + auth-relay Worker로 메시지 발행 보장, At-Least-Once + 멱등성 처리로 Exactly-Once Semantics 구현</li>
         <li><strong>Event Relay Layer:</strong> Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구)</li>
-        <li><strong>KEDA:</strong> RabbitMQ 큐 길이, Redis Streams Pending 기반 이벤트 드리븐 오토스케일링 (scan-worker, event-router, character-match-worker)</li>
+        <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
         <li><strong>Multi-LLM:</strong> GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 (개발 중)</li>
     </ul>
