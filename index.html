@@ -359,8 +359,7 @@
 <div class="about-section">
     <p>
         <strong>분산 시스템 설계와 성능 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
-        Self-managed Kubernetes 기반 분산 비동기 클러스터를 구축·개발·배포하고, Observability 스택으로 수집한 관측 데이터를 AI 에이전트와 병행 분석하며 시스템을 개선합니다.
-        Google DeepMind의 World Model-LLM 상호작용 기법에서 영감을 받아, 성장하는 준 프로덕션 규모의 분산 클러스터 자체를 World Model로 동치하여 점진적·지속적인 개발을 이어가고 있습니다.
+        Blockchain 백엔드, LLM 기반 분산 비동기 클러스터 등 사이드 프로젝트에서 시작해, Rakuten CNP(Enterprise Kubernetes, 로우레벨 C 분산 스토리지 서버) 실무 경험을 바탕으로 분산 시스템 서버 및 인프라 개발 역량을 전문화·확장하고 있습니다.
         기술 블로그를 통해 트러블슈팅 경험과 개발 과정을 꾸준히 기록합니다.
     </p>
 </div>
@@ -425,10 +424,10 @@
         </div>
         <span class="item-period">Dec 2024 - Aug 2025</span>
     </div>
-    <p class="item-description">Cloud BU | 정규직 | Rakuten CNP(Robin) 유지보수 및 Rakuten Object Storage 신규 개발</p>
+    <p class="item-description">Cloud BU | 정규직 | Rakuten Mobile(일본)과 1&1(독일) 글로벌 2,000만 유저 통신망 기반 Cloud Native Platform(Robin) 유지보수</p>
     <ul>
-        <li><strong>Robin Storage v5.5.0:</strong> 스냅샷 로딩 시 RDVM 상태 수집 RPC 개발, <code>RDVM_STATE</code> 동시 접근 crash 수정 (mutex_lock 검증 로직 추가), <code>SEGMENT_LOCK</code> 성능 저하 버그 픽스 (down_write -> down_read 전환)</li>
-        <li><strong>Rakuten OStore v1.0.0:</strong> MinIO/S3 대체 Enterprise Object Storage — Install-time root account 생성 후 분산 게이트웨이 캐시에 주입, Eventual Consistency로 논리적 정합성과 빠른 성능 확보, 유저 deactivate 시 access key 미삭제 버그 수정</li>
+        <li><strong>Robin Storage v5.5.0:</strong> Enterprise CNP의 핵심 분산 스토리지 서버(C/RPC) 개발 — 스냅샷 로딩 시 RDVM 상태 수집 RPC 개발, <code>RDVM_STATE</code> 동시 접근 crash 수정 (mutex_lock 검증 로직 추가), <code>SEGMENT_LOCK</code> 성능 저하 버그 픽스 (down_write -> down_read 전환)</li>
+        <li><strong>Rakuten OStore v1.0.0:</strong> 사내 및 Rakuten 그룹사 용 MinIO/S3 대체 Enterprise Object Storage — Install-time root account 생성 후 분산 게이트웨이 캐시에 주입, Eventual Consistency로 논리적 정합성과 빠른 성능 확보, 유저 deactivate 시 access key 미삭제 버그 수정</li>
         <li><strong>Global Collaboration:</strong> 미국, 인도, 일본 지사 엔지니어와 Jira/Confluence/GitOps 기반 개발 협업, 소속 팀 대상 영문 기술 발표 경험 다수</li>
     </ul>
 </div>
@@ -487,6 +486,7 @@
         <li><strong>GitOps & Canary:</strong> ArgoCD App-of-Apps, Sync-wave (00~70), Helm Charts, Kustomize — 단일 클러스터 내 서비스/개발 환경 분리를 위한 Canary 배포 전략으로 안전한 개발-배포 사이클 구현</li>
         <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack으로 분산 트레이싱 및 로그 중앙화</li>
         <li><strong>KEDA:</strong> 큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</li>
+        <li><strong>Agent-Driven Development:</strong> Google DeepMind World Model-LLM 기법에서 영감, 코드베이스를 배포 클러스터의 SSOT로 설계 — AI 에이전트가 터미널/kubectl로 클러스터에 직접 접근해 관측 데이터 수집·분석 가능</li>
     </ul>
 </div>
 
