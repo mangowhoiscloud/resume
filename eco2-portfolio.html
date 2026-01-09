@@ -692,24 +692,24 @@
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">14</div>
+                <div class="hero-stat-value">24</div>
                 <div class="hero-stat-label">
                     <span class="lang-ko">클러스터 노드</span>
                     <span class="lang-en">Cluster Nodes</span>
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">7</div>
+                <div class="hero-stat-value">1,200+</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">마이크로서비스</span>
-                    <span class="lang-en">Microservices</span>
+                    <span class="lang-ko">RPS (ext-authz)</span>
+                    <span class="lang-en">RPS (ext-authz)</span>
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">600</div>
+                <div class="hero-stat-value">500</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">VU 부하 테스트</span>
-                    <span class="lang-en">VU Load Test</span>
+                    <span class="lang-ko">VU SLA (Scan SSE)</span>
+                    <span class="lang-en">VU SLA (Scan SSE)</span>
                 </div>
             </div>
         </div>
@@ -749,15 +749,15 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">AWS 기반 14-노드 Kubernetes 클러스터를 IaC로 구축하고, ArgoCD App-of-Apps + Sync Wave 패턴으로 선언적 배포를 구현했습니다. Istio Service Mesh 도입으로 서비스 간 통신을 표준화하고, 내부 통신을 gRPC로 전환했습니다.</span>
-                        <span class="lang-en">Built a 14-node Kubernetes cluster on AWS using IaC, implemented declarative deployments with ArgoCD App-of-Apps + Sync Wave patterns. Standardized inter-service communication with Istio Service Mesh and migrated internal communication to gRPC.</span>
+                        <span class="lang-ko">AWS 기반 24-노드 Kubernetes 클러스터를 IaC로 구축하고, ArgoCD App-of-Apps + Sync Wave 패턴으로 선언적 배포를 구현했습니다. Istio Service Mesh 도입으로 서비스 간 통신을 표준화하고, 내부 통신을 gRPC로 전환했습니다.</span>
+                        <span class="lang-en">Built a 24-node Kubernetes cluster on AWS using IaC, implemented declarative deployments with ArgoCD App-of-Apps + Sync Wave patterns. Standardized inter-service communication with Istio Service Mesh and migrated internal communication to gRPC.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
                             <span class="achievement-icon">🏗️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>14-nodes 클러스터</strong> Terraform + Ansible 구축</span>
-                                <span class="lang-en"><strong>14-node cluster</strong> via Terraform + Ansible</span>
+                                <span class="lang-ko"><strong>24-nodes 클러스터</strong> Terraform + Ansible 구축</span>
+                                <span class="lang-en"><strong>24-node cluster</strong> via Terraform + Ansible</span>
                             </div>
                         </div>
                         <div class="achievement">
@@ -805,40 +805,41 @@
                         <span class="tech-badge">gRPC</span>
                         <span class="tech-badge">Redis</span>
                         <span class="tech-badge">HPA</span>
+                        <span class="tech-badge">Fanout</span>
                     </div>
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Envoy ext_authz를 활용해 인증/인가 로직을 API 서버에서 분리했습니다. Go 기반 gRPC 서버로 구현하고, Redis Connection Pool 최적화와 HPA 튜닝으로 고부하 환경에서의 성능을 개선했습니다.</span>
-                        <span class="lang-en">Separated authentication/authorization logic from API servers using Envoy ext_authz. Implemented with Go-based gRPC server, optimized Redis Connection Pool and HPA tuning for high-load performance.</span>
+                        <span class="lang-ko">Envoy ext_authz를 활용해 인증/인가 로직을 API 서버에서 분리했습니다. Go 기반 gRPC 서버로 구현하고, Redis Pool 튜닝 + Local Cache + Fanout 브로드캐스트로 RPS 1,200+ 달성했습니다.</span>
+                        <span class="lang-en">Separated authentication/authorization logic from API servers using Envoy ext_authz. Implemented with Go-based gRPC server, achieved RPS 1,200+ via Redis Pool tuning + Local Cache + Fanout broadcast.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">🧹</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>도메인 공통 모듈 제거</strong> 7개 서비스 의존성 분리</span>
-                                <span class="lang-en"><strong>Removed shared modules</strong> decoupled 7 services</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
                             <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Stress Test 2,500 users</strong> RPS 42+ 안정화</span>
-                                <span class="lang-en"><strong>Stress Test 2,500 users</strong> stabilized at RPS 42+</span>
+                                <span class="lang-ko"><strong>2,500 VU Stress Test</strong> RPS 42 병목지점 도출</span>
+                                <span class="lang-en"><strong>2,500 VU Stress Test</strong> RPS 42 bottleneck identified</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🔧</span>
+                            <span class="achievement-icon">🚀</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Redis PoolSize 10→50</strong> 병목 해소</span>
-                                <span class="lang-en"><strong>Redis PoolSize 10→50</strong> resolved bottleneck</span>
+                                <span class="lang-ko"><strong>RPS 42 → 1,200+</strong> Local Cache + Fanout 적용</span>
+                                <span class="lang-en"><strong>RPS 42 → 1,200+</strong> Local Cache + Fanout applied</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🧵</span>
+                            <span class="achievement-icon">📡</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Redis io-threads</strong> I/O 병렬화 테스트</span>
-                                <span class="lang-en"><strong>Redis io-threads</strong> I/O parallelization test</span>
+                                <span class="lang-ko"><strong>Blacklist Fanout</strong> RabbitMQ 기반 캐시 동기화</span>
+                                <span class="lang-en"><strong>Blacklist Fanout</strong> RabbitMQ cache sync</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🧹</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>도메인 공통 모듈 제거</strong> 7개 서비스 독립성 확보</span>
+                                <span class="lang-en"><strong>Removed shared modules</strong> 7 services decoupled</span>
                             </div>
                         </div>
                     </div>
@@ -924,42 +925,42 @@
                         <span class="tech-badge">RabbitMQ</span>
                         <span class="tech-badge">Celery</span>
                         <span class="tech-badge">Gevent</span>
+                        <span class="tech-badge">Fanout</span>
                         <span class="tech-badge">DLQ</span>
-                        <span class="tech-badge">Celery Beat</span>
                     </div>
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">RabbitMQ + Celery 기반 비동기 아키텍처를 설계하고, AI 파이프라인(vision→rule→answer→reward)을 4단계 Celery Chain으로 구현했습니다. prefork에서 Gevent Pool로 전환해 I/O-bound 워크로드를 최적화했습니다.</span>
-                        <span class="lang-en">Designed async architecture with RabbitMQ + Celery, implemented AI pipeline (vision→rule→answer→reward) as 4-stage Celery Chain. Migrated from prefork to Gevent Pool for I/O-bound workload optimization.</span>
+                        <span class="lang-ko">RabbitMQ + Celery 기반 비동기 아키텍처를 설계하고, AI 파이프라인(vision→rule→answer→reward)을 4단계 Celery Chain으로 구현했습니다. Fanout Exchange로 Worker 로컬 캐시 동기화를 구현해 DB 조회를 제거했습니다.</span>
+                        <span class="lang-en">Designed async architecture with RabbitMQ + Celery, implemented AI pipeline (vision→rule→answer→reward) as 4-stage Celery Chain. Implemented Worker local cache sync via Fanout Exchange, eliminating DB queries.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
                             <span class="achievement-icon">⛓️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>4단계 Celery Chain</strong> AI 파이프라인 비동기화</span>
-                                <span class="lang-en"><strong>4-stage Celery Chain</strong> async AI pipeline</span>
+                                <span class="lang-ko"><strong>4단계 Celery Chain</strong> Vision→Rule→Answer→Reward</span>
+                                <span class="lang-en"><strong>4-stage Celery Chain</strong> Vision→Rule→Answer→Reward</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🐒</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Gevent Pool 전환</strong> 100+ 동시 I/O 처리</span>
-                                <span class="lang-en"><strong>Gevent Pool migration</strong> 100+ concurrent I/O</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">☠️</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>DLQ 재처리 전략</strong> Celery Beat 스케줄링</span>
-                                <span class="lang-en"><strong>DLQ retry strategy</strong> Celery Beat scheduling</span>
+                                <span class="lang-ko"><strong>Gevent 100 greenlets</strong> I/O-bound 최적화</span>
+                                <span class="lang-en"><strong>Gevent 100 greenlets</strong> I/O-bound optimization</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">📡</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Fanout Exchange</strong> 로컬 캐시 브로드캐스트</span>
-                                <span class="lang-en"><strong>Fanout Exchange</strong> local cache broadcast</span>
+                                <span class="lang-ko"><strong>로컬 캐시 Fanout</strong> DB 조회 50ms → 0.01ms</span>
+                                <span class="lang-en"><strong>Local Cache Fanout</strong> DB query 50ms → 0.01ms</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">☠️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>DLQ 재처리</strong> Celery Beat 스케줄링</span>
+                                <span class="lang-en"><strong>DLQ retry</strong> Celery Beat scheduling</span>
                             </div>
                         </div>
                     </div>
@@ -982,44 +983,44 @@
                     </div>
                     <div class="category-badges">
                         <span class="tech-badge">Redis Streams</span>
-                        <span class="tech-badge">SSE</span>
+                        <span class="tech-badge">Pub/Sub</span>
+                        <span class="tech-badge">State KV</span>
                         <span class="tech-badge">KEDA</span>
-                        <span class="tech-badge">Consistent Hash</span>
-                        <span class="tech-badge">HA</span>
+                        <span class="tech-badge">SSE Gateway</span>
                     </div>
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">SSE(Server-Sent Events)의 RabbitMQ 연결 폭발 문제를 Redis Streams로 해결했습니다. 3-Node Redis 클러스터를 구축하고, KEDA로 이벤트 드리븐 오토스케일링을 구현했습니다. Consistent Hash 기반 SSE HA 아키텍처를 설계했습니다.</span>
-                        <span class="lang-en">Resolved SSE RabbitMQ connection explosion with Redis Streams. Built 3-node Redis cluster and implemented event-driven autoscaling with KEDA. Designed SSE HA architecture based on Consistent Hash.</span>
+                        <span class="lang-ko">Redis Streams(내구성) + Pub/Sub(실시간) + State KV(복구)를 조합한 <strong>Event Relay Layer</strong>를 설계했습니다. Event Router와 SSE Gateway로 500 VU SLA, 600 VU 시스템 포화지점을 도출했습니다.</span>
+                        <span class="lang-en">Designed <strong>Event Relay Layer</strong> combining Redis Streams (durability) + Pub/Sub (realtime) + State KV (recovery). Achieved 500 VU SLA, 600 VU saturation point with Event Router and SSE Gateway.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">💥</span>
+                            <span class="achievement-icon">🏗️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>연결 폭발 해결</strong> SSE:RabbitMQ 1:21 → 1:1</span>
-                                <span class="lang-en"><strong>Connection explosion fix</strong> SSE:RabbitMQ 1:21 → 1:1</span>
+                                <span class="lang-ko"><strong>Event Relay Layer</strong> Streams + Pub/Sub + State KV</span>
+                                <span class="lang-en"><strong>Event Relay Layer</strong> Streams + Pub/Sub + State KV</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🗄️</span>
+                            <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Redis 3-Node 분리</strong> Auth, Streams, Cache</span>
-                                <span class="lang-en"><strong>Redis 3-node separation</strong> Auth, Streams, Cache</span>
+                                <span class="lang-ko"><strong>500 VU (94%)</strong> 서비스 가능 수준 달성</span>
+                                <span class="lang-en"><strong>500 VU (94%)</strong> serviceable level achieved</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔥</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>600 VU 포화지점</strong> 시스템 한계 도출</span>
+                                <span class="lang-en"><strong>600 VU saturation</strong> system limit identified</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">⚖️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>KEDA ScaledObject</strong> RabbitMQ Queue 기반 스케일링</span>
-                                <span class="lang-en"><strong>KEDA ScaledObject</strong> RabbitMQ queue-based scaling</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🔀</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>600 VU 부하 테스트</strong> SSE Gateway HA 검증</span>
-                                <span class="lang-en"><strong>600 VU load test</strong> SSE Gateway HA verification</span>
+                                <span class="lang-ko"><strong>KEDA + Event Router</strong> 이벤트 드리븐 스케일링</span>
+                                <span class="lang-en"><strong>KEDA + Event Router</strong> event-driven scaling</span>
                             </div>
                         </div>
                     </div>
@@ -1160,7 +1161,7 @@
             </h3>
             <div class="diagram-content">
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    AWS ap-northeast-2                                    │
+│                          AWS ap-northeast-2 (24 Nodes Cluster)                          │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐                                                                    │
 │  │   ALB (HTTPS)   │ ◄──── External Traffic                                             │
@@ -1172,20 +1173,16 @@
 │  └────────┬────────────────────────────────────────────────────────────────────────┘   │
 │           │                                                                             │
 │  ┌────────▼────────┐     ┌────────────────┐                                            │
-│  │   ext-authz     │────►│  auth-redis    │  JWT Blacklist, OAuth State                │
-│  │   (Go/gRPC)     │     │  (Sentinel HA) │                                            │
+│  │   ext-authz     │────►│  Local Cache   │  JWT Blacklist (RPS 1,200+)                │
+│  │   (Go/gRPC)     │     │ + Fanout Sync  │  RabbitMQ Fanout → Cache Broadcast         │
 │  └────────┬────────┘     └────────────────┘                                            │
 │           │                                                                             │
 │  ┌────────▼─────────────────────────────────────────────────────────────────────────┐  │
 │  │                              7 Microservices (FastAPI)                            │  │
 │  │  ┌──────┐ ┌──────────┐ ┌──────┐ ┌──────┐ ┌────────┐ ┌────┐ ┌───────┐             │  │
 │  │  │ Auth │ │Character │ │ Chat │ │ Scan │ │Location│ │ My │ │ Image │             │  │
-│  │  └──┬───┘ └────┬─────┘ └──┬───┘ └──┬───┘ └────┬───┘ └─┬──┘ └───┬───┘             │  │
-│  └─────┼──────────┼──────────┼────────┼──────────┼───────┼────────┼──────────────────┘  │
-│        │          │          │        │          │       │        │                     │
-│  ┌─────▼──────────▼──────────▼────────▼──────────▼───────▼────────▼────────────────┐   │
-│  │                              PostgreSQL (Primary)                                │   │
-│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│  │  └──────┘ └──────────┘ └──────┘ └──────┘ └────────┘ └────┘ └───────┘             │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
 │  │                          RabbitMQ Cluster (AMQP 0-9-1)                           │   │
@@ -1196,20 +1193,28 @@
 │  │                                                      │                           │   │
 │  │  ┌─────────────────┐  ┌─────────────────┐           │                           │   │
 │  │  │ reward.queue    │◄─┤ character.match │◄──────────┘                           │   │
-│  │  │ (Fire&Forget)   │  │ (Cache Fanout)  │                                       │   │
+│  │  │ (Fire&Forget)   │  │ (Local Cache)   │                                       │   │
 │  │  └─────────────────┘  └─────────────────┘                                       │   │
 │  └─────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                         │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐                      │
-│  │  streams-redis   │  │   cache-redis    │  │   auth-redis     │                      │
-│  │  (SSE Events)    │  │ (Celery Result)  │  │ (JWT Blacklist)  │                      │
-│  │  Redis Streams   │  │   allkeys-lru    │  │   noeviction     │                      │
-│  └────────┬─────────┘  └──────────────────┘  └──────────────────┘                      │
-│           │                                                                             │
-│  ┌────────▼──────────────────────────────────────────────────────────────────────────┐ │
-│  │                           SSE Gateway (HA)                                         │ │
-│  │              Consistent Hash → Event Router → Client Fanout                        │ │
-│  └────────────────────────────────────────────────────────────────────────────────────┘ │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                      Event Relay Layer (3-Tier Redis)                            │   │
+│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐               │   │
+│  │  │  streams-redis   │  │  pubsub-redis    │  │   state-redis    │               │   │
+│  │  │  (Durability)    │  │  (Realtime)      │  │   (Recovery)     │               │   │
+│  │  │  Redis Streams   │  │  Pub/Sub         │  │   State KV       │               │   │
+│  │  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘               │   │
+│  │           │                     │                     │                          │   │
+│  │           └─────────────────────┼─────────────────────┘                          │   │
+│  │                                 ▼                                                │   │
+│  │                     ┌──────────────────────┐                                     │   │
+│  │                     │    Event Router      │  XREADGROUP → Pub/Sub Fan-out      │   │
+│  │                     └──────────┬───────────┘                                     │   │
+│  │                                ▼                                                 │   │
+│  │                     ┌──────────────────────┐                                     │   │
+│  │                     │    SSE Gateway (HA)  │  500 VU SLA, 600 VU Saturation     │   │
+│  │                     └──────────────────────┘                                     │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
 │  │                              Observability Stack                                 │   │
@@ -1324,8 +1329,8 @@
                     <span class="lang-en">🏗️ Cluster Setup & GitOps</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">14-nodes Kubernetes 클러스터 구축, ArgoCD App-of-Apps + Sync Wave 패턴 적용</span>
-                    <span class="lang-en">Built 14-node Kubernetes cluster, applied ArgoCD App-of-Apps + Sync Wave patterns</span>
+                    <span class="lang-ko">14→24-nodes Kubernetes 클러스터 확장, ArgoCD App-of-Apps + Sync Wave 패턴 적용</span>
+                    <span class="lang-en">Scaled 14→24-node Kubernetes cluster, applied ArgoCD App-of-Apps + Sync Wave patterns</span>
                 </div>
             </div>
             <div class="timeline-item">
@@ -1364,12 +1369,12 @@
             <div class="timeline-item">
                 <div class="timeline-date">2025.12 - 2026.01</div>
                 <div class="timeline-title">
-                    <span class="lang-ko">🌊 Redis Streams & SSE HA</span>
-                    <span class="lang-en">🌊 Redis Streams & SSE HA</span>
+                    <span class="lang-ko">🌊 Event Relay Layer & 부하 테스트</span>
+                    <span class="lang-en">🌊 Event Relay Layer & Load Testing</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">SSE 연결 폭발 해결, 3-Node Redis 클러스터, KEDA 이벤트 드리븐 스케일링</span>
-                    <span class="lang-en">SSE connection explosion fix, 3-node Redis cluster, KEDA event-driven scaling</span>
+                    <span class="lang-ko">Streams + Pub/Sub + State KV 3-Tier 아키텍처, 500 VU SLA, 600 VU 포화지점 도출</span>
+                    <span class="lang-en">Streams + Pub/Sub + State KV 3-tier architecture, 500 VU SLA, 600 VU saturation point</span>
                 </div>
             </div>
             <div class="timeline-item">
