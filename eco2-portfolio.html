@@ -2360,25 +2360,25 @@
                 <div class="llm-pipeline-flow">
                     <div class="pipeline-stage vision">
                         <div class="pipeline-icon">👁️</div>
-                        <div class="pipeline-name">Vision</div>
-                        <div class="pipeline-model">LLM + Prompt</div>
+                        <div class="pipeline-name">Vision LLM</div>
+                        <div class="pipeline-model">Pre-Retrieval</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-stage rule">
                         <div class="pipeline-icon">📋</div>
-                        <div class="pipeline-name">Rule</div>
-                        <div class="pipeline-model">Rule-based Retrieval</div>
+                        <div class="pipeline-name">Rule Engine</div>
+                        <div class="pipeline-model">온누리 규정 KB</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-stage answer">
                         <div class="pipeline-icon">💬</div>
-                        <div class="pipeline-name">Answer</div>
-                        <div class="pipeline-model">JSON Structured</div>
+                        <div class="pipeline-name">Answer LLM</div>
+                        <div class="pipeline-model">Post-Retrieval</div>
                     </div>
                 </div>
                 <div class="pipeline-detail">
-                    <span class="lang-ko">Rule-based Retrieval 양 끝에 LLM 배치, JSON Structured Output, 시스템 프롬프트 설계</span>
-                    <span class="lang-en">LLM at both ends of Rule-based Retrieval, JSON Structured Output, System Prompt Design</span>
+                    <span class="lang-ko"><strong>Modular RAG 패턴</strong> — Pre/Post-Retrieval LLM 구조로 Vision LLM이 이미지를 분석하고, 온누리 재활용 품목별 규정을 구조화한 Knowledge Base에서 규칙 검색 후, Answer LLM이 JSON Structured Output으로 응답 생성. 시스템 프롬프트로 출력 형식과 판단 기준 정의.</span>
+                    <span class="lang-en"><strong>Modular RAG Pattern</strong> — Pre/Post-Retrieval LLM architecture where Vision LLM analyzes images, retrieves from structured On-Nuri recycling regulation Knowledge Base, then Answer LLM generates JSON Structured Output. System prompts define output format and judgment criteria.</span>
                 </div>
             </div>
 
