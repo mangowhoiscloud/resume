@@ -1969,44 +1969,44 @@
                         <div class="category-posts">5 posts</div>
                     </div>
                     <div class="category-badges">
-                        <span class="tech-badge">Saga Pattern</span>
-                        <span class="tech-badge">Outbox</span>
+                        <span class="tech-badge">Persistence Offloading</span>
+                        <span class="tech-badge">Worker Queue</span>
+                        <span class="tech-badge">Batch Processing</span>
                         <span class="tech-badge">Idempotency</span>
-                        <span class="tech-badge">DDD</span>
                     </div>
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">마이크로서비스 간 데이터 일관성을 위해 Eventual Consistency 패턴을 적용했습니다. 트랜잭션 경계를 설계하고, Saga 패턴과 Outbox 패턴을 활용해 도메인 간 통신을 구현했습니다. 멱등성 처리로 중복 이벤트를 방지했습니다.</span>
-                        <span class="lang-en">Applied Eventual Consistency patterns for data consistency across microservices. Designed transaction boundaries, implemented inter-domain communication using Saga and Outbox patterns. Prevented duplicate events with idempotency handling.</span>
+                        <span class="lang-ko"><strong>Persistence Offloading</strong> 패턴으로 Application Layer와 Persistence Layer의 관심사를 철저히 분리했습니다. API 서버는 비즈니스 로직에만 집중하고, DB Write 작업은 전용 Worker Queue로 이관하여 비동기 배치 처리합니다. 이를 통해 응답 지연을 최소화하고, 트랜잭션 병목을 제거해 처리량을 극대화했습니다.</span>
+                        <span class="lang-en">Implemented <strong>Persistence Offloading</strong> pattern to strictly separate Application and Persistence Layer concerns. API servers focus solely on business logic while DB write operations are delegated to dedicated Worker Queues for async batch processing. This minimizes response latency and maximizes throughput by eliminating transaction bottlenecks.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">🎯</span>
+                            <span class="achievement-icon">🏗️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>트랜잭션 경계 설계</strong> 도메인별 Aggregate Root</span>
-                                <span class="lang-en"><strong>Transaction boundary design</strong> domain Aggregate Root</span>
+                                <span class="lang-ko"><strong>Layer 분리</strong> Application ↔ Persistence 관심사 격리</span>
+                                <span class="lang-en"><strong>Layer Separation</strong> Application ↔ Persistence isolation</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">📦</span>
+                            <span class="achievement-icon">📤</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Outbox Pattern</strong> 이벤트 발행 보장</span>
-                                <span class="lang-en"><strong>Outbox Pattern</strong> guaranteed event publishing</span>
+                                <span class="lang-ko"><strong>Write Offloading</strong> DB 쓰기 작업 Worker Queue 이관</span>
+                                <span class="lang-en"><strong>Write Offloading</strong> DB writes delegated to Worker Queue</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">⚡</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Batch Processing</strong> 비동기 배치로 트랜잭션 병목 제거</span>
+                                <span class="lang-en"><strong>Batch Processing</strong> async batch eliminates transaction bottlenecks</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🆔</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Deterministic UUID</strong> 멱등성 키 생성</span>
-                                <span class="lang-en"><strong>Deterministic UUID</strong> idempotency key generation</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">📚</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Foundations 시리즈</strong> 이론적 배경 정리 17편</span>
-                                <span class="lang-en"><strong>Foundations series</strong> 17 theoretical articles</span>
+                                <span class="lang-ko"><strong>Deterministic UUID</strong> 멱등성 키로 중복 처리 방지</span>
+                                <span class="lang-en"><strong>Deterministic UUID</strong> idempotency keys prevent duplicates</span>
                             </div>
                         </div>
                     </div>
