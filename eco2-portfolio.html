@@ -699,10 +699,10 @@
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">1,200+</div>
+                <div class="hero-stat-value">2,500 VU</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">RPS (ext-authz)</span>
-                    <span class="lang-en">RPS (ext-authz)</span>
+                    <span class="lang-ko">1,500+ RPS Baseline</span>
+                    <span class="lang-en">1,500+ RPS Baseline</span>
                 </div>
             </div>
             <div class="hero-stat">
@@ -810,8 +810,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Envoy ext_authz를 활용해 인증/인가 로직을 API 서버에서 분리했습니다. Go 기반 gRPC 서버로 구현하고, Redis Pool 튜닝 + Local Cache + Fanout 브로드캐스트로 RPS 1,200+ 달성했습니다.</span>
-                        <span class="lang-en">Separated authentication/authorization logic from API servers using Envoy ext_authz. Implemented with Go-based gRPC server, achieved RPS 1,200+ via Redis Pool tuning + Local Cache + Fanout broadcast.</span>
+                        <span class="lang-ko">Envoy ext_authz를 활용해 인증/인가 로직을 API 서버에서 분리했습니다. Go 기반 gRPC 서버로 구현하고, Redis Pool 튜닝 → Local Cache + Fanout 브로드캐스트로 2,500 VU 기준 RPS 1,500+ 클러스터 Baseline을 달성했습니다.</span>
+                        <span class="lang-en">Separated authentication/authorization logic from API servers using Envoy ext_authz. Implemented with Go-based gRPC server, achieved RPS 1,500+ cluster baseline at 2,500 VU via Redis Pool tuning → Local Cache + Fanout broadcast.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -822,17 +822,17 @@
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🚀</span>
+                            <span class="achievement-icon">🔧</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>RPS 42 → 1,200+</strong> Local Cache + Fanout 적용</span>
-                                <span class="lang-en"><strong>RPS 42 → 1,200+</strong> Local Cache + Fanout applied</span>
+                                <span class="lang-ko"><strong>Redis Pool 튜닝</strong> RPS 42 → 1,100 달성</span>
+                                <span class="lang-en"><strong>Redis Pool tuning</strong> RPS 42 → 1,100 achieved</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">📡</span>
+                            <span class="achievement-icon">🚀</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Blacklist Fanout</strong> RabbitMQ 기반 캐시 동기화</span>
-                                <span class="lang-en"><strong>Blacklist Fanout</strong> RabbitMQ cache sync</span>
+                                <span class="lang-ko"><strong>Local Cache + Fanout</strong> RPS 1,500+ 클러스터 Baseline</span>
+                                <span class="lang-en"><strong>Local Cache + Fanout</strong> RPS 1,500+ cluster baseline</span>
                             </div>
                         </div>
                         <div class="achievement">
@@ -1173,7 +1173,7 @@
 │  └────────┬────────────────────────────────────────────────────────────────────────┘   │
 │           │                                                                             │
 │  ┌────────▼────────┐     ┌────────────────┐                                            │
-│  │   ext-authz     │────►│  Local Cache   │  JWT Blacklist (RPS 1,200+)                │
+│  │   ext-authz     │────►│  Local Cache   │  JWT Blacklist (2500 VU, 1500+ RPS)        │
 │  │   (Go/gRPC)     │     │ + Fanout Sync  │  RabbitMQ Fanout → Cache Broadcast         │
 │  └────────┬────────┘     └────────────────┘                                            │
 │           │                                                                             │
@@ -1284,6 +1284,8 @@
                 <div class="tech-items">
                     <span class="tech-item">Prometheus</span>
                     <span class="tech-item">Grafana</span>
+                    <span class="tech-item">AlertManager</span>
+                    <span class="tech-item">Slack</span>
                     <span class="tech-item">Fluent Bit</span>
                     <span class="tech-item">Kibana</span>
                     <span class="tech-item">Jaeger</span>
