@@ -1186,48 +1186,95 @@
             animation: arrow-pulse-4 6s ease-in-out infinite;
         }
 
-        /* Diagonal interaction: Observability ↔ Agent */
-        .cycle-diagonal {
+        /* Feedback Flow: Observability → Agent (horizontal data packets) */
+        .feedback-flow {
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 15%;
             width: 70%;
+            height: 40px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* Dashed path line */
+        .feedback-path {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
             height: 2px;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            background: linear-gradient(90deg, 
-                rgba(245,158,11,0) 0%,
-                rgba(245,158,11,0.4) 20%,
-                rgba(139,92,246,0.4) 80%,
-                rgba(139,92,246,0) 100%
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(245,158,11,0.3) 0px,
+                rgba(245,158,11,0.3) 8px,
+                transparent 8px,
+                transparent 16px
             );
-            pointer-events: none;
+            transform: translateY(-50%);
         }
 
-        .cycle-diagonal::before {
-            content: '⟷';
+        /* Flying data packets */
+        .feedback-packet {
             position: absolute;
-            left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            font-size: 1rem;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
+        }
+
+        .feedback-packet:nth-child(2) {
+            animation: packet-fly 3s ease-in-out infinite;
+        }
+        .feedback-packet:nth-child(3) {
+            animation: packet-fly 3s ease-in-out infinite 1s;
+        }
+        .feedback-packet:nth-child(4) {
+            animation: packet-fly 3s ease-in-out infinite 2s;
+        }
+
+        @keyframes packet-fly {
+            0% { 
+                left: 0%; 
+                opacity: 0;
+                transform: translateY(-50%) scale(0.5);
+                filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
+            }
+            10% { 
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(200,130,60,1));
+            }
+            90% { 
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+            100% { 
+                left: 100%; 
+                opacity: 0;
+                transform: translateY(-50%) scale(0.5);
+                filter: drop-shadow(0 0 8px rgba(139,92,246,0.8));
+            }
+        }
+
+        /* Labels at endpoints */
+        .feedback-label {
+            position: absolute;
+            top: -18px;
+            font-size: 0.6rem;
             color: rgba(255,255,255,0.6);
-            animation: diagonal-pulse 3s ease-in-out infinite;
-        }
-
-        .diagonal-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -80%);
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.5);
             white-space: nowrap;
-            pointer-events: none;
         }
-
-        @keyframes diagonal-pulse {
-            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
-            50% { opacity: 0.9; transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        .feedback-label.from {
+            left: 0;
+            color: rgba(245,158,11,0.8);
+        }
+        .feedback-label.to {
+            right: 0;
+            color: rgba(139,92,246,0.8);
         }
 
         /* Staggered arrow animations synced with dot */
@@ -1596,11 +1643,19 @@
                     <div class="cycle-arrow left-top">➤</div>
                 </div>
 
-                <!-- Diagonal: Observability ↔ Agent interaction -->
-                <div class="cycle-diagonal">
-                    <div class="diagonal-label">
-                        <span class="lang-ko">피드백 전달</span>
-                        <span class="lang-en">Feedback</span>
+                <!-- Feedback Flow: Observability → Agent -->
+                <div class="feedback-flow">
+                    <div class="feedback-path"></div>
+                    <div class="feedback-packet">📊</div>
+                    <div class="feedback-packet">📈</div>
+                    <div class="feedback-packet">🔔</div>
+                    <div class="feedback-label from">
+                        <span class="lang-ko">메트릭</span>
+                        <span class="lang-en">Metrics</span>
+                    </div>
+                    <div class="feedback-label to">
+                        <span class="lang-ko">학습</span>
+                        <span class="lang-en">Learn</span>
                     </div>
                 </div>
 
