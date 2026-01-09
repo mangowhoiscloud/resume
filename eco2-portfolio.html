@@ -743,6 +743,130 @@
             color: var(--accent-purple);
         }
 
+        /* LLM Pipeline Section */
+        .llm-pipeline-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .llm-pipeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .llm-pipeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .llm-pipeline-credit {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .credit-link {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .credit-link:hover {
+            text-decoration: underline;
+        }
+        .llm-pipeline-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .pipeline-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            min-width: 100px;
+        }
+        .pipeline-stage.vision { border-color: rgba(59,130,246,0.4); }
+        .pipeline-stage.rule { border-color: rgba(245,158,11,0.4); }
+        .pipeline-stage.answer { border-color: rgba(16,185,129,0.4); }
+        .pipeline-stage.reward { border-color: rgba(236,72,153,0.4); }
+        .pipeline-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .pipeline-name { font-weight: 600; font-size: 0.9rem; color: var(--text-primary); }
+        .pipeline-model { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .pipeline-arrow { color: var(--text-muted); font-size: 1.2rem; font-weight: bold; }
+        .llm-pipeline-specs {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .spec-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .spec-value {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Team Section in Footer */
+        .footer-team {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .footer-team-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .team-member {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .team-role {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .team-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .team-link:hover {
+            color: var(--accent-purple);
+        }
+
         /* Methodology Section */
         .methodology-diagram {
             background: var(--bg-card);
@@ -1937,6 +2061,60 @@
             </div>
         </div>
 
+        <!-- LLM Pipeline Diagram -->
+        <div class="llm-pipeline-section">
+            <div class="llm-pipeline-header">
+                <h3 class="llm-pipeline-title">
+                    <span class="lang-ko">🤖 LLM Pipeline (Celery Chain)</span>
+                    <span class="lang-en">🤖 LLM Pipeline (Celery Chain)</span>
+                </h3>
+                <div class="llm-pipeline-credit">
+                    <span class="lang-ko">Developed by AI Researcher</span>
+                    <span class="lang-en">Developed by AI Researcher</span>
+                    <a href="https://github.com/taemin-steve" target="_blank" class="credit-link">@taemin-steve</a>
+                </div>
+            </div>
+            <div class="llm-pipeline-flow">
+                <div class="pipeline-stage vision">
+                    <div class="pipeline-icon">👁️</div>
+                    <div class="pipeline-name">Vision</div>
+                    <div class="pipeline-model">GPT-5.1 Vision</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage rule">
+                    <div class="pipeline-icon">📋</div>
+                    <div class="pipeline-name">Rule</div>
+                    <div class="pipeline-model">Rule Engine</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage answer">
+                    <div class="pipeline-icon">💬</div>
+                    <div class="pipeline-name">Answer</div>
+                    <div class="pipeline-model">GPT-5.1 mini</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage reward">
+                    <div class="pipeline-icon">🎁</div>
+                    <div class="pipeline-name">Reward</div>
+                    <div class="pipeline-model">Fire & Forget</div>
+                </div>
+            </div>
+            <div class="llm-pipeline-specs">
+                <div class="spec-item">
+                    <span class="spec-label">Pool</span>
+                    <span class="spec-value">gevent 100 greenlets</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Latency</span>
+                    <span class="spec-value">~12초/request</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Throughput</span>
+                    <span class="spec-value">418 req/min @250VU</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Architecture Diagram -->
         <div class="architecture-diagram">
             <h3 class="diagram-title">
@@ -2212,6 +2390,32 @@
 
     <!-- Footer -->
     <footer class="footer">
+        <!-- Team Section -->
+        <div class="footer-team">
+            <div class="footer-team-title">
+                <span class="lang-ko">👥 Team Eco²</span>
+                <span class="lang-en">👥 Team Eco²</span>
+            </div>
+            <div class="team-members">
+                <div class="team-member">
+                    <span class="team-role">Backend / Infra</span>
+                    <a href="https://github.com/mangowhoiscloud" target="_blank" class="team-link">@mangowhoiscloud</a>
+                </div>
+                <div class="team-member">
+                    <span class="team-role">AI Research</span>
+                    <a href="https://github.com/taemin-steve" target="_blank" class="team-link">@taemin-steve</a>
+                </div>
+                <div class="team-member">
+                    <span class="team-role">Frontend</span>
+                    <a href="https://github.com/ChaeHyun-Kim" target="_blank" class="team-link">@ChaeHyun-Kim</a>
+                </div>
+                <div class="team-member">
+                    <span class="team-role">Frontend</span>
+                    <a href="https://github.com/suji8073" target="_blank" class="team-link">@suji8073</a>
+                </div>
+            </div>
+        </div>
+
         <div class="footer-links">
             <a href="https://frontend.dev.growbin.app/" target="_blank" class="footer-link" style="background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(139,92,246,0.2)); border-color: rgba(102,126,234,0.4);">
                 <span>🌿 Service (PWA)</span>
