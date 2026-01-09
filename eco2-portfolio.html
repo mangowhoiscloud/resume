@@ -1218,9 +1218,8 @@
             position: absolute;
             font-size: 1.1rem;
             top: 0;
-            left: 0;
             filter: drop-shadow(0 0 10px rgba(245,158,11,0.9));
-            will-change: transform, opacity;
+            will-change: left, top, opacity;
         }
 
         .feedback-packet:nth-child(1) {
@@ -1233,33 +1232,47 @@
             animation: packet-arc-move 3.5s ease-in-out infinite 2.3s;
         }
 
-        /* Keyframes simulating quadratic bezier: M 0,10 Q 50%,110 100%,10 */
+        /* Keyframes simulating quadratic bezier curve (south-facing arc) */
         @keyframes packet-arc-move {
             0% {
-                transform: translate(0%, 0px) scale(0.5);
+                left: 0%;
+                top: 0px;
+                transform: scale(0.5);
                 opacity: 0;
                 filter: drop-shadow(0 0 6px rgba(245,158,11,1));
             }
             10% {
-                transform: translate(10%, 20px) scale(0.9);
+                left: 10%;
+                top: 25px;
+                transform: scale(0.9);
                 opacity: 1;
             }
             25% {
-                transform: translate(25%, 55px) scale(1.1);
+                left: 25%;
+                top: 55px;
+                transform: scale(1.1);
             }
             50% {
-                transform: translate(50%, 80px) scale(1.4);
+                left: 50%;
+                top: 80px;
+                transform: scale(1.4);
                 filter: drop-shadow(0 0 20px rgba(255,180,60,1));
             }
             75% {
-                transform: translate(75%, 55px) scale(1.1);
+                left: 75%;
+                top: 55px;
+                transform: scale(1.1);
             }
             90% {
-                transform: translate(90%, 20px) scale(0.9);
+                left: 90%;
+                top: 25px;
+                transform: scale(0.9);
                 opacity: 1;
             }
             100% {
-                transform: translate(100%, 0px) scale(0.5);
+                left: 100%;
+                top: 0px;
+                transform: scale(0.5);
                 opacity: 0;
                 filter: drop-shadow(0 0 6px rgba(139,92,246,1));
             }
