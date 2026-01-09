@@ -829,6 +829,48 @@
             font-weight: 500;
         }
 
+        /* Pipeline Subsection */
+        .pipeline-subsection {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .subsection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .subsection-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .async-sse-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .async-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(139,92,246,0.3);
+            min-width: 90px;
+        }
+        .async-icon { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .async-name { font-weight: 600; font-size: 0.8rem; color: var(--text-primary); }
+        .async-desc { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.15rem; }
+
         /* Team Section in Footer */
         .footer-team {
             margin-bottom: 1.5rem;
@@ -1303,7 +1345,7 @@
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">250 VU</div>
+                <div class="hero-stat-value">300 VU</div>
                 <div class="hero-stat-label">
                     <span class="lang-ko">SLA (Scan SSE)</span>
                     <span class="lang-en">SLA (Scan SSE)</span>
@@ -1817,15 +1859,15 @@
                         <div class="achievement">
                             <span class="achievement-icon">⭐</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>250 VU SLA</strong> 99.9% 완료율, p95 40.5초</span>
-                                <span class="lang-en"><strong>250 VU SLA</strong> 99.9% completion, p95 40.5s</span>
+                                <span class="lang-ko"><strong>300 VU SLA</strong> 99.9% 완료율, 402 req/min</span>
+                                <span class="lang-en"><strong>300 VU SLA</strong> 99.9% completion, 402 req/min</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">⚠️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>300-400 VU</strong> 포화구간 (99.9%→98.9%)</span>
-                                <span class="lang-en"><strong>300-400 VU</strong> saturation zone (99.9%→98.9%)</span>
+                                <span class="lang-ko"><strong>400 VU</strong> 포화구간 (98.9%)</span>
+                                <span class="lang-en"><strong>400 VU</strong> saturation zone (98.9%)</span>
                             </div>
                         </div>
                         <div class="achievement">
@@ -2065,40 +2107,91 @@
         <div class="llm-pipeline-section">
             <div class="llm-pipeline-header">
                 <h3 class="llm-pipeline-title">
-                    <span class="lang-ko">🤖 LLM Pipeline (Celery Chain)</span>
-                    <span class="lang-en">🤖 LLM Pipeline (Celery Chain)</span>
+                    <span class="lang-ko">🤖 LLM Pipeline + Async SSE</span>
+                    <span class="lang-en">🤖 LLM Pipeline + Async SSE</span>
                 </h3>
-                <div class="llm-pipeline-credit">
-                    <span class="lang-ko">Developed by AI Researcher</span>
-                    <span class="lang-en">Developed by AI Researcher</span>
-                    <a href="https://github.com/taemin-steve" target="_blank" class="credit-link">@taemin-steve</a>
+            </div>
+            
+            <!-- AI Pipeline Chain -->
+            <div class="pipeline-subsection">
+                <div class="subsection-header">
+                    <div class="subsection-title">
+                        <span class="lang-ko">🧠 AI Pipeline Chain (Celery)</span>
+                        <span class="lang-en">🧠 AI Pipeline Chain (Celery)</span>
+                    </div>
+                    <div class="llm-pipeline-credit">
+                        <span class="lang-ko">AI Researcher</span>
+                        <span class="lang-en">AI Researcher</span>
+                        <a href="https://github.com/taemin-steve" target="_blank" class="credit-link">@taemin-steve</a>
+                    </div>
+                </div>
+                <div class="llm-pipeline-flow">
+                    <div class="pipeline-stage vision">
+                        <div class="pipeline-icon">👁️</div>
+                        <div class="pipeline-name">Vision</div>
+                        <div class="pipeline-model">GPT-5.1 Vision</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-stage rule">
+                        <div class="pipeline-icon">📋</div>
+                        <div class="pipeline-name">Rule</div>
+                        <div class="pipeline-model">Rule Engine</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-stage answer">
+                        <div class="pipeline-icon">💬</div>
+                        <div class="pipeline-name">Answer</div>
+                        <div class="pipeline-model">GPT-5.1 mini</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-stage reward">
+                        <div class="pipeline-icon">🎁</div>
+                        <div class="pipeline-name">Reward</div>
+                        <div class="pipeline-model">Fire & Forget</div>
+                    </div>
                 </div>
             </div>
-            <div class="llm-pipeline-flow">
-                <div class="pipeline-stage vision">
-                    <div class="pipeline-icon">👁️</div>
-                    <div class="pipeline-name">Vision</div>
-                    <div class="pipeline-model">GPT-5.1 Vision</div>
+
+            <!-- Async + SSE Implementation -->
+            <div class="pipeline-subsection">
+                <div class="subsection-header">
+                    <div class="subsection-title">
+                        <span class="lang-ko">⚡ Async + SSE 구현</span>
+                        <span class="lang-en">⚡ Async + SSE Implementation</span>
+                    </div>
+                    <div class="llm-pipeline-credit">
+                        <span class="lang-ko">Backend / Infra</span>
+                        <span class="lang-en">Backend / Infra</span>
+                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
+                    </div>
                 </div>
-                <div class="pipeline-arrow">→</div>
-                <div class="pipeline-stage rule">
-                    <div class="pipeline-icon">📋</div>
-                    <div class="pipeline-name">Rule</div>
-                    <div class="pipeline-model">Rule Engine</div>
-                </div>
-                <div class="pipeline-arrow">→</div>
-                <div class="pipeline-stage answer">
-                    <div class="pipeline-icon">💬</div>
-                    <div class="pipeline-name">Answer</div>
-                    <div class="pipeline-model">GPT-5.1 mini</div>
-                </div>
-                <div class="pipeline-arrow">→</div>
-                <div class="pipeline-stage reward">
-                    <div class="pipeline-icon">🎁</div>
-                    <div class="pipeline-name">Reward</div>
-                    <div class="pipeline-model">Fire & Forget</div>
+                <div class="async-sse-flow">
+                    <div class="async-item">
+                        <div class="async-icon">📨</div>
+                        <div class="async-name">RabbitMQ</div>
+                        <div class="async-desc">Celery Chain</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🌊</div>
+                        <div class="async-name">Redis Streams</div>
+                        <div class="async-desc">Durability</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">📡</div>
+                        <div class="async-name">Pub/Sub</div>
+                        <div class="async-desc">Realtime</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">📺</div>
+                        <div class="async-name">SSE Gateway</div>
+                        <div class="async-desc">Client Push</div>
+                    </div>
                 </div>
             </div>
+
             <div class="llm-pipeline-specs">
                 <div class="spec-item">
                     <span class="spec-label">Pool</span>
@@ -2110,7 +2203,7 @@
                 </div>
                 <div class="spec-item">
                     <span class="spec-label">Throughput</span>
-                    <span class="spec-value">418 req/min @250VU</span>
+                    <span class="spec-value">402 req/min @300VU</span>
                 </div>
             </div>
         </div>
@@ -2174,7 +2267,7 @@
 │  │                     └──────────┬───────────┘                                     │   │
 │  │                                ▼                                                 │   │
 │  │                     ┌──────────────────────┐                                     │   │
-│  │                     │    SSE Gateway (HA)  │  250 VU SLA, 500 VU Limit          │   │
+│  │                     │    SSE Gateway (HA)  │  300 VU SLA, 500 VU Limit          │   │
 │  │                     └──────────────────────┘                                     │   │
 │  └─────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                         │
