@@ -995,28 +995,30 @@
                        trail-stretch 5s ease-in-out infinite 0.05s;
         }
 
-        /* Circular motion with acceleration/deceleration */
-        /* Slow at Developer (0%), accelerate through Agent, fastest at Cluster (50%), decelerate back */
+        /* Circular motion: accelerate from Developer, decelerate only at Observability→Developer */
         @keyframes orbit-circle {
-            /* Developer - SLOW ZONE (spending more time here) */
+            /* Developer - START ACCELERATING */
             0% { offset-distance: 0%; }
-            5% { offset-distance: 2%; }      /* Very slow start */
-            10% { offset-distance: 6%; }     /* Still slow */
-            15% { offset-distance: 12%; }    /* Accelerating */
-            /* Agent - ACCELERATING */
-            20% { offset-distance: 20%; }
-            25% { offset-distance: 30%; }    /* Gaining speed */
-            30% { offset-distance: 38%; }    /* Fast */
-            /* Cluster - FASTEST (covering most distance quickly) */
-            40% { offset-distance: 50%; }    /* Maximum speed zone */
-            50% { offset-distance: 62%; }    /* Still fast */
-            /* Observability - DECELERATING */
-            60% { offset-distance: 72%; }    /* Slowing down */
-            70% { offset-distance: 80%; }    /* Slower */
-            75% { offset-distance: 85%; }    /* Much slower */
-            /* Approaching Developer - VERY SLOW */
-            85% { offset-distance: 92%; }    /* Nearly stopping */
-            92% { offset-distance: 96%; }    /* Crawling */
+            5% { offset-distance: 5%; }      /* Quick start */
+            10% { offset-distance: 12%; }    /* Accelerating */
+            /* Agent - FAST */
+            15% { offset-distance: 20%; }
+            20% { offset-distance: 28%; }    /* Fast */
+            25% { offset-distance: 36%; }    /* Very fast */
+            /* Cluster - FASTEST */
+            30% { offset-distance: 44%; }
+            35% { offset-distance: 52%; }    /* Maximum speed */
+            40% { offset-distance: 58%; }
+            /* After Cluster - STILL FAST */
+            50% { offset-distance: 68%; }
+            55% { offset-distance: 74%; }
+            /* Observability - STARTING TO SLOW */
+            65% { offset-distance: 82%; }
+            70% { offset-distance: 86%; }    /* Slowing */
+            /* Approaching Developer - DECELERATION ZONE */
+            80% { offset-distance: 91%; }    /* Slower */
+            88% { offset-distance: 95%; }    /* Much slower */
+            94% { offset-distance: 98%; }    /* Nearly stopping */
             100% { offset-distance: 100%; }  /* Back to Developer */
         }
 
@@ -1182,6 +1184,50 @@
             top: 18%; left: 18%; 
             transform: rotate(315deg);
             animation: arrow-pulse-4 6s ease-in-out infinite;
+        }
+
+        /* Diagonal interaction: Observability ↔ Agent */
+        .cycle-diagonal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 70%;
+            height: 2px;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            background: linear-gradient(90deg, 
+                rgba(245,158,11,0) 0%,
+                rgba(245,158,11,0.4) 20%,
+                rgba(139,92,246,0.4) 80%,
+                rgba(139,92,246,0) 100%
+            );
+            pointer-events: none;
+        }
+
+        .cycle-diagonal::before {
+            content: '⟷';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            animation: diagonal-pulse 3s ease-in-out infinite;
+        }
+
+        .diagonal-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -80%);
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        @keyframes diagonal-pulse {
+            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+            50% { opacity: 0.9; transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
         }
 
         /* Staggered arrow animations synced with dot */
@@ -1548,6 +1594,14 @@
                     <div class="cycle-arrow right-bottom">➤</div>
                     <div class="cycle-arrow bottom-left">➤</div>
                     <div class="cycle-arrow left-top">➤</div>
+                </div>
+
+                <!-- Diagonal: Observability ↔ Agent interaction -->
+                <div class="cycle-diagonal">
+                    <div class="diagonal-label">
+                        <span class="lang-ko">피드백 전달</span>
+                        <span class="lang-en">Feedback</span>
+                    </div>
                 </div>
 
                 <!-- Center -->
