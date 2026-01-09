@@ -995,13 +995,29 @@
                        trail-stretch 5s ease-in-out infinite 0.05s;
         }
 
-        /* Perfect circular motion - starts at top (Developer), clockwise */
+        /* Circular motion with acceleration/deceleration */
+        /* Slow at Developer (0%), accelerate through Agent, fastest at Cluster (50%), decelerate back */
         @keyframes orbit-circle {
-            0% { offset-distance: 0%; }      /* Top - Developer */
-            25% { offset-distance: 25%; }    /* Right - Agent */
-            50% { offset-distance: 50%; }    /* Bottom - Cluster */
-            75% { offset-distance: 75%; }    /* Left - Observability */
-            100% { offset-distance: 100%; }  /* Back to top - Developer */
+            /* Developer - SLOW ZONE (spending more time here) */
+            0% { offset-distance: 0%; }
+            5% { offset-distance: 2%; }      /* Very slow start */
+            10% { offset-distance: 6%; }     /* Still slow */
+            15% { offset-distance: 12%; }    /* Accelerating */
+            /* Agent - ACCELERATING */
+            20% { offset-distance: 20%; }
+            25% { offset-distance: 30%; }    /* Gaining speed */
+            30% { offset-distance: 38%; }    /* Fast */
+            /* Cluster - FASTEST (covering most distance quickly) */
+            40% { offset-distance: 50%; }    /* Maximum speed zone */
+            50% { offset-distance: 62%; }    /* Still fast */
+            /* Observability - DECELERATING */
+            60% { offset-distance: 72%; }    /* Slowing down */
+            70% { offset-distance: 80%; }    /* Slower */
+            75% { offset-distance: 85%; }    /* Much slower */
+            /* Approaching Developer - VERY SLOW */
+            85% { offset-distance: 92%; }    /* Nearly stopping */
+            92% { offset-distance: 96%; }    /* Crawling */
+            100% { offset-distance: 100%; }  /* Back to Developer */
         }
 
         /* Dynamic effects: scale and glow changes with position */
@@ -1258,7 +1274,7 @@
             border: 1px solid rgba(16, 185, 129, 0.2);
             border-radius: 12px;
             padding: 1.5rem;
-            margin-top: 2.5rem;
+            margin-top: 4rem;
         }
 
         .steps-title {
