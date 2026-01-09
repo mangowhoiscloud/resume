@@ -650,6 +650,274 @@
         body.en .lang-ko-inline { display: none; }
         .lang-ko-inline { display: inline; }
         .lang-en-inline { display: none; }
+
+        /* Methodology Section */
+        .methodology-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Actors Row */
+        .methodology-actors {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .actor-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 160px;
+            transition: all 0.3s ease;
+        }
+
+        .actor-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-glow);
+        }
+
+        .actor-card.developer { border-top: 3px solid #3b82f6; }
+        .actor-card.agent { border-top: 3px solid #8b5cf6; }
+        .actor-card.cluster { border-top: 3px solid #10b981; }
+
+        .actor-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .actor-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .actor-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .flow-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .flow-arrow::before {
+            content: '⟷';
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            animation: pulse-arrow 2s infinite;
+        }
+
+        @keyframes pulse-arrow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Single Source of Truth */
+        .methodology-ssot {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .ssot-title {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+
+        .ssot-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .ssot-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .ssot-icon {
+            font-size: 1rem;
+        }
+
+        .ssot-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Development Steps */
+        .methodology-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .step-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .step-item.feedback {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-hero);
+            border-radius: 50%;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .step-content {
+            text-align: left;
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .step-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .step-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Self-RAG Knowledge Base */
+        .methodology-rag {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .rag-title {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #8b5cf6;
+        }
+
+        .rag-items {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .rag-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(255,255,255,0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .rag-icon {
+            font-size: 1.5rem;
+        }
+
+        .rag-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .rag-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Feedback Loop */
+        .methodology-feedback {
+            text-align: center;
+        }
+
+        .feedback-loop {
+            display: inline-block;
+            background: linear-gradient(90deg, rgba(102,126,234,0.2), rgba(139,92,246,0.2));
+            border: 1px solid rgba(139,92,246,0.3);
+            padding: 0.75rem 2rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            animation: glow-pulse 3s infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(139,92,246,0.2); }
+            50% { box-shadow: 0 0 20px rgba(139,92,246,0.4); }
+        }
+
+        @media (max-width: 768px) {
+            .methodology-actors {
+                flex-direction: column;
+            }
+            
+            .flow-arrow::before {
+                content: '⟵⟶';
+                transform: rotate(90deg);
+            }
+            
+            .methodology-steps {
+                flex-direction: column;
+            }
+            
+            .step-arrow {
+                transform: rotate(90deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -658,6 +926,7 @@
         <div class="nav-logo">Eco²</div>
         <ul class="nav-links">
             <li><a href="#overview">Overview</a></li>
+            <li><a href="#methodology">Methodology</a></li>
             <li><a href="#categories">Categories</a></li>
             <li><a href="#tech">Tech Stack</a></li>
             <li><a href="#timeline">Timeline</a></li>
@@ -715,10 +984,175 @@
         </div>
     </section>
 
+    <!-- Agent-Driven Development Section -->
+    <section class="section" id="methodology">
+        <div class="section-header">
+            <div class="section-number">01</div>
+            <h2 class="section-title">
+                <span class="lang-ko">Agent-Driven Development</span>
+                <span class="lang-en">Agent-Driven Development</span>
+            </h2>
+            <p class="section-desc">
+                <span class="lang-ko">분산 클러스터 = World Model, AI 에이전트 = LLM — 코드베이스와 Observability 피드백 루프를 통해 함께 발전합니다.</span>
+                <span class="lang-en">Distributed Cluster = World Model, AI Agent = LLM — Evolving together through codebase and Observability feedback loops.</span>
+            </p>
+        </div>
+
+        <div class="methodology-diagram">
+            <!-- Top Row: Actors -->
+            <div class="methodology-actors">
+                <div class="actor-card developer">
+                    <div class="actor-icon">🧑‍💻</div>
+                    <div class="actor-title">Developer</div>
+                    <div class="actor-desc">
+                        <span class="lang-ko">설계, 리뷰, 의사결정</span>
+                        <span class="lang-en">Design, Review, Decision</span>
+                    </div>
+                </div>
+                <div class="flow-arrow bidirectional">
+                    <span>interact</span>
+                </div>
+                <div class="actor-card agent">
+                    <div class="actor-icon">🤖</div>
+                    <div class="actor-title">AI Agent (LLM)</div>
+                    <div class="actor-desc">
+                        <span class="lang-ko">구현, 디버깅, 문서화</span>
+                        <span class="lang-en">Implement, Debug, Document</span>
+                    </div>
+                </div>
+                <div class="flow-arrow bidirectional">
+                    <span>observe</span>
+                </div>
+                <div class="actor-card cluster">
+                    <div class="actor-icon">☸️</div>
+                    <div class="actor-title">Cluster (World Model)</div>
+                    <div class="actor-desc">
+                        <span class="lang-ko">24-Node K8s Runtime</span>
+                        <span class="lang-en">24-Node K8s Runtime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Source of Truth -->
+            <div class="methodology-ssot">
+                <div class="ssot-title">
+                    <span class="lang-ko">📌 Single Source of Truth</span>
+                    <span class="lang-en">📌 Single Source of Truth</span>
+                </div>
+                <div class="ssot-flow">
+                    <div class="ssot-item">
+                        <span class="ssot-icon">📝</span>
+                        <span class="ssot-label">Codebase</span>
+                    </div>
+                    <div class="ssot-arrow">→</div>
+                    <div class="ssot-item">
+                        <span class="ssot-icon">🔄</span>
+                        <span class="ssot-label">GitOps</span>
+                    </div>
+                    <div class="ssot-arrow">→</div>
+                    <div class="ssot-item">
+                        <span class="ssot-icon">☸️</span>
+                        <span class="ssot-label">Cluster State</span>
+                    </div>
+                    <div class="ssot-arrow">→</div>
+                    <div class="ssot-item">
+                        <span class="ssot-icon">📊</span>
+                        <span class="ssot-label">Observability</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development Steps (from Option 3) -->
+            <div class="methodology-steps">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Research</div>
+                        <div class="step-desc">Foundations</div>
+                    </div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Design</div>
+                        <div class="step-desc">Plans</div>
+                    </div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Implement</div>
+                        <div class="step-desc">Agent + Code</div>
+                    </div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Deploy</div>
+                        <div class="step-desc">GitOps</div>
+                    </div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-item feedback">
+                    <div class="step-number">∞</div>
+                    <div class="step-content">
+                        <div class="step-title">Feedback</div>
+                        <div class="step-desc">Reports → Loop</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Self-RAG Knowledge Base -->
+            <div class="methodology-rag">
+                <div class="rag-title">
+                    <span class="lang-ko">🧠 Self-RAG Knowledge Base</span>
+                    <span class="lang-en">🧠 Self-RAG Knowledge Base</span>
+                </div>
+                <div class="rag-items">
+                    <div class="rag-item foundations">
+                        <span class="rag-icon">📚</span>
+                        <span class="rag-label">Foundations</span>
+                        <span class="rag-desc">
+                            <span class="lang-ko">이론 정리 17편</span>
+                            <span class="lang-en">17 theoretical articles</span>
+                        </span>
+                    </div>
+                    <div class="rag-item plans">
+                        <span class="rag-icon">📋</span>
+                        <span class="rag-label">Plans</span>
+                        <span class="rag-desc">
+                            <span class="lang-ko">설계 문서</span>
+                            <span class="lang-en">Design docs</span>
+                        </span>
+                    </div>
+                    <div class="rag-item reports">
+                        <span class="rag-icon">📈</span>
+                        <span class="rag-label">Reports</span>
+                        <span class="rag-desc">
+                            <span class="lang-ko">결과 기록</span>
+                            <span class="lang-en">Result records</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Loop Indicator -->
+            <div class="methodology-feedback">
+                <div class="feedback-loop">
+                    <span class="lang-ko">🔁 FEEDBACK LOOP — 클러스터와 에이전트가 함께 발전</span>
+                    <span class="lang-en">🔁 FEEDBACK LOOP — Cluster and Agent evolve together</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Categories Section -->
     <section class="section" id="categories">
         <div class="section-header">
-            <div class="section-number">01</div>
+            <div class="section-number">02</div>
             <h2 class="section-title">
                 <span class="lang-ko">프로젝트 카테고리</span>
                 <span class="lang-en">Project Categories</span>
@@ -1235,7 +1669,7 @@
     <!-- Tech Stack Section -->
     <section class="section" id="tech">
         <div class="section-header">
-            <div class="section-number">02</div>
+            <div class="section-number">03</div>
             <h2 class="section-title">
                 <span class="lang-ko">기술 스택</span>
                 <span class="lang-en">Tech Stack</span>
@@ -1316,7 +1750,7 @@
     <!-- Timeline Section -->
     <section class="section" id="timeline">
         <div class="section-header">
-            <div class="section-number">03</div>
+            <div class="section-number">04</div>
             <h2 class="section-title">
                 <span class="lang-ko">프로젝트 타임라인</span>
                 <span class="lang-en">Project Timeline</span>
