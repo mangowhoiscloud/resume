@@ -1189,10 +1189,10 @@
         /* Feedback Flow: Observability → Agent (CSS offset-path curved arc) */
         .feedback-flow {
             position: absolute;
-            top: 42%;
-            left: 10%;
-            width: 80%;
-            height: 120px;
+            top: 48%;
+            left: 12%;
+            width: 76%;
+            height: 100px;
             pointer-events: none;
         }
 
@@ -1208,74 +1208,76 @@
         .feedback-arc {
             fill: none;
             stroke: url(#feedbackGradient);
-            stroke-width: 2;
-            stroke-dasharray: 6 4;
-            opacity: 0.5;
+            stroke-width: 2.5;
+            stroke-dasharray: 8 5;
+            opacity: 0.6;
         }
 
         /* Animated packets using CSS offset-path */
         .feedback-packet {
             position: absolute;
-            font-size: 1rem;
-            /* 남쪽으로 볼록한 곡선 - 아래로 휘어지는 구 형태 */
-            offset-path: path('M 0,20 Q 200,140 400,20');
+            font-size: 1.1rem;
+            /* 남쪽으로 볼록한 곡선 - 아래로 깊게 휘어지는 구 형태 */
+            offset-path: path('M 0,10 Q 190,120 380,10');
             offset-rotate: 0deg;
-            filter: drop-shadow(0 0 8px rgba(245,158,11,0.9));
+            filter: drop-shadow(0 0 10px rgba(245,158,11,0.9));
             will-change: offset-distance, opacity, transform;
         }
 
         .feedback-packet:nth-child(1) {
-            animation: packet-curve 4s ease-in-out infinite;
+            animation: packet-curve 3.5s ease-in-out infinite;
         }
         .feedback-packet:nth-child(2) {
-            animation: packet-curve 4s ease-in-out infinite 1.3s;
+            animation: packet-curve 3.5s ease-in-out infinite 1.15s;
         }
         .feedback-packet:nth-child(3) {
-            animation: packet-curve 4s ease-in-out infinite 2.6s;
+            animation: packet-curve 3.5s ease-in-out infinite 2.3s;
         }
 
         @keyframes packet-curve {
             0% {
                 offset-distance: 0%;
                 opacity: 0;
-                transform: scale(0.5);
-                filter: drop-shadow(0 0 6px rgba(245,158,11,1));
+                transform: scale(0.4) translateY(-5px);
+                filter: drop-shadow(0 0 4px rgba(245,158,11,1));
             }
-            10% {
+            12% {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0);
             }
             50% {
-                transform: scale(1.3);
-                filter: drop-shadow(0 0 16px rgba(255,200,80,1));
+                transform: scale(1.4) translateY(0);
+                filter: drop-shadow(0 0 20px rgba(255,180,60,1));
             }
-            90% {
+            88% {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0);
             }
             100% {
                 offset-distance: 100%;
                 opacity: 0;
-                transform: scale(0.5);
-                filter: drop-shadow(0 0 6px rgba(139,92,246,1));
+                transform: scale(0.4) translateY(-5px);
+                filter: drop-shadow(0 0 4px rgba(139,92,246,1));
             }
         }
 
         /* Labels at endpoints */
         .feedback-label {
             position: absolute;
-            top: 0;
-            font-size: 0.55rem;
-            color: rgba(255,255,255,0.7);
+            top: -5px;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.8);
             white-space: nowrap;
+            letter-spacing: 0.02em;
         }
         .feedback-label.from {
-            left: 0;
-            color: rgba(245,158,11,0.9);
+            left: -5px;
+            color: rgba(245,158,11,1);
         }
         .feedback-label.to {
-            right: 0;
-            color: rgba(139,92,246,0.9);
+            right: -5px;
+            color: rgba(139,92,246,1);
         }
 
         /* Staggered arrow animations synced with dot */
@@ -1647,16 +1649,16 @@
                 <!-- Feedback Flow: Observability → Agent (CSS offset-path curved arc) -->
                 <div class="feedback-flow">
                     <!-- SVG for the curved dashed path visualization -->
-                    <svg class="feedback-svg" viewBox="0 0 400 120" preserveAspectRatio="none">
+                    <svg class="feedback-svg" viewBox="0 0 380 100" preserveAspectRatio="none">
                         <defs>
                             <linearGradient id="feedbackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:rgba(245,158,11,0.7)"/>
-                                <stop offset="50%" style="stop-color:rgba(255,200,80,0.6)"/>
-                                <stop offset="100%" style="stop-color:rgba(139,92,246,0.7)"/>
+                                <stop offset="0%" style="stop-color:rgba(245,158,11,0.8)"/>
+                                <stop offset="50%" style="stop-color:rgba(255,180,60,0.7)"/>
+                                <stop offset="100%" style="stop-color:rgba(139,92,246,0.8)"/>
                             </linearGradient>
                         </defs>
-                        <!-- 남쪽으로 볼록한 곡선 (아래로 휘어지는 구 형태) -->
-                        <path class="feedback-arc" d="M 0,20 Q 200,140 400,20"/>
+                        <!-- 남쪽으로 볼록한 곡선 (아래로 깊게 휘어지는 구 형태) -->
+                        <path class="feedback-arc" d="M 0,10 Q 190,120 380,10"/>
                     </svg>
                     <!-- CSS offset-path animated packets -->
                     <div class="feedback-packet">📊</div>
