@@ -870,6 +870,14 @@
         .async-icon { font-size: 1.25rem; margin-bottom: 0.25rem; }
         .async-name { font-weight: 600; font-size: 0.8rem; color: var(--text-primary); }
         .async-desc { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.15rem; }
+        .pipeline-detail {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border-subtle);
+        }
 
         /* Team Section in Footer */
         .footer-team {
@@ -937,23 +945,58 @@
             border-radius: 50%;
         }
 
-        /* Animated dot traveling the circle */
+        /* Animated dot traveling the circle with acceleration */
         .cycle-dot {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background: linear-gradient(135deg, #8b5cf6, #3b82f6);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(139,92,246,0.6);
-            animation: travel-circle 8s linear infinite;
+            box-shadow: 0 0 20px rgba(139,92,246,0.8), 0 0 40px rgba(139,92,246,0.4);
+            animation: travel-circle 6s ease-in-out infinite;
+        }
+
+        /* Trail effect dots */
+        .cycle-dot::before,
+        .cycle-dot::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(139,92,246,0.5);
+        }
+        .cycle-dot::before {
+            width: 10px;
+            height: 10px;
+            top: 2px;
+            left: -15px;
+            opacity: 0.6;
+            animation: trail-fade 6s ease-in-out infinite;
+        }
+        .cycle-dot::after {
+            width: 6px;
+            height: 6px;
+            top: 4px;
+            left: -28px;
+            opacity: 0.3;
+            animation: trail-fade 6s ease-in-out infinite 0.1s;
         }
 
         @keyframes travel-circle {
-            0% { top: 0; left: 50%; transform: translate(-50%, -50%); }
-            25% { top: 50%; left: 100%; transform: translate(-50%, -50%); }
-            50% { top: 100%; left: 50%; transform: translate(-50%, -50%); }
-            75% { top: 50%; left: 0; transform: translate(-50%, -50%); }
-            100% { top: 0; left: 50%; transform: translate(-50%, -50%); }
+            0% { top: 0; left: 50%; transform: translate(-50%, -50%) scale(1); }
+            12.5% { top: 15%; left: 85%; transform: translate(-50%, -50%) scale(1.1); }
+            25% { top: 50%; left: 100%; transform: translate(-50%, -50%) scale(1.2); }
+            37.5% { top: 85%; left: 85%; transform: translate(-50%, -50%) scale(1.1); }
+            50% { top: 100%; left: 50%; transform: translate(-50%, -50%) scale(1); }
+            62.5% { top: 85%; left: 15%; transform: translate(-50%, -50%) scale(1.1); }
+            75% { top: 50%; left: 0; transform: translate(-50%, -50%) scale(1.2); }
+            87.5% { top: 15%; left: 15%; transform: translate(-50%, -50%) scale(1.1); }
+            100% { top: 0; left: 50%; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes trail-fade {
+            0%, 100% { opacity: 0.3; }
+            25%, 75% { opacity: 0.6; }
+            50% { opacity: 0.8; }
         }
 
         /* Node positions around the circle */
@@ -981,7 +1024,7 @@
         }
 
         .node-card:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             z-index: 10;
         }
 
@@ -1034,25 +1077,48 @@
 
         .cycle-arrow {
             position: absolute;
-            font-size: 1.5rem;
-            color: rgba(139,92,246,0.6);
-            animation: pulse-arrow 2s ease-in-out infinite;
+            font-size: 1.2rem;
+            color: rgba(139,92,246,0.5);
         }
 
-        .cycle-arrow.top-right { top: 15%; right: 15%; transform: rotate(45deg); }
-        .cycle-arrow.right-bottom { bottom: 15%; right: 15%; transform: rotate(135deg); }
-        .cycle-arrow.bottom-left { bottom: 15%; left: 15%; transform: rotate(225deg); }
-        .cycle-arrow.left-top { top: 15%; left: 15%; transform: rotate(315deg); }
-
-        @keyframes pulse-arrow {
-            0%, 100% { opacity: 0.4; transform: scale(1) rotate(var(--rotation, 0deg)); }
-            50% { opacity: 1; transform: scale(1.2) rotate(var(--rotation, 0deg)); }
+        .cycle-arrow.top-right { 
+            top: 18%; right: 18%; 
+            transform: rotate(45deg);
+            animation: arrow-pulse-1 6s ease-in-out infinite;
+        }
+        .cycle-arrow.right-bottom { 
+            bottom: 18%; right: 18%; 
+            transform: rotate(135deg);
+            animation: arrow-pulse-2 6s ease-in-out infinite;
+        }
+        .cycle-arrow.bottom-left { 
+            bottom: 18%; left: 18%; 
+            transform: rotate(225deg);
+            animation: arrow-pulse-3 6s ease-in-out infinite;
+        }
+        .cycle-arrow.left-top { 
+            top: 18%; left: 18%; 
+            transform: rotate(315deg);
+            animation: arrow-pulse-4 6s ease-in-out infinite;
         }
 
-        .cycle-arrow.top-right { --rotation: 45deg; }
-        .cycle-arrow.right-bottom { --rotation: 135deg; }
-        .cycle-arrow.bottom-left { --rotation: 225deg; }
-        .cycle-arrow.left-top { --rotation: 315deg; }
+        /* Staggered arrow animations synced with dot */
+        @keyframes arrow-pulse-1 {
+            0%, 20% { opacity: 0.3; color: rgba(139,92,246,0.4); }
+            10%, 15% { opacity: 1; color: rgba(139,92,246,1); }
+        }
+        @keyframes arrow-pulse-2 {
+            20%, 45% { opacity: 0.3; color: rgba(139,92,246,0.4); }
+            30%, 40% { opacity: 1; color: rgba(139,92,246,1); }
+        }
+        @keyframes arrow-pulse-3 {
+            45%, 70% { opacity: 0.3; color: rgba(139,92,246,0.4); }
+            55%, 65% { opacity: 1; color: rgba(139,92,246,1); }
+        }
+        @keyframes arrow-pulse-4 {
+            70%, 100% { opacity: 0.3; color: rgba(139,92,246,0.4); }
+            80%, 95% { opacity: 1; color: rgba(139,92,246,1); }
+        }
 
         /* Center label */
         .cycle-center {
@@ -2112,12 +2178,12 @@
                 </h3>
             </div>
             
-            <!-- AI Pipeline Chain -->
+            <!-- AI Pipeline Design -->
             <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🧠 AI Pipeline Chain (Celery)</span>
-                        <span class="lang-en">🧠 AI Pipeline Chain (Celery)</span>
+                        <span class="lang-ko">🧠 AI Pipeline 설계 (LLM + Prompt Engineering)</span>
+                        <span class="lang-en">🧠 AI Pipeline Design (LLM + Prompt Engineering)</span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">AI Researcher</span>
@@ -2129,35 +2195,33 @@
                     <div class="pipeline-stage vision">
                         <div class="pipeline-icon">👁️</div>
                         <div class="pipeline-name">Vision</div>
-                        <div class="pipeline-model">GPT-5.1 Vision</div>
+                        <div class="pipeline-model">LLM + Prompt</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-stage rule">
                         <div class="pipeline-icon">📋</div>
                         <div class="pipeline-name">Rule</div>
-                        <div class="pipeline-model">Rule Engine</div>
+                        <div class="pipeline-model">Rule-based Retrieval</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-stage answer">
                         <div class="pipeline-icon">💬</div>
                         <div class="pipeline-name">Answer</div>
-                        <div class="pipeline-model">GPT-5.1 mini</div>
+                        <div class="pipeline-model">JSON Structured</div>
                     </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-stage reward">
-                        <div class="pipeline-icon">🎁</div>
-                        <div class="pipeline-name">Reward</div>
-                        <div class="pipeline-model">Fire & Forget</div>
-                    </div>
+                </div>
+                <div class="pipeline-detail">
+                    <span class="lang-ko">Rule-based Retrieval 양 끝에 LLM 배치, JSON Structured Output, 시스템 프롬프트 설계</span>
+                    <span class="lang-en">LLM at both ends of Rule-based Retrieval, JSON Structured Output, System Prompt Design</span>
                 </div>
             </div>
 
-            <!-- Async + SSE Implementation -->
+            <!-- Production-Ready Implementation -->
             <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">⚡ Async + SSE 구현</span>
-                        <span class="lang-en">⚡ Async + SSE Implementation</span>
+                        <span class="lang-ko">⚡ Production-Ready 구현 (Celery + Event Relay)</span>
+                        <span class="lang-en">⚡ Production-Ready Implementation (Celery + Event Relay)</span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -2167,21 +2231,21 @@
                 </div>
                 <div class="async-sse-flow">
                     <div class="async-item">
-                        <div class="async-icon">📨</div>
-                        <div class="async-name">RabbitMQ</div>
-                        <div class="async-desc">Celery Chain</div>
+                        <div class="async-icon">⛓️</div>
+                        <div class="async-name">Celery Chain</div>
+                        <div class="async-desc">4-Stage Pipeline</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🎁</div>
+                        <div class="async-name">Reward</div>
+                        <div class="async-desc">Fanout</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">🌊</div>
-                        <div class="async-name">Redis Streams</div>
-                        <div class="async-desc">Durability</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">📡</div>
-                        <div class="async-name">Pub/Sub</div>
-                        <div class="async-desc">Realtime</div>
+                        <div class="async-name">Event Relay</div>
+                        <div class="async-desc">3-Tier Redis</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
@@ -2189,6 +2253,10 @@
                         <div class="async-name">SSE Gateway</div>
                         <div class="async-desc">Client Push</div>
                     </div>
+                </div>
+                <div class="pipeline-detail">
+                    <span class="lang-ko">Celery Chain 구성 + Reward Fanout + Event Relay Layer로 서비스 가능 수준 달성</span>
+                    <span class="lang-en">Celery Chain + Reward Fanout + Event Relay Layer for production-ready service</span>
                 </div>
             </div>
 
