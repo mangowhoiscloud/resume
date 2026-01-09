@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이코에코(Eco²) Portfolio - Backend/Infrastructure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050508;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #0f0f18;
+            --bg-card: #141420;
+            --bg-card-hover: #1a1a2a;
+            --border-subtle: rgba(255,255,255,0.06);
+            --border-glow: rgba(255,255,255,0.12);
+            
+            /* Category Colors */
+            --k8s-primary: #326ce5;
+            --k8s-glow: rgba(50,108,229,0.3);
+            --auth-primary: #f59e0b;
+            --auth-glow: rgba(245,158,11,0.3);
+            --obs-primary: #10b981;
+            --obs-glow: rgba(16,185,129,0.3);
+            --mq-primary: #ff6600;
+            --mq-glow: rgba(255,102,0,0.3);
+            --stream-primary: #dc2626;
+            --stream-glow: rgba(220,38,38,0.3);
+            --ec-primary: #8b5cf6;
+            --ec-glow: rgba(139,92,246,0.3);
+            --clean-primary: #06b6d4;
+            --clean-glow: rgba(6,182,212,0.3);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(5,5,8,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            border-color: var(--border-glow);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(ellipse at center top, rgba(102,126,234,0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 30% 80%, rgba(139,92,246,0.1) 0%, transparent 40%),
+                        radial-gradient(ellipse at 70% 60%, rgba(6,182,212,0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero-title .eco {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Base */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Category Cards */
+        .categories {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--category-color);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-glow);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px var(--category-glow);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .category-info {
+            flex: 1;
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--category-glow);
+            border-radius: 12px;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--category-color);
+        }
+
+        .category-posts {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .category-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-badge {
+            padding: 0.3rem 0.7rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-secondary);
+        }
+
+        .category-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .category-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .achievement-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .achievement-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .achievement-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .category-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .blog-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--category-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: gap 0.3s;
+        }
+
+        .blog-link:hover {
+            gap: 0.75rem;
+        }
+
+        .blog-link::after {
+            content: '→';
+        }
+
+        /* Architecture Section */
+        .architecture-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .diagram-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .diagram-content {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            white-space: pre;
+            padding: 1rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        /* Tech Stack Section */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .tech-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .tech-category-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .tech-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-item {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: var(--text-primary);
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto 0;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--k8s-primary), var(--clean-primary));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.45rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-deep);
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .footer-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .category-header {
+                flex-direction: column;
+            }
+
+            .category-badges {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-card);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* Language classes */
+        .lang-en { display: none; }
+        body.en .lang-ko { display: none; }
+        body.en .lang-en { display: block; }
+        body.en .lang-en-inline { display: inline; }
+        body.en .lang-ko-inline { display: none; }
+        .lang-ko-inline { display: inline; }
+        .lang-en-inline { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">Eco²</div>
+        <ul class="nav-links">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#tech">Tech Stack</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+        </ul>
+        <div class="lang-toggle">
+            <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+            <button class="lang-btn" onclick="setLang('en')">EN</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="overview">
+        <div class="hero-badge">
+            <span class="lang-ko">🏆 2025 AI 새싹톤 우수상</span>
+            <span class="lang-en">🏆 2025 AI SeSACTHON Excellence Award</span>
+        </div>
+        <h1 class="hero-title">
+            <span class="eco">이코에코(Eco²)</span><br>
+            <span class="lang-ko">Backend Portfolio</span>
+            <span class="lang-en">Backend Portfolio</span>
+        </h1>
+        <p class="hero-subtitle">
+            <span class="lang-ko">환경 보호 활동 게이미피케이션 플랫폼의<br>백엔드 및 인프라 고도화 여정</span>
+            <span class="lang-en">Backend & Infrastructure Evolution Journey<br>for Environmental Gamification Platform</span>
+        </p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">67+</div>
+                <div class="hero-stat-label">
+                    <span class="lang-ko">블로그 포스트</span>
+                    <span class="lang-en">Blog Posts</span>
+                </div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">14</div>
+                <div class="hero-stat-label">
+                    <span class="lang-ko">클러스터 노드</span>
+                    <span class="lang-en">Cluster Nodes</span>
+                </div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">7</div>
+                <div class="hero-stat-label">
+                    <span class="lang-ko">마이크로서비스</span>
+                    <span class="lang-en">Microservices</span>
+                </div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">600</div>
+                <div class="hero-stat-label">
+                    <span class="lang-ko">VU 부하 테스트</span>
+                    <span class="lang-en">VU Load Test</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section" id="categories">
+        <div class="section-header">
+            <div class="section-number">01</div>
+            <h2 class="section-title">
+                <span class="lang-ko">프로젝트 카테고리</span>
+                <span class="lang-en">Project Categories</span>
+            </h2>
+            <p class="section-desc">
+                <span class="lang-ko">7개 핵심 도메인에서의 설계, 구현, 트러블슈팅 경험을 기록했습니다.</span>
+                <span class="lang-en">Documented design, implementation, and troubleshooting experiences across 7 core domains.</span>
+            </p>
+        </div>
+
+        <div class="categories">
+            <!-- 1. Kubernetes + GitOps -->
+            <div class="category-card" style="--category-color: var(--k8s-primary); --category-glow: var(--k8s-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">☸️</div>
+                        <h3 class="category-title">Kubernetes Cluster + GitOps + Service Mesh</h3>
+                        <div class="category-posts">8 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">AWS</span>
+                        <span class="tech-badge">Terraform</span>
+                        <span class="tech-badge">Ansible</span>
+                        <span class="tech-badge">ArgoCD</span>
+                        <span class="tech-badge">Istio</span>
+                        <span class="tech-badge">gRPC</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">AWS 기반 14-노드 Kubernetes 클러스터를 IaC로 구축하고, ArgoCD App-of-Apps + Sync Wave 패턴으로 선언적 배포를 구현했습니다. Istio Service Mesh 도입으로 서비스 간 통신을 표준화하고, 내부 통신을 gRPC로 전환했습니다.</span>
+                        <span class="lang-en">Built a 14-node Kubernetes cluster on AWS using IaC, implemented declarative deployments with ArgoCD App-of-Apps + Sync Wave patterns. Standardized inter-service communication with Istio Service Mesh and migrated internal communication to gRPC.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">🏗️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>14-nodes 클러스터</strong> Terraform + Ansible 구축</span>
+                                <span class="lang-en"><strong>14-node cluster</strong> via Terraform + Ansible</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔄</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>App-of-Apps + Sync Wave</strong> 의존성 순서 보장</span>
+                                <span class="lang-en"><strong>App-of-Apps + Sync Wave</strong> dependency ordering</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🕸️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Istio Sidecar Injection</strong> mTLS 자동 적용</span>
+                                <span class="lang-en"><strong>Istio Sidecar Injection</strong> automatic mTLS</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">⚡</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>gRPC 마이그레이션</strong> HTTP/1.1 대비 Latency 감소</span>
+                                <span class="lang-en"><strong>gRPC migration</strong> reduced latency vs HTTP/1.1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Kubernetes%20Cluster%2BGitOps%2BService%20Mesh" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Auth Offloading -->
+            <div class="category-card" style="--category-color: var(--auth-primary); --category-glow: var(--auth-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">🔐</div>
+                        <h3 class="category-title">Auth Offloading (ext-authz)</h3>
+                        <div class="category-posts">4 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">Envoy</span>
+                        <span class="tech-badge">Go</span>
+                        <span class="tech-badge">gRPC</span>
+                        <span class="tech-badge">Redis</span>
+                        <span class="tech-badge">HPA</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">Envoy ext_authz를 활용해 인증/인가 로직을 API 서버에서 분리했습니다. Go 기반 gRPC 서버로 구현하고, Redis Connection Pool 최적화와 HPA 튜닝으로 고부하 환경에서의 성능을 개선했습니다.</span>
+                        <span class="lang-en">Separated authentication/authorization logic from API servers using Envoy ext_authz. Implemented with Go-based gRPC server, optimized Redis Connection Pool and HPA tuning for high-load performance.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">🧹</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>도메인 공통 모듈 제거</strong> 7개 서비스 의존성 분리</span>
+                                <span class="lang-en"><strong>Removed shared modules</strong> decoupled 7 services</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">📊</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Stress Test 2,500 users</strong> RPS 42+ 안정화</span>
+                                <span class="lang-en"><strong>Stress Test 2,500 users</strong> stabilized at RPS 42+</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔧</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Redis PoolSize 10→50</strong> 병목 해소</span>
+                                <span class="lang-en"><strong>Redis PoolSize 10→50</strong> resolved bottleneck</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🧵</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Redis io-threads</strong> I/O 병렬화 테스트</span>
+                                <span class="lang-en"><strong>Redis io-threads</strong> I/O parallelization test</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Auth%20Offloading%20%28ext-authz%29" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. Observability -->
+            <div class="category-card" style="--category-color: var(--obs-primary); --category-glow: var(--obs-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">📊</div>
+                        <h3 class="category-title">Observability</h3>
+                        <div class="category-posts">7 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">ECK</span>
+                        <span class="tech-badge">Elasticsearch</span>
+                        <span class="tech-badge">Kibana</span>
+                        <span class="tech-badge">Fluent Bit</span>
+                        <span class="tech-badge">Jaeger</span>
+                        <span class="tech-badge">Kiali</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">ECK(Elastic Cloud on Kubernetes) 기반 EFK 스택을 구축하고, ECS(Elastic Common Schema)로 구조화된 로깅을 구현했습니다. OpenTelemetry + Jaeger로 분산 트레이싱을 통합하고, Kiali로 서비스 메시를 시각화했습니다.</span>
+                        <span class="lang-en">Built EFK stack on ECK (Elastic Cloud on Kubernetes), implemented structured logging with ECS (Elastic Common Schema). Integrated distributed tracing with OpenTelemetry + Jaeger and visualized service mesh with Kiali.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">📝</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>14-nodes 로그 중앙화</strong> Fluent Bit → ES</span>
+                                <span class="lang-en"><strong>Centralized 14-node logs</strong> Fluent Bit → ES</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🏷️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>ECS 구조화 로깅</strong> 7개 도메인 적용</span>
+                                <span class="lang-en"><strong>ECS structured logging</strong> across 7 domains</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔗</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>trace_id 연결</strong> 로그-트레이스 통합</span>
+                                <span class="lang-en"><strong>trace_id correlation</strong> log-trace integration</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🗺️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Kiali 토폴로지</strong> 실시간 트래픽 시각화</span>
+                                <span class="lang-en"><strong>Kiali topology</strong> real-time traffic visualization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Observability" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4. Message Queue -->
+            <div class="category-card" style="--category-color: var(--mq-primary); --category-glow: var(--mq-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">📨</div>
+                        <h3 class="category-title">Message Queue</h3>
+                        <div class="category-posts">15 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">RabbitMQ</span>
+                        <span class="tech-badge">Celery</span>
+                        <span class="tech-badge">Gevent</span>
+                        <span class="tech-badge">DLQ</span>
+                        <span class="tech-badge">Celery Beat</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">RabbitMQ + Celery 기반 비동기 아키텍처를 설계하고, AI 파이프라인(vision→rule→answer→reward)을 4단계 Celery Chain으로 구현했습니다. prefork에서 Gevent Pool로 전환해 I/O-bound 워크로드를 최적화했습니다.</span>
+                        <span class="lang-en">Designed async architecture with RabbitMQ + Celery, implemented AI pipeline (vision→rule→answer→reward) as 4-stage Celery Chain. Migrated from prefork to Gevent Pool for I/O-bound workload optimization.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">⛓️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>4단계 Celery Chain</strong> AI 파이프라인 비동기화</span>
+                                <span class="lang-en"><strong>4-stage Celery Chain</strong> async AI pipeline</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🐒</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Gevent Pool 전환</strong> 100+ 동시 I/O 처리</span>
+                                <span class="lang-en"><strong>Gevent Pool migration</strong> 100+ concurrent I/O</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">☠️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>DLQ 재처리 전략</strong> Celery Beat 스케줄링</span>
+                                <span class="lang-en"><strong>DLQ retry strategy</strong> Celery Beat scheduling</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">📡</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Fanout Exchange</strong> 로컬 캐시 브로드캐스트</span>
+                                <span class="lang-en"><strong>Fanout Exchange</strong> local cache broadcast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Message%20Queue" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. Event Streams & Scaling -->
+            <div class="category-card" style="--category-color: var(--stream-primary); --category-glow: var(--stream-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">🌊</div>
+                        <h3 class="category-title">Event Streams & Scaling</h3>
+                        <div class="category-posts">12 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">Redis Streams</span>
+                        <span class="tech-badge">SSE</span>
+                        <span class="tech-badge">KEDA</span>
+                        <span class="tech-badge">Consistent Hash</span>
+                        <span class="tech-badge">HA</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">SSE(Server-Sent Events)의 RabbitMQ 연결 폭발 문제를 Redis Streams로 해결했습니다. 3-Node Redis 클러스터를 구축하고, KEDA로 이벤트 드리븐 오토스케일링을 구현했습니다. Consistent Hash 기반 SSE HA 아키텍처를 설계했습니다.</span>
+                        <span class="lang-en">Resolved SSE RabbitMQ connection explosion with Redis Streams. Built 3-node Redis cluster and implemented event-driven autoscaling with KEDA. Designed SSE HA architecture based on Consistent Hash.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">💥</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>연결 폭발 해결</strong> SSE:RabbitMQ 1:21 → 1:1</span>
+                                <span class="lang-en"><strong>Connection explosion fix</strong> SSE:RabbitMQ 1:21 → 1:1</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🗄️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Redis 3-Node 분리</strong> Auth, Streams, Cache</span>
+                                <span class="lang-en"><strong>Redis 3-node separation</strong> Auth, Streams, Cache</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">⚖️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>KEDA ScaledObject</strong> RabbitMQ Queue 기반 스케일링</span>
+                                <span class="lang-en"><strong>KEDA ScaledObject</strong> RabbitMQ queue-based scaling</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔀</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>600 VU 부하 테스트</strong> SSE Gateway HA 검증</span>
+                                <span class="lang-en"><strong>600 VU load test</strong> SSE Gateway HA verification</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Event%20Streams%20%26%20Scaling" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6. Eventual Consistency -->
+            <div class="category-card" style="--category-color: var(--ec-primary); --category-glow: var(--ec-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">🔄</div>
+                        <h3 class="category-title">Eventual Consistency</h3>
+                        <div class="category-posts">5 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">Saga Pattern</span>
+                        <span class="tech-badge">Outbox</span>
+                        <span class="tech-badge">Idempotency</span>
+                        <span class="tech-badge">DDD</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">마이크로서비스 간 데이터 일관성을 위해 Eventual Consistency 패턴을 적용했습니다. 트랜잭션 경계를 설계하고, Saga 패턴과 Outbox 패턴을 활용해 도메인 간 통신을 구현했습니다. 멱등성 처리로 중복 이벤트를 방지했습니다.</span>
+                        <span class="lang-en">Applied Eventual Consistency patterns for data consistency across microservices. Designed transaction boundaries, implemented inter-domain communication using Saga and Outbox patterns. Prevented duplicate events with idempotency handling.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">🎯</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>트랜잭션 경계 설계</strong> 도메인별 Aggregate Root</span>
+                                <span class="lang-en"><strong>Transaction boundary design</strong> domain Aggregate Root</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">📦</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Outbox Pattern</strong> 이벤트 발행 보장</span>
+                                <span class="lang-en"><strong>Outbox Pattern</strong> guaranteed event publishing</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🆔</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Deterministic UUID</strong> 멱등성 키 생성</span>
+                                <span class="lang-en"><strong>Deterministic UUID</strong> idempotency key generation</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">📚</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Foundations 시리즈</strong> 이론적 배경 정리 17편</span>
+                                <span class="lang-en"><strong>Foundations series</strong> 17 theoretical articles</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Eventual%20Consistency" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7. Clean Architecture Migration -->
+            <div class="category-card" style="--category-color: var(--clean-primary); --category-glow: var(--clean-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">🏛️</div>
+                        <h3 class="category-title">Clean Architecture Migration</h3>
+                        <div class="category-posts">16 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="tech-badge">DIP</span>
+                        <span class="tech-badge">Port & Adapter</span>
+                        <span class="tech-badge">CQRS</span>
+                        <span class="tech-badge">FastAPI</span>
+                        <span class="tech-badge">SQLAlchemy</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">기존 레거시 코드를 Clean Architecture로 점진적 마이그레이션했습니다. DIP(의존성 역전 원칙)와 Port & Adapter 패턴을 적용하고, 도메인별로 Entity, Use Case, Adapter 계층을 분리했습니다. 7개 도메인 마이그레이션을 완료했습니다.</span>
+                        <span class="lang-en">Incrementally migrated legacy code to Clean Architecture. Applied DIP (Dependency Inversion Principle) and Port & Adapter patterns, separated Entity, Use Case, Adapter layers per domain. Completed migration of all 7 domains.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">📐</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>7개 도메인 마이그레이션</strong> Auth, Character, Chat, Scan...</span>
+                                <span class="lang-en"><strong>7 domain migration</strong> Auth, Character, Chat, Scan...</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔌</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Port & Adapter</strong> 인프라 계층 교체 용이성</span>
+                                <span class="lang-en"><strong>Port & Adapter</strong> infrastructure swappability</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🎭</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>CQRS 적용</strong> Command/Query 모델 분리</span>
+                                <span class="lang-en"><strong>CQRS applied</strong> Command/Query model separation</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🚀</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Canary 배포</strong> 무중단 마이그레이션</span>
+                                <span class="lang-en"><strong>Canary deployment</strong> zero-downtime migration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Clean%20Architecture%20Migration" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Diagram -->
+        <div class="architecture-diagram">
+            <h3 class="diagram-title">
+                <span class="lang-ko">🏗️ 전체 시스템 아키텍처</span>
+                <span class="lang-en">🏗️ System Architecture Overview</span>
+            </h3>
+            <div class="diagram-content">
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    AWS ap-northeast-2                                    │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐                                                                    │
+│  │   ALB (HTTPS)   │ ◄──── External Traffic                                             │
+│  └────────┬────────┘                                                                    │
+│           │                                                                             │
+│  ┌────────▼────────────────────────────────────────────────────────────────────────┐   │
+│  │                          Istio Ingress Gateway                                   │   │
+│  │                    (mTLS, Traffic Management, Canary)                           │   │
+│  └────────┬────────────────────────────────────────────────────────────────────────┘   │
+│           │                                                                             │
+│  ┌────────▼────────┐     ┌────────────────┐                                            │
+│  │   ext-authz     │────►│  auth-redis    │  JWT Blacklist, OAuth State                │
+│  │   (Go/gRPC)     │     │  (Sentinel HA) │                                            │
+│  └────────┬────────┘     └────────────────┘                                            │
+│           │                                                                             │
+│  ┌────────▼─────────────────────────────────────────────────────────────────────────┐  │
+│  │                              7 Microservices (FastAPI)                            │  │
+│  │  ┌──────┐ ┌──────────┐ ┌──────┐ ┌──────┐ ┌────────┐ ┌────┐ ┌───────┐             │  │
+│  │  │ Auth │ │Character │ │ Chat │ │ Scan │ │Location│ │ My │ │ Image │             │  │
+│  │  └──┬───┘ └────┬─────┘ └──┬───┘ └──┬───┘ └────┬───┘ └─┬──┘ └───┬───┘             │  │
+│  └─────┼──────────┼──────────┼────────┼──────────┼───────┼────────┼──────────────────┘  │
+│        │          │          │        │          │       │        │                     │
+│  ┌─────▼──────────▼──────────▼────────▼──────────▼───────▼────────▼────────────────┐   │
+│  │                              PostgreSQL (Primary)                                │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                          RabbitMQ Cluster (AMQP 0-9-1)                           │   │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                   │   │
+│  │  │ vision.queue    │  │  rule.queue     │  │ answer.queue    │  Celery Chain    │   │
+│  │  │ (GPT-4 Vision)  │──│  (Rule Engine)  │──│ (GPT-5.1 Codex) │                   │   │
+│  │  └─────────────────┘  └─────────────────┘  └────────┬────────┘                   │   │
+│  │                                                      │                           │   │
+│  │  ┌─────────────────┐  ┌─────────────────┐           │                           │   │
+│  │  │ reward.queue    │◄─┤ character.match │◄──────────┘                           │   │
+│  │  │ (Fire&Forget)   │  │ (Cache Fanout)  │                                       │   │
+│  │  └─────────────────┘  └─────────────────┘                                       │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐                      │
+│  │  streams-redis   │  │   cache-redis    │  │   auth-redis     │                      │
+│  │  (SSE Events)    │  │ (Celery Result)  │  │ (JWT Blacklist)  │                      │
+│  │  Redis Streams   │  │   allkeys-lru    │  │   noeviction     │                      │
+│  └────────┬─────────┘  └──────────────────┘  └──────────────────┘                      │
+│           │                                                                             │
+│  ┌────────▼──────────────────────────────────────────────────────────────────────────┐ │
+│  │                           SSE Gateway (HA)                                         │ │
+│  │              Consistent Hash → Event Router → Client Fanout                        │ │
+│  └────────────────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                              Observability Stack                                 │   │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐      │   │
+│  │  │Prometheus │  │  Grafana  │  │Elasticsearch│ │  Kibana   │  │  Jaeger   │      │   │
+│  │  │ + KEDA    │  │ Dashboard │  │  (ECK)     │  │  (Logs)   │  │ (Traces)  │      │   │
+│  │  └───────────┘  └───────────┘  └───────────┘  └───────────┘  └───────────┘      │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                                 GitOps (ArgoCD)                                  │   │
+│  │              App-of-Apps → Sync Wave → Kustomize Overlays                        │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────────────────┘</div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="section" id="tech">
+        <div class="section-header">
+            <div class="section-number">02</div>
+            <h2 class="section-title">
+                <span class="lang-ko">기술 스택</span>
+                <span class="lang-en">Tech Stack</span>
+            </h2>
+            <p class="section-desc">
+                <span class="lang-ko">프로젝트에서 활용한 주요 기술들입니다.</span>
+                <span class="lang-en">Key technologies used in the project.</span>
+            </p>
+        </div>
+
+        <div class="tech-stack">
+            <div class="tech-category">
+                <h4 class="tech-category-title">Infrastructure</h4>
+                <div class="tech-items">
+                    <span class="tech-item">AWS EC2</span>
+                    <span class="tech-item">Terraform</span>
+                    <span class="tech-item">Ansible</span>
+                    <span class="tech-item">Kubernetes</span>
+                    <span class="tech-item">Istio</span>
+                    <span class="tech-item">ArgoCD</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4 class="tech-category-title">Backend</h4>
+                <div class="tech-items">
+                    <span class="tech-item">Python 3.11</span>
+                    <span class="tech-item">FastAPI</span>
+                    <span class="tech-item">SQLAlchemy 2.0</span>
+                    <span class="tech-item">Celery</span>
+                    <span class="tech-item">Gevent</span>
+                    <span class="tech-item">Go</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4 class="tech-category-title">Data & Messaging</h4>
+                <div class="tech-items">
+                    <span class="tech-item">PostgreSQL</span>
+                    <span class="tech-item">Redis</span>
+                    <span class="tech-item">Redis Streams</span>
+                    <span class="tech-item">RabbitMQ</span>
+                    <span class="tech-item">Elasticsearch</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4 class="tech-category-title">Observability</h4>
+                <div class="tech-items">
+                    <span class="tech-item">Prometheus</span>
+                    <span class="tech-item">Grafana</span>
+                    <span class="tech-item">Fluent Bit</span>
+                    <span class="tech-item">Kibana</span>
+                    <span class="tech-item">Jaeger</span>
+                    <span class="tech-item">Kiali</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4 class="tech-category-title">AI/ML</h4>
+                <div class="tech-items">
+                    <span class="tech-item">OpenAI GPT-4 Vision</span>
+                    <span class="tech-item">GPT-5.1 Codex</span>
+                    <span class="tech-item">LangGraph</span>
+                    <span class="tech-item">LangChain</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4 class="tech-category-title">Scaling</h4>
+                <div class="tech-items">
+                    <span class="tech-item">KEDA</span>
+                    <span class="tech-item">HPA</span>
+                    <span class="tech-item">Prometheus Adapter</span>
+                    <span class="tech-item">Sentinel HA</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="section" id="timeline">
+        <div class="section-header">
+            <div class="section-number">03</div>
+            <h2 class="section-title">
+                <span class="lang-ko">프로젝트 타임라인</span>
+                <span class="lang-en">Project Timeline</span>
+            </h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2025.10 - 2025.11</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">🏗️ 클러스터 구축 & GitOps</span>
+                    <span class="lang-en">🏗️ Cluster Setup & GitOps</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">14-nodes Kubernetes 클러스터 구축, ArgoCD App-of-Apps + Sync Wave 패턴 적용</span>
+                    <span class="lang-en">Built 14-node Kubernetes cluster, applied ArgoCD App-of-Apps + Sync Wave patterns</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2025.11</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">📨 RabbitMQ + Celery 비동기 아키텍처</span>
+                    <span class="lang-en">📨 RabbitMQ + Celery Async Architecture</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">AI 파이프라인 비동기화, 4단계 Celery Chain 구현, Gevent Pool 전환</span>
+                    <span class="lang-en">Async AI pipeline, 4-stage Celery Chain, Gevent Pool migration</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2025.12</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">🕸️ Istio Service Mesh & Auth Offloading</span>
+                    <span class="lang-en">🕸️ Istio Service Mesh & Auth Offloading</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">Istio Sidecar Injection, ext-authz 서버 개발, gRPC 마이그레이션</span>
+                    <span class="lang-en">Istio Sidecar Injection, ext-authz server development, gRPC migration</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2025.12</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">📊 Observability 스택 구축</span>
+                    <span class="lang-en">📊 Observability Stack Setup</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">ECK 기반 EFK 스택, OpenTelemetry 분산 트레이싱, Kiali 시각화</span>
+                    <span class="lang-en">ECK-based EFK stack, OpenTelemetry distributed tracing, Kiali visualization</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2025.12 - 2026.01</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">🌊 Redis Streams & SSE HA</span>
+                    <span class="lang-en">🌊 Redis Streams & SSE HA</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">SSE 연결 폭발 해결, 3-Node Redis 클러스터, KEDA 이벤트 드리븐 스케일링</span>
+                    <span class="lang-en">SSE connection explosion fix, 3-node Redis cluster, KEDA event-driven scaling</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2026.01 - Present</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">🏛️ Clean Architecture 마이그레이션</span>
+                    <span class="lang-en">🏛️ Clean Architecture Migration</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">7개 도메인 점진적 마이그레이션, DIP/Port & Adapter/CQRS 적용</span>
+                    <span class="lang-en">Incremental migration of 7 domains, DIP/Port & Adapter/CQRS application</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/mangowhoiscloud" target="_blank" class="footer-link">
+                <span>GitHub</span>
+            </a>
+            <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29" target="_blank" class="footer-link">
+                <span>Blog</span>
+            </a>
+            <a href="https://mangowhoiscloud.github.io/resume/" target="_blank" class="footer-link">
+                <span>Resume</span>
+            </a>
+            <a href="https://www.linkedin.com/in/jihwan-ryu-b6b04a202/" target="_blank" class="footer-link">
+                <span>LinkedIn</span>
+            </a>
+        </div>
+        <p class="footer-copyright">
+            <span class="lang-ko">© 2025 류지환 (Jihwan Ryu). All rights reserved.</span>
+            <span class="lang-en">© 2025 Jihwan Ryu. All rights reserved.</span>
+        </p>
+    </footer>
+
+    <script>
+        function setLang(lang) {
+            document.body.classList.remove('en');
+            if (lang === 'en') {
+                document.body.classList.add('en');
+            }
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            localStorage.setItem('portfolio-lang', lang);
+        }
+
+        // Load saved language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('portfolio-lang');
+            if (savedLang === 'en') {
+                setLang('en');
+                document.querySelectorAll('.lang-btn')[1].classList.add('active');
+                document.querySelectorAll('.lang-btn')[0].classList.remove('active');
+            }
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.category-card, .tech-category, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+
