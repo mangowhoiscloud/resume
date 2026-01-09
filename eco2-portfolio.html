@@ -651,6 +651,98 @@
         .lang-ko-inline { display: inline; }
         .lang-en-inline { display: none; }
 
+        /* Development Flow Diagram (Option 3 style) */
+        .dev-flow-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .flow-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .flow-stages {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .flow-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            min-width: 90px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .flow-stage:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139,92,246,0.5);
+        }
+        .flow-stage.client { border-color: rgba(52, 211, 153, 0.4); }
+        .flow-stage.edge { border-color: rgba(96, 165, 250, 0.4); }
+        .flow-stage.auth { border-color: rgba(251, 191, 36, 0.4); }
+        .flow-stage.service { border-color: rgba(167, 139, 250, 0.4); }
+        .flow-stage.integration { border-color: rgba(248, 113, 113, 0.4); }
+        .flow-stage.llm { border-color: rgba(34, 211, 238, 0.4); }
+        .stage-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .stage-content {
+            text-align: center;
+        }
+        .stage-title {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+        .stage-desc {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        .flow-connector {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .flow-observability {
+            background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(34,211,238,0.1));
+            border: 1px dashed rgba(139,92,246,0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .obs-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+        .obs-tools {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .obs-tool {
+            padding: 0.25rem 0.75rem;
+            background: rgba(139,92,246,0.15);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+        }
+
         /* Methodology Section */
         .methodology-diagram {
             background: var(--bg-card);
@@ -928,6 +1020,7 @@
             <li><a href="#overview">Overview</a></li>
             <li><a href="#methodology">Methodology</a></li>
             <li><a href="#categories">Categories</a></li>
+            <li><a href="#architecture">Architecture</a></li>
             <li><a href="#tech">Tech Stack</a></li>
             <li><a href="#timeline">Timeline</a></li>
         </ul>
@@ -1587,6 +1680,95 @@
             </div>
         </div>
 
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="section" id="architecture">
+        <div class="section-header">
+            <div class="section-number">03</div>
+            <h2 class="section-title">
+                <span class="lang-ko">시스템 아키텍처</span>
+                <span class="lang-en">System Architecture</span>
+            </h2>
+            <p class="section-desc">
+                <span class="lang-ko">PWA 기반 프론트엔드와 연동되는 24-Node 분산 클러스터 아키텍처입니다.</span>
+                <span class="lang-en">24-Node distributed cluster architecture integrated with PWA-based frontend.</span>
+            </p>
+        </div>
+
+        <!-- Option 3 Style: Development Flow with Observability -->
+        <div class="dev-flow-diagram">
+            <div class="flow-title">
+                <span class="lang-ko">📱 서비스 흐름 (PWA → Backend → LLM)</span>
+                <span class="lang-en">📱 Service Flow (PWA → Backend → LLM)</span>
+            </div>
+            <div class="flow-stages">
+                <div class="flow-stage client">
+                    <div class="stage-icon">📱</div>
+                    <div class="stage-content">
+                        <div class="stage-title">PWA Client</div>
+                        <div class="stage-desc">
+                            <span class="lang-ko">React + Vite</span>
+                            <span class="lang-en">React + Vite</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-stage edge">
+                    <div class="stage-icon">🌐</div>
+                    <div class="stage-content">
+                        <div class="stage-title">Edge Layer</div>
+                        <div class="stage-desc">ALB + Istio</div>
+                    </div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-stage auth">
+                    <div class="stage-icon">🔐</div>
+                    <div class="stage-content">
+                        <div class="stage-title">Auth</div>
+                        <div class="stage-desc">ext-authz</div>
+                    </div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-stage service">
+                    <div class="stage-icon">⚙️</div>
+                    <div class="stage-content">
+                        <div class="stage-title">7 Services</div>
+                        <div class="stage-desc">FastAPI</div>
+                    </div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-stage integration">
+                    <div class="stage-icon">📨</div>
+                    <div class="stage-content">
+                        <div class="stage-title">Integration</div>
+                        <div class="stage-desc">MQ + Workers</div>
+                    </div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-stage llm">
+                    <div class="stage-icon">🤖</div>
+                    <div class="stage-content">
+                        <div class="stage-title">LLM Agent</div>
+                        <div class="stage-desc">GPT/Gemini</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flow-observability">
+                <div class="obs-label">
+                    <span class="lang-ko">👁️ Observability Layer — 모든 계층 실시간 모니터링</span>
+                    <span class="lang-en">👁️ Observability Layer — Real-time monitoring across all layers</span>
+                </div>
+                <div class="obs-tools">
+                    <span class="obs-tool">Prometheus</span>
+                    <span class="obs-tool">Grafana</span>
+                    <span class="obs-tool">Jaeger</span>
+                    <span class="obs-tool">Kibana</span>
+                    <span class="obs-tool">AlertManager</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Architecture Diagram -->
         <div class="architecture-diagram">
             <h3 class="diagram-title">
@@ -1598,7 +1780,7 @@
 │                          AWS ap-northeast-2 (24 Nodes Cluster)                          │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐                                                                    │
-│  │   ALB (HTTPS)   │ ◄──── External Traffic                                             │
+│  │   ALB (HTTPS)   │ ◄──── External Traffic (PWA: frontend.dev.growbin.app)             │
 │  └────────┬────────┘                                                                    │
 │           │                                                                             │
 │  ┌────────▼────────────────────────────────────────────────────────────────────────┐   │
@@ -1669,7 +1851,7 @@
     <!-- Tech Stack Section -->
     <section class="section" id="tech">
         <div class="section-header">
-            <div class="section-number">03</div>
+            <div class="section-number">04</div>
             <h2 class="section-title">
                 <span class="lang-ko">기술 스택</span>
                 <span class="lang-en">Tech Stack</span>
@@ -1750,7 +1932,7 @@
     <!-- Timeline Section -->
     <section class="section" id="timeline">
         <div class="section-header">
-            <div class="section-number">04</div>
+            <div class="section-number">05</div>
             <h2 class="section-title">
                 <span class="lang-ko">프로젝트 타임라인</span>
                 <span class="lang-en">Project Timeline</span>
@@ -1863,8 +2045,8 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-links">
-            <a href="https://eco2.site" target="_blank" class="footer-link" style="background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(139,92,246,0.2)); border-color: rgba(102,126,234,0.4);">
-                <span>🌿 eco2.site</span>
+            <a href="https://frontend.dev.growbin.app/" target="_blank" class="footer-link" style="background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(139,92,246,0.2)); border-color: rgba(102,126,234,0.4);">
+                <span>🌿 Service (PWA)</span>
             </a>
             <a href="https://github.com/eco2-team/backend" target="_blank" class="footer-link">
                 <span>GitHub (Backend)</span>
