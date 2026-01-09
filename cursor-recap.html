@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Cursor Recap 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-orange: #f97316;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --gradient-1: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+            --gradient-3: linear-gradient(135deg, #10b981 0%, #22d3ee 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+        }
+
+        .stat-card.blue::before { background: var(--gradient-2); }
+        .stat-card.green::before { background: var(--gradient-3); }
+        .stat-card.orange::before { background: linear-gradient(135deg, #f97316, #fbbf24); }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .stat-detail {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Highlight Cards */
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .highlight-card h3 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .highlight-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .highlight-card .sub {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Chart Sections */
+        .chart-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.5), transparent);
+        }
+
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Model Rankings */
+        .model-list {
+            list-style: none;
+        }
+
+        .model-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .model-item:last-child {
+            border-bottom: none;
+        }
+
+        .model-rank {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-right: 1rem;
+        }
+
+        .model-rank.silver { background: linear-gradient(135deg, #64748b, #94a3b8); }
+        .model-rank.bronze { background: linear-gradient(135deg, #b45309, #d97706); }
+        .model-rank.other { background: var(--bg-secondary); }
+
+        .model-info {
+            flex: 1;
+        }
+
+        .model-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .model-stats {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .model-bar {
+            width: 200px;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-left: 1rem;
+        }
+
+        .model-bar-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer a {
+            color: var(--accent-purple);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .model-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero animate">
+            <div class="hero-badge">✨ Your Coding Journey</div>
+            <h1>Cursor Recap</h1>
+            <p>2025년 11월 ~ 2026년 1월, 당신의 AI 코딩 여정을 돌아봅니다</p>
+        </section>
+
+        <!-- Main Stats -->
+        <div class="stats-grid">
+            <div class="stat-card animate delay-1">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value">9.38B</div>
+                <div class="stat-label">Total Tokens</div>
+                <div class="stat-detail">9,382,398,609 토큰을 사용했어요</div>
+            </div>
+            <div class="stat-card blue animate delay-2">
+                <div class="stat-icon">💬</div>
+                <div class="stat-value">64,145</div>
+                <div class="stat-label">Total Requests</div>
+                <div class="stat-detail">하루 평균 929.6회 요청</div>
+            </div>
+            <div class="stat-card green animate delay-3">
+                <div class="stat-icon">💵</div>
+                <div class="stat-value">$6,454.77</div>
+                <div class="stat-label">Total Cost</div>
+                <div class="stat-detail">하루 평균 $93.55 사용</div>
+            </div>
+            <div class="stat-card orange animate delay-4">
+                <div class="stat-icon">📅</div>
+                <div class="stat-value">69일</div>
+                <div class="stat-label">Active Days</div>
+                <div class="stat-detail">3개월 중 69일 활동</div>
+            </div>
+        </div>
+
+        <!-- Highlights -->
+        <div class="highlight-grid">
+            <div class="highlight-card animate">
+                <h3>🏆 가장 바쁜 날</h3>
+                <div class="value">2025-11-27</div>
+                <div class="sub">4,102회 요청</div>
+            </div>
+            <div class="highlight-card animate delay-1">
+                <h3>⏰ 가장 활발한 시간</h3>
+                <div class="value">오전 9시</div>
+                <div class="sub">4,481회 요청</div>
+            </div>
+            <div class="highlight-card animate delay-2">
+                <h3>💰 가장 비싼 날</h3>
+                <div class="value">2025-12-24</div>
+                <div class="sub">$269.50</div>
+            </div>
+        </div>
+
+        <!-- Monthly Chart -->
+        <section class="chart-section animate">
+            <div class="section-header">
+                <h2>📊 월별 사용량</h2>
+                <div class="line"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Column Charts -->
+        <div class="two-col">
+            <!-- Daily Activity -->
+            <section class="chart-section animate">
+                <div class="section-header">
+                    <h2>📈 일별 요청 추이</h2>
+                    <div class="line"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="dailyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hourly Activity -->
+            <section class="chart-section animate delay-1">
+                <div class="section-header">
+                    <h2>🕐 시간대별 활동</h2>
+                    <div class="line"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="hourlyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Model Rankings -->
+        <section class="chart-section animate">
+            <div class="section-header">
+                <h2>🤖 모델별 사용량 Top 10</h2>
+                <div class="line"></div>
+            </div>
+            <div class="chart-container">
+                <ul class="model-list" id="modelList"></ul>
+            </div>
+        </section>
+
+        <!-- Cost Chart -->
+        <section class="chart-section animate">
+            <div class="section-header">
+                <h2>💰 월별 비용</h2>
+                <div class="line"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Generated with ❤️ by <a href="https://cursor.com">Cursor</a> + Claude</p>
+            <p style="margin-top: 0.5rem;">Data period: 2025-11-01 ~ 2026-01-09</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data
+        const monthlyData = [
+            {"month": "2025-11", "total_tokens": 3977040617, "cost": 2224.15, "count": 34107},
+            {"month": "2025-12", "total_tokens": 3721266500, "cost": 3066.67, "count": 19038},
+            {"month": "2026-01", "total_tokens": 1684091492, "cost": 1163.94, "count": 11000}
+        ];
+
+        const modelData = [
+            {"model": "claude-4.5-opus-high-thinking", "total_tokens": 3192460853, "cost": 3509.91, "count": 24573},
+            {"model": "gpt-5.1-codex-high", "total_tokens": 2300823268, "cost": 628.62, "count": 25931},
+            {"model": "claude-4.5-sonnet-thinking", "total_tokens": 1480401079, "cost": 1559.97, "count": 7850},
+            {"model": "agent_review", "total_tokens": 1260061403, "cost": 197.67, "count": 345},
+            {"model": "gemini-3-pro-preview", "total_tokens": 516956889, "cost": 380.53, "count": 2197},
+            {"model": "gpt-5.1-codex", "total_tokens": 288234489, "cost": 68.35, "count": 2165},
+            {"model": "gpt-5.1-codex-max", "total_tokens": 241050507, "cost": 67.35, "count": 762},
+            {"model": "auto", "total_tokens": 73135630, "cost": 29.73, "count": 155},
+            {"model": "gpt-5.2", "total_tokens": 18116601, "cost": 6.04, "count": 3},
+            {"model": "gpt-5.1", "total_tokens": 9125414, "cost": 4.68, "count": 97}
+        ];
+
+        const hourlyData = [801, 808, 1732, 2045, 2127, 2610, 2585, 3421, 3492, 4481, 4335, 3550, 3494, 3253, 2740, 2475, 3315, 3543, 2703, 3093, 2847, 1911, 1528, 1256];
+
+        // Chart defaults
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.05)';
+
+        // Monthly Chart
+        new Chart(document.getElementById('monthlyChart'), {
+            type: 'bar',
+            data: {
+                labels: monthlyData.map(d => d.month),
+                datasets: [
+                    {
+                        label: 'Tokens (Billions)',
+                        data: monthlyData.map(d => d.total_tokens / 1e9),
+                        backgroundColor: 'rgba(168, 85, 247, 0.8)',
+                        borderRadius: 8,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Requests (K)',
+                        data: monthlyData.map(d => d.count / 1000),
+                        backgroundColor: 'rgba(34, 211, 238, 0.8)',
+                        borderRadius: 8,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'Tokens (B)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'Requests (K)' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // Daily Chart (simplified - last 30 days)
+        const dailyLabels = [];
+        const dailyValues = [];
+        const dailyRaw = [
+            {"date": "2025-12-11", "count": 286}, {"date": "2025-12-12", "count": 421},
+            {"date": "2025-12-13", "count": 502}, {"date": "2025-12-14", "count": 113},
+            {"date": "2025-12-15", "count": 156}, {"date": "2025-12-16", "count": 172},
+            {"date": "2025-12-17", "count": 307}, {"date": "2025-12-18", "count": 103},
+            {"date": "2025-12-19", "count": 142}, {"date": "2025-12-20", "count": 354},
+            {"date": "2025-12-21", "count": 558}, {"date": "2025-12-22", "count": 521},
+            {"date": "2025-12-23", "count": 2182}, {"date": "2025-12-24", "count": 2268},
+            {"date": "2025-12-25", "count": 228}, {"date": "2025-12-26", "count": 1956},
+            {"date": "2025-12-27", "count": 1319}, {"date": "2025-12-28", "count": 212},
+            {"date": "2025-12-29", "count": 184}, {"date": "2025-12-30", "count": 1502},
+            {"date": "2025-12-31", "count": 1464}, {"date": "2026-01-01", "count": 1426},
+            {"date": "2026-01-02", "count": 1438}, {"date": "2026-01-03", "count": 1010},
+            {"date": "2026-01-04", "count": 1610}, {"date": "2026-01-05", "count": 974},
+            {"date": "2026-01-06", "count": 985}, {"date": "2026-01-07", "count": 1978},
+            {"date": "2026-01-09", "count": 1579}
+        ];
+        dailyRaw.forEach(d => {
+            dailyLabels.push(d.date.slice(5));
+            dailyValues.push(d.count);
+        });
+
+        new Chart(document.getElementById('dailyChart'), {
+            type: 'line',
+            data: {
+                labels: dailyLabels,
+                datasets: [{
+                    label: 'Requests',
+                    data: dailyValues,
+                    borderColor: 'rgba(236, 72, 153, 1)',
+                    backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { maxRotation: 45 } }
+                }
+            }
+        });
+
+        // Hourly Chart
+        new Chart(document.getElementById('hourlyChart'), {
+            type: 'bar',
+            data: {
+                labels: Array.from({length: 24}, (_, i) => `${i}시`),
+                datasets: [{
+                    label: 'Requests',
+                    data: hourlyData,
+                    backgroundColor: hourlyData.map((v, i) => {
+                        if (i >= 9 && i <= 11) return 'rgba(16, 185, 129, 0.8)';
+                        if (i >= 6 && i <= 18) return 'rgba(59, 130, 246, 0.8)';
+                        return 'rgba(100, 116, 139, 0.5)';
+                    }),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Cost Chart
+        new Chart(document.getElementById('costChart'), {
+            type: 'doughnut',
+            data: {
+                labels: monthlyData.map(d => d.month),
+                datasets: [{
+                    data: monthlyData.map(d => d.cost),
+                    backgroundColor: [
+                        'rgba(168, 85, 247, 0.8)',
+                        'rgba(236, 72, 153, 0.8)',
+                        'rgba(59, 130, 246, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `$${ctx.raw.toLocaleString()}`
+                        }
+                    }
+                }
+            }
+        });
+
+        // Model List
+        const modelList = document.getElementById('modelList');
+        const maxTokens = modelData[0].total_tokens;
+        
+        modelData.forEach((model, index) => {
+            const rankClass = index === 0 ? '' : index === 1 ? 'silver' : index === 2 ? 'bronze' : 'other';
+            const percentage = (model.total_tokens / maxTokens * 100).toFixed(0);
+            const tokenStr = (model.total_tokens / 1e9).toFixed(2) + 'B';
+            
+            modelList.innerHTML += `
+                <li class="model-item">
+                    <div class="model-rank ${rankClass}">${index + 1}</div>
+                    <div class="model-info">
+                        <div class="model-name">${model.model}</div>
+                        <div class="model-stats">${model.count.toLocaleString()}회 · ${tokenStr} tokens · $${model.cost.toLocaleString()}</div>
+                    </div>
+                    <div class="model-bar">
+                        <div class="model-bar-fill" style="width: ${percentage}%"></div>
+                    </div>
+                </li>
+            `;
+        });
+    </script>
+</body>
+</html>
+
