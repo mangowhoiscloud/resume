@@ -1186,84 +1186,85 @@
             animation: arrow-pulse-4 6s ease-in-out infinite;
         }
 
-        /* Feedback Flow: Observability → Agent (horizontal data packets) */
+        /* Feedback Flow: Observability → Agent (curved arc path) */
         .feedback-flow {
             position: absolute;
             top: 50%;
             left: 15%;
             width: 70%;
-            height: 40px;
+            height: 80px;
             transform: translateY(-50%);
             pointer-events: none;
             overflow: visible;
         }
 
-        /* Dashed path line */
-        .feedback-path {
+        /* Curved SVG path */
+        .feedback-svg {
             position: absolute;
-            top: 50%;
-            left: 0;
             width: 100%;
-            height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                rgba(245,158,11,0.3) 0px,
-                rgba(245,158,11,0.3) 8px,
-                transparent 8px,
-                transparent 16px
-            );
-            transform: translateY(-50%);
+            height: 100%;
+            top: 0;
+            left: 0;
         }
 
-        /* Flying data packets */
+        .feedback-arc {
+            fill: none;
+            stroke: url(#feedbackGradient);
+            stroke-width: 2;
+            stroke-dasharray: 8 8;
+            opacity: 0.5;
+        }
+
+        /* Flying data packets on curved path */
         .feedback-packet {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
             font-size: 0.9rem;
             filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
+            offset-path: path('M 0,40 Q 50%,-20 100%,40');
+            offset-rotate: 0deg;
         }
 
         .feedback-packet:nth-child(2) {
-            animation: packet-fly 3s ease-in-out infinite;
+            animation: packet-arc 3.5s ease-in-out infinite;
         }
         .feedback-packet:nth-child(3) {
-            animation: packet-fly 3s ease-in-out infinite 1s;
+            animation: packet-arc 3.5s ease-in-out infinite 1.2s;
         }
         .feedback-packet:nth-child(4) {
-            animation: packet-fly 3s ease-in-out infinite 2s;
+            animation: packet-arc 3.5s ease-in-out infinite 2.4s;
         }
 
-        @keyframes packet-fly {
+        @keyframes packet-arc {
             0% { 
-                left: 0%; 
+                offset-distance: 0%;
                 opacity: 0;
-                transform: translateY(-50%) scale(0.5);
-                filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
+                transform: scale(0.6);
+                filter: drop-shadow(0 0 6px rgba(245,158,11,0.9));
             }
-            10% { 
+            15% { 
                 opacity: 1;
-                transform: translateY(-50%) scale(1);
+                transform: scale(1);
             }
             50% {
-                filter: drop-shadow(0 0 12px rgba(200,130,60,1));
+                filter: drop-shadow(0 0 14px rgba(255,200,100,1));
+                transform: scale(1.15);
             }
-            90% { 
+            85% { 
                 opacity: 1;
-                transform: translateY(-50%) scale(1);
+                transform: scale(1);
             }
             100% { 
-                left: 100%; 
+                offset-distance: 100%;
                 opacity: 0;
-                transform: translateY(-50%) scale(0.5);
-                filter: drop-shadow(0 0 8px rgba(139,92,246,0.8));
+                transform: scale(0.6);
+                filter: drop-shadow(0 0 6px rgba(139,92,246,0.9));
             }
         }
 
         /* Labels at endpoints */
         .feedback-label {
             position: absolute;
-            top: -18px;
+            bottom: 5px;
             font-size: 0.6rem;
             color: rgba(255,255,255,0.6);
             white-space: nowrap;
@@ -1621,8 +1622,8 @@
                 <span class="lang-en">Agent-Driven Development</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">Google DeepMind의 World Model 구조에서 영감을 받았습니다. 분산 클러스터가 실제 환경(World)을 구성하고, LLM Agent가 코드베이스와 Observability 메트릭을 컨텍스트로 주입받아 환경을 이해하고 행동을 결정합니다. 배포 → 관측 → 피드백 사이클을 통해 Agent의 환경 인식이 점진적으로 정교해집니다.</span>
-                <span class="lang-en">Inspired by Google DeepMind's World Model architecture. The distributed cluster constitutes the actual environment (World), while the LLM Agent receives codebase and Observability metrics as context to understand the environment and decide actions. Through the Deploy → Observe → Feedback cycle, the Agent's environmental awareness becomes progressively refined.</span>
+                <span class="lang-ko">Google DeepMind의 World Model 아키텍처를 개발 프로세스에 투영했습니다. 24-노드 분산 클러스터는 Agent가 탐색하고 상호작용하는 '세계(World)'로 기능하며, LLM Agent는 코드베이스 구조와 실시간 Observability 메트릭을 컨텍스트로 주입받아 환경의 현재 상태를 파악하고 다음 행동을 결정합니다. 배포 → 관측 → 피드백의 연속적인 사이클 속에서 Agent의 환경 인식은 점차 정교해지고, 개발자와 클러스터는 함께 진화합니다.</span>
+                <span class="lang-en">This development process is a projection of Google DeepMind's World Model architecture. The 24-node distributed cluster functions as the 'World' that the Agent explores and interacts with, while the LLM Agent receives codebase structure and real-time Observability metrics as context to comprehend the current state and determine subsequent actions. Through the continuous Deploy → Observe → Feedback cycle, the Agent's environmental awareness progressively refines, and both developer and cluster evolve in tandem.</span>
             </p>
         </div>
 
@@ -1643,9 +1644,17 @@
                     <div class="cycle-arrow left-top">➤</div>
                 </div>
 
-                <!-- Feedback Flow: Observability → Agent -->
+                <!-- Feedback Flow: Observability → Agent (curved arc) -->
                 <div class="feedback-flow">
-                    <div class="feedback-path"></div>
+                    <svg class="feedback-svg" viewBox="0 0 100 80" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="feedbackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:rgba(245,158,11,0.6)"/>
+                                <stop offset="100%" style="stop-color:rgba(139,92,246,0.6)"/>
+                            </linearGradient>
+                        </defs>
+                        <path class="feedback-arc" d="M 0,60 Q 50,0 100,60"/>
+                    </svg>
                     <div class="feedback-packet">📊</div>
                     <div class="feedback-packet">📈</div>
                     <div class="feedback-packet">🔔</div>
