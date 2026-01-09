@@ -706,10 +706,10 @@
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">500</div>
+                <div class="hero-stat-value">250 VU</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">VU SLA (Scan SSE)</span>
-                    <span class="lang-en">VU SLA (Scan SSE)</span>
+                    <span class="lang-ko">SLA (Scan SSE)</span>
+                    <span class="lang-en">SLA (Scan SSE)</span>
                 </div>
             </div>
         </div>
@@ -991,36 +991,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Redis Streams(내구성) + Pub/Sub(실시간) + State KV(복구)를 조합한 <strong>Event Relay Layer</strong>를 설계했습니다. Event Router와 SSE Gateway로 500 VU SLA, 600 VU 시스템 포화지점을 도출했습니다.</span>
-                        <span class="lang-en">Designed <strong>Event Relay Layer</strong> combining Redis Streams (durability) + Pub/Sub (realtime) + State KV (recovery). Achieved 500 VU SLA, 600 VU saturation point with Event Router and SSE Gateway.</span>
+                        <span class="lang-ko">Redis Streams(내구성) + Pub/Sub(실시간) + State KV(복구)를 조합한 <strong>Event Relay Layer</strong>를 설계했습니다. LLM Agent 기반 Scan 파이프라인(Vision→Rule→Answer→Reward)의 실시간 이벤트 전달을 담당합니다.</span>
+                        <span class="lang-en">Designed <strong>Event Relay Layer</strong> combining Redis Streams (durability) + Pub/Sub (realtime) + State KV (recovery). Handles real-time event delivery for LLM Agent-based Scan pipeline (Vision→Rule→Answer→Reward).</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">🏗️</span>
+                            <span class="achievement-icon">⭐</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Event Relay Layer</strong> Streams + Pub/Sub + State KV</span>
-                                <span class="lang-en"><strong>Event Relay Layer</strong> Streams + Pub/Sub + State KV</span>
+                                <span class="lang-ko"><strong>250 VU SLA</strong> 99.9% 완료율, p95 40.5초</span>
+                                <span class="lang-en"><strong>250 VU SLA</strong> 99.9% completion, p95 40.5s</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">📊</span>
+                            <span class="achievement-icon">⚠️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>500 VU (94%)</strong> 서비스 가능 수준 달성</span>
-                                <span class="lang-en"><strong>500 VU (94%)</strong> serviceable level achieved</span>
+                                <span class="lang-ko"><strong>300-400 VU</strong> 포화구간 (99.9%→98.9%)</span>
+                                <span class="lang-en"><strong>300-400 VU</strong> saturation zone (99.9%→98.9%)</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🔥</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>600 VU 포화지점</strong> 시스템 한계 도출</span>
-                                <span class="lang-en"><strong>600 VU saturation</strong> system limit identified</span>
+                                <span class="lang-ko"><strong>500 VU 한계점</strong> 94% 완료율, 단일 노드 한계</span>
+                                <span class="lang-en"><strong>500 VU limit</strong> 94% completion, single node limit</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">⚖️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>KEDA + Event Router</strong> 이벤트 드리븐 스케일링</span>
-                                <span class="lang-en"><strong>KEDA + Event Router</strong> event-driven scaling</span>
+                                <span class="lang-ko"><strong>KEDA 자동 스케일링</strong> scan-worker 1→3, scan-api 1→3</span>
+                                <span class="lang-en"><strong>KEDA auto-scaling</strong> scan-worker 1→3, scan-api 1→3</span>
                             </div>
                         </div>
                     </div>
@@ -1212,7 +1212,7 @@
 │  │                     └──────────┬───────────┘                                     │   │
 │  │                                ▼                                                 │   │
 │  │                     ┌──────────────────────┐                                     │   │
-│  │                     │    SSE Gateway (HA)  │  500 VU SLA, 600 VU Saturation     │   │
+│  │                     │    SSE Gateway (HA)  │  250 VU SLA, 500 VU Limit          │   │
 │  │                     └──────────────────────┘                                     │   │
 │  └─────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                         │
@@ -1412,17 +1412,31 @@
                     <span class="lang-en">Incremental migration of 7 domains, DIP/Port & Adapter/CQRS application</span>
                 </div>
             </div>
+            <div class="timeline-item" style="--category-color: var(--ec-primary);">
+                <div class="timeline-date" style="color: var(--ec-primary);">🔄 In Progress</div>
+                <div class="timeline-title">
+                    <span class="lang-ko">🤖 Chat 도메인 Agentic Workflow 전환</span>
+                    <span class="lang-en">🤖 Chat Domain Agentic Workflow Transition</span>
+                </div>
+                <div class="timeline-desc">
+                    <span class="lang-ko">LangGraph 기반 Multi-Agent 아키텍처로 Chat 도메인 고도화, 도구 호출 + 상태 관리 + 스트리밍 통합</span>
+                    <span class="lang-en">Upgrading Chat domain to LangGraph-based Multi-Agent architecture, Tool calling + State management + Streaming integration</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-links">
-            <a href="https://github.com/mangowhoiscloud" target="_blank" class="footer-link">
-                <span>GitHub</span>
+            <a href="https://eco2.site" target="_blank" class="footer-link" style="background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(139,92,246,0.2)); border-color: rgba(102,126,234,0.4);">
+                <span>🌿 eco2.site</span>
+            </a>
+            <a href="https://github.com/eco2-team/backend" target="_blank" class="footer-link">
+                <span>GitHub (Backend)</span>
             </a>
             <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29" target="_blank" class="footer-link">
-                <span>Blog</span>
+                <span>Blog (67+ posts)</span>
             </a>
             <a href="https://mangowhoiscloud.github.io/resume/" target="_blank" class="footer-link">
                 <span>Resume</span>
