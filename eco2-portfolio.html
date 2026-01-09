@@ -1148,7 +1148,7 @@
             border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 12px;
             padding: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
         .ssot-title {
@@ -1186,7 +1186,23 @@
             font-size: 1.2rem;
         }
 
-        /* Development Steps */
+        /* Development Steps - Card Style */
+        .methodology-steps-card {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .steps-title {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #10b981;
+        }
+
         .methodology-steps {
             display: flex;
             align-items: center;
@@ -1527,6 +1543,55 @@
                 </div>
             </div>
 
+            <!-- Development Lifecycle -->
+            <div class="methodology-steps-card">
+                <div class="steps-title">
+                    <span class="lang-ko">🔄 Development Lifecycle</span>
+                    <span class="lang-en">🔄 Development Lifecycle</span>
+                </div>
+                <div class="methodology-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Research</div>
+                            <div class="step-desc">Foundations</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Design</div>
+                            <div class="step-desc">Plans</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Implement</div>
+                            <div class="step-desc">Agent + Code</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Deploy</div>
+                            <div class="step-desc">GitOps</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-item feedback">
+                        <div class="step-number">∞</div>
+                        <div class="step-content">
+                            <div class="step-title">Feedback</div>
+                            <div class="step-desc">Reports → Loop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Single Source of Truth -->
             <div class="methodology-ssot">
                 <div class="ssot-title">
@@ -1552,49 +1617,6 @@
                     <div class="ssot-item">
                         <span class="ssot-icon">📊</span>
                         <span class="ssot-label">Observability</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Development Steps (from Option 3) -->
-            <div class="methodology-steps">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">Research</div>
-                        <div class="step-desc">Foundations</div>
-                    </div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">Design</div>
-                        <div class="step-desc">Plans</div>
-                    </div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">Implement</div>
-                        <div class="step-desc">Agent + Code</div>
-                    </div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">Deploy</div>
-                        <div class="step-desc">GitOps</div>
-                    </div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="step-item feedback">
-                    <div class="step-number">∞</div>
-                    <div class="step-content">
-                        <div class="step-title">Feedback</div>
-                        <div class="step-desc">Reports → Loop</div>
                     </div>
                 </div>
             </div>
@@ -1690,8 +1712,8 @@
                         <div class="achievement">
                             <span class="achievement-icon">🏷️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>도메인별 노드 격리</strong> Taint/Toleration + Label 계층</span>
-                                <span class="lang-en"><strong>Domain Node Isolation</strong> Taint/Toleration + Label hierarchy</span>
+                                <span class="lang-ko"><strong>도메인별 노드 격리</strong> Taint/Toleration + K8s Label 계층</span>
+                                <span class="lang-en"><strong>Domain Node Isolation</strong> Taint/Toleration + K8s Label hierarchy</span>
                             </div>
                         </div>
                         <div class="achievement">
