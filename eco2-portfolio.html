@@ -1186,95 +1186,51 @@
             animation: arrow-pulse-4 6s ease-in-out infinite;
         }
 
-        /* Feedback Flow: Observability → Agent (curved arc path) */
+        /* Feedback Flow: Observability → Agent (SVG curved arc) */
         .feedback-flow {
             position: absolute;
             top: 50%;
-            left: 15%;
-            width: 70%;
-            height: 80px;
+            left: 10%;
+            width: 80%;
+            height: 100px;
             transform: translateY(-50%);
             pointer-events: none;
-            overflow: visible;
         }
 
-        /* Curved SVG path */
         .feedback-svg {
-            position: absolute;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
+            overflow: visible;
         }
 
         .feedback-arc {
             fill: none;
             stroke: url(#feedbackGradient);
             stroke-width: 2;
-            stroke-dasharray: 8 8;
-            opacity: 0.5;
+            stroke-dasharray: 6 4;
+            opacity: 0.6;
         }
 
-        /* Flying data packets on curved path */
-        .feedback-packet {
-            position: absolute;
-            font-size: 0.9rem;
-            filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
-            offset-path: path('M 0,40 Q 50%,-20 100%,40');
-            offset-rotate: 0deg;
-        }
-
-        .feedback-packet:nth-child(2) {
-            animation: packet-arc 3.5s ease-in-out infinite;
-        }
-        .feedback-packet:nth-child(3) {
-            animation: packet-arc 3.5s ease-in-out infinite 1.2s;
-        }
-        .feedback-packet:nth-child(4) {
-            animation: packet-arc 3.5s ease-in-out infinite 2.4s;
-        }
-
-        @keyframes packet-arc {
-            0% { 
-                offset-distance: 0%;
-                opacity: 0;
-                transform: scale(0.6);
-                filter: drop-shadow(0 0 6px rgba(245,158,11,0.9));
-            }
-            15% { 
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                filter: drop-shadow(0 0 14px rgba(255,200,100,1));
-                transform: scale(1.15);
-            }
-            85% { 
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% { 
-                offset-distance: 100%;
-                opacity: 0;
-                transform: scale(0.6);
-                filter: drop-shadow(0 0 6px rgba(139,92,246,0.9));
-            }
+        /* Packet styling inside SVG */
+        .packet-text {
+            font-size: 14px;
+            filter: drop-shadow(0 0 6px rgba(245,158,11,0.8));
         }
 
         /* Labels at endpoints */
         .feedback-label {
             position: absolute;
-            bottom: 5px;
-            font-size: 0.6rem;
+            top: 75px;
+            font-size: 0.55rem;
             color: rgba(255,255,255,0.6);
             white-space: nowrap;
         }
         .feedback-label.from {
-            left: 0;
+            left: 5px;
             color: rgba(245,158,11,0.8);
         }
         .feedback-label.to {
-            right: 0;
+            right: 5px;
             color: rgba(139,92,246,0.8);
         }
 
@@ -1644,20 +1600,42 @@
                     <div class="cycle-arrow left-top">➤</div>
                 </div>
 
-                <!-- Feedback Flow: Observability → Agent (curved arc) -->
+                <!-- Feedback Flow: Observability → Agent (curved arc with SVG animateMotion) -->
                 <div class="feedback-flow">
-                    <svg class="feedback-svg" viewBox="0 0 100 80" preserveAspectRatio="none">
+                    <svg class="feedback-svg" viewBox="0 0 300 80">
                         <defs>
                             <linearGradient id="feedbackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:rgba(245,158,11,0.6)"/>
-                                <stop offset="100%" style="stop-color:rgba(139,92,246,0.6)"/>
+                                <stop offset="0%" style="stop-color:rgba(245,158,11,0.7)"/>
+                                <stop offset="50%" style="stop-color:rgba(255,200,100,0.8)"/>
+                                <stop offset="100%" style="stop-color:rgba(139,92,246,0.7)"/>
                             </linearGradient>
                         </defs>
-                        <path class="feedback-arc" d="M 0,60 Q 50,0 100,60"/>
+                        <!-- Curved dashed path -->
+                        <path id="arcPath" class="feedback-arc" d="M 10,65 Q 150,0 290,65"/>
+                        
+                        <!-- Animated packets following the curve -->
+                        <text class="packet-text">
+                            <animateMotion dur="3s" repeatCount="indefinite" begin="0s">
+                                <mpath href="#arcPath"/>
+                            </animateMotion>
+                            <animate attributeName="opacity" values="0;1;1;1;0" dur="3s" repeatCount="indefinite" begin="0s"/>
+                            📊
+                        </text>
+                        <text class="packet-text">
+                            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+                                <mpath href="#arcPath"/>
+                            </animateMotion>
+                            <animate attributeName="opacity" values="0;1;1;1;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+                            📈
+                        </text>
+                        <text class="packet-text">
+                            <animateMotion dur="3s" repeatCount="indefinite" begin="2s">
+                                <mpath href="#arcPath"/>
+                            </animateMotion>
+                            <animate attributeName="opacity" values="0;1;1;1;0" dur="3s" repeatCount="indefinite" begin="2s"/>
+                            🔔
+                        </text>
                     </svg>
-                    <div class="feedback-packet">📊</div>
-                    <div class="feedback-packet">📈</div>
-                    <div class="feedback-packet">🔔</div>
                     <div class="feedback-label from">
                         <span class="lang-ko">메트릭</span>
                         <span class="lang-en">Metrics</span>
