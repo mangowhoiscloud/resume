@@ -945,137 +945,124 @@
             border-radius: 50%;
         }
 
-        /* Animated dot traveling the circle with dramatic acceleration/deceleration */
+        /* Animated dot traveling perfect circle using offset-path */
         .cycle-dot {
             position: absolute;
             width: 16px;
             height: 16px;
             background: linear-gradient(135deg, #8b5cf6, #3b82f6, #10b981);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(139,92,246,0.9), 0 0 40px rgba(139,92,246,0.5), 0 0 60px rgba(59,130,246,0.3);
-            animation: travel-circle 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 0 20px rgba(139,92,246,0.9), 0 0 40px rgba(139,92,246,0.5);
+            /* Perfect circular path using offset-path */
+            offset-path: circle(50% at 50% 50%);
+            offset-rotate: 0deg;
+            animation: orbit-circle 5s linear infinite, 
+                       orbit-effects 5s ease-in-out infinite;
+            top: 50%;
+            left: 50%;
+            margin-top: -8px;
+            margin-left: -8px;
         }
 
-        /* Motion blur trail effect */
+        /* Motion blur trail - rotates with the dot */
         .cycle-dot::before {
             content: '';
             position: absolute;
             width: 40px;
-            height: 12px;
-            background: linear-gradient(90deg, rgba(139,92,246,0), rgba(139,92,246,0.6), rgba(139,92,246,0));
+            height: 10px;
+            background: linear-gradient(90deg, rgba(139,92,246,0), rgba(139,92,246,0.7), rgba(139,92,246,0));
             border-radius: 50%;
-            top: 2px;
-            left: -35px;
+            top: 3px;
+            right: 16px;
             filter: blur(3px);
-            animation: trail-stretch 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            transform-origin: 48px 5px;
+            animation: trail-rotate 5s linear infinite,
+                       trail-stretch 5s ease-in-out infinite;
         }
         
         .cycle-dot::after {
             content: '';
             position: absolute;
-            width: 60px;
-            height: 8px;
-            background: linear-gradient(90deg, rgba(59,130,246,0), rgba(59,130,246,0.3), rgba(59,130,246,0));
+            width: 55px;
+            height: 6px;
+            background: linear-gradient(90deg, rgba(59,130,246,0), rgba(59,130,246,0.4), rgba(59,130,246,0));
             border-radius: 50%;
-            top: 4px;
-            left: -55px;
+            top: 5px;
+            right: 16px;
             filter: blur(5px);
-            animation: trail-stretch 5s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.05s;
+            transform-origin: 63px 3px;
+            animation: trail-rotate 5s linear infinite,
+                       trail-stretch 5s ease-in-out infinite 0.05s;
         }
 
-        /* Dramatic acceleration: slow at Developer (top), fast at bottom */
-        @keyframes travel-circle {
-            /* Developer position - SLOW (deceleration zone) */
-            0% { 
-                top: 0; left: 50%; 
-                transform: translate(-50%, -50%) scale(1.3);
-                box-shadow: 0 0 30px rgba(59,130,246,1), 0 0 60px rgba(59,130,246,0.6);
+        /* Perfect circular motion - starts at top (Developer), clockwise */
+        @keyframes orbit-circle {
+            0% { offset-distance: 0%; }      /* Top - Developer */
+            25% { offset-distance: 25%; }    /* Right - Agent */
+            50% { offset-distance: 50%; }    /* Bottom - Cluster */
+            75% { offset-distance: 75%; }    /* Left - Observability */
+            100% { offset-distance: 100%; }  /* Back to top - Developer */
+        }
+
+        /* Dynamic effects: scale and glow changes with position */
+        @keyframes orbit-effects {
+            /* Developer (top) - slow zone, large glow */
+            0%, 100% { 
+                transform: scale(1.4);
+                box-shadow: 0 0 35px rgba(59,130,246,1), 0 0 70px rgba(59,130,246,0.6);
             }
-            /* Accelerating toward Agent */
-            5% { 
-                top: 5%; left: 65%; 
-                transform: translate(-50%, -50%) scale(1.2);
+            /* Accelerating phase */
+            12.5% {
+                transform: scale(1.2);
+                box-shadow: 0 0 25px rgba(139,92,246,0.9), 0 0 50px rgba(139,92,246,0.5);
             }
-            10% { 
-                top: 12%; left: 78%; 
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-            /* Agent position - gaining speed */
-            20% { 
-                top: 35%; left: 95%; 
-                transform: translate(-50%, -50%) scale(1);
-            }
+            /* Agent (right) - medium speed */
             25% { 
-                top: 50%; left: 100%; 
-                transform: translate(-50%, -50%) scale(0.9);
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(139,92,246,1), 0 0 60px rgba(139,92,246,0.6);
             }
             /* Maximum speed zone */
-            30% { 
-                top: 65%; left: 95%; 
-                transform: translate(-50%, -50%) scale(0.85);
+            37.5% {
+                transform: scale(0.8);
+                box-shadow: 0 0 20px rgba(16,185,129,0.8), 0 0 40px rgba(16,185,129,0.4);
             }
-            /* Cluster position - FASTEST */
-            40% { 
-                top: 90%; left: 75%; 
-                transform: translate(-50%, -50%) scale(0.8);
-            }
+            /* Cluster (bottom) - fastest, smallest */
             50% { 
-                top: 100%; left: 50%; 
-                transform: translate(-50%, -50%) scale(0.85);
-                box-shadow: 0 0 40px rgba(16,185,129,1), 0 0 80px rgba(16,185,129,0.5);
+                transform: scale(0.7);
+                box-shadow: 0 0 40px rgba(16,185,129,1), 0 0 80px rgba(16,185,129,0.6);
             }
-            /* Still fast after Cluster */
-            60% { 
-                top: 90%; left: 25%; 
-                transform: translate(-50%, -50%) scale(0.9);
+            /* Decelerating phase */
+            62.5% {
+                transform: scale(0.85);
+                box-shadow: 0 0 25px rgba(245,158,11,0.8), 0 0 50px rgba(245,158,11,0.4);
             }
-            /* Observability position - starting to slow */
-            70% { 
-                top: 65%; left: 5%; 
-                transform: translate(-50%, -50%) scale(1);
-            }
+            /* Observability (left) - slowing down */
             75% { 
-                top: 50%; left: 0; 
-                transform: translate(-50%, -50%) scale(1.05);
-                box-shadow: 0 0 35px rgba(245,158,11,1), 0 0 70px rgba(245,158,11,0.5);
+                transform: scale(1.1);
+                box-shadow: 0 0 35px rgba(245,158,11,1), 0 0 70px rgba(245,158,11,0.6);
             }
-            /* Decelerating back to Developer */
-            82% { 
-                top: 30%; left: 8%; 
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-            90% { 
-                top: 12%; left: 25%; 
-                transform: translate(-50%, -50%) scale(1.2);
-            }
-            95% { 
-                top: 5%; left: 38%; 
-                transform: translate(-50%, -50%) scale(1.25);
-            }
-            /* Back to Developer - SLOW (arrival) */
-            100% { 
-                top: 0; left: 50%; 
-                transform: translate(-50%, -50%) scale(1.3);
-                box-shadow: 0 0 30px rgba(59,130,246,1), 0 0 60px rgba(59,130,246,0.6);
+            /* Final deceleration to Developer */
+            87.5% {
+                transform: scale(1.3);
+                box-shadow: 0 0 30px rgba(59,130,246,0.9), 0 0 60px rgba(59,130,246,0.5);
             }
         }
 
-        /* Trail stretches during high speed, shrinks during slow */
+        /* Trail follows the dot rotation */
+        @keyframes trail-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Trail stretches during high speed */
         @keyframes trail-stretch {
-            0%, 100% { 
-                width: 20px; 
-                opacity: 0.3;
-                filter: blur(2px);
-            }
-            5% { width: 30px; opacity: 0.4; }
-            25% { width: 50px; opacity: 0.6; }
-            40%, 60% { 
-                width: 80px; 
-                opacity: 0.9;
-                filter: blur(4px);
-            }
-            75% { width: 45px; opacity: 0.5; }
-            90% { width: 25px; opacity: 0.35; }
+            0%, 100% { width: 25px; opacity: 0.4; }
+            12.5% { width: 35px; opacity: 0.5; }
+            25% { width: 45px; opacity: 0.6; }
+            37.5%, 62.5% { width: 70px; opacity: 0.9; }
+            50% { width: 80px; opacity: 1; }
+            75% { width: 40px; opacity: 0.5; }
+            87.5% { width: 30px; opacity: 0.4; }
         }
 
         /* Node positions around the circle */
@@ -1711,8 +1698,16 @@
                         <span class="rag-icon">📚</span>
                         <span class="rag-label">Foundations</span>
                         <span class="rag-desc">
-                            <span class="lang-ko">이론 정리 17편</span>
-                            <span class="lang-en">17 theoretical articles</span>
+                            <span class="lang-ko">근원 기술 17편</span>
+                            <span class="lang-en">17 core tech articles</span>
+                        </span>
+                    </div>
+                    <div class="rag-item applied">
+                        <span class="rag-icon">🔧</span>
+                        <span class="rag-label">Applied</span>
+                        <span class="rag-desc">
+                            <span class="lang-ko">응용 기술</span>
+                            <span class="lang-en">Applied tech</span>
                         </span>
                     </div>
                     <div class="rag-item plans">
@@ -1959,8 +1954,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">RabbitMQ + Celery 기반 비동기 아키텍처를 설계하고, AI 파이프라인(vision→rule→answer→reward)을 4단계 Celery Chain으로 구현했습니다. Fanout Exchange로 Worker 로컬 캐시 동기화를 구현해 DB 조회를 제거했습니다.</span>
-                        <span class="lang-en">Designed async architecture with RabbitMQ + Celery, implemented AI pipeline (vision→rule→answer→reward) as 4-stage Celery Chain. Implemented Worker local cache sync via Fanout Exchange, eliminating DB queries.</span>
+                        <span class="lang-ko">RabbitMQ + Celery 기반 비동기 아키텍처를 설계하고, AI 파이프라인(vision→rule→answer→reward)을 4단계 Celery Chain으로 구현했습니다. 읽기 비중이 높은 API에 한해 Fanout Exchange로 Worker 로컬 캐시 동기화를 구현해 DB 조회를 제거했습니다.</span>
+                        <span class="lang-en">Designed async architecture with RabbitMQ + Celery, implemented AI pipeline (vision→rule→answer→reward) as 4-stage Celery Chain. For read-heavy APIs, implemented Worker local cache sync via Fanout Exchange, eliminating DB queries.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -2083,10 +2078,10 @@
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">🏗️</span>
+                            <span class="achievement-icon">📦</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Layer 분리</strong> Application ↔ Persistence 관심사 격리</span>
-                                <span class="lang-en"><strong>Layer Separation</strong> Application ↔ Persistence isolation</span>
+                                <span class="lang-ko"><strong>Outbox Pattern</strong> 이벤트 발행 원자성 보장</span>
+                                <span class="lang-en"><strong>Outbox Pattern</strong> atomic event publishing guarantee</span>
                             </div>
                         </div>
                         <div class="achievement">
