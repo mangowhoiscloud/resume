@@ -754,70 +754,161 @@
             gap: 2rem;
         }
 
-        /* Actors Row */
-        .methodology-actors {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+        /* Circular Flow Container */
+        .cycle-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 1;
+            margin: 0 auto;
         }
 
-        .actor-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 1.5rem;
+        /* Animated Circular Path */
+        .cycle-path {
+            position: absolute;
+            inset: 40px;
+            border: 2px dashed rgba(139,92,246,0.3);
+            border-radius: 50%;
+        }
+
+        /* Animated dot traveling the circle */
+        .cycle-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(139,92,246,0.6);
+            animation: travel-circle 8s linear infinite;
+        }
+
+        @keyframes travel-circle {
+            0% { top: 0; left: 50%; transform: translate(-50%, -50%); }
+            25% { top: 50%; left: 100%; transform: translate(-50%, -50%); }
+            50% { top: 100%; left: 50%; transform: translate(-50%, -50%); }
+            75% { top: 50%; left: 0; transform: translate(-50%, -50%); }
+            100% { top: 0; left: 50%; transform: translate(-50%, -50%); }
+        }
+
+        /* Node positions around the circle */
+        .cycle-node {
+            position: absolute;
+            width: 120px;
             text-align: center;
-            min-width: 160px;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .cycle-node.developer { top: 0; left: 50%; }
+        .cycle-node.agent { top: 50%; left: 100%; }
+        .cycle-node.cluster { top: 100%; left: 50%; }
+        .cycle-node.observability { top: 50%; left: 0; }
+
+        .node-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
 
-        .actor-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--border-glow);
+        .node-card:hover {
+            transform: scale(1.1);
+            z-index: 10;
         }
 
-        .actor-card.developer { border-top: 3px solid #3b82f6; }
-        .actor-card.agent { border-top: 3px solid #8b5cf6; }
-        .actor-card.cluster { border-top: 3px solid #10b981; }
+        .cycle-node.developer .node-card { border-color: #3b82f6; }
+        .cycle-node.developer .node-card:hover { box-shadow: 0 0 30px rgba(59,130,246,0.4); }
+        .cycle-node.agent .node-card { border-color: #8b5cf6; }
+        .cycle-node.agent .node-card:hover { box-shadow: 0 0 30px rgba(139,92,246,0.4); }
+        .cycle-node.cluster .node-card { border-color: #10b981; }
+        .cycle-node.cluster .node-card:hover { box-shadow: 0 0 30px rgba(16,185,129,0.4); }
+        .cycle-node.observability .node-card { border-color: #f59e0b; }
+        .cycle-node.observability .node-card:hover { box-shadow: 0 0 30px rgba(245,158,11,0.4); }
 
-        .actor-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
+        .node-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .node-title { font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
+        .node-subtitle { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; }
 
-        .actor-title {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .actor-desc {
+        /* Tooltip on hover */
+        .node-tooltip {
+            position: absolute;
+            background: rgba(15,15,20,0.95);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 1rem;
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
             font-size: 0.8rem;
-            color: var(--text-muted);
+            line-height: 1.4;
+            color: var(--text-secondary);
         }
 
-        .flow-arrow {
+        .cycle-node.developer .node-tooltip,
+        .cycle-node.cluster .node-tooltip { top: 100%; left: 50%; transform: translateX(-50%); margin-top: 10px; }
+        .cycle-node.agent .node-tooltip { top: 50%; right: 100%; transform: translateY(-50%); margin-right: 10px; left: auto; }
+        .cycle-node.observability .node-tooltip { top: 50%; left: 100%; transform: translateY(-50%); margin-left: 10px; }
+
+        .node-card:hover .node-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Directional arrows between nodes */
+        .cycle-arrows {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .cycle-arrow {
+            position: absolute;
+            font-size: 1.5rem;
+            color: rgba(139,92,246,0.6);
+            animation: pulse-arrow 2s ease-in-out infinite;
+        }
+
+        .cycle-arrow.top-right { top: 15%; right: 15%; transform: rotate(45deg); }
+        .cycle-arrow.right-bottom { bottom: 15%; right: 15%; transform: rotate(135deg); }
+        .cycle-arrow.bottom-left { bottom: 15%; left: 15%; transform: rotate(225deg); }
+        .cycle-arrow.left-top { top: 15%; left: 15%; transform: rotate(315deg); }
+
+        @keyframes pulse-arrow {
+            0%, 100% { opacity: 0.4; transform: scale(1) rotate(var(--rotation, 0deg)); }
+            50% { opacity: 1; transform: scale(1.2) rotate(var(--rotation, 0deg)); }
+        }
+
+        .cycle-arrow.top-right { --rotation: 45deg; }
+        .cycle-arrow.right-bottom { --rotation: 135deg; }
+        .cycle-arrow.bottom-left { --rotation: 225deg; }
+        .cycle-arrow.left-top { --rotation: 315deg; }
+
+        /* Center label */
+        .cycle-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(139,92,246,0.1);
+            border: 1px dashed rgba(139,92,246,0.4);
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-muted);
-            font-size: 0.75rem;
+            justify-content: center;
         }
 
-        .flow-arrow::before {
-            content: '⟷';
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            animation: pulse-arrow 2s infinite;
-        }
-
-        @keyframes pulse-arrow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
+        .cycle-center-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .cycle-center-text { font-size: 0.75rem; color: var(--accent-purple); font-weight: 600; }
+        .cycle-center-sub { font-size: 0.65rem; color: var(--text-muted); }
 
         /* Single Source of Truth */
         .methodology-ssot {
@@ -993,13 +1084,33 @@
         }
 
         @media (max-width: 768px) {
-            .methodology-actors {
-                flex-direction: column;
+            .cycle-container {
+                max-width: 350px;
             }
             
-            .flow-arrow::before {
-                content: '⟵⟶';
-                transform: rotate(90deg);
+            .node-card {
+                padding: 0.75rem;
+            }
+            
+            .node-icon {
+                font-size: 1.5rem;
+            }
+            
+            .node-title {
+                font-size: 0.7rem;
+            }
+            
+            .node-subtitle {
+                display: none;
+            }
+            
+            .cycle-center {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .node-tooltip {
+                display: none;
             }
             
             .methodology-steps {
@@ -1093,35 +1204,92 @@
 
         <div class="methodology-diagram">
             <!-- Top Row: Actors -->
-            <div class="methodology-actors">
-                <div class="actor-card developer">
-                    <div class="actor-icon">🧑‍💻</div>
-                    <div class="actor-title">Developer</div>
-                    <div class="actor-desc">
-                        <span class="lang-ko">설계, 리뷰, 의사결정</span>
-                        <span class="lang-en">Design, Review, Decision</span>
+            <!-- Circular Feedback Loop -->
+            <div class="cycle-container">
+                <!-- Animated circular path -->
+                <div class="cycle-path">
+                    <div class="cycle-dot"></div>
+                </div>
+
+                <!-- Directional arrows -->
+                <div class="cycle-arrows">
+                    <div class="cycle-arrow top-right">➤</div>
+                    <div class="cycle-arrow right-bottom">➤</div>
+                    <div class="cycle-arrow bottom-left">➤</div>
+                    <div class="cycle-arrow left-top">➤</div>
+                </div>
+
+                <!-- Center -->
+                <div class="cycle-center">
+                    <div class="cycle-center-icon">🔁</div>
+                    <div class="cycle-center-text">Feedback Loop</div>
+                    <div class="cycle-center-sub">
+                        <span class="lang-ko">지속적 개선</span>
+                        <span class="lang-en">Continuous</span>
                     </div>
                 </div>
-                <div class="flow-arrow bidirectional">
-                    <span>interact</span>
-                </div>
-                <div class="actor-card agent">
-                    <div class="actor-icon">🤖</div>
-                    <div class="actor-title">AI Agent (LLM)</div>
-                    <div class="actor-desc">
-                        <span class="lang-ko">구현, 디버깅, 문서화</span>
-                        <span class="lang-en">Implement, Debug, Document</span>
+
+                <!-- Developer Node (Top) -->
+                <div class="cycle-node developer">
+                    <div class="node-card">
+                        <div class="node-icon">🧑‍💻</div>
+                        <div class="node-title">Developer</div>
+                        <div class="node-subtitle">
+                            <span class="lang-ko">설계 & 리뷰</span>
+                            <span class="lang-en">Design & Review</span>
+                        </div>
+                        <div class="node-tooltip">
+                            <span class="lang-ko">의사결정과 설계 주도<br>코드 리뷰 & 품질 관리<br>아키텍처 방향 설정</span>
+                            <span class="lang-en">Decision-making & design lead<br>Code review & quality control<br>Architecture direction</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flow-arrow bidirectional">
-                    <span>observe</span>
+
+                <!-- Agent Node (Right) -->
+                <div class="cycle-node agent">
+                    <div class="node-card">
+                        <div class="node-icon">🤖</div>
+                        <div class="node-title">AI Agent</div>
+                        <div class="node-subtitle">
+                            <span class="lang-ko">구현 & 디버깅</span>
+                            <span class="lang-en">Implement & Debug</span>
+                        </div>
+                        <div class="node-tooltip">
+                            <span class="lang-ko">코드 생성 & 리팩토링<br>디버깅 & 문서화 자동화<br>Self-RAG 기반 학습</span>
+                            <span class="lang-en">Code generation & refactoring<br>Debugging & documentation<br>Self-RAG based learning</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="actor-card cluster">
-                    <div class="actor-icon">☸️</div>
-                    <div class="actor-title">Cluster (World Model)</div>
-                    <div class="actor-desc">
-                        <span class="lang-ko">24-Node K8s Runtime</span>
-                        <span class="lang-en">24-Node K8s Runtime</span>
+
+                <!-- Cluster Node (Bottom) -->
+                <div class="cycle-node cluster">
+                    <div class="node-card">
+                        <div class="node-icon">☸️</div>
+                        <div class="node-title">Cluster</div>
+                        <div class="node-subtitle">
+                            <span class="lang-ko">World Model</span>
+                            <span class="lang-en">World Model</span>
+                        </div>
+                        <div class="node-tooltip">
+                            <span class="lang-ko">24-Node K8s Runtime<br>GitOps 기반 상태 관리<br>실제 실행 환경 제공</span>
+                            <span class="lang-en">24-Node K8s Runtime<br>GitOps-based state management<br>Real execution environment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observability Node (Left) -->
+                <div class="cycle-node observability">
+                    <div class="node-card">
+                        <div class="node-icon">📊</div>
+                        <div class="node-title">Observability</div>
+                        <div class="node-subtitle">
+                            <span class="lang-ko">피드백 수집</span>
+                            <span class="lang-en">Feedback</span>
+                        </div>
+                        <div class="node-tooltip">
+                            <span class="lang-ko">로그 & 메트릭 수집<br>분산 트레이싱<br>에러 감지 → Agent 피드백</span>
+                            <span class="lang-en">Logs & metrics collection<br>Distributed tracing<br>Error detection → Agent feedback</span>
+                        </div>
                     </div>
                 </div>
             </div>
