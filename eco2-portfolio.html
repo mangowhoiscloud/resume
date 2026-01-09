@@ -1148,6 +1148,7 @@
             border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 12px;
             padding: 1.5rem;
+            margin-top: 2rem;
         }
 
         .ssot-title {
@@ -1529,8 +1530,8 @@
             <!-- Single Source of Truth -->
             <div class="methodology-ssot">
                 <div class="ssot-title">
-                    <span class="lang-ko">📌 Single Source of Truth</span>
-                    <span class="lang-en">📌 Single Source of Truth</span>
+                    <span class="lang-ko">🎯 Single Source of Truth</span>
+                    <span class="lang-en">🎯 Single Source of Truth</span>
                 </div>
                 <div class="ssot-flow">
                     <div class="ssot-item">
@@ -1668,16 +1669,15 @@
                     <div class="category-badges">
                         <span class="tech-badge">AWS</span>
                         <span class="tech-badge">Terraform</span>
-                        <span class="tech-badge">Ansible</span>
                         <span class="tech-badge">ArgoCD</span>
                         <span class="tech-badge">Istio</span>
-                        <span class="tech-badge">gRPC</span>
+                        <span class="tech-badge">DOMA</span>
                     </div>
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">AWS 기반 24-노드 Kubernetes 클러스터를 IaC로 구축하고, ArgoCD App-of-Apps + Sync Wave 패턴으로 선언적 배포를 구현했습니다. Istio Service Mesh 도입으로 서비스 간 통신을 표준화하고, 내부 통신을 gRPC로 전환했습니다.</span>
-                        <span class="lang-en">Built a 24-node Kubernetes cluster on AWS using IaC, implemented declarative deployments with ArgoCD App-of-Apps + Sync Wave patterns. Standardized inter-service communication with Istio Service Mesh and migrated internal communication to gRPC.</span>
+                        <span class="lang-ko">AWS 기반 24-노드 Kubernetes 클러스터를 IaC로 구축하고, <strong>DOMA(Domain-Oriented Microservices Architecture)</strong> 원칙에 따라 도메인별 노드 격리와 라벨 계층을 설계했습니다. ArgoCD App-of-Apps + Sync Wave로 선언적 배포를 구현하고, Istio Service Mesh로 서비스 간 통신을 표준화했습니다.</span>
+                        <span class="lang-en">Built a 24-node Kubernetes cluster on AWS using IaC, designed domain-specific node isolation and label hierarchy following <strong>DOMA (Domain-Oriented Microservices Architecture)</strong> principles. Implemented declarative deployments with ArgoCD App-of-Apps + Sync Wave, standardized inter-service communication with Istio Service Mesh.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -1685,6 +1685,13 @@
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>24-nodes 클러스터</strong> Terraform + Ansible 구축</span>
                                 <span class="lang-en"><strong>24-node cluster</strong> via Terraform + Ansible</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🏷️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>도메인별 노드 격리</strong> Taint/Toleration + Label 계층</span>
+                                <span class="lang-en"><strong>Domain Node Isolation</strong> Taint/Toleration + Label hierarchy</span>
                             </div>
                         </div>
                         <div class="achievement">
@@ -1697,15 +1704,8 @@
                         <div class="achievement">
                             <span class="achievement-icon">🕸️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Istio Sidecar Injection</strong> mTLS 자동 적용</span>
-                                <span class="lang-en"><strong>Istio Sidecar Injection</strong> automatic mTLS</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">⚡</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>gRPC 마이그레이션</strong> HTTP/1.1 대비 Latency 감소</span>
-                                <span class="lang-en"><strong>gRPC migration</strong> reduced latency vs HTTP/1.1</span>
+                                <span class="lang-ko"><strong>Istio + gRPC</strong> mTLS 자동 적용, 내부 통신 최적화</span>
+                                <span class="lang-en"><strong>Istio + gRPC</strong> automatic mTLS, internal communication optimization</span>
                             </div>
                         </div>
                     </div>
@@ -2028,17 +2028,17 @@
                         <div class="category-posts">16 posts</div>
                     </div>
                     <div class="category-badges">
+                        <span class="tech-badge">DOMA</span>
                         <span class="tech-badge">DIP</span>
                         <span class="tech-badge">Port & Adapter</span>
                         <span class="tech-badge">CQRS</span>
                         <span class="tech-badge">FastAPI</span>
-                        <span class="tech-badge">SQLAlchemy</span>
                     </div>
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">기존 레거시 코드를 Clean Architecture로 점진적 마이그레이션했습니다. DIP(의존성 역전 원칙)와 Port & Adapter 패턴을 적용하고, 도메인별로 Entity, Use Case, Adapter 계층을 분리했습니다. 7개 도메인 마이그레이션을 완료했습니다.</span>
-                        <span class="lang-en">Incrementally migrated legacy code to Clean Architecture. Applied DIP (Dependency Inversion Principle) and Port & Adapter patterns, separated Entity, Use Case, Adapter layers per domain. Completed migration of all 7 domains.</span>
+                        <span class="lang-ko"><strong>DOMA(Domain-Oriented Microservices Architecture)</strong> 원칙에 따라 기존 레거시 코드를 Clean Architecture로 점진적 마이그레이션했습니다. DIP(의존성 역전 원칙)와 Port & Adapter 패턴을 적용하고, 도메인별로 Entity, Use Case, Adapter 계층을 분리했습니다.</span>
+                        <span class="lang-en">Incrementally migrated legacy code to Clean Architecture following <strong>DOMA (Domain-Oriented Microservices Architecture)</strong> principles. Applied DIP and Port & Adapter patterns, separated Entity, Use Case, Adapter layers per domain.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
