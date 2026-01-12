@@ -1935,36 +1935,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">AWS 기반 24-노드 Kubernetes 클러스터를 IaC로 구축하고, <strong>DOMA(Domain-Oriented Microservices Architecture)</strong> 원칙에 따라 도메인별 노드 격리와 라벨 계층을 설계했습니다. ArgoCD App-of-Apps + Sync Wave로 선언적 배포를 구현하고, Istio Service Mesh로 서비스 간 통신을 표준화했습니다.</span>
-                        <span class="lang-en">Built a 24-node Kubernetes cluster on AWS using IaC, designed domain-specific node isolation and label hierarchy following <strong>DOMA (Domain-Oriented Microservices Architecture)</strong> principles. Implemented declarative deployments with ArgoCD App-of-Apps + Sync Wave, standardized inter-service communication with Istio Service Mesh.</span>
+                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. 단일 클러스터 내 dev/canary 환경 격리가 필요해 ArgoCD App-of-Apps + Sync Wave를 선택, Helm 패키징 대신 Operator 기반 CR 관리로 확장성을 확보했습니다.</span>
+                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. Chose ArgoCD App-of-Apps + Sync Wave for dev/canary environment isolation within a single cluster, adopted Operator-based CR management over Helm packaging for extensibility.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
                             <span class="achievement-icon">🏗️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>24-nodes 클러스터</strong> Terraform + Ansible 구축</span>
-                                <span class="lang-en"><strong>24-node cluster</strong> via Terraform + Ansible</span>
+                                <span class="lang-ko"><strong>24-nodes 클러스터</strong> 도메인별 장애 격리 + 스케일 실험 목적</span>
+                                <span class="lang-en"><strong>24-node cluster</strong> domain fault isolation + scaling experiments</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🏷️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>도메인별 노드 격리</strong> Taint/Toleration + K8s Label 계층</span>
-                                <span class="lang-en"><strong>Domain Node Isolation</strong> Taint/Toleration + K8s Label hierarchy</span>
+                                <span class="lang-ko"><strong>5-Layer Label 계층</strong> Edge→Service→Integration→Persistence, Platform</span>
+                                <span class="lang-en"><strong>5-Layer Label hierarchy</strong> Edge→Service→Integration→Persistence, Platform</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>App-of-Apps + Sync Wave</strong> 의존성 순서 보장</span>
-                                <span class="lang-en"><strong>App-of-Apps + Sync Wave</strong> dependency ordering</span>
+                                <span class="lang-ko"><strong>Sync Wave (00~70)</strong> 의존성 기반 배포 순서 제어</span>
+                                <span class="lang-en"><strong>Sync Wave (00~70)</strong> dependency-based deployment ordering</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🕸️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Istio + gRPC</strong> mTLS 자동 적용, 내부 통신 최적화</span>
-                                <span class="lang-en"><strong>Istio + gRPC</strong> automatic mTLS, internal communication optimization</span>
+                                <span class="lang-ko"><strong>Helm → Operator 마이그레이션</strong> CR 기반 선언적 관리로 확장성 확보</span>
+                                <span class="lang-en"><strong>Helm → Operator migration</strong> CR-based declarative management for extensibility</span>
                             </div>
                         </div>
                     </div>
@@ -1996,36 +1996,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Envoy ext_authz를 활용해 인증/인가 로직을 API 서버에서 분리했습니다. Go 기반 gRPC 서버로 구현하고, Redis Pool 튜닝 → Local Cache + Fanout 브로드캐스트로 2,500 VU 기준 RPS 1,500+ 클러스터 Baseline을 달성했습니다.</span>
-                        <span class="lang-en">Separated authentication/authorization logic from API servers using Envoy ext_authz. Implemented with Go-based gRPC server, achieved RPS 1,500+ cluster baseline at 2,500 VU via Redis Pool tuning → Local Cache + Fanout broadcast.</span>
+                        <span class="lang-ko">모든 요청의 인증/인가가 통과하는 <strong>Global Choke Point</strong>를 별도 서버로 분리해 API 서버 부하를 제거했습니다. Python 대비 동시성 처리에 유리한 Go + gRPC를 선택하고, Redis 병목 해결 후 Local Cache + Fanout으로 클러스터 처리량 Baseline을 확보했습니다.</span>
+                        <span class="lang-en">Separated <strong>Global Choke Point</strong> (auth/authz for all requests) into a dedicated server, eliminating API server load. Chose Go + gRPC for better concurrency over Python, established cluster throughput baseline via Local Cache + Fanout after resolving Redis bottleneck.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">📊</span>
+                            <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>2,500 VU Stress Test</strong> RPS 42 병목지점 도출</span>
-                                <span class="lang-en"><strong>2,500 VU Stress Test</strong> RPS 42 bottleneck identified</span>
+                                <span class="lang-ko"><strong>Global Baseline</strong> 2,500 VU 기준 RPS 1,500+ (ext-authz 단독)</span>
+                                <span class="lang-en"><strong>Global Baseline</strong> RPS 1,500+ at 2,500 VU (ext-authz only)</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🔧</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Redis Pool 튜닝</strong> RPS 42 → 1,100 달성</span>
-                                <span class="lang-en"><strong>Redis Pool tuning</strong> RPS 42 → 1,100 achieved</span>
+                                <span class="lang-ko"><strong>병목 해결</strong> Redis Pool 42 → 튜닝 1,100 → Cache 1,500+</span>
+                                <span class="lang-en"><strong>Bottleneck fix</strong> Redis Pool 42 → tuned 1,100 → Cache 1,500+</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🚀</span>
+                            <span class="achievement-icon">📡</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Local Cache + Fanout</strong> RPS 1,500+ 클러스터 Baseline</span>
-                                <span class="lang-en"><strong>Local Cache + Fanout</strong> RPS 1,500+ cluster baseline</span>
+                                <span class="lang-ko"><strong>Cache 일관성</strong> Fanout 브로드캐스트 + TTL 10s + 버전 스탬프</span>
+                                <span class="lang-en"><strong>Cache consistency</strong> Fanout broadcast + TTL 10s + version stamp</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🧹</span>
+                            <span class="achievement-icon">🛡️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>도메인 공통 모듈 제거</strong> 7개 서비스 독립성 확보</span>
-                                <span class="lang-en"><strong>Removed shared modules</strong> 7 services decoupled</span>
+                                <span class="lang-ko"><strong>운영 정책</strong> fail-close, Blacklist TTL 24h, 메모리 cap</span>
+                                <span class="lang-en"><strong>Ops policy</strong> fail-close, Blacklist TTL 24h, memory cap</span>
                             </div>
                         </div>
                     </div>
@@ -2057,36 +2057,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">ECK(Elastic Cloud on Kubernetes) 기반 EFK 스택을 구축하고, ECS(Elastic Common Schema)로 구조화된 로깅을 구현했습니다. OpenTelemetry + Jaeger로 분산 트레이싱을 통합하고, Kiali로 서비스 메시를 시각화했습니다.</span>
-                        <span class="lang-en">Built EFK stack on ECK (Elastic Cloud on Kubernetes), implemented structured logging with ECS (Elastic Common Schema). Integrated distributed tracing with OpenTelemetry + Jaeger and visualized service mesh with Kiali.</span>
+                        <span class="lang-ko">Agent-Driven Development의 피드백 루프를 위해 <strong>로그-트레이스-메트릭 통합</strong>이 필수였습니다. Helm Chart 대신 ECK Operator를 선택해 ES 클러스터 관리 복잡도를 낮추고, ECS 스키마로 7개 도메인의 로그 포맷을 표준화했습니다.</span>
+                        <span class="lang-en"><strong>Log-trace-metric integration</strong> was essential for Agent-Driven Development feedback loops. Chose ECK Operator over Helm Charts to reduce ES cluster management complexity, standardized log format across 7 domains with ECS schema.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
                             <span class="achievement-icon">📝</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>14-nodes 로그 중앙화</strong> Fluent Bit → ES</span>
-                                <span class="lang-en"><strong>Centralized 14-node logs</strong> Fluent Bit → ES</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🏷️</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>ECS 구조화 로깅</strong> 7개 도메인 적용</span>
-                                <span class="lang-en"><strong>ECS structured logging</strong> across 7 domains</span>
+                                <span class="lang-ko"><strong>24-nodes 로그 중앙화</strong> Fluent Bit DaemonSet → ES 3-node</span>
+                                <span class="lang-en"><strong>24-node log centralization</strong> Fluent Bit DaemonSet → ES 3-node</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🔗</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>trace_id 연결</strong> 로그-트레이스 통합</span>
-                                <span class="lang-en"><strong>trace_id correlation</strong> log-trace integration</span>
+                                <span class="lang-ko"><strong>trace_id 연결</strong> 로그 → Jaeger 트레이스 원클릭 이동</span>
+                                <span class="lang-en"><strong>trace_id correlation</strong> logs → Jaeger trace one-click navigation</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🚨</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Alertmanager + Slack</strong> 장애 감지 → Agent 피드백 자동화</span>
+                                <span class="lang-en"><strong>Alertmanager + Slack</strong> failure detection → automated Agent feedback</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🗺️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Kiali 토폴로지</strong> 실시간 트래픽 시각화</span>
-                                <span class="lang-en"><strong>Kiali topology</strong> real-time traffic visualization</span>
+                                <span class="lang-ko"><strong>Kiali + Jaeger</strong> 서비스 메시 토폴로지 + 분산 트레이싱</span>
+                                <span class="lang-en"><strong>Kiali + Jaeger</strong> service mesh topology + distributed tracing</span>
                             </div>
                         </div>
                     </div>
@@ -2117,36 +2117,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">RabbitMQ + Celery 기반 비동기 아키텍처를 설계하고, AI 파이프라인(vision→rule→answer→reward)을 4단계 Celery Chain으로 구현했습니다. 읽기 비중이 높은 API에 한해 Fanout Exchange로 Worker 로컬 캐시 동기화를 구현해 DB 조회를 제거했습니다.</span>
-                        <span class="lang-en">Designed async architecture with RabbitMQ + Celery, implemented AI pipeline (vision→rule→answer→reward) as 4-stage Celery Chain. For read-heavy APIs, implemented Worker local cache sync via Fanout Exchange, eliminating DB queries.</span>
+                        <span class="lang-ko">LLM API 호출(~12초/req)의 HTTP 타임아웃 회피와 동시 접속 부하 분산을 위해 <strong>비동기 Job Queue</strong>를 도입했습니다. Kafka 대비 운영 복잡도가 낮은 RabbitMQ를 선택하고, I/O-bound 워크로드에 Gevent, CPU-bound에 Thread Pool로 동시성 전략을 분리했습니다.</span>
+                        <span class="lang-en">Introduced <strong>async Job Queue</strong> to avoid HTTP timeouts from LLM API calls (~12s/req) and distribute concurrent load. Chose RabbitMQ over Kafka for lower operational complexity, separated concurrency strategies: Gevent for I/O-bound, Thread Pool for CPU-bound workloads.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
                             <span class="achievement-icon">⛓️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>4단계 Celery Chain</strong> Vision→Rule→Answer→Reward</span>
-                                <span class="lang-en"><strong>4-stage Celery Chain</strong> Vision→Rule→Answer→Reward</span>
+                                <span class="lang-ko"><strong>4단계 Celery Chain</strong> Vision→Rule→Answer→Reward 순차 의존성</span>
+                                <span class="lang-en"><strong>4-stage Celery Chain</strong> Vision→Rule→Answer→Reward sequential dependency</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🐒</span>
+                            <span class="achievement-icon">🔀</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Gevent 100 greenlets</strong> I/O-bound 최적화</span>
-                                <span class="lang-en"><strong>Gevent 100 greenlets</strong> I/O-bound optimization</span>
+                                <span class="lang-ko"><strong>동시성 전략 분리</strong> I/O-bound: Gevent, CPU-bound: Threads</span>
+                                <span class="lang-en"><strong>Concurrency split</strong> I/O-bound: Gevent, CPU-bound: Threads</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🆔</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>at-least-once + 멱등성 키</strong> task_id 기반 중복 처리 방지</span>
+                                <span class="lang-en"><strong>at-least-once + idempotency</strong> task_id based deduplication</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">📡</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>로컬 캐시 Fanout</strong> DB 조회 50ms → 0.01ms</span>
-                                <span class="lang-en"><strong>Local Cache Fanout</strong> DB query 50ms → 0.01ms</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">☠️</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>DLQ 재처리</strong> Celery Beat 스케줄링</span>
-                                <span class="lang-en"><strong>DLQ retry</strong> Celery Beat scheduling</span>
+                                <span class="lang-ko"><strong>Topology CR 관리</strong> K8s Operator로 Queue/Exchange 선언적 관리</span>
+                                <span class="lang-en"><strong>Topology CR management</strong> declarative Queue/Exchange via K8s Operator</span>
                             </div>
                         </div>
                     </div>
@@ -2177,36 +2177,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Redis Streams(내구성) + Pub/Sub(실시간) + State KV(복구)를 조합한 <strong>Event Relay Layer</strong>를 설계했습니다. LLM Agent 기반 Scan 파이프라인(Vision→Rule→Answer→Reward)의 실시간 이벤트 전달을 담당합니다.</span>
-                        <span class="lang-en">Designed <strong>Event Relay Layer</strong> combining Redis Streams (durability) + Pub/Sub (realtime) + State KV (recovery). Handles real-time event delivery for LLM Agent-based Scan pipeline (Vision→Rule→Answer→Reward).</span>
+                        <span class="lang-ko">단일 Redis로는 <strong>내구성/실시간/복구</strong> 세 가지 요구사항을 동시에 충족할 수 없어 3-Tier로 분리했습니다. Streams(이벤트 영속) + Pub/Sub(실시간 전달) + State KV(SSE 재연결 복구)로 각 계층의 책임을 명확히 분리해 장애 격리와 확장성을 확보했습니다.</span>
+                        <span class="lang-en">Single Redis couldn't satisfy <strong>durability/realtime/recovery</strong> requirements simultaneously, so we separated into 3-Tier. Streams (event persistence) + Pub/Sub (realtime delivery) + State KV (SSE reconnect recovery) - each layer has clear responsibilities for fault isolation and scalability.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">⭐</span>
+                            <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>300 VU SLA</strong> 99.9% 완료율, 402 req/min</span>
-                                <span class="lang-en"><strong>300 VU SLA</strong> 99.9% completion, 402 req/min</span>
+                                <span class="lang-ko"><strong>Scan SSE 지표</strong> 300 VU SLA 99.9%, 평균 Latency ~12초/req</span>
+                                <span class="lang-en"><strong>Scan SSE metrics</strong> 300 VU SLA 99.9%, avg latency ~12s/req</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">⚠️</span>
+                            <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>400 VU</strong> 포화구간 (98.9%)</span>
-                                <span class="lang-en"><strong>400 VU</strong> saturation zone (98.9%)</span>
+                                <span class="lang-ko"><strong>LLM 파이프라인 특성</strong> Vision 3초 + Answer 8초 → 총 ~12초 I/O-bound</span>
+                                <span class="lang-en"><strong>LLM pipeline profile</strong> Vision 3s + Answer 8s → total ~12s I/O-bound</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🔥</span>
+                            <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>500 VU 한계점</strong> 94% 완료율, 단일 노드 한계</span>
-                                <span class="lang-en"><strong>500 VU limit</strong> 94% completion, single node limit</span>
+                                <span class="lang-ko"><strong>SSE 재연결 복구</strong> State KV에서 마지막 상태 로드</span>
+                                <span class="lang-en"><strong>SSE reconnect recovery</strong> load last state from State KV</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">⚖️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>KEDA 자동 스케일링</strong> scan-worker 1→3, scan-api 1→3</span>
-                                <span class="lang-en"><strong>KEDA auto-scaling</strong> scan-worker 1→3, scan-api 1→3</span>
+                                <span class="lang-ko"><strong>KEDA 트리거</strong> RabbitMQ 큐 길이 기반 Worker 1→3 자동 스케일</span>
+                                <span class="lang-en"><strong>KEDA trigger</strong> RabbitMQ queue length based Worker 1→3 auto-scale</span>
                             </div>
                         </div>
                     </div>
@@ -2236,36 +2236,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko"><strong>Persistence Offloading</strong> 패턴으로 Application Layer와 Persistence Layer의 관심사를 철저히 분리했습니다. API 서버는 비즈니스 로직에만 집중하고, DB Write 작업은 전용 Worker Queue로 이관하여 비동기 배치 처리합니다. 이를 통해 응답 지연을 최소화하고, 트랜잭션 병목을 제거해 처리량을 극대화했습니다.</span>
-                        <span class="lang-en">Implemented <strong>Persistence Offloading</strong> pattern to strictly separate Application and Persistence Layer concerns. API servers focus solely on business logic while DB write operations are delegated to dedicated Worker Queues for async batch processing. This minimizes response latency and maximizes throughput by eliminating transaction bottlenecks.</span>
+                        <span class="lang-ko">LLM 파이프라인에서 <strong>응답 속도와 데이터 정합성</strong>을 동시에 만족해야 했습니다. Strong Consistency는 Latency를 늘리고, Fire-and-forget은 데이터 유실 위험이 있어, at-least-once + 멱등성 키로 Exactly-once Semantics를 구현했습니다.</span>
+                        <span class="lang-en">LLM pipeline required both <strong>response speed and data consistency</strong>. Strong consistency increases latency, fire-and-forget risks data loss. Implemented Exactly-once Semantics via at-least-once + idempotency keys.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">📦</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Outbox Pattern</strong> 이벤트 발행 원자성 보장</span>
-                                <span class="lang-en"><strong>Outbox Pattern</strong> atomic event publishing guarantee</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
                             <span class="achievement-icon">📤</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Write Offloading</strong> DB 쓰기 작업 Worker Queue 이관</span>
-                                <span class="lang-en"><strong>Write Offloading</strong> DB writes delegated to Worker Queue</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">⚡</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Batch Processing</strong> 비동기 배치로 트랜잭션 병목 제거</span>
-                                <span class="lang-en"><strong>Batch Processing</strong> async batch eliminates transaction bottlenecks</span>
+                                <span class="lang-ko"><strong>Write Offloading</strong> API는 이벤트만 발행, DB 쓰기는 Worker가 처리</span>
+                                <span class="lang-en"><strong>Write Offloading</strong> API publishes events only, Worker handles DB writes</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🆔</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Deterministic UUID</strong> 멱등성 키로 중복 처리 방지</span>
-                                <span class="lang-en"><strong>Deterministic UUID</strong> idempotency keys prevent duplicates</span>
+                                <span class="lang-ko"><strong>Deterministic UUID</strong> (user_id + scan_id) 기반 멱등성 키</span>
+                                <span class="lang-en"><strong>Deterministic UUID</strong> (user_id + scan_id) based idempotency key</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">📡</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Fanout 1:N 라우팅</strong> 단일 이벤트 → character_worker + users_worker</span>
+                                <span class="lang-en"><strong>Fanout 1:N routing</strong> single event → character_worker + users_worker</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔄</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>캐시 무효화</strong> Fanout broadcast + TTL 10s + 신규 Worker 부팅 시 워밍</span>
+                                <span class="lang-en"><strong>Cache invalidation</strong> Fanout broadcast + TTL 10s + warming on new Worker boot</span>
                             </div>
                         </div>
                     </div>
@@ -2296,36 +2296,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko"><strong>DOMA(Domain-Oriented Microservices Architecture)</strong> 원칙에 따라 기존 레거시 코드를 Clean Architecture로 점진적 마이그레이션했습니다. DIP(의존성 역전 원칙)와 Port & Adapter 패턴을 적용하고, 도메인별로 Entity, Use Case, Adapter 계층을 분리했습니다.</span>
-                        <span class="lang-en">Incrementally migrated legacy code to Clean Architecture following <strong>DOMA (Domain-Oriented Microservices Architecture)</strong> principles. Applied DIP and Port & Adapter patterns, separated Entity, Use Case, Adapter layers per domain.</span>
+                        <span class="lang-ko">7개 도메인 + 다수 Worker/미들웨어 + MQ/Streams를 <strong>오케스트레이션하고 유연하게 조합</strong>하기 위해 Clean Architecture를 적용했습니다. 복잡도 증가는 감수하되, LLM Provider 교체(OpenAI↔Gemini) 5분 내 완료, Mock 주입으로 단위 테스트 가능이라는 실익을 확보했습니다.</span>
+                        <span class="lang-en">Applied Clean Architecture to <strong>orchestrate and flexibly compose</strong> 7 domains + multiple Workers/middlewares + MQ/Streams. Accepted complexity tradeoff for tangible benefits: LLM Provider swap (OpenAI↔Gemini) in 5 min, unit testing via Mock injection.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
                             <span class="achievement-icon">📐</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>7개 도메인 마이그레이션</strong> Auth, Character, Chat, Scan...</span>
-                                <span class="lang-en"><strong>7 domain migration</strong> Auth, Character, Chat, Scan...</span>
+                                <span class="lang-ko"><strong>4-Layer 분리</strong> Presentation→Application→Domain←Infrastructure</span>
+                                <span class="lang-en"><strong>4-Layer separation</strong> Presentation→Application→Domain←Infrastructure</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🔌</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Port & Adapter</strong> 인프라 계층 교체 용이성</span>
-                                <span class="lang-en"><strong>Port & Adapter</strong> infrastructure swappability</span>
+                                <span class="lang-ko"><strong>실제 교체 사례</strong> LLM Adapter (OpenAI→Gemini) 5분 내 전환</span>
+                                <span class="lang-en"><strong>Real swap example</strong> LLM Adapter (OpenAI→Gemini) switch in 5 min</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🎭</span>
+                            <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>CQRS 적용</strong> Command/Query 모델 분리</span>
-                                <span class="lang-en"><strong>CQRS applied</strong> Command/Query model separation</span>
+                                <span class="lang-ko"><strong>CQRS Gateway</strong> READ 집중 도메인(ext-authz, Character)에만 적용</span>
+                                <span class="lang-en"><strong>CQRS Gateway</strong> applied only to READ-heavy domains (ext-authz, Character)</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🚀</span>
+                            <span class="achievement-icon">🧪</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Canary 배포</strong> 무중단 마이그레이션</span>
-                                <span class="lang-en"><strong>Canary deployment</strong> zero-downtime migration</span>
+                                <span class="lang-ko"><strong>테스트 용이성</strong> Mock LLM 주입으로 API 호출 없이 단위 테스트</span>
+                                <span class="lang-en"><strong>Testability</strong> unit tests without API calls via Mock LLM injection</span>
                             </div>
                         </div>
                     </div>
