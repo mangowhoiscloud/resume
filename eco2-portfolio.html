@@ -2285,7 +2285,7 @@
             <div class="category-card" style="--category-color: var(--clean-primary); --category-glow: var(--clean-glow);">
                 <div class="category-header">
                     <div class="category-info">
-                        <div class="category-icon">🥭</div>
+                        <div class="category-icon">🏛️</div>
                         <h3 class="category-title">Clean Architecture Migration</h3>
                         <div class="category-posts">16 posts</div>
                     </div>
@@ -2299,36 +2299,36 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Outbox 패턴 도입 후 Integration+Persistence 레이어가 중첩되며 기존 레이어드 아키텍처의 한계에 직면했습니다. <strong>2,500 VU 베이스라인 달성 이후 "성능보다 유지보수성"</strong>에 집중하며 7개 도메인 점진적 마이그레이션을 진행 중입니다. DI 위반 제거, Adapter 패턴으로 인프라 교체 용이성을 확보했습니다.</span>
-                        <span class="lang-en">After introducing the Outbox pattern, Integration+Persistence layers overlapped, revealing the limits of layered architecture. <strong>After reaching 2,500 VU baseline, shifted focus to "maintainability over performance"</strong> with incremental migration of 7 domains. Eliminated DI violations, secured infrastructure swappability via Adapter pattern.</span>
+                        <span class="lang-ko">Outbox 패턴 도입 후 Integration+Persistence 레이어가 중첩되며 레이어드 아키텍처의 한계에 직면했습니다. Redis 직접 의존 등 <strong>DI 위반을 제거</strong>하고, Port/Adapter 기반으로 <strong>인프라 교체 용이성</strong>과 <strong>역할 명확화</strong>를 확보했습니다. 도메인별 설정이 응집되어 ConfigMap 관리가 단순해졌습니다.</span>
+                        <span class="lang-en">After introducing Outbox pattern, Integration+Persistence layers overlapped, revealing layered architecture limits. <strong>Eliminated DI violations</strong> (e.g., direct Redis dependency), achieved <strong>infrastructure swappability</strong> and <strong>clear role separation</strong> via Port/Adapter. Domain-specific configs became cohesive, simplifying ConfigMap management.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
-                            <span class="achievement-icon">🥭</span>
+                            <span class="achievement-icon">📐</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>4-Layer 분리</strong> Presentation→Application→Domain←Infrastructure, 의존성 역전</span>
-                                <span class="lang-en"><strong>4-Layer separation</strong> Presentation→Application→Domain←Infrastructure, DIP</span>
+                                <span class="lang-ko"><strong>4-Layer DIP</strong> Domain이 중심, Infrastructure가 Domain에 의존</span>
+                                <span class="lang-en"><strong>4-Layer DIP</strong> Domain at center, Infrastructure depends on Domain</span>
                             </div>
                         </div>
                         <div class="achievement">
                             <span class="achievement-icon">🔌</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Adapter 교체 실증</strong> LLM Provider (OpenAI↔Gemini) 5분 내 전환</span>
-                                <span class="lang-en"><strong>Adapter swap verified</strong> LLM Provider (OpenAI↔Gemini) in 5 min</span>
+                                <span class="lang-ko"><strong>Adapter 교체 용이</strong> LLM/Persistence/MQ Adapter 독립 교체 가능</span>
+                                <span class="lang-en"><strong>Adapter swappability</strong> LLM/Persistence/MQ Adapters independently replaceable</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🎯</span>
+                            <span class="achievement-icon">📦</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>CQRS Gateway</strong> READ 집중 도메인(ext-authz JWT 검증, Character 조회)에만 적용</span>
-                                <span class="lang-en"><strong>CQRS Gateway</strong> applied to READ-heavy domains (ext-authz JWT, Character lookup)</span>
+                                <span class="lang-ko"><strong>기술 응집도</strong> 도메인별 설정 분리로 ConfigMap/Secret 관리 단순화</span>
+                                <span class="lang-en"><strong>Tech cohesion</strong> Domain-specific configs simplify ConfigMap/Secret management</span>
                             </div>
                         </div>
                         <div class="achievement">
-                            <span class="achievement-icon">🧪</span>
+                            <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>테스트 용이성</strong> Port 인터페이스에 Mock 주입, 외부 API 없이 단위 테스트</span>
-                                <span class="lang-en"><strong>Testability</strong> Mock injection via Port interface, unit tests without external APIs</span>
+                                <span class="lang-ko"><strong>Radon 복잡도</strong> 2,120 블록 평균 A (2.28) — 낮은 복잡도 유지</span>
+                                <span class="lang-en"><strong>Radon complexity</strong> 2,120 blocks avg A (2.28) — low complexity maintained</span>
                             </div>
                         </div>
                     </div>
@@ -2861,8 +2861,8 @@
             </a>
         </div>
         <p class="footer-copyright">
-            <span class="lang-ko">© 2025 류지환 (Jihwan Ryu). All rights reserved.</span>
-            <span class="lang-en">© 2025 Jihwan Ryu. All rights reserved.</span>
+            <span class="lang-ko">🥭 © 2025 류지환 (Jihwan Ryu). All rights reserved.</span>
+            <span class="lang-en">🥭 © 2025 Jihwan Ryu. All rights reserved.</span>
         </p>
     </footer>
 
