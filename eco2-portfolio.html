@@ -2180,8 +2180,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">LLM API 10+초 고지연으로 <strong>Celery Events 기반 SSE가 동시접속을 버틸 수 없었습니다</strong> (SSE당 RabbitMQ 21연결 × N VU = 곱 폭발). Redis Streams 기반 이벤트 릴레이로 전환, 연결 복잡도를 O(n×m) → O(n)으로 개선하고, Streams(영속) + Pub/Sub(실시간) + State KV(복구)로 책임을 분리했습니다.</span>
-                        <span class="lang-en">LLM API 10+s high latency meant <strong>Celery Events-based SSE couldn't handle concurrent connections</strong> (21 RabbitMQ connections per SSE × N VU = explosion). Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery).</span>
+                        <span class="lang-ko">SSE 적용 전 동기 방식에서도 <strong>80 VU가 한계</strong>였습니다 — LLM API 10+초 고지연으로 Worker 스레드가 고갈되어 타임아웃이 발생했습니다. SSE 전환 후에도 <strong>Celery Events 기반 SSE가 동시접속을 버틸 수 없었습니다</strong> (SSE당 RabbitMQ 21연결 × N VU = 곱 폭발). Redis Streams 기반 이벤트 릴레이로 전환, 연결 복잡도를 O(n×m) → O(n)으로 개선하고, Streams(영속) + Pub/Sub(실시간) + State KV(복구)로 책임을 분리했습니다.</span>
+                        <span class="lang-en">Even before SSE, sync mode hit <strong>80 VU ceiling</strong> — LLM API 10+s latency exhausted Worker threads causing timeouts. After SSE adoption, <strong>Celery Events-based SSE still couldn't handle concurrent connections</strong> (21 RabbitMQ connections per SSE × N VU = explosion). Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery).</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -2299,8 +2299,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Outbox 패턴 도입 후 Integration+Persistence 레이어가 중첩되며 레이어드 아키텍처의 한계에 직면했습니다. Redis 직접 의존 등 <strong>DI 위반을 제거</strong>하고, Port/Adapter 기반으로 <strong>인프라 교체 용이성</strong>과 <strong>역할 명확화</strong>를 확보했습니다. 도메인별 설정이 응집되어 ConfigMap 관리가 단순해졌습니다.</span>
-                        <span class="lang-en">After introducing Outbox pattern, Integration+Persistence layers overlapped, revealing layered architecture limits. <strong>Eliminated DI violations</strong> (e.g., direct Redis dependency), achieved <strong>infrastructure swappability</strong> and <strong>clear role separation</strong> via Port/Adapter. Domain-specific configs became cohesive, simplifying ConfigMap management.</span>
+                        <span class="lang-ko">Outbox 패턴 도입 후 Integration+Persistence 레이어가 중첩되며 레이어드 아키텍처의 한계에 직면했습니다. Redis 직접 의존 등 <strong>DI 위반을 제거</strong>하고, Port/Adapter 기반으로 <strong>인프라 교체 용이성</strong>과 <strong>역할 명확화</strong>를 확보했습니다. 도메인별 응집으로 비즈니스 요구사항 변경 시 <strong>수정 범위가 단일 도메인으로 제한</strong>되어, 사이드 이펙트 추적과 코드 리뷰 부담이 크게 줄었습니다. Port 인터페이스만 Mock하면 외부 인프라 없이 도메인 로직을 독립 검증할 수 있어, <strong>테스트 작성 비용이 낮아지고 병렬 개발</strong>이 자연스럽게 가능해졌습니다. 인프라 의존성이 Adapter로 캡슐화되어 <strong>특정 컴포넌트 장애가 도메인 경계를 넘어 전파되지 않습니다</strong>.</span>
+                        <span class="lang-en">After introducing Outbox pattern, Integration+Persistence layers overlapped, revealing layered architecture limits. <strong>Eliminated DI violations</strong> (e.g., direct Redis dependency), achieved <strong>infrastructure swappability</strong> and <strong>clear role separation</strong> via Port/Adapter. Domain-level cohesion <strong>limits change scope to single domain</strong>, reducing side-effect tracking and code review burden. Mocking only Port interfaces enables <strong>independent domain logic verification without external infra</strong>, lowering test costs and enabling parallel development. Infrastructure dependencies encapsulated in Adapters ensure <strong>component failures don't propagate beyond domain boundaries</strong>.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -2355,12 +2355,12 @@
                 </div>
             </div>
 
-            <!-- 8. Chat Agent -->
+            <!-- 8. Recycling Agent -->
             <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
                 <div class="category-header">
                     <div class="category-info">
                         <div class="category-icon">🤖</div>
-                        <h3 class="category-title">Chat Agent</h3>
+                        <h3 class="category-title">Recycling Agent</h3>
                         <div class="category-posts">7 posts</div>
                     </div>
                     <div class="category-badges">
@@ -2579,8 +2579,8 @@
                         <div class="async-icon">🎯</div>
                         <div class="async-name">Intent Router</div>
                         <div class="async-desc">
-                            <span class="lang-ko">LLM 4분류 (waste/character/location/general)</span>
-                            <span class="lang-en">LLM 4-class (waste/character/location/general)</span>
+                            <span class="lang-ko">LLM 4분류 · temp 0.1 · max_tokens 20</span>
+                            <span class="lang-en">LLM 4-class · temp 0.1 · max_tokens 20</span>
                         </div>
                     </div>
                     <div class="pipeline-arrow">→</div>
@@ -2588,8 +2588,8 @@
                         <div class="async-icon">🔗</div>
                         <div class="async-name">Subagent</div>
                         <div class="async-desc">
-                            <span class="lang-ko">gRPC 호출 (Character ~3ms / Location PostGIS)</span>
-                            <span class="lang-en">gRPC Call (Character ~3ms / Location PostGIS)</span>
+                            <span class="lang-ko">grpc.aio non-blocking · Port/Adapter DI</span>
+                            <span class="lang-en">grpc.aio non-blocking · Port/Adapter DI</span>
                         </div>
                     </div>
                     <div class="pipeline-arrow">→</div>
