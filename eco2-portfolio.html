@@ -2700,49 +2700,6 @@
                 </div>
             </div>
 
-            <!-- Event Relay Layer -->
-            <div class="pipeline-subsection">
-                <div class="subsection-header">
-                    <div class="subsection-title">
-                        <span class="lang-ko">🔄 Event Relay Layer (공통)</span>
-                        <span class="lang-en">🔄 Event Relay Layer (Shared)</span>
-                    </div>
-                    <div class="llm-pipeline-credit">
-                        <span class="lang-ko">Backend / Infra</span>
-                        <span class="lang-en">Backend / Infra</span>
-                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
-                    </div>
-                </div>
-                <div class="async-sse-flow">
-                    <div class="async-item">
-                        <div class="async-icon">📊</div>
-                        <div class="async-name">Streams</div>
-                        <div class="async-desc">내구성</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">🔀</div>
-                        <div class="async-name">Event Router</div>
-                        <div class="async-desc">XREADGROUP</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">📡</div>
-                        <div class="async-name">Pub/Sub</div>
-                        <div class="async-desc">실시간</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">📺</div>
-                        <div class="async-name">SSE Gateway</div>
-                        <div class="async-desc">State 복구</div>
-                    </div>
-                </div>
-                <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>3-Tier Redis</strong> — Streams(내구성) + Pub/Sub(실시간) + State KV(복구). Scan/Chat 공통 이벤트 릴레이 계층</span>
-                    <span class="lang-en"><strong>3-Tier Redis</strong> — Streams (durability) + Pub/Sub (realtime) + State KV (recovery). Shared event relay layer for Scan/Chat</span>
-                </div>
-            </div>
         </div>
 
         <!-- Architecture Diagram -->
