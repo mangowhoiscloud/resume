@@ -2355,13 +2355,13 @@
                 </div>
             </div>
 
-            <!-- 8. Chat Agent화 -->
+            <!-- 8. Chat Agent -->
             <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
                 <div class="category-header">
                     <div class="category-info">
                         <div class="category-icon">🤖</div>
-                        <h3 class="category-title">Chat Agent화</h3>
-                        <div class="category-posts">6 posts</div>
+                        <h3 class="category-title">Chat Agent</h3>
+                        <div class="category-posts">7 posts</div>
                     </div>
                     <div class="category-badges">
                         <span class="status-badge in-progress">
@@ -2554,12 +2554,56 @@
                 </div>
             </div>
 
-            <!-- Production-Ready Implementation -->
+            <!-- Chat Agentic Workflow -->
             <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">⚡ Production-Ready 구현 (Celery + Event Relay)</span>
-                        <span class="lang-en">⚡ Production-Ready Implementation (Celery + Event Relay)</span>
+                        <span class="lang-ko">🤖 Chat Agentic Workflow <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span></span>
+                        <span class="lang-en">🤖 Chat Agentic Workflow <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span></span>
+                    </div>
+                    <div class="llm-pipeline-credit">
+                        <span class="lang-ko">Backend / Infra</span>
+                        <span class="lang-en">Backend / Infra</span>
+                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
+                    </div>
+                </div>
+                <div class="async-sse-flow">
+                    <div class="async-item">
+                        <div class="async-icon">🎯</div>
+                        <div class="async-name">Intent Router</div>
+                        <div class="async-desc">5분류</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🔗</div>
+                        <div class="async-name">Subagent</div>
+                        <div class="async-desc">gRPC 도메인 연동</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🔁</div>
+                        <div class="async-name">Human-in-Loop</div>
+                        <div class="async-desc">needs_input</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">💬</div>
+                        <div class="async-name">Answer</div>
+                        <div class="async-desc">Streaming</div>
+                    </div>
+                </div>
+                <div class="pipeline-detail">
+                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — 기존 페르소나 + 이미지 분기에서 Intent Routing(5분류) + Subagent 패턴으로 에이전트화. Interactive SSE로 위치/확인/선택 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청</span>
+                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Evolving from persona + image branching to Intent Routing (5-class) + Subagent pattern. Interactive SSE naturally requests additional inputs (location/confirmation/selection) within conversation flow</span>
+                </div>
+            </div>
+
+            <!-- Production-Ready: Scan -->
+            <div class="pipeline-subsection">
+                <div class="subsection-header">
+                    <div class="subsection-title">
+                        <span class="lang-ko">📦 Scan: Celery + Gevent</span>
+                        <span class="lang-en">📦 Scan: Celery + Gevent</span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -2571,13 +2615,13 @@
                     <div class="async-item">
                         <div class="async-icon">⛓️</div>
                         <div class="async-name">Celery Chain</div>
-                        <div class="async-desc">4-Stage Pipeline</div>
+                        <div class="async-desc">4-Stage</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
-                        <div class="async-icon">🎁</div>
-                        <div class="async-name">Reward</div>
-                        <div class="async-desc">Fanout</div>
+                        <div class="async-icon">🐰</div>
+                        <div class="async-name">RabbitMQ</div>
+                        <div class="async-desc">Job Queue</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
@@ -2588,28 +2632,115 @@
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">📺</div>
-                        <div class="async-name">SSE Gateway</div>
-                        <div class="async-desc">Client Push</div>
+                        <div class="async-name">SSE</div>
+                        <div class="async-desc">Client</div>
                     </div>
                 </div>
-                <div class="pipeline-detail">
-                    <span class="lang-ko">Celery Chain 구성 + Reward Fanout + Event Relay Layer로 서비스 가능 수준 달성</span>
-                    <span class="lang-en">Celery Chain + Reward Fanout + Event Relay Layer for production-ready service</span>
-                </div>
-            </div>
-
-            <div class="llm-pipeline-specs">
+                <div class="llm-pipeline-specs" style="margin-top: 1rem;">
                 <div class="spec-item">
                     <span class="spec-label">Pool</span>
-                    <span class="spec-value">gevent 100 greenlets</span>
+                        <span class="spec-value">gevent 100</span>
                 </div>
                 <div class="spec-item">
-                    <span class="spec-label">Latency</span>
-                    <span class="spec-value">~12초/request</span>
+                        <span class="spec-label">SLA</span>
+                        <span class="spec-value">250 VU 99.9%</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">p95</span>
+                        <span class="spec-value">40s</span>
                 </div>
                 <div class="spec-item">
                     <span class="spec-label">Throughput</span>
-                    <span class="spec-value">402 req/min @300VU</span>
+                        <span class="spec-value">418 req/m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Production-Ready: Chat -->
+            <div class="pipeline-subsection">
+                <div class="subsection-header">
+                    <div class="subsection-title">
+                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span></span>
+                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span></span>
+                    </div>
+                    <div class="llm-pipeline-credit">
+                        <span class="lang-ko">Backend / Infra</span>
+                        <span class="lang-en">Backend / Infra</span>
+                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
+                    </div>
+                </div>
+                <div class="async-sse-flow">
+                    <div class="async-item">
+                        <div class="async-icon">🔄</div>
+                        <div class="async-name">Taskiq</div>
+                        <div class="async-desc">asyncio-native</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🐰</div>
+                        <div class="async-name">RabbitMQ</div>
+                        <div class="async-desc">Job Queue</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🌊</div>
+                        <div class="async-name">Event Relay</div>
+                        <div class="async-desc">3-Tier Redis</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">📺</div>
+                        <div class="async-name">SSE</div>
+                        <div class="async-desc">Client</div>
+                    </div>
+                </div>
+                <div class="pipeline-detail">
+                    <span class="lang-ko">LangGraph 호환을 위해 asyncio-native Taskiq 선택. RabbitMQ 재사용, RedisSaver Cache-Aside 체크포인팅</span>
+                    <span class="lang-en">Chose asyncio-native Taskiq for LangGraph compatibility. RabbitMQ reuse, RedisSaver Cache-Aside checkpointing</span>
+                </div>
+            </div>
+
+            <!-- Event Relay Layer -->
+            <div class="pipeline-subsection">
+                <div class="subsection-header">
+                    <div class="subsection-title">
+                        <span class="lang-ko">🔄 Event Relay Layer (공통)</span>
+                        <span class="lang-en">🔄 Event Relay Layer (Shared)</span>
+                    </div>
+                    <div class="llm-pipeline-credit">
+                        <span class="lang-ko">Backend / Infra</span>
+                        <span class="lang-en">Backend / Infra</span>
+                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
+                    </div>
+                </div>
+                <div class="async-sse-flow">
+                    <div class="async-item">
+                        <div class="async-icon">📊</div>
+                        <div class="async-name">Streams</div>
+                        <div class="async-desc">내구성</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🔀</div>
+                        <div class="async-name">Event Router</div>
+                        <div class="async-desc">XREADGROUP</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">📡</div>
+                        <div class="async-name">Pub/Sub</div>
+                        <div class="async-desc">실시간</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">📺</div>
+                        <div class="async-name">SSE Gateway</div>
+                        <div class="async-desc">State 복구</div>
+                    </div>
+                </div>
+                <div class="pipeline-detail">
+                    <span class="lang-ko"><strong>3-Tier Redis</strong> — Streams(내구성) + Pub/Sub(실시간) + State KV(복구). Scan/Chat 공통 이벤트 릴레이 계층</span>
+                    <span class="lang-en"><strong>3-Tier Redis</strong> — Streams (durability) + Pub/Sub (realtime) + State KV (recovery). Shared event relay layer for Scan/Chat</span>
                 </div>
             </div>
         </div>
