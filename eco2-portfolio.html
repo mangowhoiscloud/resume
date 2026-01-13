@@ -2239,8 +2239,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">LLM 파이프라인에서 <strong>응답 속도와 데이터 정합성</strong>을 동시에 만족해야 했습니다. Strong Consistency는 Latency를 늘리고, Fire-and-forget은 데이터 유실 위험이 있어, at-least-once + 멱등성 키로 Exactly-once Semantics를 구현했습니다.</span>
-                        <span class="lang-en">LLM pipeline required both <strong>response speed and data consistency</strong>. Strong consistency increases latency, fire-and-forget risks data loss. Implemented Exactly-once Semantics via at-least-once + idempotency keys.</span>
+                        <span class="lang-ko"><strong>강결합과 즉시 응답이 필요한 로직(OAuth 플로우 등)을 제외</strong>한 모든 영역에 Eventual Consistency를 적용했습니다. Strong Consistency는 Latency를 늘리고, Fire-and-forget은 데이터 유실 위험이 있어, at-least-once + 멱등성 키로 Exactly-once Semantics를 구현했습니다. Application Layer가 <strong>Persistence를 Worker에 Offloading</strong>하면서 DB 병목 없이 수평 확장이 가능해졌고, API Pod는 빠른 응답만 담당하여 처리량(Throughput)이 크게 향상되었습니다.</span>
+                        <span class="lang-en"><strong>Applied Eventual Consistency to all areas except tightly-coupled, immediate-response logic (e.g., OAuth flow)</strong>. Strong consistency increases latency, fire-and-forget risks data loss. Implemented Exactly-once Semantics via at-least-once + idempotency keys. Application Layer <strong>offloads persistence to Workers</strong>, enabling horizontal scaling without DB bottleneck. API Pods focus solely on fast responses, significantly improving throughput.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
