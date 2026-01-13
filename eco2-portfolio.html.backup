@@ -1617,10 +1617,10 @@
         </p>
         <div class="hero-stats">
             <div class="hero-stat">
-                <div class="hero-stat-value">83+ · 51+</div>
+                <div class="hero-stat-value">67+</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">개발 기록 · Knowledge Base</span>
-                    <span class="lang-en">Dev Logs · Knowledge Base</span>
+                    <span class="lang-ko">블로그 포스트</span>
+                    <span class="lang-en">Blog Posts</span>
                 </div>
             </div>
             <div class="hero-stat">
@@ -1938,8 +1938,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Canary 배포</strong>로 단일 클러스터에서 테스트/서비스 환경을 헤더 기반으로 병행하고, ArgoCD App-of-Apps + Sync Wave로 코드베이스를 SSOT로 삼아 개발자와 에이전트의 클러스터 이해도 및 인프라 디벨롭에 유리하게 구성했습니다.</span>
-                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. <strong>Canary deployment</strong> enables test/service environments in parallel via header-based routing within a single cluster. ArgoCD App-of-Apps + Sync Wave treats codebase as SSOT, favoring developer and agent's cluster comprehension and infra development.</span>
+                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. 단일 클러스터 내 dev/canary 환경 격리가 필요해 ArgoCD App-of-Apps + Sync Wave를 선택, Helm 패키징 대신 Operator 기반 CR 관리로 확장성을 확보했습니다.</span>
+                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. Chose ArgoCD App-of-Apps + Sync Wave for dev/canary environment isolation within a single cluster, adopted Operator-based CR management over Helm packaging for extensibility.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -2354,75 +2354,6 @@
                     </a>
                 </div>
             </div>
-
-            <!-- 8. Chat Agent -->
-            <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
-                <div class="category-header">
-                    <div class="category-info">
-                        <div class="category-icon">🤖</div>
-                        <h3 class="category-title">Chat Agent</h3>
-                        <div class="category-posts">7 posts</div>
-                    </div>
-                    <div class="category-badges">
-                        <span class="status-badge in-progress">
-                            <span class="lang-ko">진행 중</span>
-                            <span class="lang-en">In Progress</span>
-                        </span>
-                        <span class="tech-badge">Taskiq</span>
-                        <span class="tech-badge">LangGraph</span>
-                        <span class="tech-badge">Human-in-the-Loop</span>
-                    </div>
-                </div>
-                <div class="category-content">
-                    <p class="category-desc">
-                        <span class="lang-ko">기존 Chat은 시스템 프롬프트 기반 <strong>페르소나 + 이미지 입력 분기</strong>만 존재했습니다. 여기에 <strong>Intent Routing(4분류: waste/character/location/general)</strong>과 <strong>Subagent 패턴(gRPC Direct Call)</strong>을 도입해 Chat을 에이전트로 디벨롭 중입니다. Taskiq asyncio-native로 5-30초 LLM 파이프라인을 비동기화하고, <strong>Human-in-the-Loop</strong> SSE로 위치 정보 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청합니다.</span>
-                        <span class="lang-en">Original Chat only had system prompt-based <strong>persona + image input branching</strong>. Now evolving Chat into an agent by adding <strong>Intent Routing (4-class: waste/character/location/general)</strong> and <strong>Subagent pattern (gRPC Direct Call)</strong>. Async-ified 5-30s LLM pipeline via Taskiq asyncio-native, <strong>Human-in-the-Loop</strong> SSE requests additional inputs (e.g., location) naturally within conversation flow.</span>
-                    </p>
-                    <div class="achievements">
-                        <div class="achievement">
-                            <span class="achievement-icon">🔄</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Taskiq 선택</strong> 기존 동기 응답 → asyncio Job Queue 비동기화, LangGraph 호환, RabbitMQ 재사용</span>
-                                <span class="lang-en"><strong>Taskiq Selection</strong> Sync response → asyncio Job Queue async, LangGraph compatible, RabbitMQ reuse</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🎯</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Intent Router</strong> LLM 기반 4분류 (waste/character/location/general), temperature 0.1 안정성, QueryComplexity로 Subagent 분기 결정</span>
-                                <span class="lang-en"><strong>Intent Router</strong> LLM-based 4-class (waste/character/location/general), temperature 0.1 stability, QueryComplexity for Subagent branching</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🔗</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Subagent gRPC</strong> Port/Adapter + DI 패턴, Character API(LocalCache ~1-3ms) / Location API(PostGIS) 연동, asyncio non-blocking await</span>
-                                <span class="lang-en"><strong>Subagent gRPC</strong> Port/Adapter + DI pattern, Character API (LocalCache ~1-3ms) / Location API (PostGIS), asyncio non-blocking await</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🔁</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Human-in-the-Loop</strong> SSE needs_input 이벤트로 위치/확인/선택 요청, 대화 흐름 내 자연스러운 권한 요청</span>
-                                <span class="lang-en"><strong>Human-in-the-Loop</strong> SSE needs_input event for location/confirmation/selection, natural permission request in conversation</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">💾</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>상태 복원</strong> RedisSaver 체크포인팅, Cache-Aside 패턴, Hot session Redis 응답</span>
-                                <span class="lang-en"><strong>State Recovery</strong> RedisSaver checkpointing, Cache-Aside pattern, Hot session from Redis</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-footer">
-                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Agent" target="_blank" class="blog-link">
-                        <span class="lang-ko">블로그에서 자세히 보기</span>
-                        <span class="lang-en">Read more on blog</span>
-                    </a>
-                </div>
-            </div>
         </div>
 
     </section>
@@ -2561,62 +2492,12 @@
                 </div>
             </div>
 
-            <!-- Chat Agentic Workflow -->
+            <!-- Production-Ready Implementation -->
             <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🤖 Chat Agentic Workflow <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span></span>
-                        <span class="lang-en">🤖 Chat Agentic Workflow <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span></span>
-                    </div>
-                    <div class="llm-pipeline-credit">
-                        <span class="lang-ko">Backend / Infra</span>
-                        <span class="lang-en">Backend / Infra</span>
-                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
-                    </div>
-                </div>
-                <div class="async-sse-flow">
-                    <div class="async-item">
-                        <div class="async-icon">🎯</div>
-                        <div class="async-name">Intent Router</div>
-                        <div class="async-desc">
-                            <span class="lang-ko">LLM 4분류 (waste/character/location/general)</span>
-                            <span class="lang-en">LLM 4-class (waste/character/location/general)</span>
-                        </div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">🔗</div>
-                        <div class="async-name">Subagent</div>
-                        <div class="async-desc">
-                            <span class="lang-ko">gRPC 호출 (Character ~3ms / Location PostGIS)</span>
-                            <span class="lang-en">gRPC Call (Character ~3ms / Location PostGIS)</span>
-                        </div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">🔁</div>
-                        <div class="async-name">Human-in-Loop</div>
-                        <div class="async-desc">needs_input</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">💬</div>
-                        <div class="async-name">Answer</div>
-                        <div class="async-desc">Streaming</div>
-                    </div>
-                </div>
-                <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — Intent → Router → [Waste RAG | Character gRPC | Location gRPC | General] → Answer. Port/Adapter 패턴으로 gRPC 클라이언트 DI 주입, Character API LocalCache(~1-3ms), Location API PostGIS 연동. Interactive SSE로 위치/확인/선택 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청</span>
-                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Intent → Router → [Waste RAG | Character gRPC | Location gRPC | General] → Answer. Port/Adapter pattern with gRPC client DI, Character API LocalCache (~1-3ms), Location API PostGIS. Interactive SSE naturally requests additional inputs (location/confirmation/selection) within conversation flow</span>
-                </div>
-            </div>
-
-            <!-- Production-Ready: Scan -->
-            <div class="pipeline-subsection">
-                <div class="subsection-header">
-                    <div class="subsection-title">
-                        <span class="lang-ko">📦 Scan: Celery + Gevent</span>
-                        <span class="lang-en">📦 Scan: Celery + Gevent</span>
+                        <span class="lang-ko">⚡ Production-Ready 구현 (Celery + Event Relay)</span>
+                        <span class="lang-en">⚡ Production-Ready Implementation (Celery + Event Relay)</span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -2628,71 +2509,13 @@
                     <div class="async-item">
                         <div class="async-icon">⛓️</div>
                         <div class="async-name">Celery Chain</div>
-                        <div class="async-desc">4-Stage</div>
+                        <div class="async-desc">4-Stage Pipeline</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
-                        <div class="async-icon">🐰</div>
-                        <div class="async-name">RabbitMQ</div>
-                        <div class="async-desc">Job Queue</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">🌊</div>
-                        <div class="async-name">Event Relay</div>
-                        <div class="async-desc">3-Tier Redis</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">📺</div>
-                        <div class="async-name">SSE</div>
-                        <div class="async-desc">Client</div>
-                    </div>
-                </div>
-                <div class="llm-pipeline-specs" style="margin-top: 1rem;">
-                <div class="spec-item">
-                    <span class="spec-label">Pool</span>
-                        <span class="spec-value">gevent 100</span>
-                </div>
-                <div class="spec-item">
-                        <span class="spec-label">SLA</span>
-                        <span class="spec-value">250 VU 99.9%</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">p95</span>
-                        <span class="spec-value">40s</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Throughput</span>
-                        <span class="spec-value">418 req/m</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Production-Ready: Chat -->
-            <div class="pipeline-subsection">
-                <div class="subsection-header">
-                    <div class="subsection-title">
-                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span></span>
-                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span></span>
-                    </div>
-                    <div class="llm-pipeline-credit">
-                        <span class="lang-ko">Backend / Infra</span>
-                        <span class="lang-en">Backend / Infra</span>
-                        <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
-                    </div>
-                </div>
-                <div class="async-sse-flow">
-                    <div class="async-item">
-                        <div class="async-icon">🔄</div>
-                        <div class="async-name">Taskiq</div>
-                        <div class="async-desc">asyncio-native</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">🐰</div>
-                        <div class="async-name">RabbitMQ</div>
-                        <div class="async-desc">Job Queue</div>
+                        <div class="async-icon">🎁</div>
+                        <div class="async-name">Reward</div>
+                        <div class="async-desc">Fanout</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
@@ -2703,16 +2526,30 @@
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">📺</div>
-                        <div class="async-name">SSE</div>
-                        <div class="async-desc">Client</div>
+                        <div class="async-name">SSE Gateway</div>
+                        <div class="async-desc">Client Push</div>
                     </div>
                 </div>
                 <div class="pipeline-detail">
-                    <span class="lang-ko">LangGraph 호환을 위해 asyncio-native Taskiq 선택. RabbitMQ 재사용, RedisSaver Cache-Aside 체크포인팅</span>
-                    <span class="lang-en">Chose asyncio-native Taskiq for LangGraph compatibility. RabbitMQ reuse, RedisSaver Cache-Aside checkpointing</span>
+                    <span class="lang-ko">Celery Chain 구성 + Reward Fanout + Event Relay Layer로 서비스 가능 수준 달성</span>
+                    <span class="lang-en">Celery Chain + Reward Fanout + Event Relay Layer for production-ready service</span>
                 </div>
             </div>
 
+            <div class="llm-pipeline-specs">
+                <div class="spec-item">
+                    <span class="spec-label">Pool</span>
+                    <span class="spec-value">gevent 100 greenlets</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Latency</span>
+                    <span class="spec-value">~12초/request</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Throughput</span>
+                    <span class="spec-value">402 req/min @300VU</span>
+                </div>
+            </div>
         </div>
 
         <!-- Architecture Diagram -->
@@ -3028,7 +2865,7 @@
                 <span>GitHub (Backend)</span>
             </a>
             <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29" target="_blank" class="footer-link">
-                <span>Blog (83+ · 51+)</span>
+                <span>Blog (67+ posts)</span>
             </a>
             <a href="https://mangowhoiscloud.github.io/resume/" target="_blank" class="footer-link">
                 <span>Resume</span>
