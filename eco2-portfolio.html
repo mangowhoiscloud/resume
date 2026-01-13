@@ -1938,8 +1938,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Canary 배포</strong>로 단일 클러스터에서 테스트/서비스 환경을 헤더 기반으로 병행하고, ArgoCD App-of-Apps + Sync Wave로 코드베이스를 SSOT로 삼아 개발자와 에이전트의 클러스터 이해도 및 인프라 디벨롭에 유리하게 구성했습니다.</span>
-                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. <strong>Canary deployment</strong> enables test/service environments in parallel via header-based routing within a single cluster. ArgoCD App-of-Apps + Sync Wave treats codebase as SSOT, favoring developer and agent's cluster comprehension and infra development.</span>
+                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Istio VirtualService + 헤더 기반 Canary</strong>로 단일 클러스터 내 dev/prod 환경을 병행하여 별도 클러스터 운영 비용 없이 프로덕션 동일 조건에서 검증합니다. ArgoCD App-of-Apps + Sync Wave로 Git을 SSOT로 삼아 클러스터 상태를 선언적으로 관리하고, 코드베이스만으로 전체 인프라 재현이 가능합니다.</span>
+                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
@@ -2606,8 +2606,8 @@
                     </div>
                 </div>
                 <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — Intent → Router → [Waste RAG | Character gRPC | Location gRPC | General] → Answer. Port/Adapter 패턴으로 gRPC 클라이언트 DI 주입, Character API LocalCache(~1-3ms), Location API PostGIS 연동. Interactive SSE로 위치/확인/선택 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청</span>
-                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Intent → Router → [Waste RAG | Character gRPC | Location gRPC | General] → Answer. Port/Adapter pattern with gRPC client DI, Character API LocalCache (~1-3ms), Location API PostGIS. Interactive SSE naturally requests additional inputs (location/confirmation/selection) within conversation flow</span>
+                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — Intent → Router → [Waste RAG | Character gRPC | Location gRPC | General] → Answer. Interactive SSE로 위치/확인/선택 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청</span>
+                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Intent → Router → [Waste RAG | Character gRPC | Location gRPC | General] → Answer. Interactive SSE naturally requests additional inputs (location/confirmation/selection) within conversation flow</span>
                 </div>
             </div>
 
