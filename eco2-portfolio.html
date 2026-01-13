@@ -1656,8 +1656,8 @@
                 <span class="lang-en">Agent-Driven Development</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">Google DeepMind의 World Model 아키텍처를 개발 프로세스에 투영했습니다. 24-노드 분산 클러스터는 Agent가 탐색하고 상호작용하는 '세계(World)'로 기능하며, LLM Agent는 코드베이스 구조와 실시간 Observability 메트릭을 컨텍스트로 주입받아 환경의 현재 상태를 파악하고 다음 행동을 결정합니다. 배포 → 관측 → 피드백의 연속적인 사이클 속에서 Agent의 환경 인식은 점차 정교해지고, 개발자와 클러스터는 함께 진화합니다.</span>
-                <span class="lang-en">This development process is a projection of Google DeepMind's World Model architecture. The 24-node distributed cluster functions as the 'World' that the Agent explores and interacts with, while the LLM Agent receives codebase structure and real-time Observability metrics as context to comprehend the current state and determine subsequent actions. Through the continuous Deploy → Observe → Feedback cycle, the Agent's environmental awareness progressively refines, and both developer and cluster evolve in tandem.</span>
+                <span class="lang-ko">Google DeepMind의 World Model 아키텍처를 개발 프로세스에 투영했습니다. 24-노드 분산 클러스터는 Agent가 탐색하고 상호작용하는 '세계(World)'로 기능하며, LLM Agent는 코드베이스 구조와 실시간 Observability 메트릭을 컨텍스트로 주입받아 환경의 현재 상태를 파악하고 다음 행동을 결정합니다. <strong>7개 도메인 API(Auth, Character, Chat, Scan, Location, My, Image)</strong>를 개발하고 배포 → 관측 → 피드백의 연속적인 사이클 속에서 Agent의 환경 인식은 점차 정교해지고, 개발자와 클러스터는 함께 진화합니다.</span>
+                <span class="lang-en">This development process is a projection of Google DeepMind's World Model architecture. The 24-node distributed cluster functions as the 'World' that the Agent explores and interacts with, while the LLM Agent receives codebase structure and real-time Observability metrics as context to comprehend the current state and determine subsequent actions. Developed <strong>7 domain APIs (Auth, Character, Chat, Scan, Location, My, Image)</strong> through the continuous Deploy → Observe → Feedback cycle, progressively refining the Agent's environmental awareness as both developer and cluster evolve in tandem.</span>
             </p>
         </div>
 
@@ -2606,8 +2606,8 @@
                     </div>
                 </div>
                 <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — Intent Classifier가 4분류(waste/character/location/general)로 라우팅, 각 Subagent는 전용 시스템 프롬프트로 역할이 정의됩니다. Waste는 RAG + Vision 분류 결과 기반, Character/Location은 gRPC 조회 컨텍스트 기반, General은 환경 상식과 대화 연결. Interactive SSE로 위치/확인/선택 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청합니다.</span>
-                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Intent Classifier routes to 4 categories (waste/character/location/general), each Subagent has dedicated system prompts defining its role. Waste uses RAG + Vision classification results, Character/Location use gRPC-fetched context, General connects conversations to environmental topics. Interactive SSE naturally requests additional inputs (location/confirmation/selection) within conversation flow.</span>
+                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — Intent Classifier가 4분류(waste/character/location/general)로 라우팅, 각 Subagent는 전용 시스템 프롬프트로 역할이 정의됩니다. Waste는 RAG + Vision 분류 결과 기반, Character/Location은 gRPC 조회 컨텍스트 기반, General은 환경 상식과 대화 연결. <strong>Event Router 4-shard 정합성 검증 완료</strong>, Human-in-the-Loop + Token Streaming seq 기반 순서 보장, SSE Gateway 멀티 도메인 지원(scan/chat).</span>
+                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Intent Classifier routes to 4 categories (waste/character/location/general), each Subagent has dedicated system prompts defining its role. Waste uses RAG + Vision classification results, Character/Location use gRPC-fetched context, General connects conversations to environmental topics. <strong>Event Router 4-shard consistency verified</strong>, Human-in-the-Loop + Token Streaming seq-based ordering, SSE Gateway multi-domain support (scan/chat).</span>
                 </div>
             </div>
 
