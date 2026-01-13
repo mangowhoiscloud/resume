@@ -2180,8 +2180,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">단일 Redis로는 <strong>내구성/실시간/복구</strong> 세 가지 요구사항을 동시에 충족할 수 없어 3-Tier로 분리했습니다. Streams(이벤트 영속) + Pub/Sub(실시간 전달) + State KV(SSE 재연결 복구)로 각 계층의 책임을 명확히 분리해 장애 격리와 확장성을 확보했습니다.</span>
-                        <span class="lang-en">Single Redis couldn't satisfy <strong>durability/realtime/recovery</strong> requirements simultaneously, so we separated into 3-Tier. Streams (event persistence) + Pub/Sub (realtime delivery) + State KV (SSE reconnect recovery) - each layer has clear responsibilities for fault isolation and scalability.</span>
+                        <span class="lang-ko">LLM API 10+초 고지연으로 <strong>Celery Events 기반 SSE가 동시접속을 버틸 수 없었습니다</strong> (SSE당 RabbitMQ 21연결 × N VU = 곱 폭발). Redis Streams 기반 이벤트 릴레이로 전환, 연결 복잡도를 O(n×m) → O(n)으로 개선하고, Streams(영속) + Pub/Sub(실시간) + State KV(복구)로 책임을 분리했습니다.</span>
+                        <span class="lang-en">LLM API 10+s high latency meant <strong>Celery Events-based SSE couldn't handle concurrent connections</strong> (21 RabbitMQ connections per SSE × N VU = explosion). Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery).</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
