@@ -41,8 +41,6 @@
             --ec-glow: rgba(91,163,163,0.2);
             --clean-primary: #2D7A7A;
             --clean-glow: rgba(45,122,122,0.2);
-            --agent-primary: #6A5ACD;
-            --agent-glow: rgba(106,90,205,0.2);
             
             --text-primary: #F7FAF9;
             --text-secondary: #A3ABA8;
@@ -1619,10 +1617,10 @@
         </p>
         <div class="hero-stats">
             <div class="hero-stat">
-                <div class="hero-stat-value">67+</div>
+                <div class="hero-stat-value">83+ · 51+</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">블로그 포스트</span>
-                    <span class="lang-en">Blog Posts</span>
+                    <span class="lang-ko">개발 기록 · Knowledge Base</span>
+                    <span class="lang-en">Dev Logs · Knowledge Base</span>
                 </div>
             </div>
             <div class="hero-stat">
@@ -2356,85 +2354,73 @@
                     </a>
                 </div>
             </div>
+
+            <!-- 8. Chat Agent화 -->
+            <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">🤖</div>
+                        <h3 class="category-title">Chat Agent화</h3>
+                        <div class="category-posts">6 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="status-badge in-progress">
+                            <span class="lang-ko">진행 중</span>
+                            <span class="lang-en">In Progress</span>
+                        </span>
+                        <span class="tech-badge">Taskiq</span>
+                        <span class="tech-badge">LangGraph</span>
+                        <span class="tech-badge">Human-in-the-Loop</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko">5-30초 LLM 파이프라인을 <strong>Taskiq asyncio-native Job Queue</strong>로 비동기화하여 HTTP 타임아웃 문제를 해결했습니다. LangGraph 기반 <strong>Intent-Routed Workflow + Subagent</strong> 패턴으로 복잡한 질문을 분해하고, <strong>Interactive SSE</strong>로 위치 정보 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청합니다.</span>
+                        <span class="lang-en">Async-ified 5-30s LLM pipeline via <strong>Taskiq asyncio-native Job Queue</strong>, solving HTTP timeout. LangGraph-based <strong>Intent-Routed Workflow + Subagent</strong> pattern decomposes complex queries. <strong>Interactive SSE</strong> requests additional inputs (e.g., location) naturally within conversation flow.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">🔄</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Taskiq 전환</strong> Celery → asyncio-native, RabbitMQ 재사용, 재시도/타임아웃 내장</span>
+                                <span class="lang-en"><strong>Taskiq Migration</strong> Celery → asyncio-native, RabbitMQ reuse, built-in retry/timeout</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🎯</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Intent 라우팅</strong> waste/character/location/general 5분류, is_complex로 Subagent 분기</span>
+                                <span class="lang-en"><strong>Intent Routing</strong> waste/character/location/general 5-class, is_complex for Subagent branch</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔁</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Human-in-the-Loop</strong> SSE needs_input 이벤트로 위치/확인/선택 요청, 대화 흐름 내 자연스러운 권한 요청</span>
+                                <span class="lang-en"><strong>Human-in-the-Loop</strong> SSE needs_input event for location/confirmation/selection, natural permission request in conversation</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">💾</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>상태 복원</strong> RedisSaver 체크포인팅, Cache-Aside 패턴, Hot session Redis 응답</span>
+                                <span class="lang-en"><strong>State Recovery</strong> RedisSaver checkpointing, Cache-Aside pattern, Hot session from Redis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Agent" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
         </div>
 
     </section>
 
-    <!-- Chat Agentization Section -->
-    <section class="section" id="chat-agent">
-        <div class="section-header">
-            <div class="section-number">02-1</div>
-            <h2 class="section-title">
-                <span class="lang-ko">🤖 Chat Agent화 전환</span>
-                <span class="lang-en">🤖 Chat Agentization Transition</span>
-            </h2>
-            <p class="section-desc">
-                <span class="lang-ko">LangGraph 기반 Multi-Agent 아키텍처로 Chat 도메인을 고도화하고 있습니다. 5-30초 LLM 파이프라인을 Taskiq asyncio-native Job Queue로 비동기화하여 HTTP 타임아웃과 커넥션 점유 문제를 해결했습니다.</span>
-                <span class="lang-en">Upgrading Chat domain to LangGraph-based Multi-Agent architecture. Async-ified 5-30s LLM pipeline via Taskiq asyncio-native Job Queue, solving HTTP timeout and connection hogging issues.</span>
-            </p>
-        </div>
-
-        <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
-            <div class="category-header">
-                <div class="category-info">
-                    <div class="category-icon">🤖</div>
-                    <h3 class="category-title">Chat Agentization</h3>
-                    <div class="category-posts">6 posts</div>
-                </div>
-                <div class="category-badges">
-                    <span class="status-badge in-progress">
-                        <span class="lang-ko">진행 중</span>
-                        <span class="lang-en">In Progress</span>
-                    </span>
-                </div>
-            </div>
-            <div class="category-content">
-                <p class="category-desc">
-                    <span class="lang-ko">Taskiq 기반 asyncio-native Job Queue로 5-30초 LLM 파이프라인을 비동기화했습니다. Intent Enum 기반 라우팅, LLMProvider Enum(OpenAI/Gemini/Anthropic) 지원, RedisSaver 체크포인팅으로 대화 상태 복원, Subagent 분기로 복잡한 질문 분해 등 LangGraph Multi-Agent(State, Tool Calling, Streaming) 전환을 진행 중입니다.</span>
-                    <span class="lang-en">Async-ified 5-30s LLM pipeline via Taskiq asyncio-native Job Queue. Intent Enum-based routing, LLMProvider Enum(OpenAI/Gemini/Anthropic) support, RedisSaver checkpointing for conversation state recovery, Subagent branching for complex query decomposition - transitioning to LangGraph Multi-Agent(State, Tool Calling, Streaming).</span>
-                </p>
-                <div class="achievements">
-                    <div class="achievement">
-                        <span class="achievement-icon">🔄</span>
-                        <div class="achievement-text">
-                            <span class="lang-ko"><strong>Job Queue 전환</strong> Celery → Taskiq asyncio-native, RabbitMQ 재사용, 재시도/타임아웃 내장</span>
-                            <span class="lang-en"><strong>Job Queue Migration</strong> Celery → Taskiq asyncio-native, RabbitMQ reuse, built-in retry/timeout</span>
-                        </div>
-                    </div>
-                    <div class="achievement">
-                        <span class="achievement-icon">🎯</span>
-                        <div class="achievement-text">
-                            <span class="lang-ko"><strong>Intent 라우팅</strong> waste/character/location/general 5분류, is_complex 필드로 Subagent 분기</span>
-                            <span class="lang-en"><strong>Intent Routing</strong> waste/character/location/general 5-class, is_complex field for Subagent branch</span>
-                        </div>
-                    </div>
-                    <div class="achievement">
-                        <span class="achievement-icon">💾</span>
-                        <div class="achievement-text">
-                            <span class="lang-ko"><strong>상태 복원</strong> RedisSaver 체크포인팅, TypedDict ChatState로 구조화, Domain SSOT</span>
-                            <span class="lang-en"><strong>State Recovery</strong> RedisSaver checkpointing, ChatState via TypedDict, Domain SSOT</span>
-                        </div>
-                    </div>
-                    <div class="achievement">
-                        <span class="achievement-icon">🔧</span>
-                        <div class="achievement-text">
-                            <span class="lang-ko"><strong>멀티 LLM</strong> OpenAI GPT + Gemini + Anthropic Claude, Tool Calling 중심 Provider 선택</span>
-                            <span class="lang-en"><strong>Multi LLM</strong> OpenAI GPT + Gemini + Anthropic Claude, Tool Calling-centric provider selection</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="category-footer">
-                <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Agent" target="_blank" class="blog-link">
-                    <span class="lang-ko">개발 기록 83 · 기술 문서 51</span>
-                    <span class="lang-en">Dev Logs 83 · Tech Docs 51</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-
-<!-- Architecture Section -->
+    <!-- Architecture Section -->
     <section class="section" id="architecture">
         <div class="section-header">
             <div class="section-number">03</div>
@@ -2894,8 +2880,8 @@
                     <span class="lang-en">🤖 Chat Domain Agentic Workflow Transition</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">Taskiq asyncio-native + LangGraph Multi-Agent + RedisSaver 체크포인팅 전환, Intent Enum 5분류 라우팅</span>
-                    <span class="lang-en">Taskiq asyncio-native + LangGraph Multi-Agent + RedisSaver checkpointing transition, Intent Enum 5-class routing</span>
+                    <span class="lang-ko">LangGraph 기반 Multi-Agent 아키텍처로 Chat 도메인 고도화, 도구 호출 + 상태 관리 + 스트리밍 통합</span>
+                    <span class="lang-en">Upgrading Chat domain to LangGraph-based Multi-Agent architecture, Tool calling + State management + Streaming integration</span>
                 </div>
             </div>
         </div>
@@ -2941,7 +2927,7 @@
                 <span>GitHub (Backend)</span>
             </a>
             <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29" target="_blank" class="footer-link">
-                <span>Blog (67+ posts)</span>
+                <span>Blog (83+ · 51+)</span>
             </a>
             <a href="https://mangowhoiscloud.github.io/resume/" target="_blank" class="footer-link">
                 <span>Resume</span>
