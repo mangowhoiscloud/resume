@@ -2375,8 +2375,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">5-30초 LLM 파이프라인을 <strong>Taskiq asyncio-native Job Queue</strong>로 비동기화하여 HTTP 타임아웃 문제를 해결했습니다. LangGraph 기반 <strong>Intent-Routed Workflow + Subagent</strong> 패턴으로 복잡한 질문을 분해하고, <strong>Interactive SSE</strong>로 위치 정보 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청합니다.</span>
-                        <span class="lang-en">Async-ified 5-30s LLM pipeline via <strong>Taskiq asyncio-native Job Queue</strong>, solving HTTP timeout. LangGraph-based <strong>Intent-Routed Workflow + Subagent</strong> pattern decomposes complex queries. <strong>Interactive SSE</strong> requests additional inputs (e.g., location) naturally within conversation flow.</span>
+                        <span class="lang-ko">기존 Chat은 시스템 프롬프트 기반 <strong>페르소나 + 이미지 입력 분기</strong>만 존재했습니다. 여기에 <strong>Intent Routing(5분류)</strong>과 <strong>Subagent 패턴</strong>을 도입해 Chat을 에이전트로 디벨롭 중입니다. Taskiq asyncio-native로 5-30초 LLM 파이프라인을 비동기화하고, <strong>Human-in-the-Loop</strong> SSE로 위치 정보 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청합니다.</span>
+                        <span class="lang-en">Original Chat only had system prompt-based <strong>persona + image input branching</strong>. Now evolving Chat into an agent by adding <strong>Intent Routing (5-class)</strong> and <strong>Subagent pattern</strong>. Async-ified 5-30s LLM pipeline via Taskiq asyncio-native, <strong>Human-in-the-Loop</strong> SSE requests additional inputs (e.g., location) naturally within conversation flow.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
