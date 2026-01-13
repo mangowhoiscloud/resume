@@ -1938,8 +1938,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. 단일 클러스터 내 dev/canary 환경 격리가 필요해 ArgoCD App-of-Apps + Sync Wave를 선택, Helm 패키징 대신 Operator 기반 CR 관리로 확장성을 확보했습니다.</span>
-                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. Chose ArgoCD App-of-Apps + Sync Wave for dev/canary environment isolation within a single cluster, adopted Operator-based CR management over Helm packaging for extensibility.</span>
+                        <span class="lang-ko">7개 도메인 서비스의 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Canary 배포</strong>로 단일 클러스터에서 테스트/서비스 환경을 헤더 기반으로 병행하고, ArgoCD App-of-Apps + Sync Wave로 코드베이스를 SSOT로 삼아 개발자와 에이전트의 클러스터 이해도 및 인프라 디벨롭에 유리하게 구성했습니다.</span>
+                        <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. <strong>Canary deployment</strong> enables test/service environments in parallel via header-based routing within a single cluster. ArgoCD App-of-Apps + Sync Wave treats codebase as SSOT, favoring developer and agent's cluster comprehension and infra development.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement">
