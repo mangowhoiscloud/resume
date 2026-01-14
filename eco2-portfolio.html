@@ -645,6 +645,141 @@
             background: var(--bg-card-hover);
         }
 
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            color: var(--text-primary);
+        }
+
+        .modal-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+            padding-right: 3rem;
+        }
+
+        .modal-diagram {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            line-height: 1.4;
+            color: var(--text-secondary);
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            white-space: pre;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .modal-table th,
+        .modal-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .modal-table th {
+            color: var(--accent-primary);
+            font-weight: 600;
+            background: rgba(229,168,59,0.1);
+        }
+
+        .modal-table td {
+            color: var(--text-secondary);
+        }
+
+        .modal-table tr:hover td {
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Clickable Achievement */
+        .achievement.clickable {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .achievement.clickable:hover {
+            background: rgba(229,168,59,0.15);
+            border-color: var(--border-glow);
+            transform: translateX(5px);
+        }
+
+        .achievement.clickable::after {
+            content: '🔍';
+            margin-left: auto;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .achievement.clickable:hover::after {
+            opacity: 1;
+        }
+
         /* Language classes */
         .lang-en { display: none; }
         body.en .lang-ko { display: none; }
@@ -1942,32 +2077,32 @@
                         <span class="lang-en">Designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling across 7 domain services. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-platform">
                             <span class="achievement-icon">🏗️</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>24-nodes 클러스터</strong> 도메인별 장애 격리 + 스케일 실험 목적</span>
                                 <span class="lang-en"><strong>24-node cluster</strong> domain fault isolation + scaling experiments</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-5layer">
                             <span class="achievement-icon">🏷️</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>5-Layer Label 계층</strong> Edge→Service→Integration→Persistence, Platform</span>
                                 <span class="lang-en"><strong>5-Layer Label hierarchy</strong> Edge→Service→Integration→Persistence, Platform</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-syncwave">
                             <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Sync Wave (00~70)</strong> 의존성 기반 배포 순서 제어</span>
-                                <span class="lang-en"><strong>Sync Wave (00~70)</strong> dependency-based deployment ordering</span>
+                                <span class="lang-ko"><strong>Sync Wave (00~63)</strong> 의존성 기반 배포 순서 제어</span>
+                                <span class="lang-en"><strong>Sync Wave (00~63)</strong> dependency-based deployment ordering</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-operators">
                             <span class="achievement-icon">🕸️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Helm → Operator 마이그레이션</strong> CR 기반 선언적 관리로 확장성 확보</span>
-                                <span class="lang-en"><strong>Helm → Operator migration</strong> CR-based declarative management for extensibility</span>
+                                <span class="lang-ko"><strong>Operators & Helm Charts</strong> CR 기반 선언적 관리로 확장성 확보</span>
+                                <span class="lang-en"><strong>Operators & Helm Charts</strong> CR-based declarative management for extensibility</span>
                             </div>
                         </div>
                     </div>
@@ -3043,6 +3178,222 @@
         </p>
     </footer>
 
+    <!-- Modals -->
+    <!-- Modal: Platform Architecture -->
+    <div class="modal-overlay" id="modal-platform">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-platform')">×</button>
+            <h3 class="modal-title">🏗️ Platform Architecture</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           Eco² Platform Architecture                             │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                               ┌─────────────┐                                   │
+│                               │   Client    │                                   │
+│                               │  (PWA/Web)  │                                   │
+│                               └──────┬──────┘                                   │
+│                                      │ HTTPS                                    │
+│  ═══════════════════════════════════════════════════════════════════════════    │
+│                               ┌──────▼──────┐                                   │
+│                               │   Istio     │                                   │
+│                               │  Ingress    │                                   │
+│                               └──────┬──────┘                                   │
+│                               ┌──────▼──────┐                                   │
+│                               │  ext-authz  │ (Go)                              │
+│                               └──────┬──────┘                                   │
+│     ┌────────────────────────────────┼────────────────────────────────┐         │
+│     ▼                                ▼                                ▼         │
+│  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐        │
+│  │  Auth  │  │  Scan  │  │  Chat  │  │  Char  │  │  Loc   │  │ Users  │        │
+│  │  API   │  │  API   │  │  API   │  │  API   │  │  API   │  │  API   │        │
+│  └───┬────┘  └───┬────┘  └───┬────┘  └───┬────┘  └───┬────┘  └───┬────┘        │
+│      │    ┌──────┴──────┐    │           │ gRPC      │ gRPC      │ gRPC        │
+│      │    ▼             ▼    │           │ Server    │ Server    │ Server      │
+│      │ ┌──────┐    ┌──────┐  │           │           │           │             │
+│      │ │ Scan │    │ Chat │◄─┼───────────┴───────────┴───────────┘             │
+│      │ │Worker│    │Worker│  │      (chat_worker → char, loc, auth→users)      │
+│      │ └──────┘    └──────┘  │                                                 │
+│      ▼                       ▼                                                 │
+│  ┌──────────────────────────────────────────────────────────────────────┐      │
+│  │   SSE Gateway (Redis Pub/Sub → Client)  │  Event Router (MQ→Streams) │      │
+│  └──────────────────────────────────────────────────────────────────────┘      │
+│  ═══════════════════════════════════════════════════════════════════════════    │
+│  ┌───────────────────────────────────────────────────────────────────────┐      │
+│  │  RabbitMQ (AMQP)  │  Redis Streams (Pub/Sub)  │  gRPC (sync calls)    │      │
+│  └───────────────────────────────────────────────────────────────────────┘      │
+│  ┌───────────────────────────────────────────────────────────────────────┐      │
+│  │  PostgreSQL (Bitnami)  │  Redis Cache (Spotahome)  │  Redis Auth      │      │
+│  └───────────────────────────────────────────────────────────────────────┘      │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Service</th><th>Type</th><th>Workers</th><th>gRPC</th></tr>
+                <tr><td>auth</td><td>API</td><td>auth_relay, auth_worker</td><td>Client (→users)</td></tr>
+                <tr><td>scan</td><td>API</td><td>scan_worker</td><td>-</td></tr>
+                <tr><td>chat</td><td>API</td><td>chat_worker</td><td>Client (→char, →loc)</td></tr>
+                <tr><td>character</td><td>API</td><td>character_worker</td><td>Server</td></tr>
+                <tr><td>location</td><td>API</td><td>-</td><td>Server</td></tr>
+                <tr><td>users</td><td>API</td><td>users_worker</td><td>Server</td></tr>
+                <tr><td>images</td><td>API</td><td>-</td><td>-</td></tr>
+                <tr><td>sse_gateway</td><td>Gateway</td><td>-</td><td>-</td></tr>
+                <tr><td>event_router</td><td>Relay</td><td>-</td><td>-</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: 5-Layer Architecture -->
+    <div class="modal-overlay" id="modal-5layer">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-5layer')">×</button>
+            <h3 class="modal-title">🏷️ 5-Layer Architecture Labels</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           5-Layer Architecture                                  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   Layer 1        ┌──────────────────────────────────────────────────────┐       │
+│   EDGE           │  Istio Ingress (v1.24.1) • ext-authz • Cert-Manager  │       │
+│                  └──────────────────────────┬───────────────────────────┘       │
+│                                             │                                   │
+│   Layer 2        ┌──────────────────────────▼───────────────────────────┐       │
+│   SERVICE        │  auth │ scan │ chat │ character │ location │ users   │       │
+│                  │  images │ sse_gateway │ + Workers (6종)               │       │
+│                  └──────────────────────────┬───────────────────────────┘       │
+│                                             │                                   │
+│   Layer 3        ┌──────────────────────────▼───────────────────────────┐       │
+│   INTEGRATION    │  RabbitMQ • gRPC • Redis Streams/Pub/Sub • Event Router│     │
+│                  └──────────────────────────┬───────────────────────────┘       │
+│                                             │                                   │
+│   Layer 4        ┌──────────────────────────▼───────────────────────────┐       │
+│   PERSISTENCE    │  PostgreSQL (Bitnami) • Redis Cache/Auth (Spotahome) │       │
+│                  └──────────────────────────┬───────────────────────────┘       │
+│                                             │                                   │
+│   Layer 5        ┌──────────────────────────▼───────────────────────────┐       │
+│   PLATFORM       │  K8s • ArgoCD • Prometheus • KEDA • Jaeger • Kiali   │       │
+│                  └──────────────────────────────────────────────────────┘       │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Layer</th><th>Label</th><th>구성 요소</th></tr>
+                <tr><td>1</td><td>Edge</td><td>Istio Gateway, ext-authz, Envoy, Cert-Manager</td></tr>
+                <tr><td>2</td><td>Service</td><td>auth, scan, chat, character, location, users, images, sse-gw + 6 Workers</td></tr>
+                <tr><td>3</td><td>Integration</td><td>RabbitMQ, gRPC, Redis Streams/Pub/Sub, Event Router</td></tr>
+                <tr><td>4</td><td>Persistence</td><td>PostgreSQL, Redis (Cache), Redis (Auth)</td></tr>
+                <tr><td>5</td><td>Platform</td><td>K8s, ArgoCD, Prometheus, KEDA, Jaeger, Kiali, ECK</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: Sync-Wave -->
+    <div class="modal-overlay" id="modal-syncwave">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-syncwave')">×</button>
+            <h3 class="modal-title">🔄 ArgoCD Sync-Wave Timeline</h3>
+            <div class="modal-diagram">
+Wave    Resources
+═══════════════════════════════════════════════════════════════════════════════
+  0     CRDs
+  │
+ 4-6    Istio (base → istiod → gateway), ArgoCD Image Updater
+  │
+  7     Network Policies
+  │
+  8     Cert-Manager
+  │
+10-11   External Secrets Operator → CRs
+  │
+20-23   kube-prometheus-stack → Grafana → Dashboards → Alerting
+  │
+24-25   PostgreSQL → Prometheus Adapter
+  │
+27-28   Redis Operator → RedisFailover CRs
+  │
+29-32   RabbitMQ Operator → Topology Operator → Cluster → CRs
+  │
+35-36   KEDA → ScaledObjects, HPA
+  │
+40-43   APIs (AppSet) → Workers (AppSet) → SSE Gateway → Event Router
+  │
+ 50     Istio Routes (VirtualService, Gateway)
+  │
+60-61   Kiali → Jaeger
+  │
+62-63   ECK Operator → Elasticsearch CRs
+  │
+  ▼
+═══════════════════════════════════════════════════════════════════════════════
+                         DEPLOYMENT COMPLETE</div>
+            <table class="modal-table">
+                <tr><th>Wave</th><th>Category</th><th>Resources</th></tr>
+                <tr><td>0</td><td>Foundation</td><td>CRDs</td></tr>
+                <tr><td>4-6</td><td>Service Mesh</td><td>Istio, ArgoCD Image Updater</td></tr>
+                <tr><td>7-8</td><td>Network/Cert</td><td>NetworkPolicy, Cert-Manager</td></tr>
+                <tr><td>10-11</td><td>Secrets</td><td>External Secrets Operator → CRs</td></tr>
+                <tr><td>20-23</td><td>Monitoring</td><td>Prometheus, Grafana, Alerting</td></tr>
+                <tr><td>24-25</td><td>Database</td><td>PostgreSQL, Prometheus Adapter</td></tr>
+                <tr><td>27-28</td><td>Cache</td><td>Redis Operator → CRs</td></tr>
+                <tr><td>29-32</td><td>Message Queue</td><td>RabbitMQ Operator → Topology → CRs</td></tr>
+                <tr><td>35-36</td><td>Autoscaling</td><td>KEDA, ScaledObjects</td></tr>
+                <tr><td>40-43</td><td>Application</td><td>APIs, Workers, SSE Gateway, Event Router</td></tr>
+                <tr><td>50</td><td>Routing</td><td>Istio VirtualService</td></tr>
+                <tr><td>60-63</td><td>Observability</td><td>Kiali, Jaeger, ECK</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: Operators & Helm -->
+    <div class="modal-overlay" id="modal-operators">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-operators')">×</button>
+            <h3 class="modal-title">📦 Operators & Helm Charts</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          Operators & Helm Charts                                │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│   ┌─ Kubernetes Operators ──────────────────────────────────────────────────┐   │
+│   │  ┌───────────────────────┐   ┌───────────────────────┐                  │   │
+│   │  │  RabbitMQ Cluster     │   │ Messaging Topology    │                  │   │
+│   │  │     v2.11.0           │   │     v1.15.0           │                  │   │
+│   │  └───────────────────────┘   └───────────────────────┘                  │   │
+│   │  ┌───────────────────────┐   ┌───────────────────────┐                  │   │
+│   │  │   Redis Operator      │   │  External Secrets     │                  │   │
+│   │  │    (Spotahome)        │   │     v0.9.11           │                  │   │
+│   │  │     v3.3.0            │   │                       │                  │   │
+│   │  └───────────────────────┘   └───────────────────────┘                  │   │
+│   │  ┌───────────────────────┐   ┌───────────────────────┐                  │   │
+│   │  │    ECK Operator       │   │    Cert-Manager       │                  │   │
+│   │  │     v2.11.0           │   │     v1.16.2           │                  │   │
+│   │  └───────────────────────┘   └───────────────────────┘                  │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│   ┌─ Helm Charts ───────────────────────────────────────────────────────────┐   │
+│   │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐          │   │
+│   │  │ kube-prometheus │  │     KEDA        │  │   Istio Stack   │          │   │
+│   │  │   v56.21.1      │  │    v2.16.0      │  │    v1.24.1      │          │   │
+│   │  └─────────────────┘  └─────────────────┘  └─────────────────┘          │   │
+│   │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐          │   │
+│   │  │    Grafana      │  │   Prometheus    │  │   PostgreSQL    │          │   │
+│   │  │    v8.5.9       │  │    Adapter      │  │   v18.1.11      │          │   │
+│   │  │                 │  │   v4.10.0       │  │                 │          │   │
+│   │  └─────────────────┘  └─────────────────┘  └─────────────────┘          │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Type</th><th>Name</th><th>Version</th><th>용도</th></tr>
+                <tr><td>Operator</td><td>RabbitMQ Cluster</td><td>v2.11.0</td><td>MQ 클러스터</td></tr>
+                <tr><td>Operator</td><td>Messaging Topology</td><td>v1.15.0</td><td>Exchange/Queue CRD</td></tr>
+                <tr><td>Operator</td><td>Redis (Spotahome)</td><td>v3.3.0</td><td>Sentinel HA</td></tr>
+                <tr><td>Operator</td><td>External Secrets</td><td>v0.9.11</td><td>Secret 동기화</td></tr>
+                <tr><td>Operator</td><td>ECK</td><td>v2.11.0</td><td>Elasticsearch</td></tr>
+                <tr><td>Operator</td><td>Cert-Manager</td><td>v1.16.2</td><td>TLS 인증서</td></tr>
+                <tr><td>Helm</td><td>kube-prometheus-stack</td><td>v56.21.1</td><td>모니터링</td></tr>
+                <tr><td>Helm</td><td>KEDA</td><td>v2.16.0</td><td>이벤트 기반 스케일링</td></tr>
+                <tr><td>Helm</td><td>Istio</td><td>v1.24.1</td><td>Service Mesh</td></tr>
+                <tr><td>Helm</td><td>Grafana</td><td>v8.5.9</td><td>대시보드</td></tr>
+                <tr><td>Helm</td><td>Prometheus Adapter</td><td>v4.10.0</td><td>Custom Metrics</td></tr>
+                <tr><td>Helm</td><td>PostgreSQL</td><td>v18.1.11</td><td>데이터베이스</td></tr>
+            </table>
+        </div>
+    </div>
+
     <script>
         function setLang(lang) {
             document.body.classList.remove('en');
@@ -3093,6 +3444,45 @@
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Click handler for achievements
+        document.querySelectorAll('.achievement.clickable').forEach(el => {
+            el.addEventListener('click', () => {
+                const modalId = el.getAttribute('data-modal');
+                if (modalId) openModal(modalId);
+            });
+        });
+
+        // Close on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
         });
     </script>
 </body>
