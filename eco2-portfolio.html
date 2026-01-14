@@ -3242,10 +3242,13 @@
 │              └──┬───┘└──┬───┘└──┬───┘└──┬───┘└──┬───┘└──┬───┘└──────┘     │   │
 │                 │       │       │       │       │       │           (S3 URL)  │
 │                 │       ▼       ▼       │       │       │                     │
-│                 │  ┌────────────────┐   │ gRPC  │ gRPC  │                     │
-│                 │  │ scan_worker    │◄──┴───────┴───────┘                     │
-│                 │  │ chat_worker    │  (LangGraph Agent)                      │
-│                 │  └────────┬───────┘                                         │
+│                 │  ┌─────────────────────────────────────┐                    │
+│                 │  │  Workers (8종)                      │                    │
+│                 │  │  scan_worker │ chat_worker (AI)     │                    │
+│                 │  │  auth_worker │ auth_relay (Outbox)  │◄──gRPC─────────────┘
+│                 │  │  character_worker │ char_match_worker│                   │
+│                 │  │  users_worker │ celery_beat (DLQ)   │                    │
+│                 │  └─────────────────┬───────────────────┘                    │
 │                 ▼           ▼                                                 │
 │  ┌──────────────────────────────────────────────────────────────────────┐     │
 │  │ SSE Gateway (Pub/Sub→SSE) │ Event Router (Streams→Pub/Sub) │ KEDA    │     │
@@ -3272,9 +3275,9 @@
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
                     <strong>Master:</strong> 1 node (control-plane)<br>
                     <strong>API Nodes:</strong> 7 nodes (auth, scan, chat, character, location, users, images)<br>
-                    <strong>Worker Nodes:</strong> 6 nodes (scan-worker, chat-worker, auth-worker, etc.)<br>
-                    <strong>Data Nodes:</strong> 4 nodes (PostgreSQL, Redis Cluster)<br>
-                    <strong>Platform Nodes:</strong> 6 nodes (ArgoCD, Monitoring, Logging, Tracing)
+                    <strong>Worker Nodes:</strong> 8종 → scan_worker, chat_worker, auth_worker, auth_relay, character_worker, character_match_worker, users_worker, celery_beat<br>
+                    <strong>Data Nodes:</strong> PostgreSQL (Bitnami), Redis (4종: Auth, Cache, Streams, Pub/Sub)<br>
+                    <strong>Platform Nodes:</strong> ArgoCD, KEDA, Prometheus, Grafana, EFK, Jaeger, Kiali
                 </div>
             </div>
         </div>
