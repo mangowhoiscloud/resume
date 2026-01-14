@@ -3283,7 +3283,7 @@
                 <strong style="color: var(--primary);">🖥️ 24-Node Cluster Topology</strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
                     <strong>Master:</strong> 1 node (control-plane)<br>
-                    <strong>API Nodes:</strong> 8 nodes (auth, users, my, scan, chat, character, location, image)<br>
+                    <strong>API Nodes:</strong> 8 nodes (auth, users, scan, chat, character, location, image)<br>
                     <strong>Worker Nodes:</strong> 4 nodes (storage×2, ai×2) — 8종 워커 배포<br>
                     <strong>Data Nodes:</strong> 5 nodes (PostgreSQL, Redis×4)<br>
                     <strong>Platform Nodes:</strong> 6 nodes (RabbitMQ, Monitoring, Logging, Ingress, SSE, Event Router)
@@ -3303,7 +3303,7 @@
                     <tr style="background: rgba(255,215,0,0.1);"><td rowspan="1"><strong>Control Plane</strong></td><td>k8s-master</td><td>t3.xlarge</td><td>4</td><td>16GB</td><td>80GB</td><td>API Server, etcd, Scheduler, Controller</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td rowspan="8"><strong>API Nodes</strong></td><td>k8s-api-auth</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>JWT 인증/인가, OAuth</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-users</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>사용자 계정, 프로필</td></tr>
-                    <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-my</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>마이페이지</td></tr>
+                    <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-users</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>사용자/마이페이지</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-scan</td><td>t3.medium</td><td>2</td><td>4GB</td><td>30GB</td><td>폐기물 스캔 (AI)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-chat</td><td>t3.medium</td><td>2</td><td>4GB</td><td>30GB</td><td>챗봇 (LangGraph)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-character</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>캐릭터 카탈로그</td></tr>
@@ -4346,7 +4346,7 @@ Wave    Resources
                 <tr><td>50</td><td><strong>99.7%</strong></td><td>198 req/m</td><td>17.7s</td><td>93ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/ZdMIItsw6ZRFhXKLO1M1BJDW14QkHC4o" target="_blank">→</a></td></tr>
                 <tr><td>200</td><td><strong>99.8%</strong></td><td>370 req/m</td><td>33.2s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/Xbr36P3VSZhqvE8RHv2vlpgNm8lHcwSs" target="_blank">→</a></td></tr>
                 <tr><td>250</td><td><strong>99.9%</strong></td><td>418 req/m</td><td>40.5s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/g3Qa0xMImwNmNuzQTXGW6C6I5VBopY5J" target="_blank">→</a></td></tr>
-                <tr style="background: rgba(0,255,136,0.1);"><td><strong>300</strong></td><td><strong>99.9%</strong></td><td>402 req/m</td><td>48.5s</td><td>83ms</td><td>SLA</td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>300</strong></td><td><strong>99.9%</strong></td><td>402 req/m</td><td>48.5s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: var(--primary);">SLA →</a></td></tr>
                 <tr><td>400</td><td>98.9%</td><td>427 req/m</td><td style="color: #ffaa00;">62.0s</td><td style="color: #ffaa00;">207ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/frzezh23ZWCrpiWNprpEtv3tFsdTEouI" target="_blank">→</a></td></tr>
                 <tr><td>500</td><td style="color: #ff6b6b;">94.0%</td><td>428 req/m</td><td style="color: #ff6b6b;">76.3s</td><td>154ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/dtBvLo3J2JlQ3LwWbcM6iwBJJuhboow5" target="_blank">→</a></td></tr>
             </table>
@@ -4500,14 +4500,14 @@ Wave    Resources
 │        ├─ 캐릭터 매칭 (판정)                   ├─ 캐릭터 매칭 (판정)              │
 │        ├─ character_ownerships INSERT          ├─ persist_reward.delay()         │
 │        ├─ session.commit()                     │   (Fire & Forget)               │
-│        ├─ sync_to_my_task.delay()              │                                 │
+│        ├─ sync_to_users_task.delay()              │                                 │
 │        ├─ gRPC 호출                            └─ 클라이언트 응답 ✅ (~100ms)     │
 │        │                                                                         │
 │        └─ 클라이언트 응답 (~600ms)        (비동기, 클라이언트 응답과 무관)        │
 │                                           persist_reward_task                    │
 │                                                │                                 │
 │                                                ├─ save_ownership.delay()         │
-│                                                └─ save_my_character.delay()      │
+│                                                └─ save_user_character.delay()      │
 │                                                                                  │
 │   응답 시간: 600ms → 100ms (83% 감소)                                            │
 │                                                                                 │
@@ -4515,8 +4515,8 @@ Wave    Resources
             <table class="modal-table">
                 <tr><th>항목</th><th>Before</th><th>After</th></tr>
                 <tr><td>클라이언트 응답</td><td>판정 + DB 저장 완료 후</td><td><strong>판정 즉시</strong></td></tr>
-                <tr><td>DB 저장</td><td>순차 (character → my gRPC)</td><td><strong>병렬 (Fire & Forget)</strong></td></tr>
-                <tr><td>my 도메인 연동</td><td>gRPC 호출</td><td><strong>직접 DB INSERT</strong></td></tr>
+                <tr><td>DB 저장</td><td>순차 (character → users gRPC)</td><td><strong>병렬 (Fire & Forget)</strong></td></tr>
+                <tr><td>users 도메인 연동</td><td>gRPC 호출</td><td><strong>직접 DB INSERT</strong></td></tr>
                 <tr><td>실패 시 영향</td><td>전체 실패</td><td><strong>각자 독립 재시도</strong></td></tr>
             </table>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
@@ -4609,13 +4609,13 @@ Wave    Resources
 │        │                                            │                           │
 │        ▼                                            ▼                           │
 │   ┌─────────────────────┐               ┌─────────────────────┐                 │
-│   │ save_ownership_task │               │ save_my_character   │                 │
-│   │ (reward.persist 큐) │               │ (my.sync 큐)        │                 │
+│   │ save_ownership_task │               │ save_user_character   │                 │
+│   │ (reward.persist 큐) │               │ (users.sync 큐)        │                 │
 │   └──────────┬──────────┘               └──────────┬──────────┘                 │
 │              │                                     │                            │
 │              ▼                                     ▼                            │
 │   ┌─────────────────────┐               ┌─────────────────────┐                 │
-│   │ character DB        │               │ my DB               │                 │
+│   │ character DB        │               │ users DB               │                 │
 │   │ character_ownerships│               │ user_characters     │                 │
 │   │ INSERT              │               │ INSERT (직접)       │                 │
 │   └─────────────────────┘               └─────────────────────┘                 │
@@ -4624,14 +4624,14 @@ Wave    Resources
 │   • 둘 다 Fire & Forget (발행 후 즉시 반환)                                     │
 │   • 하나가 실패해도 다른 하나는 정상 발행                                        │
 │   • 각자 독립적 재시도 (5회, exponential backoff)                               │
-│   • gRPC 제거 → my DB 직접 접근                                                 │
+│   • gRPC 제거 → users DB 직접 접근                                                 │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
                 <tr><th>Task</th><th>큐</th><th>대상 DB</th><th>재시도</th></tr>
                 <tr><td>persist_reward_task</td><td>reward.persist</td><td>dispatcher</td><td>3회</td></tr>
                 <tr><td>save_ownership_task</td><td>reward.persist</td><td>character.character_ownerships</td><td>5회</td></tr>
-                <tr><td>save_my_character_task</td><td>my.sync</td><td>my.user_characters</td><td>5회</td></tr>
+                <tr><td>save_user_character_task</td><td>users.sync</td><td>users.user_characters</td><td>5회</td></tr>
             </table>
         </div>
     </div>
@@ -4810,7 +4810,7 @@ Wave    Resources
 │   │   ├─ dlx (direct)                  ├─ scan.answer (quorum)            │   │
 │   │   └─ character.events (fanout)     ├─ scan.reward (quorum)            │   │
 │   │                                    ├─ reward.persist (quorum)         │   │
-│   │                                    ├─ my.sync (quorum)                │   │
+│   │                                    ├─ users.sync (quorum)                │   │
 │   │                                    └─ dlq.* (DLQ 큐들)                │   │
 │   │                                                                        │   │
 │   └────────────────────────────────────────────────────────────────────────┘   │
