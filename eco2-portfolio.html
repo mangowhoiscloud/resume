@@ -5059,7 +5059,7 @@ Wave    Resources
 │   ┌─ 4단계 Celery Chain (~12s total) ────────────────────────────────────────┐   │
 │   │                                                                          │   │
 │   │   Vision (3s)  →  Rule (0.5s)  →  Answer (8s)  →  Reward (0.5s)         │   │
-│   │   GPT-5.2-mini     Rule Match       GPT-5.2         Score Calc             │   │
+│   │   GPT-5.2     Rule Match       GPT-5.2         Score Calc             │   │
 │   │      ↓                ↓               ↓               ↓                  │   │
 │   │   [Checkpoint]   [Checkpoint]    [Checkpoint]    [Persist]               │   │
 │   │                                                                          │   │
@@ -5068,13 +5068,13 @@ Wave    Resources
 │   ┌─ Fallback 전략 ──────────────────────────────────────────────────────────┐   │
 │   │                                                                          │   │
 │   │   Vision Stage:                                                          │   │
-│   │   ├─ Primary: GPT-5.2 Vision                                        │   │
-│   │   ├─ Fallback: GPT-5.2 Vision (비용 증가, 정확도 유지)                   │   │
+│   │   ├─ Primary: GPT-5.2                                        │   │
+│   │   ├─ Fallback: GPT-5.2 (비용 증가, 정확도 유지)                   │   │
 │   │   └─ Final: Generic Error Response                                       │   │
 │   │                                                                          │   │
 │   │   Answer Stage:                                                          │   │
 │   │   ├─ Primary: GPT-5.2                                                     │   │
-│   │   ├─ Fallback: GPT-5.2-mini (품질 저하, 응답 보장)                       │   │
+│   │   ├─ Fallback: GPT-5.2                                                    │   │
 │   │   └─ Final: Cached Similar Response                                      │   │
 │   │                                                                          │   │
 │   └──────────────────────────────────────────────────────────────────────────┘   │
