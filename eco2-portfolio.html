@@ -2202,32 +2202,32 @@
                         <span class="lang-en"><strong>Log-trace-metric integration</strong> was essential for Agent-Driven Development feedback loops. Chose ECK Operator over Helm Charts to reduce ES cluster management complexity, standardized log format across 7 domains with ECS schema.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-obs-efk">
                             <span class="achievement-icon">📝</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>24-nodes 로그 중앙화</strong> Fluent Bit DaemonSet → ES 3-node</span>
-                                <span class="lang-en"><strong>24-node log centralization</strong> Fluent Bit DaemonSet → ES 3-node</span>
+                                <span class="lang-ko"><strong>24-nodes 로그 중앙화</strong> Fluent Bit DaemonSet → ES</span>
+                                <span class="lang-en"><strong>24-node log centralization</strong> Fluent Bit DaemonSet → ES</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-obs-trace">
                             <span class="achievement-icon">🔗</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>trace_id 연결</strong> 로그 → Jaeger 트레이스 원클릭 이동</span>
-                                <span class="lang-en"><strong>trace_id correlation</strong> logs → Jaeger trace one-click navigation</span>
+                                <span class="lang-ko"><strong>trace_id 연결</strong> ECS 로그 → Jaeger 원클릭</span>
+                                <span class="lang-en"><strong>trace_id correlation</strong> ECS logs → Jaeger one-click</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-obs-alert">
                             <span class="achievement-icon">🚨</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Alertmanager + Slack</strong> 장애 감지 → Agent 피드백 자동화</span>
-                                <span class="lang-en"><strong>Alertmanager + Slack</strong> failure detection → automated Agent feedback</span>
+                                <span class="lang-ko"><strong>Alertmanager + Slack</strong> 장애 감지 자동화</span>
+                                <span class="lang-en"><strong>Alertmanager + Slack</strong> automated alerting</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-obs-mesh">
                             <span class="achievement-icon">🗺️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Kiali + Jaeger</strong> 서비스 메시 토폴로지 + 분산 트레이싱</span>
-                                <span class="lang-en"><strong>Kiali + Jaeger</strong> service mesh topology + distributed tracing</span>
+                                <span class="lang-ko"><strong>Kiali + Jaeger</strong> 서비스 메시 시각화</span>
+                                <span class="lang-en"><strong>Kiali + Jaeger</strong> service mesh visualization</span>
                             </div>
                         </div>
                     </div>
@@ -3446,6 +3446,236 @@ Wave    Resources
                     </a>
                     <a href="https://snapshots.raintank.io/dashboard/snapshot/1qhkHr5rWubb29VtWCAXYB66bHMmN5Ad" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                         <span style="color: var(--primary);">→</span> 2500 VU, 250 ramp-ups, 30m 테스트
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Observability - EFK Stack -->
+    <div class="modal-overlay" id="modal-obs-efk">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-obs-efk')">×</button>
+            <h3 class="modal-title">📝 24-Nodes Log Centralization (EFK Stack)</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      EFK Stack Architecture (ECK Operator)                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │  24 Nodes (DaemonSet: Fluent Bit v2.2.0)                                │   │
+│   │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐           │   │
+│   │  │ master  │ │ worker-1│ │ worker-2│ │ storage │ │ logging │  ...      │   │
+│   │  │ fluent  │ │ fluent  │ │ fluent  │ │ fluent  │ │ fluent  │           │   │
+│   │  └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘           │   │
+│   └───────┼──────────┼──────────┼──────────┼──────────┼─────────────────────┘   │
+│           │          │          │          │          │                         │
+│           └──────────┴──────────┴──────────┴──────────┘                         │
+│                                   │                                             │
+│                      ┌────────────▼────────────┐                                │
+│                      │   Elasticsearch (ECK)   │                                │
+│                      │   v8.11.0 · 50GB · 5Gi  │                                │
+│                      │   eco2-logs-es-http     │                                │
+│                      └────────────┬────────────┘                                │
+│                                   │                                             │
+│                      ┌────────────▼────────────┐                                │
+│                      │        Kibana           │                                │
+│                      │   kibana.dev.growbin.app│                                │
+│                      │   23M+ documents        │                                │
+│                      └─────────────────────────┘                                │
+│                                                                                 │
+│   Pipeline: /var/log/containers/*.log → CRI Parser → K8s Filter →              │
+│             ECS Lua Enrichment → Elasticsearch (logs-YYYY.MM.DD)                │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Component</th><th>Version</th><th>역할</th><th>설정</th></tr>
+                <tr><td>Fluent Bit</td><td>v2.2.0</td><td>로그 수집 (DaemonSet)</td><td>CRI Parser, K8s Filter, ECS Lua</td></tr>
+                <tr><td>Elasticsearch</td><td>v8.11.0</td><td>로그 저장/검색</td><td>ECK Operator, 50GB Storage</td></tr>
+                <tr><td>Kibana</td><td>v8.11.0</td><td>로그 시각화</td><td>Discover, Dashboard</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">🔗 Kibana Dashboard</strong>
+                <div style="margin-top: 0.75rem;">
+                    <a href="https://kibana.dev.growbin.app/app/r?l=DISCOVER_APP_LOCATOR&v=8.11.0&lz=N4IgjgrgpgTgniAXKSsGJCANCANgQwDsBzCfYqJEAa2nhAF8cBnAexgBckBtbkAAQ4BLALZRmHfCIAO2EABNxAYxABdVTiWtcEEYWY8NIIYUUAPKrlbFmAWihaATLfzTZOEx1gA3fLir4EByscgBmQrheMAaI3Eby%2BJIAakJQAO4AkvKW1nYOrM6u7iDCYgBKRBRIoKEwrCJUjgAMjgBstk0AjB2tACqdnYhdQ60AdI4AnE0AWnLBVISsaYw4MFC14gAWGYRRvv7IIPvQSK1N50040oHMlIgcMNAMDEA" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> logs-eco2-app (23M+ hits)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Observability - trace_id -->
+    <div class="modal-overlay" id="modal-obs-trace">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-obs-trace')">×</button>
+            <h3 class="modal-title">🔗 ECS Log Format + trace_id Correlation</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    ECS (Elastic Common Schema) Log Format                       │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   // Python API Services (FastAPI) - ECSJsonFormatter                           │
+│   {                                                                             │
+│     "@timestamp": "2026-01-12T08:59:59.876Z",                                   │
+│     "message": "Request processed successfully",                                │
+│     "log.level": "info",                                                        │
+│     "log.logger": "app.api.scan",                                               │
+│     "ecs.version": "8.11.0",                                                    │
+│     "service.name": "scan-api",                                                 │
+│     "service.version": "1.0.7",                                                 │
+│     "service.environment": "dev",                                               │
+│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",  ← OpenTelemetry 자동 주입  │
+│     "span.id": "1979d304b9",                                                    │
+│     "labels": { "user_id": "***", "scan_id": "uuid" }                           │
+│   }                                                                             │
+│                                                                                 │
+│   // Go ext-authz Service - zerolog ECS                                         │
+│   {                                                                             │
+│     "@timestamp": "2026-01-12T08:59:59.876Z",                                   │
+│     "message": "JWT validated",                                                 │
+│     "log.level": "info",                                                        │
+│     "service.name": "ext-authz",                                                │
+│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",  ← gRPC context 전파       │
+│   }                                                                             │
+│                                                                                 │
+│   // Istio Envoy Sidecar - EnvoyFilter Access Log                               │
+│   {                                                                             │
+│     "trace.id": "%TRACE_ID%",           ← Envoy 자동 생성                       │
+│     "span.id": "%REQ(X-B3-SPANID)%",                                            │
+│     "http.request.method": "GET",                                               │
+│     "http.response.status_code": 200,                                           │
+│     "duration_ms": 18                                                           │
+│   }                                                                             │
+│                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│   Kibana → trace.id 클릭 → Jaeger UI (분산 트레이싱 시각화)                     │
+│   App (OTel SDK) → OTLP/gRPC (4317) → Jaeger Collector → Elasticsearch          │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Service</th><th>Language</th><th>Tracing SDK</th><th>trace_id 주입 방식</th></tr>
+                <tr><td>auth-api, scan-api, chat-api...</td><td>Python</td><td>OpenTelemetry</td><td>ECSJsonFormatter + trace.get_current_span()</td></tr>
+                <tr><td>ext-authz</td><td>Go</td><td>OpenTelemetry</td><td>zerolog + gRPC context propagation</td></tr>
+                <tr><td>Istio Sidecar</td><td>Envoy</td><td>Built-in</td><td>EnvoyFilter %TRACE_ID%</td></tr>
+                <tr><td>Jaeger Collector</td><td>-</td><td>OTLP</td><td>gRPC 4317 → ES storage</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">🔗 Jaeger Distributed Tracing</strong>
+                <div style="margin-top: 0.75rem;">
+                    <a href="https://jaeger.dev.growbin.app" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> jaeger.dev.growbin.app
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Observability - Alertmanager + Slack -->
+    <div class="modal-overlay" id="modal-obs-alert">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-obs-alert')">×</button>
+            <h3 class="modal-title">🚨 Alertmanager + Slack Integration</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Alertmanager → Slack Automation Pipeline                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐      │
+│   │ Prometheus  │───►│ AlertRules  │───►│Alertmanager │───►│   Slack     │      │
+│   │  Metrics    │    │  (PrometheusRule)│ (groupBy)   │    │  #eco_sre   │      │
+│   └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘      │
+│                                                                                 │
+│   AlertmanagerConfig (CR):                                                      │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │  route:                                                                 │   │
+│   │    groupBy: [alertname, namespace, severity]                            │   │
+│   │    groupWait: 30s                                                       │   │
+│   │    repeatInterval: 4h                                                   │   │
+│   │    routes:                                                              │   │
+│   │      - receiver: slack-critical  (severity=critical)  🔴                │   │
+│   │      - receiver: slack-warning   (severity=warning)   🟠                │   │
+│   │      - receiver: 'null'          (alertname=Watchdog) 무시              │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   Alert Examples:                                                               │
+│   • 🟠 [WARNING] CPUThrottlingHigh - character namespace 34% throttling         │
+│   • 🟠 [WARNING] KubeHpaMaxedOut - HPA max replicas 15분+ 유지                  │
+│   • 🟠 [WARNING] TargetDown - auth-api targets 100% down                        │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Severity</th><th>Receiver</th><th>Color</th><th>예시 Alert</th></tr>
+                <tr><td>🔴 critical</td><td>slack-critical</td><td>#ff0000</td><td>PodCrashLooping, NodeNotReady</td></tr>
+                <tr><td>🟠 warning</td><td>slack-warning</td><td>#ffa500</td><td>CPUThrottlingHigh, TargetDown</td></tr>
+                <tr><td>🟡 info</td><td>slack-info</td><td>#ffff00</td><td>KubeHpaMaxedOut</td></tr>
+                <tr><td>- Watchdog</td><td>null</td><td>-</td><td>무시 (heartbeat)</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">💬 Slack Channel</strong>
+                <div style="margin-top: 0.75rem;">
+                    <a href="https://app.slack.com/client/T0A4KGRV0BC/C0A4G4NDALD" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> #eco_sre (Eco² Backend / Infra)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Observability - Kiali + Jaeger -->
+    <div class="modal-overlay" id="modal-obs-mesh">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-obs-mesh')">×</button>
+            <h3 class="modal-title">🗺️ Kiali + Jaeger Service Mesh Visualization</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Service Mesh Observability (Istio v1.24.1)                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Kiali (Service Graph) ─────────────────────────────────────────────────┐   │
+│   │                                                                         │   │
+│   │     ┌──────────┐      ┌──────────┐      ┌──────────┐                   │   │
+│   │     │ Istio    │─────►│ ext-authz│─────►│ auth-api │                   │   │
+│   │     │ Ingress  │      │   (Go)   │      │ (Python) │                   │   │
+│   │     └──────────┘      └──────────┘      └────┬─────┘                   │   │
+│   │                                              │                          │   │
+│   │     ┌──────────┐      ┌──────────┐      ┌────▼─────┐                   │   │
+│   │     │ scan-api │─────►│ RabbitMQ │─────►│ Workers  │                   │   │
+│   │     │          │      │          │      │ (Celery) │                   │   │
+│   │     └──────────┘      └──────────┘      └──────────┘                   │   │
+│   │                                                                         │   │
+│   │   Traffic Flow: ━━━ HTTP/gRPC    ─── AMQP    ··· Redis                 │   │
+│   │   Health: 🟢 Healthy  🟡 Degraded  🔴 Failure                          │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Jaeger (Distributed Tracing) ──────────────────────────────────────────┐   │
+│   │                                                                         │   │
+│   │   Trace: a5f2c1804ac4397448149b63a67f6cfd                               │   │
+│   │   ├─ istio-ingressgateway (2ms)                                         │   │
+│   │   ├─ ext-authz (5ms)                                                    │   │
+│   │   ├─ scan-api (18ms)                                                    │   │
+│   │   │  └─ PostgreSQL query (3ms)                                          │   │
+│   │   │  └─ RabbitMQ publish (2ms)                                          │   │
+│   │   └─ scan-worker (12,450ms)                                             │   │
+│   │      └─ OpenAI Vision API (3,200ms)                                     │   │
+│   │      └─ OpenAI Answer API (8,100ms)                                     │   │
+│   │                                                                         │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Tool</th><th>URL</th><th>기능</th></tr>
+                <tr><td>Kiali</td><td>kiali.dev.growbin.app</td><td>Service Graph, Traffic Flow, Health Status</td></tr>
+                <tr><td>Jaeger</td><td>jaeger.dev.growbin.app</td><td>Distributed Tracing, Span Analysis, Latency</td></tr>
+                <tr><td>Grafana</td><td>grafana.dev.growbin.app</td><td>Metrics Dashboard, Alerting</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">🔗 Service Mesh Tools</strong>
+                <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="https://kiali.dev.growbin.app" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Kiali - Service Mesh Topology
+                    </a>
+                    <a href="https://jaeger.dev.growbin.app" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Jaeger - Distributed Tracing
                     </a>
                 </div>
             </div>
