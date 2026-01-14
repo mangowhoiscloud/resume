@@ -2087,11 +2087,18 @@
                                 <span class="lang-en"><strong>24-node cluster</strong> domain fault isolation + scaling experiments</span>
                             </div>
                         </div>
+                        <div class="achievement clickable" data-modal="modal-node-specs">
+                            <span class="achievement-icon">📊</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>노드 스펙</strong> 24-node EC2 인스턴스 상세 사양</span>
+                                <span class="lang-en"><strong>Node Specs</strong> 24-node EC2 instance specifications</span>
+                            </div>
+                        </div>
                         <div class="achievement clickable" data-modal="modal-5layer">
                             <span class="achievement-icon">🏷️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>5-Layer Label 계층</strong> 노드 역할별 5단계 분리</span>
-                                <span class="lang-en"><strong>5-Layer Labels</strong> 5-tier node separation</span>
+                                <span class="lang-ko"><strong>5-Layer + Taints</strong> Label 계층 + 스케줄링 정책</span>
+                                <span class="lang-en"><strong>5-Layer + Taints</strong> Label hierarchy + scheduling policy</span>
                             </div>
                         </div>
                         <div class="achievement clickable" data-modal="modal-syncwave">
@@ -3282,14 +3289,6 @@
                     <strong>Platform Nodes:</strong> 6 nodes (RabbitMQ, Monitoring, Logging, Ingress, SSE, Event Router)
                 </div>
             </div>
-            <div style="margin-top: 1rem;">
-                <button onclick="openModal('modal-node-specs')" style="background: var(--primary); color: var(--bg-primary); border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">
-                    📊 노드 스펙 상세 보기
-                </button>
-                <button onclick="openModal('modal-node-labels')" style="background: transparent; color: var(--primary); border: 1px solid var(--primary); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-left: 0.5rem;">
-                    🏷️ Labels & Taints 정책
-                </button>
-            </div>
         </div>
     </div>
 
@@ -3357,80 +3356,11 @@
         </div>
     </div>
 
-    <!-- Modal: Node Labels & Taints -->
-    <div class="modal-overlay" id="modal-node-labels">
-        <div class="modal-content" style="max-width: 1000px;">
-            <button class="modal-close" onclick="closeModal('modal-node-labels')">×</button>
-            <h3 class="modal-title">🏷️ Node Labels & Taints Policy</h3>
-            <div class="modal-diagram">
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                        Node Isolation Strategy (DOMA)                           │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│   Domain-Oriented Microservice Architecture (DOMA):                             │
-│   ├── 도메인별 노드 분리 → 장애 격리 (Blast Radius 최소화)                     │
-│   ├── Taint + Toleration → 워크로드 스케줄링 제어                              │
-│   └── NodeSelector → 특정 노드에만 Pod 배치                                    │
-│                                                                                 │
-│   Label Hierarchy (5-Layer):                                                    │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │  role=api|worker|infrastructure|control-plane|ingress-gateway|...      │   │
-│   │  domain=auth|scan|chat|worker-storage|worker-ai|data|observability...   │   │
-│   │  tier=business-logic|worker|data|platform|network|integration           │   │
-│   │  workload=api|worker-storage|worker-ai|database|cache|monitoring...     │   │
-│   │  phase=1|2|3|4|5|6 (배포 순서)                                          │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                 │
-│   Taint Policy (NoSchedule):                                                    │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │  domain=auth:NoSchedule        → auth-api, ext-authz만 배치            │   │
-│   │  domain=scan:NoSchedule        → scan-api만 배치                       │   │
-│   │  domain=worker-storage:NoSchedule → storage workers만 배치             │   │
-│   │  domain=worker-ai:NoSchedule   → AI workers (scan-worker, chat-worker) │   │
-│   │  domain=data:NoSchedule        → PostgreSQL, Redis만 배치              │   │
-│   │  domain=observability:NoSchedule → Prometheus, Grafana, EFK 배치       │   │
-│   │  domain=integration:NoSchedule → RabbitMQ만 배치                       │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                 │
-│   Toleration Example (Deployment):                                              │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │  tolerations:                                                           │   │
-│   │  - key: "domain"                                                        │   │
-│   │    operator: "Equal"                                                    │   │
-│   │    value: "auth"                                                        │   │
-│   │    effect: "NoSchedule"                                                 │   │
-│   │  nodeSelector:                                                          │   │
-│   │    domain: auth                                                         │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                 │
-└─────────────────────────────────────────────────────────────────────────────────┘</div>
-            <table class="modal-table" style="font-size: 0.85rem;">
-                <tr><th>Node</th><th>Labels</th><th>Taint</th><th>스케줄되는 Pod</th></tr>
-                <tr><td>k8s-master</td><td>role=control-plane, tier=platform</td><td>role=control-plane:NoSchedule</td><td>Prometheus (tolerates)</td></tr>
-                <tr><td>k8s-api-auth</td><td>role=api, domain=auth, tier=business-logic</td><td>domain=auth:NoSchedule</td><td>auth-api, ext-authz</td></tr>
-                <tr><td>k8s-api-scan</td><td>role=api, domain=scan, tier=business-logic</td><td>domain=scan:NoSchedule</td><td>scan-api</td></tr>
-                <tr><td>k8s-worker-storage</td><td>role=worker, domain=worker-storage, tier=worker</td><td>domain=worker-storage:NoSchedule</td><td>auth-worker, users-worker, character-worker</td></tr>
-                <tr><td>k8s-worker-ai</td><td>role=worker, domain=worker-ai, tier=worker</td><td>domain=worker-ai:NoSchedule</td><td>scan-worker, chat-worker (GPT)</td></tr>
-                <tr><td>k8s-postgresql</td><td>role=infrastructure, domain=data, tier=data</td><td>domain=data:NoSchedule</td><td>PostgreSQL StatefulSet</td></tr>
-                <tr><td>k8s-redis-*</td><td>role=infrastructure, domain=data, redis-cluster=*</td><td>domain=data:NoSchedule</td><td>Redis (Auth/Streams/Cache/PubSub)</td></tr>
-                <tr><td>k8s-monitoring</td><td>role=infrastructure, domain=observability</td><td>domain=observability:NoSchedule</td><td>Prometheus, Grafana, Alertmanager</td></tr>
-                <tr><td>k8s-logging</td><td>role=infrastructure, domain=observability</td><td>domain=observability:NoSchedule</td><td>Elasticsearch, Kibana</td></tr>
-            </table>
-            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                <strong style="color: var(--primary);">🔧 Terraform 자동 설정</strong>
-                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem;">
-                    <code>terraform/main.tf</code>의 <code>kubelet_profiles</code>에서 노드별 Labels & Taints를 user-data로 주입:<br>
-                    <code>--node-labels=role=api,domain=auth,tier=business-logic --register-with-taints=domain=auth:NoSchedule</code>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal: 5-Layer Architecture -->
+    <!-- Modal: 5-Layer Architecture + Labels/Taints -->
     <div class="modal-overlay" id="modal-5layer">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 1000px;">
             <button class="modal-close" onclick="closeModal('modal-5layer')">×</button>
-            <h3 class="modal-title">🏷️ 5-Layer Architecture Labels</h3>
+            <h3 class="modal-title">🏷️ 5-Layer Architecture + Labels/Taints Policy</h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                           5-Layer Architecture                                  │
@@ -3438,34 +3368,65 @@
 │                                                                                 │
 │   Layer 1        ┌──────────────────────────────────────────────────────┐       │
 │   EDGE           │  Istio Ingress (v1.24.1) • ext-authz • Cert-Manager  │       │
-│                  └──────────────────────────┬───────────────────────────┘       │
+│   tier=network   └──────────────────────────┬───────────────────────────┘       │
 │                                             │                                   │
 │   Layer 2        ┌──────────────────────────▼───────────────────────────┐       │
 │   SERVICE        │  auth │ scan │ chat │ character │ location │ users   │       │
-│                  │  images │ sse_gateway │ + Workers (6종)               │       │
+│   tier=business  │  images │ sse_gateway │ + Workers (8종)               │       │
 │                  └──────────────────────────┬───────────────────────────┘       │
 │                                             │                                   │
 │   Layer 3        ┌──────────────────────────▼───────────────────────────┐       │
 │   INTEGRATION    │  RabbitMQ • gRPC • Redis Streams/Pub/Sub • Event Router│     │
-│                  └──────────────────────────┬───────────────────────────┘       │
+│   tier=integration└─────────────────────────┬───────────────────────────┘       │
 │                                             │                                   │
 │   Layer 4        ┌──────────────────────────▼───────────────────────────┐       │
 │   PERSISTENCE    │  PostgreSQL (Bitnami) • Redis Cache/Auth (Spotahome) │       │
-│                  └──────────────────────────┬───────────────────────────┘       │
+│   tier=data      └──────────────────────────┬───────────────────────────┘       │
 │                                             │                                   │
 │   Layer 5        ┌──────────────────────────▼───────────────────────────┐       │
 │   PLATFORM       │  K8s • ArgoCD • Prometheus • KEDA • Jaeger • Kiali   │       │
-│                  └──────────────────────────────────────────────────────┘       │
+│   tier=platform  └──────────────────────────────────────────────────────┘       │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
-                <tr><th>Layer</th><th>Label</th><th>구성 요소</th></tr>
-                <tr><td>1</td><td>Edge</td><td>Istio Gateway, ext-authz, Envoy, Cert-Manager</td></tr>
-                <tr><td>2</td><td>Service</td><td>auth, scan, chat, character, location, users, images, sse-gw + 6 Workers</td></tr>
-                <tr><td>3</td><td>Integration</td><td>RabbitMQ, gRPC, Redis Streams/Pub/Sub, Event Router</td></tr>
-                <tr><td>4</td><td>Persistence</td><td>PostgreSQL, Redis (Cache), Redis (Auth)</td></tr>
-                <tr><td>5</td><td>Platform</td><td>K8s, ArgoCD, Prometheus, KEDA, Jaeger, Kiali, ECK</td></tr>
+                <tr><th>Layer</th><th>tier Label</th><th>구성 요소</th></tr>
+                <tr><td>1</td><td>network</td><td>Istio Gateway, ext-authz, Envoy, Cert-Manager</td></tr>
+                <tr><td>2</td><td>business-logic</td><td>auth, scan, chat, character, location, users, images, sse-gw + 8 Workers</td></tr>
+                <tr><td>3</td><td>integration</td><td>RabbitMQ, gRPC, Redis Streams/Pub/Sub, Event Router</td></tr>
+                <tr><td>4</td><td>data</td><td>PostgreSQL, Redis (Cache, Auth, Streams, PubSub)</td></tr>
+                <tr><td>5</td><td>platform</td><td>K8s, ArgoCD, Prometheus, KEDA, Jaeger, Kiali, ECK</td></tr>
             </table>
+            
+            <h4 style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem;">🔖 Label Hierarchy (5-Key System)</h4>
+            <div class="modal-diagram" style="font-size: 0.8rem;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  Label Key       │  Values                                                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  role            │  api | worker | infrastructure | control-plane | ingress-gw │
+│  domain          │  auth | scan | chat | worker-storage | worker-ai | data...  │
+│  tier            │  business-logic | worker | data | platform | network        │
+│  workload        │  api | worker-storage | worker-ai | database | cache...     │
+│  phase           │  1 | 2 | 3 | 4 | 5 | 6 (배포 순서)                          │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            
+            <h4 style="color: var(--primary); margin-top: 2rem; margin-bottom: 1rem;">🚫 Taint Policy (NoSchedule)</h4>
+            <table class="modal-table" style="font-size: 0.85rem;">
+                <tr><th>Taint</th><th>Effect</th><th>스케줄되는 Pod</th></tr>
+                <tr><td>domain=auth:NoSchedule</td><td>auth 노드 격리</td><td>auth-api, ext-authz만 배치</td></tr>
+                <tr><td>domain=scan:NoSchedule</td><td>scan 노드 격리</td><td>scan-api만 배치</td></tr>
+                <tr><td>domain=worker-storage:NoSchedule</td><td>Storage Worker 격리</td><td>auth/users/character Worker</td></tr>
+                <tr><td>domain=worker-ai:NoSchedule</td><td>AI Worker 격리</td><td>scan-worker, chat-worker (GPT)</td></tr>
+                <tr><td>domain=data:NoSchedule</td><td>Data 노드 격리</td><td>PostgreSQL, Redis StatefulSet</td></tr>
+                <tr><td>domain=observability:NoSchedule</td><td>Monitoring 격리</td><td>Prometheus, Grafana, EFK</td></tr>
+            </table>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">🔧 Terraform 자동 설정</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <code>terraform/main.tf</code>의 <code>kubelet_profiles</code>에서 노드별 Labels & Taints를 user-data로 주입:<br>
+                    <code style="display: block; margin-top: 0.5rem; padding: 0.5rem; background: rgba(0,0,0,0.3); border-radius: 4px;">--node-labels=role=api,domain=auth,tier=business-logic --register-with-taints=domain=auth:NoSchedule</code>
+                </div>
+            </div>
         </div>
     </div>
 
