@@ -1771,8 +1771,8 @@
             <div class="hero-stat">
                 <div class="hero-stat-value">2,500 VU</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">1,500+ RPS Baseline</span>
-                    <span class="lang-en">1,500+ RPS Baseline</span>
+                    <span class="lang-ko">1,200+ RPS Baseline</span>
+                    <span class="lang-en">1,200+ RPS Baseline</span>
                 </div>
             </div>
             <div class="hero-stat">
@@ -2141,18 +2141,18 @@
                         <span class="lang-en">Separated <strong>Global Choke Point</strong> (auth/authz for all requests) into a dedicated server, eliminating API server load. Chose Go + gRPC for better concurrency over Python, established cluster throughput baseline via Local Cache + Fanout after resolving Redis bottleneck.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-auth-perf">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Global Baseline</strong> 2,500 VU 기준 RPS 1,500+ (ext-authz 단독)</span>
-                                <span class="lang-en"><strong>Global Baseline</strong> RPS 1,500+ at 2,500 VU (ext-authz only)</span>
+                                <span class="lang-ko"><strong>Global Baseline</strong> 2,500 VU 기준 RPS 1,200+ (ext-authz 단독)</span>
+                                <span class="lang-en"><strong>Global Baseline</strong> RPS 1,200+ at 2,500 VU (ext-authz only)</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-auth-perf">
                             <span class="achievement-icon">🔧</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>병목 해결</strong> Redis Pool 42 → 튜닝 1,100 → Cache 1,500+</span>
-                                <span class="lang-en"><strong>Bottleneck fix</strong> Redis Pool 42 → tuned 1,100 → Cache 1,500+</span>
+                                <span class="lang-ko"><strong>병목 해결</strong> RPS 42 → 1,200 (28배 개선)</span>
+                                <span class="lang-en"><strong>Bottleneck fix</strong> RPS 42 → 1,200 (28x improvement)</span>
                             </div>
                         </div>
                         <div class="achievement">
@@ -2873,7 +2873,7 @@
 │  └────────┬────────────────────────────────────────────────────────────────────────┘   │
 │           │                                                                             │
 │  ┌────────▼────────┐     ┌────────────────┐                                            │
-│  │   ext-authz     │────►│  Local Cache   │  JWT Blacklist (2500 VU, 1500+ RPS)        │
+│  │   ext-authz     │────►│  Local Cache   │  JWT Blacklist (2500 VU, 1200+ RPS)        │
 │  │   (Go/gRPC)     │     │ + Fanout Sync  │  RabbitMQ Fanout → Cache Broadcast         │
 │  └────────┬────────┘     └────────────────┘                                            │
 │           │                                                                             │
@@ -3394,6 +3394,61 @@ Wave    Resources
                 <tr><td>Helm</td><td>Prometheus Adapter</td><td>v4.10.0</td><td>Custom Metrics</td></tr>
                 <tr><td>Helm</td><td>PostgreSQL</td><td>v18.1.11</td><td>데이터베이스</td></tr>
             </table>
+        </div>
+    </div>
+
+    <!-- Modal: Auth Offloading Performance -->
+    <div class="modal-overlay" id="modal-auth-perf">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-auth-perf')">×</button>
+            <h3 class="modal-title">🔐 Auth Offloading Performance Tuning</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    ext-authz Performance Tuning Timeline                        │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   AS-IS (Breaking Point)              TO-BE (Tuned + HPA)                       │
+│   ─────────────────────               ─────────────────────                     │
+│   Peak RPS: ~42                       Peak RPS: ~1,200                          │
+│   Avg Latency: ~125ms                 Avg Latency: 10-24ms                      │
+│   Success Rate: ~86%                  Success Rate: ~99.8%                      │
+│   Pod: 1 (CPU 병목)                   Pod: 3-5 (HPA 자동 확장)                  │
+│                                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                        성능 개선 흐름                                    │   │
+│   │                                                                         │   │
+│   │   Step 1          Step 2              Step 3                            │   │
+│   │   PoolSize=20     PoolSize=100        PoolSize=500 + HPA                │   │
+│   │   RPS: ~884       RPS: ~900           RPS: ~950→1,200                   │   │
+│   │   SR: 90-94%      SR: 98-99%          SR: 99.5-100%                     │   │
+│   │                                                                         │   │
+│   │   [Redis Pool]────►[CPU Limits]──────►[HPA 2-5 Pods]                    │   │
+│   │      병목 해소       버스트 허용          부하 분산                      │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   테스트 환경: 2,500 VU, 250 ramp-ups/s, 30분 지속                             │
+│   테스트 날짜: 2025-12-14 ~ 2025-12-15                                         │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>메트릭</th><th>AS-IS (PoolSize=20)</th><th>1차 (PoolSize=100)</th><th>2차 (PoolSize=500+HPA)</th><th>개선율</th></tr>
+                <tr><td>Peak RPS</td><td>~884 (→42 포화)</td><td>~900</td><td>~1,200</td><td><strong>28배</strong></td></tr>
+                <tr><td>Avg Latency</td><td>57-80ms (→125ms)</td><td>16-22ms</td><td>10-24ms</td><td>84% 감소</td></tr>
+                <tr><td>Success Rate</td><td>90-94% (→86%)</td><td>98.25-99.5%</td><td>99.55-100%</td><td>+13.8%p</td></tr>
+                <tr><td>redis_error</td><td>11-54 req/s</td><td>3-8 req/s</td><td>0-3.5 req/s</td><td>93% 감소</td></tr>
+                <tr><td>Pod Count</td><td>1 (CPU 병목)</td><td>1</td><td>3-5 (HPA)</td><td>수평 확장</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📊 Grafana 스냅샷 (실제 테스트 데이터)</strong>
+                <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/P5uoWRrXqFYBvoc9AvXP4kYF1M6jpfeG" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> 2000 VU, 200 ramp-ups, 30m 테스트
+                    </a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/1qhkHr5rWubb29VtWCAXYB66bHMmN5Ad" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> 2500 VU, 250 ramp-ups, 30m 테스트
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
