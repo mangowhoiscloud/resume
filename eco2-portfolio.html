@@ -5011,9 +5011,9 @@ Wave    Resources
 │   │   │  └─ 교체 가능: Memcached, In-Memory                                 │   │
 │   │   │                                                                      │   │
 │   │   LLM Adapters (chat_worker):                                            │   │
-│   │   ├─ OpenAIAdapter             ← GPT-4o (현재)                           │   │
+│   │   ├─ OpenAIAdapter             ← GPT-5.2 (현재)                           │   │
 │   │   │  └─ 교체 가능: Anthropic, Gemini, Local LLM                         │   │
-│   │   ├─ VisionAdapter             ← GPT-4o-mini (현재)                      │   │
+│   │   ├─ VisionAdapter             ← GPT-5.2 (현재)                      │   │
 │   │   │  └─ 교체 가능: Claude Vision, Gemini Vision                         │   │
 │   │   │                                                                      │   │
 │   │   MQ Adapters:                                                           │   │
@@ -5037,7 +5037,7 @@ Wave    Resources
                 </tr>
                 <tr><td>UserQueryGateway</td><td>SQLAlchemy (PostgreSQL)</td><td>MySQL, MongoDB, DynamoDB</td></tr>
                 <tr><td>TokenBlacklistStore</td><td>Redis Adapter</td><td>Memcached, In-Memory</td></tr>
-                <tr><td>LLMAdapter (chat)</td><td>OpenAI GPT-4o</td><td>Anthropic, Gemini, Local LLM</td></tr>
+                <tr><td>LLMAdapter (chat)</td><td>OpenAI GPT-5.2</td><td>Anthropic, Gemini, Local LLM</td></tr>
                 <tr><td>MessagePublisher</td><td>RabbitMQ</td><td>Kafka, Redis Streams, AWS SQS</td></tr>
                 <tr><td>ProgressNotifier</td><td>Redis Streams</td><td>Kafka, RabbitMQ, WebSocket</td></tr>
             </table>
@@ -5059,7 +5059,7 @@ Wave    Resources
 │   ┌─ 4단계 Celery Chain (~12s total) ────────────────────────────────────────┐   │
 │   │                                                                          │   │
 │   │   Vision (3s)  →  Rule (0.5s)  →  Answer (8s)  →  Reward (0.5s)         │   │
-│   │   GPT-4o-mini     Rule Match       GPT-4o         Score Calc             │   │
+│   │   GPT-5.2-mini     Rule Match       GPT-5.2         Score Calc             │   │
 │   │      ↓                ↓               ↓               ↓                  │   │
 │   │   [Checkpoint]   [Checkpoint]    [Checkpoint]    [Persist]               │   │
 │   │                                                                          │   │
@@ -5068,13 +5068,13 @@ Wave    Resources
 │   ┌─ Fallback 전략 ──────────────────────────────────────────────────────────┐   │
 │   │                                                                          │   │
 │   │   Vision Stage:                                                          │   │
-│   │   ├─ Primary: GPT-4o-mini Vision                                        │   │
-│   │   ├─ Fallback: GPT-4o Vision (비용 증가, 정확도 유지)                   │   │
+│   │   ├─ Primary: GPT-5.2 Vision                                        │   │
+│   │   ├─ Fallback: GPT-5.2 Vision (비용 증가, 정확도 유지)                   │   │
 │   │   └─ Final: Generic Error Response                                       │   │
 │   │                                                                          │   │
 │   │   Answer Stage:                                                          │   │
-│   │   ├─ Primary: GPT-4o                                                     │   │
-│   │   ├─ Fallback: GPT-4o-mini (품질 저하, 응답 보장)                       │   │
+│   │   ├─ Primary: GPT-5.2                                                     │   │
+│   │   ├─ Fallback: GPT-5.2-mini (품질 저하, 응답 보장)                       │   │
 │   │   └─ Final: Cached Similar Response                                      │   │
 │   │                                                                          │   │
 │   └──────────────────────────────────────────────────────────────────────────┘   │
@@ -5113,9 +5113,9 @@ Wave    Resources
                     <th><span class="lang-ko">LLM</span><span class="lang-en">LLM</span></th>
                     <th><span class="lang-ko">복원력 전략</span><span class="lang-en">Resilience Strategy</span></th>
                 </tr>
-                <tr><td>Vision</td><td>~3s</td><td>GPT-4o-mini</td><td>Fallback → GPT-4o, Checkpoint 저장</td></tr>
+                <tr><td>Vision</td><td>~3s</td><td>GPT-5.2</td><td>Fallback → GPT-5.2, Checkpoint 저장</td></tr>
                 <tr><td>Rule</td><td>~0.5s</td><td>-</td><td>Rule Engine, 빠른 매칭</td></tr>
-                <tr><td>Answer</td><td>~8s</td><td>GPT-4o</td><td>Fallback → GPT-4o-mini, Streaming</td></tr>
+                <tr><td>Answer</td><td>~8s</td><td>GPT-5.2</td><td>Fallback → GPT-5.2, Streaming</td></tr>
                 <tr><td>Reward</td><td>~0.5s</td><td>-</td><td>Batch Persist, Idempotency</td></tr>
             </table>
         </div>
