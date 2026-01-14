@@ -4140,7 +4140,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-mq-chain">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-mq-chain')">×</button>
-            <h3 class="modal-title">⛓️ 4-Stage Celery Chain Pipeline</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">⛓️ 4단계 Celery Chain 파이프라인</span>
+                <span class="lang-en">⛓️ 4-Stage Celery Chain Pipeline</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                     Scan Pipeline: Celery Chain Architecture                    │
@@ -4158,28 +4161,39 @@ Wave    Resources
 │   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
 │   │ OpenAI      │     │ PostgreSQL  │     │ OpenAI      │     │ Character   │  │
 │   │ Vision API  │     │ Rule DB     │     │ Chat API    │     │ Matching    │  │
-│   │ (~4.5초)    │     │ (~0.3초)    │     │ (~4.8초)    │     │ (~1.7초)    │  │
+│   │ (~4.5s)     │     │ (~0.3s)     │     │ (~4.8s)     │     │ (~1.7s)     │  │
 │   └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘  │
 │                                                                                 │
 │   Chain Signature: vision.s() | rule.s() | answer.s() | reward.s()             │
-│   Total Duration: ~11-21초 (OpenAI API 지연에 따라 변동)                        │
+│   Total Duration: ~11-21s (varies by OpenAI API latency)                        │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
-                <tr><th>Stage</th><th>평균 소요</th><th>p99</th><th>역할</th></tr>
-                <tr><td>vision</td><td>4.5초</td><td>6~10초</td><td>OpenAI Vision API (이미지 분석)</td></tr>
-                <tr><td>rule</td><td>0.3초</td><td>2~3초</td><td>PostgreSQL 규칙 조회</td></tr>
-                <tr><td>answer</td><td>4.8초</td><td>8~15초</td><td>OpenAI Chat API (답변 생성)</td></tr>
-                <tr><td>reward</td><td>1.7초</td><td>3~5초</td><td>캐릭터 매칭 + DB 저장</td></tr>
+                <tr>
+                    <th>Stage</th>
+                    <th><span class="lang-ko">평균</span><span class="lang-en">Avg</span></th>
+                    <th>p99</th>
+                    <th><span class="lang-ko">역할</span><span class="lang-en">Role</span></th>
+                </tr>
+                <tr><td>vision</td><td>4.5s</td><td>6~10s</td><td><span class="lang-ko">OpenAI Vision API (이미지 분석)</span><span class="lang-en">OpenAI Vision API (image analysis)</span></td></tr>
+                <tr><td>rule</td><td>0.3s</td><td>2~3s</td><td><span class="lang-ko">PostgreSQL 규칙 조회</span><span class="lang-en">PostgreSQL rule lookup</span></td></tr>
+                <tr><td>answer</td><td>4.8s</td><td>8~15s</td><td><span class="lang-ko">OpenAI Chat API (답변 생성)</span><span class="lang-en">OpenAI Chat API (answer generation)</span></td></tr>
+                <tr><td>reward</td><td>1.7s</td><td>3~5s</td><td><span class="lang-ko">캐릭터 매칭 + DB 저장</span><span class="lang-en">Character matching + DB save</span></td></tr>
             </table>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                <strong style="color: var(--primary);">📊 Stage 소요시간 비율</strong>
+                <strong style="color: var(--primary);">
+                    <span class="lang-ko">📊 Stage 소요시간 비율</span>
+                    <span class="lang-en">📊 Stage Duration Breakdown</span>
+                </strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
-                    <div style="margin-bottom: 0.5rem;">answer (45%) ████████████████████ 4.8초</div>
-                    <div style="margin-bottom: 0.5rem;">vision (40%) █████████████████ 4.5초</div>
-                    <div style="margin-bottom: 0.5rem;">reward (14%) ██████ 1.7초</div>
-                    <div>rule (5%) ██ 0.3초</div>
-                    <div style="margin-top: 0.75rem; font-style: italic;">⚠️ OpenAI API가 전체의 85% 차지 (vision + answer)</div>
+                    <div style="margin-bottom: 0.5rem;">answer (45%) ████████████████████ 4.8s</div>
+                    <div style="margin-bottom: 0.5rem;">vision (40%) █████████████████ 4.5s</div>
+                    <div style="margin-bottom: 0.5rem;">reward (14%) ██████ 1.7s</div>
+                    <div>rule (5%) ██ 0.3s</div>
+                    <div style="margin-top: 0.75rem; font-style: italic;">
+                        <span class="lang-ko">⚠️ OpenAI API가 전체의 85% 차지 (vision + answer)</span>
+                        <span class="lang-en">⚠️ OpenAI API accounts for 85% of total (vision + answer)</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -4189,49 +4203,42 @@ Wave    Resources
     <div class="modal-overlay" id="modal-mq-concurrency">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-mq-concurrency')">×</button>
-            <h3 class="modal-title">🔀 동시성 전략 분리 (prefork vs Gevent)</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔀 동시성 전략 분리 (prefork vs Gevent)</span>
+                <span class="lang-en">🔀 Concurrency Strategy Split (prefork vs Gevent)</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                      I/O-bound 워크로드와 동시성 전략                            │
+│                      I/O-bound Workload & Concurrency Strategy                  │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │   ❌ prefork (Before)                      ✅ gevent (After)                    │
 │   ────────────────────                     ─────────────────                    │
-│   Worker 1: [████████ 41s 블로킹 ████████] Greenlet Pool: [A][B][C]...[완료]   │
+│   Worker 1: [████████ 41s blocking ██████] Greenlet Pool: [A][B][C]...[done]   │
 │   Worker 2: ─────[████████ 41s ████████]   ↓  ↓  ↓      ↓  ↓                   │
-│   Worker 3: ──────────[████ 41s ████]      I/O대기 자동 yield                   │
+│   Worker 3: ──────────[████ 41s ████]      Auto yield on I/O wait              │
 │                                                                                 │
-│   문제: 1 Worker = 1 Task = 41초 점유     해결: 100+ 동시 I/O 가능              │
-│   실측: 0.0323 RPS (6-9 workers)          실측: ~4 RPS (OpenAI 한계까지)        │
-│   메모리: ~3.6GB (prefork 복제)           메모리: ~500MB (greenlet 경량)        │
-│                                                                                 │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│   왜 prefork가 효과 없었나?                                                     │
-│   ─────────────────────────                                                     │
-│   • 이코에코 워크로드는 100% I/O-bound (OpenAI API, DB, gRPC)                  │
-│   • I/O 대기 중 GIL은 이미 해제됨 → prefork의 "독립 GIL" 장점 무의미           │
-│   • prefork는 CPU-bound에만 효과적                                              │
-│                                                                                 │
-│   Gevent가 I/O-bound에 최적인 이유:                                             │
-│   ─────────────────────────────────                                             │
-│   • Monkey Patching으로 블로킹 I/O 자동 비동기화                                │
-│   • 협력적 멀티태스킹 (Greenlet): I/O 대기 시 자동 전환                         │
-│   • 메모리 효율적 (Greenlet = 수 KB)                                            │
+│   Problem: 1 Worker = 1 Task = 41s hold   Solution: 100+ concurrent I/O        │
+│   Measured: 0.0323 RPS (6-9 workers)      Measured: ~4 RPS (OpenAI limit)      │
+│   Memory: ~3.6GB (prefork fork)           Memory: ~500MB (lightweight greenlet)│
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
-                <tr><th>항목</th><th>prefork (Before)</th><th>gevent (After)</th></tr>
-                <tr><td>동시 I/O</td><td>6-9 (메모리 제한)</td><td><strong>100+</strong></td></tr>
-                <tr><td>메모리</td><td>~3.6GB</td><td><strong>~500MB</strong></td></tr>
-                <tr><td>블로킹</td><td>100% (41초/req)</td><td><strong>자동 yield</strong></td></tr>
-                <tr><td>RPS</td><td>0.0323</td><td><strong>~4 (OpenAI 한계)</strong></td></tr>
+                <tr>
+                    <th><span class="lang-ko">항목</span><span class="lang-en">Item</span></th>
+                    <th>prefork (Before)</th>
+                    <th>gevent (After)</th>
+                </tr>
+                <tr><td><span class="lang-ko">동시 I/O</span><span class="lang-en">Concurrent I/O</span></td><td><span class="lang-ko">6-9 (메모리 제한)</span><span class="lang-en">6-9 (memory limited)</span></td><td><strong>100+</strong></td></tr>
+                <tr><td><span class="lang-ko">메모리</span><span class="lang-en">Memory</span></td><td>~3.6GB</td><td><strong>~500MB</strong></td></tr>
+                <tr><td><span class="lang-ko">블로킹</span><span class="lang-en">Blocking</span></td><td>100% (41s/req)</td><td><strong><span class="lang-ko">자동 yield</span><span class="lang-en">Auto yield</span></strong></td></tr>
+                <tr><td>RPS</td><td>0.0323</td><td><strong><span class="lang-ko">~4 (OpenAI 한계)</span><span class="lang-en">~4 (OpenAI limit)</span></strong></td></tr>
             </table>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📈 Grafana Snapshot</strong>
                 <div style="margin-top: 0.75rem;">
                     <a href="https://snapshots.raintank.io/dashboard/snapshot/zz5pBgaMfZXuPDf7TwSLYgcMw103UZUE" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="color: var(--primary);">→</span> Gevent 전환 전 분석 (Chain Avg: 41.65초, TTFB p50: 10초)
+                        <span style="color: var(--primary);">→</span> <span class="lang-ko">Gevent 전환 전 분석 (Chain Avg: 41.65초, TTFB p50: 10초)</span><span class="lang-en">Pre-Gevent analysis (Chain Avg: 41.65s, TTFB p50: 10s)</span>
                     </a>
                 </div>
             </div>
@@ -4242,7 +4249,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-mq-idempotency">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-mq-idempotency')">×</button>
-            <h3 class="modal-title">🆔 at-least-once + 멱등성 키 전략</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">🆔 at-least-once + 멱등성 키 전략</span>
+                <span class="lang-en">🆔 at-least-once + Idempotency Key Strategy</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      Exactly-once Semantics via Idempotency                     │
@@ -4300,43 +4310,64 @@ Wave    Resources
 
     <!-- Modal: Event Streams - SSE Metrics -->
     <div class="modal-overlay" id="modal-stream-metrics">
-        <div class="modal-content" style="max-width: 1100px;">
+        <div class="modal-content" style="max-width: 1200px;">
             <button class="modal-close" onclick="closeModal('modal-stream-metrics')">×</button>
-            <h3 class="modal-title">🎯 Scan SSE 아키텍처 진화 및 성능 지표</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">🎯 Scan SSE 아키텍처 진화 및 성능 지표</span>
+                <span class="lang-en">🎯 Scan SSE Architecture Evolution & Performance Metrics</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                     SSE 아키텍처 진화: 연결 폭발 → Event Bus                     │
+│                     SSE Architecture Evolution: Connection Explosion → Event Bus│
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│   ❌ 0단계: Celery Events (50 VU 실패)    ✅ 현재: Event Bus + Pub/Sub          │
+│   ❌ Phase 0: Celery Events (50 VU fail)  ✅ Current: Event Bus + Pub/Sub       │
 │   ────────────────────────────────────    ──────────────────────────────────    │
 │   Client ─SSE─► scan-api ─► RabbitMQ      Worker ─XADD─► Streams ─► Router      │
 │                    │                                         │                  │
-│              1:21 연결 폭발                                   ▼                  │
+│              1:21 connection explosion                       ▼                  │
 │              (SSE 16 : MQ 341)            Router ─PUBLISH─► Pub/Sub ─► Gateway  │
 │                    │                                                │           │
-│              503 에러 폭증                                          ▼           │
+│              503 errors                                             ▼           │
 │                                                              SSE ─► Client      │
 │                                                                                 │
-│   핵심 개선: SSE : RabbitMQ = 1:21  →  SSE : Redis = 1:0 (RabbitMQ 의존성 제거) │
+│   Key: SSE : RabbitMQ = 1:21  →  SSE : Redis = 1:0 (RabbitMQ dependency removed)│
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
-                <tr><th>VU</th><th>완료율</th><th>처리량</th><th>p95 완료시간</th><th>스냅샷</th></tr>
-                <tr><td>10</td><td>100%</td><td>0.10 req/s</td><td>19.6초</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/QB6LdIZwjFLXiNVQq1xljAQ3vnVT77a3" target="_blank">링크</a></td></tr>
-                <tr><td>30</td><td>95.1%</td><td>0.27 req/s</td><td>47초</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/FqFEJTRNVC3G9SQbH0DWc2EluC7RlFzU" target="_blank">링크</a></td></tr>
-                <tr><td>34</td><td>82.8%</td><td>1.10 req/s</td><td>20초</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/ULL5FNeft8dN9yU25MYyKyEoOrMxbagk" target="_blank">링크</a></td></tr>
-                <tr><td>50 (Event Bus)</td><td><strong>99.7%</strong></td><td>198 req/m</td><td>17.7초</td><td>-</td></tr>
-                <tr><td>250</td><td>83.3%</td><td>204 req/m</td><td>1.3분</td><td>-</td></tr>
-                <tr><td>300</td><td>67.3%</td><td>186 req/m</td><td>76.6초</td><td>-</td></tr>
+                <tr>
+                    <th>VU</th>
+                    <th><span class="lang-ko">완료율</span><span class="lang-en">Completion</span></th>
+                    <th><span class="lang-ko">처리량</span><span class="lang-en">Throughput</span></th>
+                    <th>E2E p95</th>
+                    <th>Scan API p95</th>
+                    <th><span class="lang-ko">스냅샷</span><span class="lang-en">Snapshot</span></th>
+                </tr>
+                <tr><td>50</td><td><strong>99.7%</strong></td><td>198 req/m</td><td>17.7s</td><td>93ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/ZdMIItsw6ZRFhXKLO1M1BJDW14QkHC4o" target="_blank">→</a></td></tr>
+                <tr><td>200</td><td><strong>99.8%</strong></td><td>370 req/m</td><td>33.2s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/Xbr36P3VSZhqvE8RHv2vlpgNm8lHcwSs" target="_blank">→</a></td></tr>
+                <tr><td>250</td><td><strong>99.9%</strong></td><td>418 req/m</td><td>40.5s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/g3Qa0xMImwNmNuzQTXGW6C6I5VBopY5J" target="_blank">→</a></td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>300</strong></td><td><strong>99.9%</strong></td><td>402 req/m</td><td>48.5s</td><td>83ms</td><td>SLA</td></tr>
+                <tr><td>400</td><td>98.9%</td><td>427 req/m</td><td style="color: #ffaa00;">62.0s</td><td style="color: #ffaa00;">207ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/frzezh23ZWCrpiWNprpEtv3tFsdTEouI" target="_blank">→</a></td></tr>
+                <tr><td>500</td><td style="color: #ff6b6b;">94.0%</td><td>428 req/m</td><td style="color: #ff6b6b;">76.3s</td><td>154ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/dtBvLo3J2JlQ3LwWbcM6iwBJJuhboow5" target="_blank">→</a></td></tr>
             </table>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                <strong style="color: var(--primary);">📈 아키텍처별 성능 비교</strong>
+                <strong style="color: var(--primary);">
+                    <span class="lang-ko">📈 VU 발전 과정 분석</span>
+                    <span class="lang-en">📈 VU Progression Analysis</span>
+                </strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
-                    <strong>0단계</strong> Celery Events: 50 VU 🔴 실패 (1:21 연결 폭발)<br>
-                    <strong>1단계</strong> Redis Streams: 35% 완료율<br>
-                    <strong>2단계</strong> KEDA 적용: 86.3% 완료율<br>
-                    <strong>3단계</strong> Event Bus + Pub/Sub: <strong>99.7%</strong> 완료율
+                    <span class="lang-ko">
+                        <strong>SLA 기준:</strong> E2E p95 &lt; 60초 → <strong>300 VU</strong>가 안전 한계<br>
+                        <strong>400 VU:</strong> 98.9% 완료율 유지, 하지만 E2E p95 62초 (SLA 초과)<br>
+                        <strong>500 VU:</strong> 완료율 94%로 하락, 시스템 포화 상태<br>
+                        <strong>확장 전략:</strong> Karpenter 적용 시 400 VU × 노드수 확장 가능
+                    </span>
+                    <span class="lang-en">
+                        <strong>SLA Criteria:</strong> E2E p95 &lt; 60s → <strong>300 VU</strong> is safe limit<br>
+                        <strong>400 VU:</strong> 98.9% completion maintained, but E2E p95 62s (SLA exceeded)<br>
+                        <strong>500 VU:</strong> Completion drops to 94%, system saturation<br>
+                        <strong>Scaling Strategy:</strong> With Karpenter, 400 VU × node count scalable
+                    </span>
                 </div>
             </div>
         </div>
@@ -4346,7 +4377,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-stream-llm">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-stream-llm')">×</button>
-            <h3 class="modal-title">📊 LLM 파이프라인 특성 분석</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">📊 LLM 파이프라인 특성 분석</span>
+                <span class="lang-en">📊 LLM Pipeline Characteristics Analysis</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                        LLM Pipeline I/O-bound 특성                              │
@@ -4390,7 +4424,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-stream-recovery">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-stream-recovery')">×</button>
-            <h3 class="modal-title">🔄 SSE 재연결 복구 (State KV + Streams Catch-up)</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔄 SSE 재연결 복구 (State KV + Streams Catch-up)</span>
+                <span class="lang-en">🔄 SSE Reconnection Recovery (State KV + Streams Catch-up)</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                    SSE 재연결 시 누락 이벤트 복구 메커니즘                        │
@@ -4447,7 +4484,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-ec-offloading">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-ec-offloading')">×</button>
-            <h3 class="modal-title">📤 Write Offloading: API→Worker 책임 분리</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">📤 Write Offloading: API→Worker 책임 분리</span>
+                <span class="lang-en">📤 Write Offloading: API→Worker Responsibility Separation</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      Write Offloading: 판정/저장 분리                            │
@@ -4495,7 +4535,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-ec-atleastonce">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-ec-atleastonce')">×</button>
-            <h3 class="modal-title">🆔 Exactly-once Semantics (at-least-once + 멱등성)</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">🆔 Exactly-once Semantics (at-least-once + 멱등성)</span>
+                <span class="lang-en">🆔 Exactly-once Semantics (at-least-once + Idempotency)</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                    Exactly-once = at-least-once + Idempotency                   │
@@ -4548,7 +4591,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-ec-fanout">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-ec-fanout')">×</button>
-            <h3 class="modal-title">📡 Fanout 1:N 라우팅 (병렬 저장)</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">📡 Fanout 1:N 라우팅 (병렬 저장)</span>
+                <span class="lang-en">📡 Fanout 1:N Routing (Parallel Persistence)</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      Fanout Exchange: 단일 이벤트 → 다중 Worker                  │
@@ -4594,7 +4640,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-ec-cache">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-ec-cache')">×</button>
-            <h3 class="modal-title">🔄 캐시 무효화 전략 (Fanout + TTL)</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔄 캐시 무효화 전략 (Fanout + TTL)</span>
+                <span class="lang-en">🔄 Cache Invalidation Strategy (Fanout + TTL)</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      Cache Invalidation: Eventual Consistency                   │
@@ -4656,7 +4705,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-stream-keda">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-stream-keda')">×</button>
-            <h3 class="modal-title">⚖️ KEDA 이벤트 드리븐 오토스케일링</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">⚖️ KEDA 이벤트 드리븐 오토스케일링</span>
+                <span class="lang-en">⚖️ KEDA Event-Driven Autoscaling</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      KEDA + RabbitMQ 기반 Worker 스케일링                        │
@@ -4714,7 +4766,10 @@ Wave    Resources
     <div class="modal-overlay" id="modal-mq-topology">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-mq-topology')">×</button>
-            <h3 class="modal-title">📡 RabbitMQ Topology CR 관리</h3>
+            <h3 class="modal-title">
+                <span class="lang-ko">📡 RabbitMQ Topology CR 관리</span>
+                <span class="lang-en">📡 RabbitMQ Topology CR Management</span>
+            </h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                  RabbitMQ Kubernetes Operator + Messaging Topology              │
