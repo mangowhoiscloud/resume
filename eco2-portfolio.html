@@ -2285,28 +2285,28 @@
                         <span class="lang-en">Introduced <strong>async Job Queue</strong> to avoid HTTP timeouts from LLM API calls (~12s/req) and distribute concurrent load. Chose RabbitMQ over Kafka for lower operational complexity, separated concurrency strategies: Gevent for I/O-bound, Thread Pool for CPU-bound workloads.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-mq-chain">
                             <span class="achievement-icon">⛓️</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>4단계 Celery Chain</strong> Vision→Rule→Answer→Reward 순차 의존성</span>
                                 <span class="lang-en"><strong>4-stage Celery Chain</strong> Vision→Rule→Answer→Reward sequential dependency</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-mq-concurrency">
                             <span class="achievement-icon">🔀</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>동시성 전략 분리</strong> I/O-bound: Gevent, CPU-bound: Threads</span>
                                 <span class="lang-en"><strong>Concurrency split</strong> I/O-bound: Gevent, CPU-bound: Threads</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-mq-idempotency">
                             <span class="achievement-icon">🆔</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>at-least-once + 멱등성 키</strong> task_id 기반 중복 처리 방지</span>
                                 <span class="lang-en"><strong>at-least-once + idempotency</strong> task_id based deduplication</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-mq-topology">
                             <span class="achievement-icon">📡</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Topology CR 관리</strong> K8s Operator로 Queue/Exchange 선언적 관리</span>
@@ -2345,28 +2345,28 @@
                         <span class="lang-en">When initially deploying the LLM pipeline as synchronous requests, <strong>10+s API latency occupied scan-api threads</strong>, limiting concurrent processing. After SSE transition, Celery Events structure (21 RabbitMQ connections per SSE) exploded to 341 connections at 50 VU, causing 503 errors. Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery), achieving <strong>300 VU SLA</strong>.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-stream-metrics">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Scan SSE 지표</strong> 300 VU 99.9% 완료율, 402 req/m, E2E p95 48.5초</span>
                                 <span class="lang-en"><strong>Scan SSE metrics</strong> 300 VU 99.9% completion, 402 req/m, E2E p95 48.5s</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-stream-llm">
                             <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>LLM 파이프라인 특성</strong> Vision 3초 + Answer 8초 → 총 ~12초 I/O-bound</span>
                                 <span class="lang-en"><strong>LLM pipeline profile</strong> Vision 3s + Answer 8s → total ~12s I/O-bound</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-stream-recovery">
                             <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>SSE 재연결 복구</strong> State KV에서 마지막 상태 로드</span>
                                 <span class="lang-en"><strong>SSE reconnect recovery</strong> load last state from State KV</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-stream-keda">
                             <span class="achievement-icon">⚖️</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>KEDA 트리거</strong> RabbitMQ 큐 길이 기반 Worker 1→3 자동 스케일</span>
@@ -2404,28 +2404,28 @@
                         <span class="lang-en"><strong>Applied Eventual Consistency to all areas except tightly-coupled, immediate-response logic (e.g., OAuth flow)</strong>. Strong consistency increases latency, fire-and-forget risks data loss. Implemented Exactly-once Semantics via at-least-once + idempotency keys. Application Layer <strong>offloads persistence to Workers</strong>, enabling horizontal scaling without DB bottleneck. API Pods focus solely on fast responses, significantly improving throughput.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-ec-offloading">
                             <span class="achievement-icon">📤</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Write Offloading</strong> API는 이벤트만 발행, DB 쓰기는 Worker가 처리</span>
                                 <span class="lang-en"><strong>Write Offloading</strong> API publishes events only, Worker handles DB writes</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-ec-atleastonce">
                             <span class="achievement-icon">🆔</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Deterministic UUID</strong> (user_id + scan_id) 기반 멱등성 키</span>
                                 <span class="lang-en"><strong>Deterministic UUID</strong> (user_id + scan_id) based idempotency key</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-ec-fanout">
                             <span class="achievement-icon">📡</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Fanout 1:N 라우팅</strong> 단일 이벤트 → character_worker + users_worker</span>
                                 <span class="lang-en"><strong>Fanout 1:N routing</strong> single event → character_worker + users_worker</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-ec-cache">
                             <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>캐시 무효화</strong> Fanout broadcast + TTL 10s + 신규 Worker 부팅 시 워밍</span>
@@ -4131,6 +4131,648 @@ Wave    Resources
                     <a href="https://jaeger.dev.growbin.app" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                         <span style="color: var(--primary);">→</span> Jaeger - Distributed Tracing
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Message Queue - 4-Stage Celery Chain -->
+    <div class="modal-overlay" id="modal-mq-chain">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-mq-chain')">×</button>
+            <h3 class="modal-title">⛓️ 4-Stage Celery Chain Pipeline</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                     Scan Pipeline: Celery Chain Architecture                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   Client Request                                                                │
+│       │                                                                         │
+│       ▼                                                                         │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
+│   │   VISION    │────►│    RULE     │────►│   ANSWER    │────►│   REWARD    │  │
+│   │  scan.vision│     │  scan.rule  │     │ scan.answer │     │ scan.reward │  │
+│   └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘  │
+│        │                   │                    │                    │          │
+│        ▼                   ▼                    ▼                    ▼          │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
+│   │ OpenAI      │     │ PostgreSQL  │     │ OpenAI      │     │ Character   │  │
+│   │ Vision API  │     │ Rule DB     │     │ Chat API    │     │ Matching    │  │
+│   │ (~4.5초)    │     │ (~0.3초)    │     │ (~4.8초)    │     │ (~1.7초)    │  │
+│   └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘  │
+│                                                                                 │
+│   Chain Signature: vision.s() | rule.s() | answer.s() | reward.s()             │
+│   Total Duration: ~11-21초 (OpenAI API 지연에 따라 변동)                        │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Stage</th><th>평균 소요</th><th>p99</th><th>역할</th></tr>
+                <tr><td>vision</td><td>4.5초</td><td>6~10초</td><td>OpenAI Vision API (이미지 분석)</td></tr>
+                <tr><td>rule</td><td>0.3초</td><td>2~3초</td><td>PostgreSQL 규칙 조회</td></tr>
+                <tr><td>answer</td><td>4.8초</td><td>8~15초</td><td>OpenAI Chat API (답변 생성)</td></tr>
+                <tr><td>reward</td><td>1.7초</td><td>3~5초</td><td>캐릭터 매칭 + DB 저장</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📊 Stage 소요시간 비율</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <div style="margin-bottom: 0.5rem;">answer (45%) ████████████████████ 4.8초</div>
+                    <div style="margin-bottom: 0.5rem;">vision (40%) █████████████████ 4.5초</div>
+                    <div style="margin-bottom: 0.5rem;">reward (14%) ██████ 1.7초</div>
+                    <div>rule (5%) ██ 0.3초</div>
+                    <div style="margin-top: 0.75rem; font-style: italic;">⚠️ OpenAI API가 전체의 85% 차지 (vision + answer)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Message Queue - Concurrency Strategy -->
+    <div class="modal-overlay" id="modal-mq-concurrency">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-mq-concurrency')">×</button>
+            <h3 class="modal-title">🔀 동시성 전략 분리 (prefork vs Gevent)</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      I/O-bound 워크로드와 동시성 전략                            │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ❌ prefork (Before)                      ✅ gevent (After)                    │
+│   ────────────────────                     ─────────────────                    │
+│   Worker 1: [████████ 41s 블로킹 ████████] Greenlet Pool: [A][B][C]...[완료]   │
+│   Worker 2: ─────[████████ 41s ████████]   ↓  ↓  ↓      ↓  ↓                   │
+│   Worker 3: ──────────[████ 41s ████]      I/O대기 자동 yield                   │
+│                                                                                 │
+│   문제: 1 Worker = 1 Task = 41초 점유     해결: 100+ 동시 I/O 가능              │
+│   실측: 0.0323 RPS (6-9 workers)          실측: ~4 RPS (OpenAI 한계까지)        │
+│   메모리: ~3.6GB (prefork 복제)           메모리: ~500MB (greenlet 경량)        │
+│                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   왜 prefork가 효과 없었나?                                                     │
+│   ─────────────────────────                                                     │
+│   • 이코에코 워크로드는 100% I/O-bound (OpenAI API, DB, gRPC)                  │
+│   • I/O 대기 중 GIL은 이미 해제됨 → prefork의 "독립 GIL" 장점 무의미           │
+│   • prefork는 CPU-bound에만 효과적                                              │
+│                                                                                 │
+│   Gevent가 I/O-bound에 최적인 이유:                                             │
+│   ─────────────────────────────────                                             │
+│   • Monkey Patching으로 블로킹 I/O 자동 비동기화                                │
+│   • 협력적 멀티태스킹 (Greenlet): I/O 대기 시 자동 전환                         │
+│   • 메모리 효율적 (Greenlet = 수 KB)                                            │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>항목</th><th>prefork (Before)</th><th>gevent (After)</th></tr>
+                <tr><td>동시 I/O</td><td>6-9 (메모리 제한)</td><td><strong>100+</strong></td></tr>
+                <tr><td>메모리</td><td>~3.6GB</td><td><strong>~500MB</strong></td></tr>
+                <tr><td>블로킹</td><td>100% (41초/req)</td><td><strong>자동 yield</strong></td></tr>
+                <tr><td>RPS</td><td>0.0323</td><td><strong>~4 (OpenAI 한계)</strong></td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📈 Grafana Snapshot</strong>
+                <div style="margin-top: 0.75rem;">
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/zz5pBgaMfZXuPDf7TwSLYgcMw103UZUE" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Gevent 전환 전 분석 (Chain Avg: 41.65초, TTFB p50: 10초)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Message Queue - at-least-once + Idempotency -->
+    <div class="modal-overlay" id="modal-mq-idempotency">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-mq-idempotency')">×</button>
+            <h3 class="modal-title">🆔 at-least-once + 멱등성 키 전략</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      Exactly-once Semantics via Idempotency                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Celery 재시도 전략 ──────────────────────────────────────────────────┐    │
+│   │                                                                        │    │
+│   │   @celery_app.task(                                                    │    │
+│   │       max_retries=5,            # 최대 5회 재시도                      │    │
+│   │       autoretry_for=(Exception,),                                      │    │
+│   │       retry_backoff=True,       # Exponential backoff                  │    │
+│   │       retry_backoff_max=300,    # 최대 5분 대기                        │    │
+│   │   )                                                                    │    │
+│   │                                                                        │    │
+│   │   재시도 간격: 1초 → 2초 → 4초 → 8초 → 16초 (지수 증가)                │    │
+│   │                                                                        │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+│   ┌─ 멱등성 키 패턴 ──────────────────────────────────────────────────────┐    │
+│   │                                                                        │    │
+│   │   # Deterministic UUID 생성                                            │    │
+│   │   idempotency_key = uuid5(NAMESPACE, f"{user_id}:{scan_id}")           │    │
+│   │                                                                        │    │
+│   │   # 중복 체크                                                          │    │
+│   │   if redis.exists(f"processed:{idempotency_key}"):                     │    │
+│   │       return {"status": "already_processed"}                           │    │
+│   │                                                                        │    │
+│   │   # 처리 후 마킹                                                       │    │
+│   │   redis.setex(f"processed:{idempotency_key}", TTL, "1")                │    │
+│   │                                                                        │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+│   ┌─ DLQ (Dead Letter Queue) 흐름 ─────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   Task 실패 (5회 재시도 소진)                                          │   │
+│   │        │                                                               │   │
+│   │        ▼                                                               │   │
+│   │   DLX (Dead Letter Exchange) → DLQ (dlq.scan.vision 등)               │   │
+│   │        │                                                               │   │
+│   │        ▼                                                               │   │
+│   │   celery-beat: 매 5분 DLQ 재처리 시도                                  │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>전략</th><th>설명</th><th>효과</th></tr>
+                <tr><td>at-least-once</td><td>실패 시 자동 재시도 (최대 5회)</td><td>메시지 유실 방지</td></tr>
+                <tr><td>Exponential Backoff</td><td>1s → 2s → 4s → 8s → 16s</td><td>일시 장애 복원력</td></tr>
+                <tr><td>Idempotency Key</td><td>user_id + scan_id 기반</td><td>중복 처리 방지</td></tr>
+                <tr><td>DLQ</td><td>최종 실패 메시지 보관</td><td>celery-beat 재처리</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: Event Streams - SSE Metrics -->
+    <div class="modal-overlay" id="modal-stream-metrics">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-stream-metrics')">×</button>
+            <h3 class="modal-title">🎯 Scan SSE 아키텍처 진화 및 성능 지표</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                     SSE 아키텍처 진화: 연결 폭발 → Event Bus                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ❌ 0단계: Celery Events (50 VU 실패)    ✅ 현재: Event Bus + Pub/Sub          │
+│   ────────────────────────────────────    ──────────────────────────────────    │
+│   Client ─SSE─► scan-api ─► RabbitMQ      Worker ─XADD─► Streams ─► Router      │
+│                    │                                         │                  │
+│              1:21 연결 폭발                                   ▼                  │
+│              (SSE 16 : MQ 341)            Router ─PUBLISH─► Pub/Sub ─► Gateway  │
+│                    │                                                │           │
+│              503 에러 폭증                                          ▼           │
+│                                                              SSE ─► Client      │
+│                                                                                 │
+│   핵심 개선: SSE : RabbitMQ = 1:21  →  SSE : Redis = 1:0 (RabbitMQ 의존성 제거) │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>VU</th><th>완료율</th><th>처리량</th><th>p95 완료시간</th><th>스냅샷</th></tr>
+                <tr><td>10</td><td>100%</td><td>0.10 req/s</td><td>19.6초</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/QB6LdIZwjFLXiNVQq1xljAQ3vnVT77a3" target="_blank">링크</a></td></tr>
+                <tr><td>30</td><td>95.1%</td><td>0.27 req/s</td><td>47초</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/FqFEJTRNVC3G9SQbH0DWc2EluC7RlFzU" target="_blank">링크</a></td></tr>
+                <tr><td>34</td><td>82.8%</td><td>1.10 req/s</td><td>20초</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/ULL5FNeft8dN9yU25MYyKyEoOrMxbagk" target="_blank">링크</a></td></tr>
+                <tr><td>50 (Event Bus)</td><td><strong>99.7%</strong></td><td>198 req/m</td><td>17.7초</td><td>-</td></tr>
+                <tr><td>250</td><td>83.3%</td><td>204 req/m</td><td>1.3분</td><td>-</td></tr>
+                <tr><td>300</td><td>67.3%</td><td>186 req/m</td><td>76.6초</td><td>-</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📈 아키텍처별 성능 비교</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <strong>0단계</strong> Celery Events: 50 VU 🔴 실패 (1:21 연결 폭발)<br>
+                    <strong>1단계</strong> Redis Streams: 35% 완료율<br>
+                    <strong>2단계</strong> KEDA 적용: 86.3% 완료율<br>
+                    <strong>3단계</strong> Event Bus + Pub/Sub: <strong>99.7%</strong> 완료율
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Event Streams - LLM Pipeline Profile -->
+    <div class="modal-overlay" id="modal-stream-llm">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-stream-llm')">×</button>
+            <h3 class="modal-title">📊 LLM 파이프라인 특성 분석</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        LLM Pipeline I/O-bound 특성                              │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   Stage별 소요 시간 (실측)                                                      │
+│   ─────────────────────────                                                     │
+│                                                                                 │
+│   vision (40%) ████████████████████████████████████████  4.5초 (OpenAI Vision)  │
+│   answer (45%) ████████████████████████████████████████████  4.8초 (OpenAI Chat)│
+│   rule   (5%)  ████  0.3초 (PostgreSQL)                                         │
+│   reward (14%) ██████████████  1.7초 (Character Match)                          │
+│                                                                                 │
+│   ──────────────────────────────────────────────────────────────────────────    │
+│   Total: ~11-13초 (평균) / ~21초 (p99)                                          │
+│                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ⚠️ 핵심 병목: OpenAI API (vision + answer) = 전체의 85%                       │
+│                                                                                 │
+│   100% I/O-bound 워크로드:                                                      │
+│   ├─ OpenAI API 호출: 65% (vision + answer)                                     │
+│   ├─ Rule-based retrieval: 21% (PostgreSQL I/O)                                 │
+│   └─ Character matching: 14% (DB + gRPC I/O)                                    │
+│                                                                                 │
+│   → Gevent (greenlet) 전환으로 100+ 동시 I/O 가능                               │
+│   → OpenAI Rate Limit (500 RPM)이 실질 병목                                     │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Stage</th><th>평균</th><th>p99</th><th>병목 원인</th></tr>
+                <tr><td>vision</td><td>4.5초</td><td>10초</td><td>OpenAI Vision API</td></tr>
+                <tr><td>rule</td><td>0.3초</td><td>3초</td><td>PostgreSQL 쿼리</td></tr>
+                <tr><td>answer</td><td>4.8초</td><td>15초</td><td>OpenAI Chat API</td></tr>
+                <tr><td>reward</td><td>1.7초</td><td>5초</td><td>Character Match gRPC</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: Event Streams - SSE Recovery -->
+    <div class="modal-overlay" id="modal-stream-recovery">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-stream-recovery')">×</button>
+            <h3 class="modal-title">🔄 SSE 재연결 복구 (State KV + Streams Catch-up)</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    SSE 재연결 시 누락 이벤트 복구 메커니즘                        │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Redis 3종 분리 ────────────────────────────────────────────────────────┐  │
+│   │                                                                         │  │
+│   │   Streams (영속)           Pub/Sub (실시간)        State KV (복구)      │  │
+│   │   scan:events:{shard}      sse:events:{job_id}     scan:state:{job_id}  │  │
+│   │   XADD (4개 샤드)          PUBLISH                  SETEX (TTL 30분)    │  │
+│   │                                                                         │  │
+│   └─────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│   ┌─ 재연결 복구 흐름 ─────────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   1. Client SSE 재연결 (네트워크 끊김 후)                              │   │
+│   │        │                                                               │   │
+│   │        ▼                                                               │   │
+│   │   2. SSE Gateway: Pub/Sub 구독 먼저 시작 (이벤트 누락 방지)            │   │
+│   │        │                                                               │   │
+│   │        ▼                                                               │   │
+│   │   3. State KV 조회: scan:state:{job_id}                                │   │
+│   │        │  → 현재 stage, seq, status 확인                               │   │
+│   │        ▼                                                               │   │
+│   │   4. Streams Catch-up (last_seq 이후 이벤트 XRANGE)                    │   │
+│   │        │                                                               │   │
+│   │        ▼                                                               │   │
+│   │   5. 실시간 Pub/Sub 이벤트 수신 계속                                   │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   핵심 원칙: "구독 먼저, State 조회 나중" → Race Condition 방지                 │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>저장소</th><th>용도</th><th>TTL</th></tr>
+                <tr><td>Redis Streams</td><td>이벤트 영속 저장 (4개 샤드)</td><td>maxlen 50</td></tr>
+                <tr><td>Redis Pub/Sub</td><td>실시간 브로드캐스트</td><td>Fire-and-forget</td></tr>
+                <tr><td>Redis State KV</td><td>현재 상태 스냅샷</td><td>30분</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">✅ Race Condition 해결</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • Worker와 Event Router의 State 갱신 권한 단일화<br>
+                    • seq 순서와 관계없이 모든 이벤트 Pub/Sub 발행<br>
+                    • Pub/Sub 구독 → State 조회 순서 강제<br>
+                    • Streams catch-up으로 누락 이벤트 복구
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Eventual Consistency - Write Offloading -->
+    <div class="modal-overlay" id="modal-ec-offloading">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-ec-offloading')">×</button>
+            <h3 class="modal-title">📤 Write Offloading: API→Worker 책임 분리</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      Write Offloading: 판정/저장 분리                            │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ❌ Before (판정 + 저장 동시)            ✅ After (판정/저장 분리)              │
+│   ────────────────────────────            ─────────────────────────────          │
+│   scan_reward_task 시작                   scan_reward_task 시작                  │
+│        │                                       │                                 │
+│        ├─ 캐릭터 매칭 (판정)                   ├─ 캐릭터 매칭 (판정)              │
+│        ├─ character_ownerships INSERT          ├─ persist_reward.delay()         │
+│        ├─ session.commit()                     │   (Fire & Forget)               │
+│        ├─ sync_to_my_task.delay()              │                                 │
+│        ├─ gRPC 호출                            └─ 클라이언트 응답 ✅ (~100ms)     │
+│        │                                                                         │
+│        └─ 클라이언트 응답 (~600ms)        (비동기, 클라이언트 응답과 무관)        │
+│                                           persist_reward_task                    │
+│                                                │                                 │
+│                                                ├─ save_ownership.delay()         │
+│                                                └─ save_my_character.delay()      │
+│                                                                                  │
+│   응답 시간: 600ms → 100ms (83% 감소)                                            │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>항목</th><th>Before</th><th>After</th></tr>
+                <tr><td>클라이언트 응답</td><td>판정 + DB 저장 완료 후</td><td><strong>판정 즉시</strong></td></tr>
+                <tr><td>DB 저장</td><td>순차 (character → my gRPC)</td><td><strong>병렬 (Fire & Forget)</strong></td></tr>
+                <tr><td>my 도메인 연동</td><td>gRPC 호출</td><td><strong>직접 DB INSERT</strong></td></tr>
+                <tr><td>실패 시 영향</td><td>전체 실패</td><td><strong>각자 독립 재시도</strong></td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📈 핵심 성과</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • 응답 시간 <strong>83% 감소</strong> (600ms → 100ms)<br>
+                    • gRPC 네트워크 오버헤드 제거<br>
+                    • DB 장애 격리 (응답에 영향 없음)<br>
+                    • 각 Worker 독립적 재시도 (5회, exponential backoff)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Eventual Consistency - at-least-once -->
+    <div class="modal-overlay" id="modal-ec-atleastonce">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-ec-atleastonce')">×</button>
+            <h3 class="modal-title">🆔 Exactly-once Semantics (at-least-once + 멱등성)</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Exactly-once = at-least-once + Idempotency                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Deterministic UUID 생성 ──────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   # user_id + scan_id → 동일 입력이면 동일 UUID                        │   │
+│   │   idempotency_key = uuid5(NAMESPACE, f"{user_id}:{scan_id}")           │   │
+│   │                                                                        │   │
+│   │   장점:                                                                │   │
+│   │   • 클라이언트 재시도 시 동일 키 보장                                  │   │
+│   │   • DB Unique Constraint로 중복 방지                                   │   │
+│   │   • Race condition 방어 (동시 요청도 하나만 성공)                      │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 재시도 전략 ─────────────────────────────────────────────────────────┐    │
+│   │                                                                        │    │
+│   │   실패 → 자동 재시도 5회 (exponential backoff: 1s → 2s → 4s → 8s → 16s)│    │
+│   │        → 최종 실패 시 DLQ 보관                                         │    │
+│   │        → celery-beat: 매 5분 DLQ 재처리                                │    │
+│   │                                                                        │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+│   ┌─ 중복 처리 방어 ──────────────────────────────────────────────────────┐    │
+│   │                                                                        │    │
+│   │   # DB 레벨 방어                                                       │    │
+│   │   try:                                                                 │    │
+│   │       await ownership_repo.insert_owned(...)                           │    │
+│   │       await session.commit()                                           │    │
+│   │   except IntegrityError:                                               │    │
+│   │       # Race condition: 이미 다른 요청이 삽입함                        │    │
+│   │       return {"saved": False, "reason": "concurrent_insert"}           │    │
+│   │                                                                        │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>계층</th><th>방어 메커니즘</th><th>효과</th></tr>
+                <tr><td>Application</td><td>Deterministic UUID (uuid5)</td><td>동일 입력 → 동일 키</td></tr>
+                <tr><td>Cache</td><td>Redis SETEX (idempotency 마킹)</td><td>빠른 중복 체크</td></tr>
+                <tr><td>Database</td><td>Unique Constraint</td><td>최종 중복 방지</td></tr>
+                <tr><td>Worker</td><td>IntegrityError 핸들링</td><td>Race condition 방어</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: Eventual Consistency - Fanout Routing -->
+    <div class="modal-overlay" id="modal-ec-fanout">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-ec-fanout')">×</button>
+            <h3 class="modal-title">📡 Fanout 1:N 라우팅 (병렬 저장)</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      Fanout Exchange: 단일 이벤트 → 다중 Worker                  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   scan_reward_task (판정 완료)                                                  │
+│        │                                                                        │
+│        ▼                                                                        │
+│   persist_reward_task.delay() ─── dispatcher                                    │
+│        │                                                                        │
+│        ├────────────────────────────────────────────┐                           │
+│        │                                            │                           │
+│        ▼                                            ▼                           │
+│   ┌─────────────────────┐               ┌─────────────────────┐                 │
+│   │ save_ownership_task │               │ save_my_character   │                 │
+│   │ (reward.persist 큐) │               │ (my.sync 큐)        │                 │
+│   └──────────┬──────────┘               └──────────┬──────────┘                 │
+│              │                                     │                            │
+│              ▼                                     ▼                            │
+│   ┌─────────────────────┐               ┌─────────────────────┐                 │
+│   │ character DB        │               │ my DB               │                 │
+│   │ character_ownerships│               │ user_characters     │                 │
+│   │ INSERT              │               │ INSERT (직접)       │                 │
+│   └─────────────────────┘               └─────────────────────┘                 │
+│                                                                                 │
+│   특징:                                                                         │
+│   • 둘 다 Fire & Forget (발행 후 즉시 반환)                                     │
+│   • 하나가 실패해도 다른 하나는 정상 발행                                        │
+│   • 각자 독립적 재시도 (5회, exponential backoff)                               │
+│   • gRPC 제거 → my DB 직접 접근                                                 │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Task</th><th>큐</th><th>대상 DB</th><th>재시도</th></tr>
+                <tr><td>persist_reward_task</td><td>reward.persist</td><td>dispatcher</td><td>3회</td></tr>
+                <tr><td>save_ownership_task</td><td>reward.persist</td><td>character.character_ownerships</td><td>5회</td></tr>
+                <tr><td>save_my_character_task</td><td>my.sync</td><td>my.user_characters</td><td>5회</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal: Eventual Consistency - Cache Invalidation -->
+    <div class="modal-overlay" id="modal-ec-cache">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-ec-cache')">×</button>
+            <h3 class="modal-title">🔄 캐시 무효화 전략 (Fanout + TTL)</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      Cache Invalidation: Eventual Consistency                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ 캐시 무효화 흐름 ─────────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   DB 변경 (character_ownerships INSERT)                                │   │
+│   │        │                                                               │   │
+│   │        ▼                                                               │   │
+│   │   character.events (Fanout Exchange)                                   │   │
+│   │        │                                                               │   │
+│   │        ├────────────────────────────────────────────┐                  │   │
+│   │        ▼                                            ▼                  │   │
+│   │   ┌──────────────────┐               ┌──────────────────┐             │   │
+│   │   │ character_worker │               │ ext-authz        │             │   │
+│   │   │ Local Cache 갱신 │               │ Local Cache 갱신 │             │   │
+│   │   └──────────────────┘               └──────────────────┘             │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ TTL 기반 자동 만료 ──────────────────────────────────────────────────┐    │
+│   │                                                                        │    │
+│   │   • Local Cache TTL: 10초                                              │    │
+│   │   • 최악의 경우 10초간 stale data 가능 (Eventual Consistency)          │    │
+│   │   • TTL 만료 후 DB에서 fresh data 로드                                 │    │
+│   │                                                                        │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+│   ┌─ 신규 Worker 부팅 시 워밍 ────────────────────────────────────────────┐    │
+│   │                                                                        │    │
+│   │   Worker 시작 시:                                                      │    │
+│   │   1. DB에서 현재 상태 로드                                             │    │
+│   │   2. Local Cache 초기화                                                │    │
+│   │   3. Fanout Exchange 구독 시작                                         │    │
+│   │   4. 이후 이벤트 수신하며 실시간 갱신                                   │    │
+│   │                                                                        │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>전략</th><th>메커니즘</th><th>지연 시간</th></tr>
+                <tr><td>Fanout Broadcast</td><td>Exchange → 모든 구독 Worker</td><td>~10ms</td></tr>
+                <tr><td>TTL 기반 만료</td><td>Local Cache TTL 10초</td><td>최대 10초</td></tr>
+                <tr><td>신규 Worker 워밍</td><td>부팅 시 DB 로드 + 구독</td><td>즉시</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">⚠️ Trade-off</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • <strong>장점:</strong> 빠른 응답, 장애 격리, 수평 확장 용이<br>
+                    • <strong>단점:</strong> 최대 10초간 stale data 가능<br>
+                    • <strong>적용 기준:</strong> Strong Consistency 불필요한 영역에만 적용
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Event Streams - KEDA Autoscaling -->
+    <div class="modal-overlay" id="modal-stream-keda">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-stream-keda')">×</button>
+            <h3 class="modal-title">⚖️ KEDA 이벤트 드리븐 오토스케일링</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      KEDA + RabbitMQ 기반 Worker 스케일링                        │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ❌ CPU 기반 HPA의 한계                   ✅ KEDA 이벤트 드리븐                │
+│   ────────────────────────────             ──────────────────────────            │
+│   scan-worker (50 VU 테스트 중)            RabbitMQ 큐 길이 기반                │
+│   CPU: 37m / 1000m (3.7%)                  메시지 10개 이상 → 스케일업          │
+│   ← CPU 미사용, HPA 미트리거!              scan.vision, scan.answer 모니터링    │
+│                                                                                 │
+│   실제 병목: OpenAI API 대기               Worker 1→5 자동 확장                 │
+│   (6~10초/요청, I/O-bound)                 cooldownPeriod: 30초                 │
+│                                            pollingInterval: 10초                 │
+│                                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ ScaledObject 구성 ────────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   apiVersion: keda.sh/v1alpha1                                         │   │
+│   │   kind: ScaledObject                                                   │   │
+│   │   spec:                                                                │   │
+│   │     scaleTargetRef: scan-worker                                        │   │
+│   │     minReplicaCount: 1                                                 │   │
+│   │     maxReplicaCount: 10                                                │   │
+│   │     triggers:                                                          │   │
+│   │     - type: rabbitmq                                                   │   │
+│   │       metadata:                                                        │   │
+│   │         queueName: scan.vision                                         │   │
+│   │         mode: QueueLength                                              │   │
+│   │         value: '10'   # 10개 이상 → 스케일업                           │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>설정</th><th>값</th><th>설명</th></tr>
+                <tr><td>minReplicaCount</td><td>1</td><td>유휴 시 최소 Pod</td></tr>
+                <tr><td>maxReplicaCount</td><td>10</td><td>최대 스케일 한계</td></tr>
+                <tr><td>QueueLength threshold</td><td>10</td><td>스케일업 트리거</td></tr>
+                <tr><td>cooldownPeriod</td><td>30초</td><td>스케일다운 대기</td></tr>
+                <tr><td>pollingInterval</td><td>10초</td><td>메트릭 체크 주기</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📈 k6 50 VU 테스트 개선</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <strong>Before (CPU HPA):</strong> 35% 완료율<br>
+                    <strong>After (KEDA):</strong> 86.3% 완료율 → <strong>+51.3%p 개선</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Message Queue - Topology CR -->
+    <div class="modal-overlay" id="modal-mq-topology">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-mq-topology')">×</button>
+            <h3 class="modal-title">📡 RabbitMQ Topology CR 관리</h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                  RabbitMQ Kubernetes Operator + Messaging Topology              │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Operator 아키텍처 ────────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   RabbitMQ Cluster Operator (v2.12.0)                                  │   │
+│   │   └─ RabbitmqCluster CR → eco2-rabbitmq-server (3 replicas, Quorum)   │   │
+│   │                                                                        │   │
+│   │   Messaging Topology Operator (v1.16.0)                                │   │
+│   │   └─ Exchange, Queue, Binding CRs → 선언적 토폴로지 관리              │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 선언적 토폴로지 예시 ─────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   # Exchange CR                    # Queue CR                          │   │
+│   │   apiVersion: rabbitmq.com/v1beta1 apiVersion: rabbitmq.com/v1beta1    │   │
+│   │   kind: Exchange                   kind: Queue                         │   │
+│   │   metadata:                        metadata:                           │   │
+│   │     name: scan-exchange              name: scan-vision-queue           │   │
+│   │   spec:                            spec:                               │   │
+│   │     name: scan.events                name: scan.vision                 │   │
+│   │     type: direct                     type: quorum                      │   │
+│   │     durable: true                    durable: true                     │   │
+│   │     rabbitmqClusterReference:        arguments:                        │   │
+│   │       name: eco2-rabbitmq-server       x-dead-letter-exchange: dlx     │   │
+│   │                                        x-delivery-limit: 5             │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 현재 토폴로지 ────────────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   Exchanges:                       Queues:                             │   │
+│   │   ├─ scan.events (direct)          ├─ scan.vision (quorum)            │   │
+│   │   ├─ blacklist.events (fanout)     ├─ scan.rule (quorum)              │   │
+│   │   ├─ dlx (direct)                  ├─ scan.answer (quorum)            │   │
+│   │   └─ character.events (fanout)     ├─ scan.reward (quorum)            │   │
+│   │                                    ├─ reward.persist (quorum)         │   │
+│   │                                    ├─ my.sync (quorum)                │   │
+│   │                                    └─ dlq.* (DLQ 큐들)                │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr><th>Operator</th><th>버전</th><th>역할</th></tr>
+                <tr><td>RabbitMQ Cluster Operator</td><td>v2.12.0</td><td>RabbitmqCluster CR → 3-node Quorum 클러스터</td></tr>
+                <tr><td>Messaging Topology Operator</td><td>v1.16.0</td><td>Exchange, Queue, Binding CR 관리</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">✅ GitOps 장점</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • Queue/Exchange를 YAML로 버전 관리<br>
+                    • ArgoCD가 자동 동기화 (선언적)<br>
+                    • 환경별 Kustomize overlay 적용<br>
+                    • 변경 이력 추적 가능
                 </div>
             </div>
         </div>
