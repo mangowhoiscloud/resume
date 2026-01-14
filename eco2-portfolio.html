@@ -442,6 +442,77 @@
             content: '→';
         }
 
+        /* PR / Release References */
+        .ref-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .ref-count {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.55rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .ref-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.6rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .ref-chip:hover {
+            border-color: var(--border-glow);
+            color: var(--text-primary);
+        }
+
+        .ref-chip.release {
+            color: var(--category-color);
+        }
+
+        .ref-chip.changelog {
+            color: var(--text-secondary);
+        }
+
+        .modal-refs {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+
+        .modal-refs-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .modal-refs-links {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
         /* Architecture Section */
         .architecture-diagram {
             background: var(--bg-card);
@@ -2038,6 +2109,37 @@
                         </span>
                     </div>
                 </div>
+                <div class="rag-explanation" style="margin-top: 1.5rem; padding: 1rem 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--primary);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                        <span class="lang-ko">
+                            <strong style="color: var(--primary);">📁 docs/</strong> 디렉토리는 <strong>.gitignore</strong>로 관리되는 <strong>로컬 아카이브</strong>입니다. 
+                            코드베이스와 함께 저장되어 <strong>AI Agent가 맥락을 참조</strong>하는 RAG(Retrieval-Augmented Generation) 소스로 동작합니다. 
+                            이 중 <strong>선별된 글은 블로그로 포스팅</strong>되어 기술 공유와 기록을 병행합니다.
+                        </span>
+                        <span class="lang-en">
+                            The <strong style="color: var(--primary);">docs/</strong> directory is a <strong>local archive</strong> managed via <strong>.gitignore</strong>. 
+                            Stored alongside the codebase, it serves as a RAG (Retrieval-Augmented Generation) source for <strong>AI Agent context reference</strong>. 
+                            <strong>Selected articles are published as blog posts</strong>, combining technical sharing with documentation.
+                        </span>
+                    </p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.8rem;">
+                        <span style="color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem;">
+                            <span style="color: var(--primary);">→</span>
+                            <span class="lang-ko">51+ 로컬 문서</span>
+                            <span class="lang-en">51+ local docs</span>
+                        </span>
+                        <span style="color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem;">
+                            <span style="color: var(--primary);">→</span>
+                            <span class="lang-ko">83+ 블로그 포스트</span>
+                            <span class="lang-en">83+ blog posts</span>
+                        </span>
+                        <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29" target="_blank" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.4rem;">
+                            <span>📝</span>
+                            <span class="lang-ko">블로그 보기</span>
+                            <span class="lang-en">View Blog</span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -2129,6 +2231,13 @@
                                 <span class="lang-en"><strong>IRSA Automation</strong> ExternalSecrets + ExternalDNS + ALB Controller</span>
                             </div>
                         </div>
+                        <div class="achievement clickable" data-modal="modal-ci-quality">
+                            <span class="achievement-icon">✅</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>CI Quality Gate</strong> black/ruff/pytest/coverage로 품질 기준 강제</span>
+                                <span class="lang-en"><strong>CI Quality Gate</strong> enforce quality via black/ruff/pytest/coverage</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="category-footer">
@@ -2136,6 +2245,24 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 53개</span>
+                            <span class="lang-en">53 PRs</span>
+                        </span>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v0.7.4" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v0.7.4</span>
+                            <span class="lang-en">Release v0.7.4</span>
+                        </a>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.0" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v1.0.0</span>
+                            <span class="lang-en">Release v1.0.0</span>
+                        </a>
+                        <a class="ref-chip changelog" href="https://github.com/eco2-team/backend/blob/main/CHANGELOG.md#100---2025-12-02" target="_blank" rel="noopener">
+                            <span class="lang-ko">Changelog v1.0.0</span>
+                            <span class="lang-en">Changelog v1.0.0</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -2199,6 +2326,20 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 36개</span>
+                            <span class="lang-en">36 PRs</span>
+                        </span>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.5" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v1.0.5</span>
+                            <span class="lang-en">Release v1.0.5</span>
+                        </a>
+                        <a class="ref-chip changelog" href="https://github.com/eco2-team/backend/blob/main/CHANGELOG.md#105---2025-12-11" target="_blank" rel="noopener">
+                            <span class="lang-ko">Changelog v1.0.5</span>
+                            <span class="lang-en">Changelog v1.0.5</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -2260,6 +2401,20 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 35개</span>
+                            <span class="lang-en">35 PRs</span>
+                        </span>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.6" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v1.0.6</span>
+                            <span class="lang-en">Release v1.0.6</span>
+                        </a>
+                        <a class="ref-chip changelog" href="https://github.com/eco2-team/backend/blob/main/CHANGELOG.md#106---2025-12-11" target="_blank" rel="noopener">
+                            <span class="lang-ko">Changelog v1.0.6</span>
+                            <span class="lang-en">Changelog v1.0.6</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -2320,6 +2475,20 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 72개 (MQ+Workers)</span>
+                            <span class="lang-en">72 PRs (MQ+Workers)</span>
+                        </span>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.7" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v1.0.7</span>
+                            <span class="lang-en">Release v1.0.7</span>
+                        </a>
+                        <a class="ref-chip changelog" href="https://github.com/eco2-team/backend/blob/main/CHANGELOG.md#107---2025-12-28" target="_blank" rel="noopener">
+                            <span class="lang-ko">Changelog v1.0.7</span>
+                            <span class="lang-en">Changelog v1.0.7</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -2380,6 +2549,20 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 18개 (Streams+Scaling)</span>
+                            <span class="lang-en">18 PRs (Streams+Scaling)</span>
+                        </span>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.7" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v1.0.7</span>
+                            <span class="lang-en">Release v1.0.7</span>
+                        </a>
+                        <a class="ref-chip changelog" href="https://github.com/eco2-team/backend/blob/main/CHANGELOG.md#107---2025-12-28" target="_blank" rel="noopener">
+                            <span class="lang-ko">Changelog v1.0.7</span>
+                            <span class="lang-en">Changelog v1.0.7</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -2439,6 +2622,20 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 72개 (MQ 기반)</span>
+                            <span class="lang-en">72 PRs (MQ-based)</span>
+                        </span>
+                        <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.7" target="_blank" rel="noopener">
+                            <span class="lang-ko">Release v1.0.7</span>
+                            <span class="lang-en">Release v1.0.7</span>
+                        </a>
+                        <a class="ref-chip changelog" href="https://github.com/eco2-team/backend/blob/main/CHANGELOG.md#107---2025-12-28" target="_blank" rel="noopener">
+                            <span class="lang-ko">Changelog v1.0.7</span>
+                            <span class="lang-en">Changelog v1.0.7</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -2513,6 +2710,16 @@
                         <span class="lang-ko">블로그에서 자세히 보기</span>
                         <span class="lang-en">Read more on blog</span>
                     </a>
+                    <div class="ref-links">
+                        <span class="ref-count">
+                            <span class="lang-ko">PR 43개</span>
+                            <span class="lang-en">43 PRs</span>
+                        </span>
+                        <a class="ref-chip" href="https://github.com/eco2-team/backend/pulls?q=is%3Apr+is%3Amerged" target="_blank" rel="noopener">
+                            <span class="lang-ko">Merged PRs</span>
+                            <span class="lang-en">Merged PRs</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -3279,6 +3486,19 @@
                 <tr><td><strong>Persistence</strong></td><td>PostgreSQL, Redis (4종)</td><td>k8s-data</td><td>데이터 영속화</td></tr>
                 <tr><td><strong>Platform</strong></td><td>ArgoCD, KEDA, Observability</td><td>k8s-platform</td><td>오케스트레이션</td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v0.7.4" target="_blank" rel="noopener">v0.7.4</a>
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.0" target="_blank" rel="noopener">v1.0.0</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/318" target="_blank" rel="noopener">#318 NetworkPolicy</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/252" target="_blank" rel="noopener">#252 Users Node</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/244" target="_blank" rel="noopener">#244 Canary Infra</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">🖥️ 24-Node Cluster Topology</strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
@@ -3486,6 +3706,113 @@ Wave    Resources
         </div>
     </div>
 
+    <!-- Modal: CI Quality Gate -->
+    <div class="modal-overlay" id="modal-ci-quality">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-ci-quality')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">✅ CI Quality Gate (Lint · Formatting · Test · Coverage)</span>
+                <span class="lang-en">✅ CI Quality Gate (Lint · Formatting · Test · Coverage)</span>
+            </h3>
+
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           GitHub Actions Quality Gate                           │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   Pull Request / Push                                                          │
+│        │                                                                        │
+│        ▼                                                                        │
+│   Commit Filter  ──►  Detect Changes  ──►  Quality (black/ruff/pytest)          │
+│        │                 │                         │                            │
+│        │                 │                         ├─ apps/*: black --check      │
+│        │                 │                         ├─ apps/*: ruff check         │
+│        │                 │                         └─ pytest (서비스는 전체/워커는 unit)│
+│        │                 │                                                      │
+│        └──────────────► (skip 조건: docs 등, canary merge 등)                    │
+│                                                                                 │
+│   Push/workflow_dispatch일 때만: Build & Push → (ArgoCD Sync / ImageUpdater)     │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <table class="modal-table" style="font-size: 0.85rem;">
+                <tr>
+                    <th><span class="lang-ko">대상</span><span class="lang-en">Target</span></th>
+                    <th><span class="lang-ko">워크플로우</span><span class="lang-en">Workflow</span></th>
+                    <th><span class="lang-ko">검증</span><span class="lang-en">Checks</span></th>
+                    <th><span class="lang-ko">트리거/특징</span><span class="lang-en">Trigger/Notes</span></th>
+                </tr>
+                <tr>
+                    <td>apps/* API</td>
+                    <td><a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-services.yml" target="_blank" rel="noopener">ci-services.yml</a></td>
+                    <td>black==24.4.2, ruff==0.6.9, pytest==8.3.3</td>
+                    <td>
+                        <span class="lang-ko">PR에선 품질 게이트만, push/수동 실행에서만 이미지 빌드/푸시</span>
+                        <span class="lang-en">PR runs quality only, build/push only on push or manual</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>apps/* Workers</td>
+                    <td><a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-workers.yml" target="_blank" rel="noopener">ci-workers.yml</a></td>
+                    <td>black/ruff + pytest(unit) (integration은 기본 ignore)</td>
+                    <td>
+                        <span class="lang-ko">Redis 환경변수 주입으로 단위 테스트 중심(빠른 피드백)</span>
+                        <span class="lang-en">Unit-test focused for fast feedback (Redis env injected)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>SSE Components</td>
+                    <td><a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-sse-components.yml" target="_blank" rel="noopener">ci-sse-components.yml</a></td>
+                    <td>apps/sse_gateway, apps/event_router: black/ruff/pytest</td>
+                    <td>
+                        <span class="lang-ko">apps/를 PYTHONPATH로 잡아 모듈 import 정합성 강제</span>
+                        <span class="lang-en">Sets PYTHONPATH=apps to enforce import correctness</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Infra</td>
+                    <td><a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-infra.yml" target="_blank" rel="noopener">ci-infra.yml</a></td>
+                    <td>
+                        <span class="lang-ko">Terraform validate/plan 등 IaC 검증</span>
+                        <span class="lang-en">IaC checks (Terraform validate/plan, etc.)</span>
+                    </td>
+                    <td>
+                        <span class="lang-ko">docs 타입 커밋은 skip 가능(인프라 CI 비용 절감)</span>
+                        <span class="lang-en">Can skip on docs-only commits to reduce CI cost</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Coverage (리포트)</td>
+                    <td><a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-sonarcloud.yml" target="_blank" rel="noopener">ci-sonarcloud.yml</a></td>
+                    <td>pytest-cov → coverage.xml 생성</td>
+                    <td>
+                        <span class="lang-ko">SonarCloud 연동용(현재는 수동 트리거)</span>
+                        <span class="lang-en">For SonarCloud integration (manual trigger currently)</span>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.08); border-radius: 10px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">
+                    <span class="lang-ko">왜 중요한가</span>
+                    <span class="lang-en">Why it matters</span>
+                </strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <span class="lang-ko">
+                        • PR 단계에서 포맷/린트/테스트를 강제해 “리뷰는 로직에 집중”하도록 만듭니다.<br>
+                        • 도메인/워커가 늘어날수록 회귀 리스크가 커지므로, Quality Gate는 확장성의 보험입니다.<br>
+                        • Clean Architecture(Port/Adapter)에서 특히 Mock 기반 단위 테스트가 쉬워져 품질 루프가 빨라집니다.
+                    </span>
+                    <span class="lang-en">
+                        • Enforces format/lint/tests on PRs so reviews focus on logic.<br>
+                        • As domains/workers scale, regression risk grows—quality gates are scalability insurance.<br>
+                        • Clean Architecture improves testability (ports mocked), accelerating feedback loops.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Operators & Helm -->
     <div class="modal-overlay" id="modal-operators">
         <div class="modal-content">
@@ -3581,6 +3908,18 @@ Wave    Resources
                 <tr><td>redis_error</td><td>11-54 req/s</td><td>3-8 req/s</td><td>0-3.5 req/s</td><td>93% 감소</td></tr>
                 <tr><td>Pod Count</td><td>1 (CPU 병목)</td><td>1</td><td>3-5 (HPA)</td><td>수평 확장</td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.5" target="_blank" rel="noopener">v1.0.5</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/102" target="_blank" rel="noopener">#102 ext-authz Go</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/236" target="_blank" rel="noopener">#236 Local Cache</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/243" target="_blank" rel="noopener">#243 Outbox</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📊 Grafana 스냅샷 (실제 테스트 데이터)</strong>
                 <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
@@ -3947,6 +4286,17 @@ Wave    Resources
                 <tr><td>Elasticsearch</td><td>v8.11.0</td><td>로그 저장/검색</td><td>ECK Operator, 50GB Storage</td></tr>
                 <tr><td>Kibana</td><td>v8.11.0</td><td>로그 시각화</td><td>Discover, Dashboard</td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.6" target="_blank" rel="noopener">v1.0.6</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/146" target="_blank" rel="noopener">#146 ECK</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/194" target="_blank" rel="noopener">#194 Elasticsearch bootstrap</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">🔗 Kibana Dashboard</strong>
                 <div style="margin-top: 0.75rem;">
@@ -4012,6 +4362,18 @@ Wave    Resources
                 <tr><td>Istio Sidecar</td><td>Envoy</td><td>Built-in</td><td>EnvoyFilter %TRACE_ID%</td></tr>
                 <tr><td>Jaeger Collector</td><td>-</td><td>OTLP</td><td>gRPC 4317 → ES storage</td></tr>
             </table>
+
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.6" target="_blank" rel="noopener">v1.0.6</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/150" target="_blank" rel="noopener">#150 ECS Logging</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/284" target="_blank" rel="noopener">#284 OTel B3</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">🔗 Jaeger Distributed Tracing</strong>
                 <div style="margin-top: 0.75rem;">
@@ -4179,6 +4541,17 @@ Wave    Resources
                 <tr><td>answer</td><td>4.8s</td><td>8~15s</td><td><span class="lang-ko">OpenAI Chat API (답변 생성)</span><span class="lang-en">OpenAI Chat API (answer generation)</span></td></tr>
                 <tr><td>reward</td><td>1.7s</td><td>3~5s</td><td><span class="lang-ko">캐릭터 매칭 + DB 저장</span><span class="lang-en">Character matching + DB save</span></td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.7" target="_blank" rel="noopener">v1.0.7</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/337" target="_blank" rel="noopener">#337 Named Exchange</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/353" target="_blank" rel="noopener">#353 Fanout</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">
                     <span class="lang-ko">📊 Stage 소요시간 비율</span>
@@ -4349,6 +4722,17 @@ Wave    Resources
                 <tr><td>400</td><td>98.9%</td><td>427 req/m</td><td style="color: #ffaa00;">62.0s</td><td style="color: #ffaa00;">207ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/frzezh23ZWCrpiWNprpEtv3tFsdTEouI" target="_blank">→</a></td></tr>
                 <tr><td>500</td><td style="color: #ff6b6b;">94.0%</td><td>428 req/m</td><td style="color: #ff6b6b;">76.3s</td><td>154ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/dtBvLo3J2JlQ3LwWbcM6iwBJJuhboow5" target="_blank">→</a></td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.7" target="_blank" rel="noopener">v1.0.7</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/311" target="_blank" rel="noopener">#311 Event Router</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/320" target="_blank" rel="noopener">#320 SSE Routing</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">
                     <span class="lang-ko">📈 VU 발전 과정 분석</span>
@@ -4518,6 +4902,17 @@ Wave    Resources
                 <tr><td>users 도메인 연동</td><td>gRPC 호출</td><td><strong>직접 DB INSERT</strong></td></tr>
                 <tr><td>실패 시 영향</td><td>전체 실패</td><td><strong>각자 독립 재시도</strong></td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.7" target="_blank" rel="noopener">v1.0.7</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/353" target="_blank" rel="noopener">#353 Fanout</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/338" target="_blank" rel="noopener">#338 Queue Strategy</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📈 핵심 성과</strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
@@ -5271,10 +5666,84 @@ Wave    Resources
                 <tr><td>C</td><td>11-20</td><td><span class="lang-ko">고복잡</span><span class="lang-en">High Complexity</span></td><td>1.4%</td></tr>
                 <tr style="background: rgba(255,165,0,0.1);"><td>D-F</td><td>21+</td><td><span class="lang-ko">리팩토링 필요</span><span class="lang-en">Refactor Required</span></td><td>0.5%</td></tr>
             </table>
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR</span>
+                    <span class="lang-en">Related PRs</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/361" target="_blank" rel="noopener">#361 apps/ Migration</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/306" target="_blank" rel="noopener">#306 ORM Registry</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/364" target="_blank" rel="noopener">#364 images rename</a>
+                </div>
+            </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📈 Radon 측정 명령어</strong>
                 <pre style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 4px; overflow-x: auto;">radon cc apps/ -a -s --total-average
 radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(139, 92, 246, 0.12); border-radius: 10px; border-left: 3px solid rgba(139, 92, 246, 0.8);">
+                <strong style="color: rgba(139, 92, 246, 0.95);">
+                    <span class="lang-ko">🧪 테스트 커버리지 (Unit/Integration)</span>
+                    <span class="lang-en">🧪 Test Coverage (Unit/Integration)</span>
+                </strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <span class="lang-ko">
+                        Clean Architecture 전환으로 Port/Usecase 단위가 작아져 **Mock 기반 단위 테스트 작성 비용**이 낮아졌고, 커버리지 측정이 쉬워졌습니다.<br>
+                        아래 수치는 코드베이스 문서/리포트에 기록된 실측(coverage 출력) 기반입니다.
+                    </span>
+                    <span class="lang-en">
+                        Clean Architecture reduces unit size (ports/usecases), lowering test-writing cost with mocks and making coverage easier to measure.<br>
+                        Numbers below are based on documented measured outputs (coverage reports) in this repo.
+                    </span>
+                </div>
+
+                <table class="modal-table" style="margin-top: 0.9rem; font-size: 0.85rem;">
+                    <tr>
+                        <th><span class="lang-ko">컴포넌트</span><span class="lang-en">Component</span></th>
+                        <th><span class="lang-ko">단위 테스트</span><span class="lang-en">Unit tests</span></th>
+                        <th><span class="lang-ko">통합 테스트</span><span class="lang-en">Integration</span></th>
+                        <th><span class="lang-ko">커버리지</span><span class="lang-en">Coverage</span></th>
+                        <th><span class="lang-ko">근거</span><span class="lang-en">Source</span></th>
+                    </tr>
+                    <tr>
+                        <td><strong>auth_worker</strong></td>
+                        <td>54 tests</td>
+                        <td>별도(배포 검증 중심)</td>
+                        <td><strong>88%</strong></td>
+                        <td>
+                            <a href="https://github.com/eco2-team/backend/blob/main/docs/blogs/deployment/02-auth-persistence-offloading.md#테스트-커버리지" target="_blank" rel="noopener">coverage log</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>chat_worker</strong></td>
+                        <td>115 tests</td>
+                        <td>Docker build 검증 포함</td>
+                        <td><strong>Core logic 88–100%</strong></td>
+                        <td>
+                            <a href="https://github.com/eco2-team/backend/blob/main/docs/blogs/applied/18-chat-worker-test-quality-report.md#quality-metrics" target="_blank" rel="noopener">quality report</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>CI Coverage</strong></td>
+                        <td>pytest-cov</td>
+                        <td>integration/e2e 기본 ignore</td>
+                        <td>coverage.xml 생성</td>
+                        <td>
+                            <a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-sonarcloud.yml" target="_blank" rel="noopener">ci-sonarcloud.yml</a>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin-top: 0.9rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko"><strong>도표(개념)</strong>: Unit 커버리지를 우선 올리고, Integration은 핵심 플로우 중심으로 얇게 유지 → 안정성/속도 균형</span>
+                    <span class="lang-en"><strong>Chart (concept)</strong>: prioritize unit coverage, keep integration tests thin around critical flows → balance speed & reliability</span>
+                    <div style="margin-top: 0.6rem;">
+                        <div style="margin-bottom: 0.35rem;">Unit ████████████████████  (Auth Worker 88%, Chat core 88–100%)</div>
+                        <div>Integration ████  (ignored by default in CI, run selectively)</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
