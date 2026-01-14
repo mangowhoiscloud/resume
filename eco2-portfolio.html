@@ -3301,8 +3301,7 @@
                 <table class="modal-table" style="font-size: 0.8rem;">
                     <tr><th>Category</th><th>Node Name</th><th>Instance</th><th>vCPU</th><th>RAM</th><th>Storage</th><th>Purpose</th></tr>
                     <tr style="background: rgba(255,215,0,0.1);"><td rowspan="1"><strong>Control Plane</strong></td><td>k8s-master</td><td>t3.xlarge</td><td>4</td><td>16GB</td><td>80GB</td><td>API Server, etcd, Scheduler, Controller</td></tr>
-                    <tr style="background: rgba(0,255,136,0.05);"><td rowspan="8"><strong>API Nodes</strong></td><td>k8s-api-auth</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>JWT 인증/인가, OAuth</td></tr>
-                    <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-users</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>사용자 계정, 프로필</td></tr>
+                    <tr style="background: rgba(0,255,136,0.05);"><td rowspan="7"><strong>API Nodes</strong></td><td>k8s-api-auth</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>JWT 인증/인가, OAuth</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-users</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>사용자/마이페이지</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-scan</td><td>t3.medium</td><td>2</td><td>4GB</td><td>30GB</td><td>폐기물 스캔 (AI)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-chat</td><td>t3.medium</td><td>2</td><td>4GB</td><td>30GB</td><td>챗봇 (LangGraph)</td></tr>
