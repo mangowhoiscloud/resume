@@ -2464,42 +2464,42 @@
                         <span class="lang-en">After introducing Outbox pattern, Integration+Persistence layers overlapped, revealing layered architecture limits. <strong>Eliminated DI violations</strong> (e.g., direct Redis dependency), achieved <strong>infrastructure swappability</strong> and <strong>clear role separation</strong> via Port/Adapter. Domain-level cohesion <strong>limits change scope to single domain</strong>, reducing side-effect tracking and code review burden. Mocking only Port interfaces enables <strong>independent domain logic verification without external infra</strong>, lowering test costs and enabling parallel development. Infrastructure dependencies encapsulated in Adapters ensure <strong>component failures don't propagate beyond domain boundaries</strong>.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-clean-4layer">
                             <span class="achievement-icon">📐</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>4-Layer DIP</strong> Domain이 Port 정의, Infra가 Adapter로 구현 — 결합도 제거</span>
                                 <span class="lang-en"><strong>4-Layer DIP</strong> Domain defines Port, Infra implements as Adapter — decoupled</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-clean-cqrs">
                             <span class="achievement-icon">🎼</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Application Usecase</strong> CQRS 기반 Command/Query 분리, Port·Service 오케스트레이션</span>
                                 <span class="lang-en"><strong>Application Usecase</strong> CQRS-based Command/Query separation, Port·Service orchestration</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-clean-adapter">
                             <span class="achievement-icon">🔌</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Adapter 교체 용이</strong> LLM/Persistence/MQ Adapter 독립 교체 가능</span>
                                 <span class="lang-en"><strong>Adapter swappability</strong> LLM/Persistence/MQ Adapters independently replaceable</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-clean-resilience">
                             <span class="achievement-icon">🛡️</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>LLM 복원력</strong> ~12s I/O-bound (Vision 3s + Answer 8s), Fallback + Checkpoint로 고지연·불안정성 헷징</span>
                                 <span class="lang-en"><strong>LLM Resilience</strong> ~12s I/O-bound (Vision 3s + Answer 8s), Fallback + Checkpoint hedges latency & instability</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-clean-cohesion">
                             <span class="achievement-icon">📦</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>기술 응집도</strong> 도메인별 설정 분리로 ConfigMap/Secret 관리 단순화</span>
                                 <span class="lang-en"><strong>Tech cohesion</strong> Domain-specific configs simplify ConfigMap/Secret management</span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" data-modal="modal-clean-radon">
                             <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Radon 복잡도</strong> 2,120 블록 평균 A (2.28) — 낮은 복잡도 유지</span>
@@ -4828,6 +4828,453 @@ Wave    Resources
                     • 환경별 Kustomize overlay 적용<br>
                     • 변경 이력 추적 가능
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clean Architecture Modals -->
+    <div class="modal-overlay" id="modal-clean-4layer">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-clean-4layer')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📐 4-Layer DIP Architecture</span>
+                <span class="lang-en">📐 4-Layer DIP Architecture</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        Clean Architecture - 4 Layer DIP                          │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ 의존성 방향 (바깥 → 안쪽) ──────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   ┌────────────────────────────────────────────────────────────────┐   │   │
+│   │   │                  Presentation Layer                             │   │   │
+│   │   │  HTTP Controllers, gRPC Servicers, Schemas                     │   │   │
+│   │   │  └─ presentation/http/, presentation/grpc/                     │   │   │
+│   │   └────────────────────────────────────────────────────────────────┘   │   │
+│   │                           ↓ depends on                                 │   │
+│   │   ┌────────────────────────────────────────────────────────────────┐   │   │
+│   │   │                  Application Layer                              │   │   │
+│   │   │  Commands (Write), Queries (Read), DTOs, Ports                 │   │   │
+│   │   │  └─ application/commands/, queries/, ports/                    │   │   │
+│   │   └────────────────────────────────────────────────────────────────┘   │   │
+│   │                           ↓ depends on                                 │   │
+│   │   ┌────────────────────────────────────────────────────────────────┐   │   │
+│   │   │                    Domain Layer                                 │   │   │
+│   │   │  Entities, Value Objects, Domain Services, Domain Ports        │   │   │
+│   │   │  └─ domain/entities/, value_objects/, services/                │   │   │
+│   │   └────────────────────────────────────────────────────────────────┘   │   │
+│   │                           ↑ implements                                 │   │
+│   │   ┌────────────────────────────────────────────────────────────────┐   │   │
+│   │   │                Infrastructure Layer                             │   │   │
+│   │   │  Adapters (Port 구현), DB/Redis/gRPC/MQ Clients                │   │   │
+│   │   │  └─ infrastructure/persistence_postgres/, persistence_redis/   │   │   │
+│   │   └────────────────────────────────────────────────────────────────┘   │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ DIP (Dependency Inversion Principle) ───────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   ❌ Before (직접 의존)           ✅ After (인터페이스 의존)             │   │
+│   │   ┌─────────┐   ┌─────────┐     ┌─────────┐   ┌─────────┐   ┌─────────┐   │   │
+│   │   │ Service │──→│Repository│    │ Service │──→│  Port   │←──│ Adapter │   │   │
+│   │   └─────────┘   └─────────┘     └─────────┘   │(Protocol)│  │(SqlAlchemy)│   │   │
+│   │       │              │               │        └─────────┘   └─────────┘   │   │
+│   │   App Layer    Infra Layer      App Layer     App Layer     Infra Layer   │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">레이어</span><span class="lang-en">Layer</span></th>
+                    <th><span class="lang-ko">책임</span><span class="lang-en">Responsibility</span></th>
+                    <th><span class="lang-ko">구성 요소</span><span class="lang-en">Components</span></th>
+                </tr>
+                <tr><td>Presentation</td><td><span class="lang-ko">외부 인터페이스</span><span class="lang-en">External Interface</span></td><td>HTTP Router, gRPC Servicer, Schema</td></tr>
+                <tr><td>Application</td><td><span class="lang-ko">유스케이스 오케스트레이션</span><span class="lang-en">Use Case Orchestration</span></td><td>Command, Query, DTO, Port</td></tr>
+                <tr><td>Domain</td><td><span class="lang-ko">핵심 비즈니스 로직</span><span class="lang-en">Core Business Logic</span></td><td>Entity, Value Object, Domain Service</td></tr>
+                <tr><td>Infrastructure</td><td><span class="lang-ko">기술 구현 (Port 구현체)</span><span class="lang-en">Tech Implementation (Port Impl)</span></td><td>SQLAlchemy Adapter, Redis Adapter, gRPC Client</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-clean-cqrs">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-clean-cqrs')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🎼 Application Usecase (CQRS)</span>
+                <span class="lang-en">🎼 Application Usecase (CQRS)</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    CQRS - Command Query Responsibility Segregation              │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Application Layer 구조 ─────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   application/                                                           │   │
+│   │   ├── {feature}/                    # 기능별 분리                        │   │
+│   │   │   ├── commands/                 # Write 작업 (Create, Update, Delete)│   │
+│   │   │   │   ├── oauth_authorize.py    # OAuth 인증 URL 생성               │   │
+│   │   │   │   ├── oauth_callback.py     # OAuth 콜백 처리                   │   │
+│   │   │   │   └── logout.py             # 로그아웃                          │   │
+│   │   │   ├── queries/                  # Read 작업                         │   │
+│   │   │   │   └── validate_token.py     # 토큰 검증                         │   │
+│   │   │   ├── dto/                      # Request/Response 객체             │   │
+│   │   │   └── ports/                    # 외부 의존성 인터페이스             │   │
+│   │   │       ├── user_command_gateway.py                                   │   │
+│   │   │       └── user_query_gateway.py                                     │   │
+│   │   └── services/                     # 복잡한 비즈니스 로직               │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Command/Query 패턴 ─────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   class OAuthCallbackCommand:        class ValidateTokenQuery:           │   │
+│   │       """UseCase (Write)"""              """UseCase (Read)"""             │   │
+│   │                                                                          │   │
+│   │       def __init__(                      def __init__(                    │   │
+│   │           self,                              self,                        │   │
+│   │           user_gateway: UserCommandGateway,  token_service: TokenService, │   │
+│   │           oauth_client: OAuthClient,         blacklist: TokenBlacklist,   │   │
+│   │           token_service: TokenService        ...                          │   │
+│   │       ):                                 ):                               │   │
+│   │           self._user_gateway = ...           self._token_service = ...    │   │
+│   │                                                                          │   │
+│   │       async def execute(self, req):      async def execute(self, req):   │   │
+│   │           # 1. 유효성 검증                   # Port 호출 → DTO 반환       │   │
+│   │           # 2. 비즈니스 로직                 pass                         │   │
+│   │           # 3. Port 호출                                                 │   │
+│   │           # 4. 결과 반환                                                 │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Service 역할 분리 ──────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Facade Service (Port 보유)          Pure Logic Service (Port 없음)    │   │
+│   │   ├─ OAuthFlowService                 ├─ ProfileBuilder                  │   │
+│   │   ├─ TokenService                     └─ ScoreCalculator                 │   │
+│   │   └─ 외부 시스템 캡슐화                  └─ 순수 비즈니스 로직             │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">유형</span><span class="lang-en">Type</span></th>
+                    <th><span class="lang-ko">역할</span><span class="lang-en">Role</span></th>
+                    <th><span class="lang-ko">특징</span><span class="lang-en">Characteristics</span></th>
+                    <th><span class="lang-ko">예시</span><span class="lang-en">Example</span></th>
+                </tr>
+                <tr><td>Command</td><td><span class="lang-ko">상태 변경 (Write)</span><span class="lang-en">State Change (Write)</span></td><td>Side Effect, Transaction</td><td>OAuthCallback, Logout</td></tr>
+                <tr><td>Query</td><td><span class="lang-ko">조회 (Read)</span><span class="lang-en">Read Only</span></td><td>No Side Effect, Cacheable</td><td>ValidateToken, GetProfile</td></tr>
+                <tr><td>Port</td><td><span class="lang-ko">인터페이스 정의</span><span class="lang-en">Interface Definition</span></td><td>Protocol/ABC, DI</td><td>UserCommandGateway</td></tr>
+                <tr><td>Service</td><td><span class="lang-ko">복잡 로직 캡슐화</span><span class="lang-en">Complex Logic Encapsulation</span></td><td>Facade or Pure</td><td>OAuthFlowService</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-clean-adapter">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-clean-adapter')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔌 Adapter 교체 용이성</span>
+                <span class="lang-en">🔌 Adapter Swappability</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        Port & Adapter - Hexagonal Architecture                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Port/Adapter 매핑 ──────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │           Driving          ┌─────────────────┐          Driven           │   │
+│   │           Adapters         │  Application    │          Adapters         │   │
+│   │                            │     Core        │                           │   │
+│   │   ┌───────────┐   Port    │ ┌───────────┐  │  Port   ┌───────────┐     │   │
+│   │   │HTTP Router│ ────────→ │ │  UseCase  │  │ ←────── │SQLAlchemy │     │   │
+│   │   └───────────┘            │ │ + Domain  │  │         │  Adapter  │     │   │
+│   │   ┌───────────┐   Port    │ └───────────┘  │  Port   └───────────┘     │   │
+│   │   │  gRPC     │ ────────→ │                │ ←────── ┌───────────┐     │   │
+│   │   │ Servicer  │            │                │         │  Redis    │     │   │
+│   │   └───────────┘            └─────────────────┘        │  Adapter  │     │   │
+│   │                                                       └───────────┘     │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 현재 구현된 Adapter 교체 가능성 ────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Persistence Adapters:                                                  │   │
+│   │   ├─ UserQueryGatewaySqla      ← PostgreSQL (현재)                      │   │
+│   │   │  └─ 교체 가능: MySQL, MongoDB, DynamoDB                             │   │
+│   │   ├─ TokenBlacklistStoreRedis  ← Redis (현재)                           │   │
+│   │   │  └─ 교체 가능: Memcached, In-Memory                                 │   │
+│   │   │                                                                      │   │
+│   │   LLM Adapters (chat_worker):                                            │   │
+│   │   ├─ OpenAIAdapter             ← GPT-4o (현재)                           │   │
+│   │   │  └─ 교체 가능: Anthropic, Gemini, Local LLM                         │   │
+│   │   ├─ VisionAdapter             ← GPT-4o-mini (현재)                      │   │
+│   │   │  └─ 교체 가능: Claude Vision, Gemini Vision                         │   │
+│   │   │                                                                      │   │
+│   │   MQ Adapters:                                                           │   │
+│   │   ├─ RabbitMQPublisher         ← RabbitMQ (현재)                         │   │
+│   │   │  └─ 교체 가능: Kafka, Redis Streams, AWS SQS                        │   │
+│   │   ├─ CeleryTaskAdapter         ← Celery (현재)                           │   │
+│   │   │  └─ 교체 가능: Dramatiq, Huey                                       │   │
+│   │   │                                                                      │   │
+│   │   Event Adapters:                                                        │   │
+│   │   ├─ RedisStreamNotifier       ← Redis Streams (현재)                    │   │
+│   │   │  └─ 교체 가능: Kafka, RabbitMQ                                      │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">Port (인터페이스)</span><span class="lang-en">Port (Interface)</span></th>
+                    <th><span class="lang-ko">현재 Adapter</span><span class="lang-en">Current Adapter</span></th>
+                    <th><span class="lang-ko">교체 가능 옵션</span><span class="lang-en">Swappable Options</span></th>
+                </tr>
+                <tr><td>UserQueryGateway</td><td>SQLAlchemy (PostgreSQL)</td><td>MySQL, MongoDB, DynamoDB</td></tr>
+                <tr><td>TokenBlacklistStore</td><td>Redis Adapter</td><td>Memcached, In-Memory</td></tr>
+                <tr><td>LLMAdapter (chat)</td><td>OpenAI GPT-4o</td><td>Anthropic, Gemini, Local LLM</td></tr>
+                <tr><td>MessagePublisher</td><td>RabbitMQ</td><td>Kafka, Redis Streams, AWS SQS</td></tr>
+                <tr><td>ProgressNotifier</td><td>Redis Streams</td><td>Kafka, RabbitMQ, WebSocket</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-clean-resilience">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-clean-resilience')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🛡️ LLM 복원력 전략</span>
+                <span class="lang-en">🛡️ LLM Resilience Strategy</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    LLM Pipeline Resilience - Fallback + Checkpoint              │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ 4단계 Celery Chain (~12s total) ────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Vision (3s)  →  Rule (0.5s)  →  Answer (8s)  →  Reward (0.5s)         │   │
+│   │   GPT-4o-mini     Rule Match       GPT-4o         Score Calc             │   │
+│   │      ↓                ↓               ↓               ↓                  │   │
+│   │   [Checkpoint]   [Checkpoint]    [Checkpoint]    [Persist]               │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Fallback 전략 ──────────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Vision Stage:                                                          │   │
+│   │   ├─ Primary: GPT-4o-mini Vision                                        │   │
+│   │   ├─ Fallback: GPT-4o Vision (비용 증가, 정확도 유지)                   │   │
+│   │   └─ Final: Generic Error Response                                       │   │
+│   │                                                                          │   │
+│   │   Answer Stage:                                                          │   │
+│   │   ├─ Primary: GPT-4o                                                     │   │
+│   │   ├─ Fallback: GPT-4o-mini (품질 저하, 응답 보장)                       │   │
+│   │   └─ Final: Cached Similar Response                                      │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Checkpoint Recovery ────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   scan:{task_id}:state = {                                               │   │
+│   │       "stage": "rule",           # 현재 진행 단계                        │   │
+│   │       "vision_result": {...},    # Vision 결과 캐시                      │   │
+│   │       "retry_count": 1,          # 재시도 횟수                           │   │
+│   │       "timestamp": "2026-01-15T..."                                      │   │
+│   │   }                                                                      │   │
+│   │                                                                          │   │
+│   │   장애 발생 시:                                                          │   │
+│   │   1. Worker 재시작 → Redis에서 state 조회                                │   │
+│   │   2. "rule" stage부터 재개 (Vision 결과 재사용)                          │   │
+│   │   3. retry_count < 3 → 자동 재시도                                       │   │
+│   │   4. retry_count >= 3 → DLQ로 이동                                       │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 고지연/불안정 헷지 ──────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Timeout 설정:             Rate Limiting:           Circuit Breaker:    │   │
+│   │   ├─ Vision: 10s           ├─ 100 RPM/model        ├─ 5 failures → open │   │
+│   │   ├─ Answer: 30s           ├─ 50k TPM/model        ├─ 30s cooldown      │   │
+│   │   └─ Total: 60s soft       └─ Queue backpressure   └─ Fallback trigger  │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">단계</span><span class="lang-en">Stage</span></th>
+                    <th><span class="lang-ko">지연</span><span class="lang-en">Latency</span></th>
+                    <th><span class="lang-ko">LLM</span><span class="lang-en">LLM</span></th>
+                    <th><span class="lang-ko">복원력 전략</span><span class="lang-en">Resilience Strategy</span></th>
+                </tr>
+                <tr><td>Vision</td><td>~3s</td><td>GPT-4o-mini</td><td>Fallback → GPT-4o, Checkpoint 저장</td></tr>
+                <tr><td>Rule</td><td>~0.5s</td><td>-</td><td>Rule Engine, 빠른 매칭</td></tr>
+                <tr><td>Answer</td><td>~8s</td><td>GPT-4o</td><td>Fallback → GPT-4o-mini, Streaming</td></tr>
+                <tr><td>Reward</td><td>~0.5s</td><td>-</td><td>Batch Persist, Idempotency</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-clean-cohesion">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-clean-cohesion')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📦 기술 응집도 - 도메인별 설정 분리</span>
+                <span class="lang-en">📦 Tech Cohesion - Domain-specific Config</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Domain-specific ConfigMap/Secret Management                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Namespace별 ConfigMap/Secret 분리 ──────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   auth namespace:              character namespace:                      │   │
+│   │   ├─ auth-config (ConfigMap)   ├─ character-config (ConfigMap)          │   │
+│   │   │  ├─ JWT_ALGORITHM          │  ├─ GRPC_PORT                          │   │
+│   │   │  ├─ OAUTH_REDIRECT_URL     │  ├─ CHARACTER_TRAITS_VERSION           │   │
+│   │   │  └─ TOKEN_EXPIRY           │  └─ MATCHING_THRESHOLD                 │   │
+│   │   ├─ auth-secret (Secret)      ├─ character-secret (Secret)             │   │
+│   │   │  ├─ JWT_SECRET             │  └─ DB_PASSWORD                        │   │
+│   │   │  ├─ OAUTH_CLIENT_ID        │                                        │   │
+│   │   │  └─ OAUTH_CLIENT_SECRET    │                                        │   │
+│   │   │                            │                                        │   │
+│   │   chat namespace:              scan namespace:                           │   │
+│   │   ├─ chat-config               ├─ scan-config                           │   │
+│   │   │  ├─ LLM_MODEL              │  ├─ VISION_MODEL                       │   │
+│   │   │  ├─ MAX_CONTEXT_LENGTH     │  ├─ ANSWER_MODEL                       │   │
+│   │   │  └─ STREAM_TIMEOUT         │  └─ REWARD_RULES_PATH                  │   │
+│   │   ├─ chat-secret               ├─ scan-secret                           │   │
+│   │   │  └─ OPENAI_API_KEY         │  └─ OPENAI_API_KEY                     │   │
+│   │   │                            │                                        │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ External Secrets Operator 통합 ─────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   AWS Secrets Manager            External Secret CRD                     │   │
+│   │   ┌─────────────────┐           ┌─────────────────────────────────────┐  │   │
+│   │   │ eco2/auth/jwt   │    →      │ apiVersion: external-secrets.io/v1  │  │   │
+│   │   │ eco2/auth/oauth │           │ kind: ExternalSecret                │  │   │
+│   │   │ eco2/chat/openai│           │ spec:                               │  │   │
+│   │   │ eco2/scan/openai│           │   secretStoreRef: aws-secrets       │  │   │
+│   │   └─────────────────┘           │   target: auth-secret               │  │   │
+│   │          ↓                      │   data:                             │  │   │
+│   │   IRSA Auth (ServiceAccount)    │     - secretKey: JWT_SECRET         │  │   │
+│   │                                 │       remoteRef:                    │  │   │
+│   │                                 │         key: eco2/auth/jwt          │  │   │
+│   │                                 └─────────────────────────────────────┘  │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 장점 ───────────────────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   ✅ 도메인 팀 자율성: 각 팀이 자체 ConfigMap/Secret 관리               │   │
+│   │   ✅ 변경 격리: auth 설정 변경이 chat에 영향 없음                       │   │
+│   │   ✅ 보안 강화: 최소 권한 원칙, 도메인별 Secret 접근 제한               │   │
+│   │   ✅ 롤백 용이: 도메인 단위로 설정 롤백 가능                            │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">도메인</span><span class="lang-en">Domain</span></th>
+                    <th><span class="lang-ko">ConfigMap</span><span class="lang-en">ConfigMap</span></th>
+                    <th><span class="lang-ko">Secret</span><span class="lang-en">Secret</span></th>
+                    <th><span class="lang-ko">특수 설정</span><span class="lang-en">Special Config</span></th>
+                </tr>
+                <tr><td>auth</td><td>auth-config</td><td>auth-secret (JWT, OAuth)</td><td>OAuth Provider별 설정</td></tr>
+                <tr><td>character</td><td>character-config</td><td>character-secret</td><td>gRPC 포트, 매칭 임계값</td></tr>
+                <tr><td>chat</td><td>chat-config</td><td>chat-secret (OpenAI)</td><td>LLM 모델, 컨텍스트 길이</td></tr>
+                <tr><td>scan</td><td>scan-config</td><td>scan-secret (OpenAI)</td><td>Vision/Answer 모델</td></tr>
+                <tr><td>users</td><td>users-config</td><td>users-secret</td><td>동기화 설정</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-clean-radon">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-clean-radon')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📊 Radon 복잡도 측정</span>
+                <span class="lang-en">📊 Radon Complexity Analysis</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Radon Cyclomatic Complexity Analysis                          │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ 측정 결과 요약 ─────────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Total Blocks: 2,120                                                    │   │
+│   │   Average Complexity: 2.28 (Grade A)                                     │   │
+│   │                                                                          │   │
+│   │   Grade Distribution:                                                    │   │
+│   │   ┌────────────────────────────────────────────────────────────┐        │   │
+│   │   │ A (1-5)   ████████████████████████████████████████ 92.3%   │        │   │
+│   │   │ B (6-10)  █████ 5.8%                                       │        │   │
+│   │   │ C (11-20) █ 1.4%                                           │        │   │
+│   │   │ D (21-30) ░ 0.4%                                           │        │   │
+│   │   │ E (31-40) ░ 0.1%                                           │        │   │
+│   │   │ F (41+)   ░ 0.0%                                           │        │   │
+│   │   └────────────────────────────────────────────────────────────┘        │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ 도메인별 복잡도 ────────────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Domain        Blocks   Avg CC   Grade   Highest Function               │   │
+│   │   ──────────────────────────────────────────────────────────────────────│   │
+│   │   auth            342     2.1      A      oauth_callback (8)             │   │
+│   │   character       287     2.3      A      match_traits (7)               │   │
+│   │   chat_worker     456     2.8      A      intent_classifier (12)         │   │
+│   │   scan_worker     389     2.4      A      vision_processor (9)           │   │
+│   │   users           198     1.9      A      sync_character (5)             │   │
+│   │   location        156     1.7      A      nearby_search (4)              │   │
+│   │   images          134     1.8      A      upload_handler (6)             │   │
+│   │   ext_authz       158     2.2      A      check_permission (7)           │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Clean Architecture 기여 ────────────────────────────────────────────────┐   │
+│   │                                                                          │   │
+│   │   Before (Layered):              After (Clean):                          │   │
+│   │   ├─ AuthService: CC 45          ├─ OAuthCallbackCommand: CC 8          │   │
+│   │   │  (God Object)                ├─ LogoutCommand: CC 3                 │   │
+│   │   │                              ├─ RefreshTokenCommand: CC 5           │   │
+│   │   │                              └─ ValidateTokenQuery: CC 4            │   │
+│   │   │                                                                      │   │
+│   │   낮은 복잡도의 이점:                                                    │   │
+│   │   ✅ 테스트 커버리지 향상 (단순한 분기)                                  │   │
+│   │   ✅ 버그 발생률 감소 (인지 부하 감소)                                   │   │
+│   │   ✅ 코드 리뷰 효율성 (작은 함수 단위)                                   │   │
+│   │   ✅ 신규 개발자 온보딩 용이                                             │   │
+│   │                                                                          │   │
+│   └──────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">등급</span><span class="lang-en">Grade</span></th>
+                    <th><span class="lang-ko">범위</span><span class="lang-en">Range</span></th>
+                    <th><span class="lang-ko">의미</span><span class="lang-en">Meaning</span></th>
+                    <th><span class="lang-ko">비율</span><span class="lang-en">Ratio</span></th>
+                </tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td>A</td><td>1-5</td><td><span class="lang-ko">단순, 저위험</span><span class="lang-en">Simple, Low Risk</span></td><td><strong>92.3%</strong></td></tr>
+                <tr><td>B</td><td>6-10</td><td><span class="lang-ko">복잡, 중위험</span><span class="lang-en">Complex, Moderate Risk</span></td><td>5.8%</td></tr>
+                <tr><td>C</td><td>11-20</td><td><span class="lang-ko">고복잡</span><span class="lang-en">High Complexity</span></td><td>1.4%</td></tr>
+                <tr style="background: rgba(255,165,0,0.1);"><td>D-F</td><td>21+</td><td><span class="lang-ko">리팩토링 필요</span><span class="lang-en">Refactor Required</span></td><td>0.5%</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📈 Radon 측정 명령어</strong>
+                <pre style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 4px; overflow-x: auto;">radon cc apps/ -a -s --total-average
+radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
             </div>
         </div>
     </div>
