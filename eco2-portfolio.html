@@ -2954,24 +2954,36 @@
                         <div class="async-icon">🎯</div>
                         <div class="async-name">Intent Router</div>
                         <div class="async-desc">
-                            <span class="lang-ko">LLM 4분류 · temp 0.1 · max_tokens 20</span>
-                            <span class="lang-en">LLM 4-class · temp 0.1 · max_tokens 20</span>
+                            <span class="lang-ko">Multi-intent · 4분류</span>
+                            <span class="lang-en">Multi-intent · 4-class</span>
                         </div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
-                        <div class="async-icon">🔗</div>
-                        <div class="async-name">Subagent</div>
+                        <div class="async-icon">📋</div>
+                        <div class="async-name">Tag Retriever</div>
                         <div class="async-desc">
-                            <span class="lang-ko">grpc.aio non-blocking · Port/Adapter DI</span>
-                            <span class="lang-en">grpc.aio non-blocking · Port/Adapter DI</span>
+                            <span class="lang-ko">YAML 주입 · 200+ 품목</span>
+                            <span class="lang-en">YAML inject · 200+ items</span>
                         </div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
-                        <div class="async-icon">🔁</div>
-                        <div class="async-name">Human-in-Loop</div>
-                        <div class="async-desc">needs_input</div>
+                        <div class="async-icon">📊</div>
+                        <div class="async-name">Eval Agent</div>
+                        <div class="async-desc">
+                            <span class="lang-ko">Citation · Nugget · Groundedness</span>
+                            <span class="lang-en">Citation · Nugget · Groundedness</span>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">🔄</div>
+                        <div class="async-name">Fallback Chain</div>
+                        <div class="async-desc">
+                            <span class="lang-ko">RAG→Web→General</span>
+                            <span class="lang-en">RAG→Web→General</span>
+                        </div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
@@ -2980,9 +2992,9 @@
                         <div class="async-desc">Streaming</div>
                     </div>
                 </div>
-                <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>LangGraph Intent-Routed Workflow</strong> — Intent Classifier가 4분류(waste/character/location/general)로 라우팅, 각 Subagent는 전용 시스템 프롬프트로 역할이 정의됩니다. Waste는 RAG + Vision 분류 결과 기반, Character/Location은 gRPC 조회 컨텍스트 기반, General은 환경 상식과 대화 연결. <strong>Event Router 4-shard 정합성 검증 완료</strong>, Human-in-the-Loop + Token Streaming seq 기반 순서 보장, SSE Gateway 멀티 도메인 지원(scan/chat).</span>
-                    <span class="lang-en"><strong>LangGraph Intent-Routed Workflow</strong> — Intent Classifier routes to 4 categories (waste/character/location/general), each Subagent has dedicated system prompts defining its role. Waste uses RAG + Vision classification results, Character/Location use gRPC-fetched context, General connects conversations to environmental topics. <strong>Event Router 4-shard consistency verified</strong>, Human-in-the-Loop + Token Streaming seq-based ordering, SSE Gateway multi-domain support (scan/chat).</span>
+                <div class="pipeline-detail" style="margin-top: 1rem;">
+                    <span class="lang-ko"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Multi-intent</strong>: Intent Classifier가 4분류(waste/character/location/general) 라우팅, 복합 질문 분해 지원. <strong>2) TagBasedRetriever</strong>: <code>item_class_list.yaml</code>(200+ 품목) + <code>situation_tags.yaml</code>(100+ 상황) JSON/YAML 구조화 데이터를 컨텍스트로 주입, Anthropic Contextual Retrieval 패턴 적용. <strong>3) Eval Agent</strong>: Phase 1-4 평가(Citation 근거 → Nugget 완전성 → Groundedness 검증 → Just-in-Time 다음 액션), Rule 기반 빠른 판단 + LLM 정밀 평가 조합. <strong>4) Fallback Chain</strong>: RAG 저품질 시 Web Search → General LLM 단계적 복구, 의도 불명확 시 Clarify 템플릿. Human-in-the-Loop + Token Streaming seq 기반 순서 보장.</span>
+                    <span class="lang-en"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Multi-intent</strong>: Intent Classifier routes to 4 categories (waste/character/location/general), supports compound query decomposition. <strong>2) TagBasedRetriever</strong>: Injects <code>item_class_list.yaml</code>(200+ items) + <code>situation_tags.yaml</code>(100+ situations) structured data as context, applying Anthropic Contextual Retrieval pattern. <strong>3) Eval Agent</strong>: Phase 1-4 evaluation (Citation evidence → Nugget completeness → Groundedness verification → Just-in-Time next action), Rule-based fast judgment + LLM precise evaluation combo. <strong>4) Fallback Chain</strong>: On low RAG quality, escalate to Web Search → General LLM, Clarify template for ambiguous intent. Human-in-the-Loop + Token Streaming seq-based ordering.</span>
                 </div>
             </div>
 
@@ -3125,9 +3137,14 @@
                         <td>gRPC</td>
                     </tr>
                     <tr>
-                        <td>🤖 <strong>AI Pipeline</strong></td>
+                        <td>🤖 <strong>Scan AI</strong></td>
                         <td>Scan API → RabbitMQ → <strong>scan-worker</strong> (Vision→Rule→Answer→Reward) → OpenAI API</td>
                         <td>AMQP, Celery Chain</td>
+                    </tr>
+                    <tr>
+                        <td>💬 <strong>Chat Agent</strong></td>
+                        <td>Chat API → <strong>chat-worker</strong> (Intent→TagRetriever→EvalAgent→Fallback) → <code>YAML inject</code> + OpenAI API</td>
+                        <td>Taskiq, LangGraph</td>
                     </tr>
                     <tr>
                         <td>🎭 <strong>Character Batch</strong></td>
