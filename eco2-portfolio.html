@@ -2902,8 +2902,8 @@
             <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🧠 AI Pipeline 설계 (LLM + Prompt Engineering)</span>
-                        <span class="lang-en">🧠 AI Pipeline Design (LLM + Prompt Engineering)</span>
+                        <span class="lang-ko">🧠 Scan AI Pipeline (Modular RAG)</span>
+                        <span class="lang-en">🧠 Scan AI Pipeline (Modular RAG)</span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">AI Researcher</span>
@@ -2911,7 +2911,11 @@
                         <a href="https://github.com/taemin-steve" target="_blank" class="credit-link">@taemin-steve</a>
                     </div>
                 </div>
-                <div class="llm-pipeline-flow">
+                <!-- Enhanced Pipeline Visualization -->
+                <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Main Pipeline Row -->
+                        <div class="llm-pipeline-flow" style="justify-content: center;">
                     <div class="pipeline-stage vision">
                         <div class="pipeline-icon">👁️</div>
                         <div class="pipeline-name">Vision LLM</div>
@@ -2928,11 +2932,55 @@
                         <div class="pipeline-icon">💬</div>
                         <div class="pipeline-name">Answer LLM</div>
                         <div class="pipeline-model">Post-Retrieval</div>
+                            </div>
+                        </div>
+                        <!-- Data Injection Row -->
+                        <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 1rem; padding: 0 2rem;">
+                            <div style="text-align: center; flex: 1;">
+                                <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↑ inject</div>
+                                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
+                                    <div style="color: rgba(139, 92, 246, 0.9); font-weight: 600;">
+                                        <span class="lang-ko">시스템 프롬프트</span>
+                                        <span class="lang-en">System Prompt</span>
+                                    </div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">
+                                        <span class="lang-ko">분류 기준 · 출력 포맷</span>
+                                        <span class="lang-en">Classification · Output Format</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; flex: 1;">
+                                <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↑ inject</div>
+                                <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
+                                    <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">
+                                        <span class="lang-ko">구조화된 YAML</span>
+                                        <span class="lang-en">Structured YAML</span>
+                                    </div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">
+                                        <span class="lang-ko">200+ 품목 규정</span>
+                                        <span class="lang-en">200+ Item Rules</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; flex: 1;">
+                                <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↓ output</div>
+                                <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
+                                    <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">
+                                        <span class="lang-ko">구조화된 JSON</span>
+                                        <span class="lang-en">Structured JSON</span>
+                                    </div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">
+                                        <span class="lang-ko">분류 결과 · 처리 방법</span>
+                                        <span class="lang-en">Classification · Disposal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>Modular RAG 패턴</strong> — Pre/Post-Retrieval LLM 구조로 Vision LLM이 이미지를 분석하고, 온누리 재활용 품목별 규정을 구조화한 Knowledge Base에서 규칙 검색 후, Answer LLM이 JSON Structured Output으로 응답 생성. 시스템 프롬프트로 출력 형식과 판단 기준 정의.</span>
-                    <span class="lang-en"><strong>Modular RAG Pattern</strong> — Pre/Post-Retrieval LLM architecture where Vision LLM analyzes images, retrieves from structured On-Nuri recycling regulation Knowledge Base, then Answer LLM generates JSON Structured Output. System prompts define output format and judgment criteria.</span>
+                    <span class="lang-ko"><strong>Modular RAG 패턴</strong> — Pre/Post-Retrieval LLM 구조. <strong>Vision LLM</strong>이 이미지 분석 후 분류 결과를 생성하면, <strong>Rule Engine</strong>이 온누리 재활용 품목별 규정 YAML에서 관련 섹션을 검색하고, <strong>Answer LLM</strong>이 JSON Structured Output으로 최종 응답 생성. 각 단계에 시스템 프롬프트로 출력 형식과 판단 기준을 주입.</span>
+                    <span class="lang-en"><strong>Modular RAG Pattern</strong> — Pre/Post-Retrieval LLM architecture. <strong>Vision LLM</strong> analyzes image and generates classification, <strong>Rule Engine</strong> retrieves relevant sections from On-Nuri recycling regulation YAML, <strong>Answer LLM</strong> generates final JSON Structured Output. System prompts inject output format and judgment criteria at each stage.</span>
                 </div>
             </div>
 
@@ -2949,52 +2997,94 @@
                         <a href="https://github.com/mangowhoiscloud" target="_blank" class="credit-link">@mangowhoiscloud</a>
                     </div>
                 </div>
-                <div class="async-sse-flow">
+                <!-- Enhanced Pipeline Visualization -->
+                <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Main Pipeline Row -->
+                        <div class="async-sse-flow" style="justify-content: center; flex-wrap: wrap;">
                     <div class="async-item">
                         <div class="async-icon">🎯</div>
-                        <div class="async-name">Intent Router</div>
-                        <div class="async-desc">
-                            <span class="lang-ko">Multi-intent · 4분류</span>
-                            <span class="lang-en">Multi-intent · 4-class</span>
+                                <div class="async-name">Intent</div>
+                                <div class="async-desc">Multi-intent</div>
                         </div>
+                            <div class="pipeline-arrow">→</div>
+                            <div class="async-item">
+                                <div class="async-icon">📋</div>
+                                <div class="async-name">Retriever</div>
+                                <div class="async-desc">Tag-based</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
-                        <div class="async-icon">📋</div>
-                        <div class="async-name">Tag Retriever</div>
-                        <div class="async-desc">
-                            <span class="lang-ko">YAML 주입 · 200+ 품목</span>
-                            <span class="lang-en">YAML inject · 200+ items</span>
-                        </div>
+                                <div class="async-icon">📊</div>
+                                <div class="async-name">Eval</div>
+                                <div class="async-desc">Phase 1-4</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
-                        <div class="async-icon">📊</div>
-                        <div class="async-name">Eval Agent</div>
-                        <div class="async-desc">
-                            <span class="lang-ko">Citation · Nugget · Groundedness</span>
-                            <span class="lang-en">Citation · Nugget · Groundedness</span>
-                        </div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">🔄</div>
-                        <div class="async-name">Fallback Chain</div>
-                        <div class="async-desc">
-                            <span class="lang-ko">RAG→Web→General</span>
-                            <span class="lang-en">RAG→Web→General</span>
-                        </div>
+                                <div class="async-icon">🔄</div>
+                                <div class="async-name">Fallback</div>
+                                <div class="async-desc">3-tier Chain</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">💬</div>
                         <div class="async-name">Answer</div>
-                        <div class="async-desc">Streaming</div>
+                                <div class="async-desc">Stream</div>
                     </div>
                 </div>
-                <div class="pipeline-detail" style="margin-top: 1rem;">
-                    <span class="lang-ko"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Multi-intent</strong>: Intent Classifier가 4분류(waste/character/location/general) 라우팅, 복합 질문 분해 지원. <strong>2) TagBasedRetriever</strong>: <code>item_class_list.yaml</code>(200+ 품목) + <code>situation_tags.yaml</code>(100+ 상황) JSON/YAML 구조화 데이터를 컨텍스트로 주입, Anthropic Contextual Retrieval 패턴 적용. <strong>3) Eval Agent</strong>: Phase 1-4 평가(Citation 근거 → Nugget 완전성 → Groundedness 검증 → Just-in-Time 다음 액션), Rule 기반 빠른 판단 + LLM 정밀 평가 조합. <strong>4) Fallback Chain</strong>: RAG 저품질 시 Web Search → General LLM 단계적 복구, 의도 불명확 시 Clarify 템플릿. Human-in-the-Loop + Token Streaming seq 기반 순서 보장.</span>
-                    <span class="lang-en"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Multi-intent</strong>: Intent Classifier routes to 4 categories (waste/character/location/general), supports compound query decomposition. <strong>2) TagBasedRetriever</strong>: Injects <code>item_class_list.yaml</code>(200+ items) + <code>situation_tags.yaml</code>(100+ situations) structured data as context, applying Anthropic Contextual Retrieval pattern. <strong>3) Eval Agent</strong>: Phase 1-4 evaluation (Citation evidence → Nugget completeness → Groundedness verification → Just-in-Time next action), Rule-based fast judgment + LLM precise evaluation combo. <strong>4) Fallback Chain</strong>: On low RAG quality, escalate to Web Search → General LLM, Clarify template for ambiguous intent. Human-in-the-Loop + Token Streaming seq-based ordering.</span>
+                        <!-- Data Injection Row -->
+                        <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 0.8rem; padding: 0 1rem; flex-wrap: wrap;">
+                            <div style="text-align: center; min-width: 100px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ inject</div>
+                                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                                    <div style="color: rgba(139, 92, 246, 0.9); font-weight: 600;">intent.txt</div>
+                                    <div style="color: var(--text-muted); font-size: 0.6rem;">4-class Prompt</div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; min-width: 100px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ inject</div>
+                                <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                                    <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">*.yaml</div>
+                                    <div style="color: var(--text-muted); font-size: 0.6rem;">200+ items · 100+ tags</div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; min-width: 100px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ inject</div>
+                                <div style="background: linear-gradient(135deg, rgba(77, 170, 141, 0.15), rgba(77, 170, 141, 0.05)); border: 1px solid rgba(77, 170, 141, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                                    <div style="color: rgba(77, 170, 141, 0.9); font-weight: 600;">eval.txt</div>
+                                    <div style="color: var(--text-muted); font-size: 0.6rem;">Citation·Nugget</div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; min-width: 100px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ config</div>
+                                <div style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(255, 165, 0, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                                    <div style="color: rgba(255, 165, 0, 0.9); font-weight: 600;">Chain Rules</div>
+                                    <div style="color: var(--text-muted); font-size: 0.6rem;">RAG→Web→LLM</div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; min-width: 100px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↓ output</div>
+                                <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                                    <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">SSE Stream</div>
+                                    <div style="color: var(--text-muted); font-size: 0.6rem;">Token Streaming</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Recursive Loop Indicator -->
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: rgba(139, 92, 246, 0.1); border-radius: 20px; font-size: 0.7rem;">
+                                <span style="color: rgba(139, 92, 246, 0.9);">🔁</span>
+                                <span style="color: var(--text-secondary);">
+                                    <span class="lang-ko">Recursive Self-Improvement: Eval 저품질 → Fallback → 재평가</span>
+                                    <span class="lang-en">Recursive Self-Improvement: Low Eval → Fallback → Re-evaluate</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pipeline-detail" style="margin-top: 0.5rem;">
+                    <span class="lang-ko"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Intent</strong>: 4분류(waste/character/location/general) + 복합 질문 분해. <strong>2) TagRetriever</strong>: <code>item_class_list.yaml</code> + <code>situation_tags.yaml</code> 컨텍스트 주입 (Anthropic Contextual Retrieval). <strong>3) Eval</strong>: Phase 1-4 평가(Citation→Nugget→Groundedness→Just-in-Time), Rule + LLM 조합. <strong>4) Fallback</strong>: 저품질 시 Web Search → General LLM 복구, 불명확 시 Clarify. Human-in-the-Loop + Token Streaming.</span>
+                    <span class="lang-en"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Intent</strong>: 4-class routing + compound query decomposition. <strong>2) TagRetriever</strong>: <code>item_class_list.yaml</code> + <code>situation_tags.yaml</code> context injection (Anthropic Contextual Retrieval). <strong>3) Eval</strong>: Phase 1-4 (Citation→Nugget→Groundedness→Just-in-Time), Rule + LLM combo. <strong>4) Fallback</strong>: On low quality, Web Search → General LLM recovery, Clarify for ambiguous. Human-in-the-Loop + Token Streaming.</span>
                 </div>
             </div>
 
