@@ -2703,6 +2703,13 @@
                                 <span class="lang-en"><strong>Radon complexity</strong> 2,120 blocks avg A (2.28) — low complexity maintained</span>
                             </div>
                         </div>
+                        <div class="achievement clickable" data-modal="modal-test-coverage">
+                            <span class="achievement-icon">🧪</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>테스트 커버리지</strong> Unit 88%+, Integration 핵심 플로우 중심</span>
+                                <span class="lang-en"><strong>Test Coverage</strong> Unit 88%+, Integration core flow focused</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="category-footer">
@@ -5683,66 +5690,214 @@ Wave    Resources
 radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
             </div>
 
-            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(139, 92, 246, 0.12); border-radius: 10px; border-left: 3px solid rgba(139, 92, 246, 0.8);">
-                <strong style="color: rgba(139, 92, 246, 0.95);">
-                    <span class="lang-ko">🧪 테스트 커버리지 (Unit/Integration)</span>
-                    <span class="lang-en">🧪 Test Coverage (Unit/Integration)</span>
-                </strong>
-                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
-                    <span class="lang-ko">
-                        Clean Architecture 전환으로 Port/Usecase 단위가 작아져 **Mock 기반 단위 테스트 작성 비용**이 낮아졌고, 커버리지 측정이 쉬워졌습니다.<br>
-                        아래 수치는 코드베이스 문서/리포트에 기록된 실측(coverage 출력) 기반입니다.
-                    </span>
-                    <span class="lang-en">
-                        Clean Architecture reduces unit size (ports/usecases), lowering test-writing cost with mocks and making coverage easier to measure.<br>
-                        Numbers below are based on documented measured outputs (coverage reports) in this repo.
-                    </span>
-                </div>
+        </div>
+    </div>
 
-                <table class="modal-table" style="margin-top: 0.9rem; font-size: 0.85rem;">
-                    <tr>
-                        <th><span class="lang-ko">컴포넌트</span><span class="lang-en">Component</span></th>
-                        <th><span class="lang-ko">단위 테스트</span><span class="lang-en">Unit tests</span></th>
-                        <th><span class="lang-ko">통합 테스트</span><span class="lang-en">Integration</span></th>
-                        <th><span class="lang-ko">커버리지</span><span class="lang-en">Coverage</span></th>
-                        <th><span class="lang-ko">근거</span><span class="lang-en">Source</span></th>
-                    </tr>
-                    <tr>
-                        <td><strong>auth_worker</strong></td>
-                        <td>54 tests</td>
-                        <td>별도(배포 검증 중심)</td>
-                        <td><strong>88%</strong></td>
-                        <td>
-                            <a href="https://github.com/eco2-team/backend/blob/main/docs/blogs/deployment/02-auth-persistence-offloading.md#테스트-커버리지" target="_blank" rel="noopener">coverage log</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>chat_worker</strong></td>
-                        <td>115 tests</td>
-                        <td>Docker build 검증 포함</td>
-                        <td><strong>Core logic 88–100%</strong></td>
-                        <td>
-                            <a href="https://github.com/eco2-team/backend/blob/main/docs/blogs/applied/18-chat-worker-test-quality-report.md#quality-metrics" target="_blank" rel="noopener">quality report</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>CI Coverage</strong></td>
-                        <td>pytest-cov</td>
-                        <td>integration/e2e 기본 ignore</td>
-                        <td>coverage.xml 생성</td>
-                        <td>
-                            <a href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-sonarcloud.yml" target="_blank" rel="noopener">ci-sonarcloud.yml</a>
-                        </td>
-                    </tr>
-                </table>
+    <!-- Test Coverage Modal -->
+    <div class="modal-overlay" id="modal-test-coverage">
+        <div class="modal-content" style="max-width: 1200px;">
+            <button class="modal-close" onclick="closeModal('modal-test-coverage')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🧪 테스트 커버리지 (Unit/Integration)</span>
+                <span class="lang-en">🧪 Test Coverage (Unit/Integration)</span>
+            </h3>
+            
+            <div style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+                <span class="lang-ko">
+                    Clean Architecture 전환으로 Port/Usecase 단위가 작아져 <strong>Mock 기반 단위 테스트 작성 비용</strong>이 낮아졌고, 커버리지 측정이 쉬워졌습니다.<br>
+                    아래 수치는 코드베이스 문서/리포트에 기록된 실측(coverage 출력) 기반입니다.
+                </span>
+                <span class="lang-en">
+                    Clean Architecture reduces unit size (ports/usecases), lowering <strong>test-writing cost with mocks</strong> and making coverage easier to measure.<br>
+                    Numbers below are based on documented measured outputs (coverage reports) in this repo.
+                </span>
+            </div>
 
-                <div style="margin-top: 0.9rem; color: var(--text-secondary); font-size: 0.85rem;">
-                    <span class="lang-ko"><strong>도표(개념)</strong>: Unit 커버리지를 우선 올리고, Integration은 핵심 플로우 중심으로 얇게 유지 → 안정성/속도 균형</span>
-                    <span class="lang-en"><strong>Chart (concept)</strong>: prioritize unit coverage, keep integration tests thin around critical flows → balance speed & reliability</span>
-                    <div style="margin-top: 0.6rem;">
-                        <div style="margin-bottom: 0.35rem;">Unit ████████████████████  (Auth Worker 88%, Chat core 88–100%)</div>
-                        <div>Integration ████  (ignored by default in CI, run selectively)</div>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                       Test Coverage Strategy                                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Testing Pyramid ──────────────────────────────────────────────────────┐   │
+│   │                                                                        │   │
+│   │                        ▲                                               │   │
+│   │                       /·\      E2E (Selective)                         │   │
+│   │                      /···\     ████  핵심 플로우만                      │   │
+│   │                     /·····\                                            │   │
+│   │                    ─────────                                           │   │
+│   │                   /·········\   Integration                            │   │
+│   │                  /···········\  ████████  DB/MQ 연동                   │   │
+│   │                 ─────────────────                                      │   │
+│   │                /·················\  Unit Tests                         │   │
+│   │               /···················\ ████████████████████  88%+        │   │
+│   │              ─────────────────────────                                 │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ┌─ Clean Architecture가 테스트에 미친 영향 ──────────────────────────────┐   │
+│   │                                                                        │   │
+│   │   Before (Layered):              After (Clean Architecture):           │   │
+│   │   ├─ 하나의 Service에 모든 로직  ├─ Command/Query 분리                 │   │
+│   │   │  → Mock 대상이 많고 복잡     │  → 작은 단위, 쉬운 격리             │   │
+│   │   │  → 커버리지 측정 어려움      │  → Port 기반 의존성 주입            │   │
+│   │   │                              │  → Adapter 교체로 Mock 용이         │   │
+│   │                                                                        │   │
+│   └────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 1rem; font-size: 1.1rem;">
+                <span class="lang-ko">📊 Clean Architecture 적용 앱별 커버리지</span>
+                <span class="lang-en">📊 Coverage by Clean Architecture Apps</span>
+            </h4>
+            
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">컴포넌트</span><span class="lang-en">Component</span></th>
+                    <th><span class="lang-ko">테스트 파일</span><span class="lang-en">Test Files</span></th>
+                    <th><span class="lang-ko">단위 테스트</span><span class="lang-en">Unit Tests</span></th>
+                    <th><span class="lang-ko">통합 테스트</span><span class="lang-en">Integration</span></th>
+                    <th><span class="lang-ko">커버리지</span><span class="lang-en">Coverage</span></th>
+                    <th><span class="lang-ko">근거</span><span class="lang-en">Source</span></th>
+                </tr>
+                <tr style="background: rgba(0,255,136,0.08);">
+                    <td><strong>auth_worker</strong></td>
+                    <td>11</td>
+                    <td>54 tests</td>
+                    <td><span class="lang-ko">별도 (배포 검증)</span><span class="lang-en">Separate (Deploy)</span></td>
+                    <td><strong style="color: var(--primary);">88%</strong></td>
+                    <td><a href="https://rooftopsnow.tistory.com/100" target="_blank">📝 Blog</a></td>
+                </tr>
+                <tr style="background: rgba(0,255,136,0.08);">
+                    <td><strong>chat_worker</strong></td>
+                    <td>20</td>
+                    <td>115 tests</td>
+                    <td><span class="lang-ko">Docker build 포함</span><span class="lang-en">Docker build</span></td>
+                    <td><strong style="color: var(--primary);">Core 88-100%</strong></td>
+                    <td><a href="https://rooftopsnow.tistory.com/165" target="_blank">📝 Report</a></td>
+                </tr>
+                <tr>
+                    <td><strong>auth</strong></td>
+                    <td>10</td>
+                    <td>9 unit</td>
+                    <td>1 integration</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><strong>character</strong></td>
+                    <td>6</td>
+                    <td><span class="lang-ko">도메인 중심</span><span class="lang-en">Domain-focused</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><strong>scan</strong></td>
+                    <td>3</td>
+                    <td><span class="lang-ko">Submit 중심</span><span class="lang-en">Submit-focused</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><strong>users</strong></td>
+                    <td>3</td>
+                    <td><span class="lang-ko">도메인/컨트롤러</span><span class="lang-en">Domain/Controller</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><strong>location</strong></td>
+                    <td>4</td>
+                    <td><span class="lang-ko">서비스/쿼리</span><span class="lang-en">Service/Query</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 1rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚙️ CI 파이프라인 통합</span>
+                <span class="lang-en">⚙️ CI Pipeline Integration</span>
+            </h4>
+            
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">단계</span><span class="lang-en">Stage</span></th>
+                    <th><span class="lang-ko">도구</span><span class="lang-en">Tool</span></th>
+                    <th><span class="lang-ko">설정</span><span class="lang-en">Config</span></th>
+                    <th><span class="lang-ko">출력</span><span class="lang-en">Output</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">커버리지 측정</span><span class="lang-en">Coverage</span></td>
+                    <td>pytest-cov</td>
+                    <td><code>--cov=apps/</code></td>
+                    <td>coverage.xml</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">품질 분석</span><span class="lang-en">Quality</span></td>
+                    <td>SonarCloud</td>
+                    <td><code>sonar.python.coverage.reportPaths</code></td>
+                    <td><span class="lang-ko">대시보드</span><span class="lang-en">Dashboard</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">제외 패턴</span><span class="lang-en">Exclusions</span></td>
+                    <td>pytest.ini</td>
+                    <td><code>--ignore=tests/integration</code></td>
+                    <td><span class="lang-ko">Unit만 CI 실행</span><span class="lang-en">Unit-only in CI</span></td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 280px; padding: 1rem; background: rgba(0,255,136,0.08); border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <strong style="color: var(--primary);">
+                        <span class="lang-ko">✅ Unit 테스트 전략</span>
+                        <span class="lang-en">✅ Unit Test Strategy</span>
+                    </strong>
+                    <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span class="lang-ko">
+                            • Port 인터페이스 Mock으로 격리<br>
+                            • Command/Query 단위로 분리<br>
+                            • 88%+ 커버리지 목표
+                        </span>
+                        <span class="lang-en">
+                            • Isolate via Port interface Mocks<br>
+                            • Separate by Command/Query units<br>
+                            • Target 88%+ coverage
+                        </span>
                     </div>
+                </div>
+                <div style="flex: 1; min-width: 280px; padding: 1rem; background: rgba(255,165,0,0.08); border-radius: 8px; border-left: 3px solid var(--warning);">
+                    <strong style="color: var(--warning);">
+                        <span class="lang-ko">🔄 Integration 테스트 전략</span>
+                        <span class="lang-en">🔄 Integration Test Strategy</span>
+                    </strong>
+                    <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span class="lang-ko">
+                            • 핵심 플로우만 선택적 실행<br>
+                            • CI에서 기본 제외 (속도)<br>
+                            • 배포 전 수동 검증
+                        </span>
+                        <span class="lang-en">
+                            • Selective run for core flows<br>
+                            • Excluded by default in CI (speed)<br>
+                            • Manual verification pre-deploy
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-refs" style="margin-top: 1.5rem;">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 링크</span>
+                    <span class="lang-en">Related Links</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/blob/main/.github/workflows/ci-sonarcloud.yml" target="_blank" rel="noopener">CI SonarCloud</a>
+                    <a class="ref-chip" href="https://rooftopsnow.tistory.com/100" target="_blank" rel="noopener">auth_worker 88%</a>
+                    <a class="ref-chip" href="https://rooftopsnow.tistory.com/165" target="_blank" rel="noopener">chat_worker Report</a>
                 </div>
             </div>
         </div>
