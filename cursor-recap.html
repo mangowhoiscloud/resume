@@ -388,6 +388,72 @@
             </div>
         </div>
 
+        <!-- Token Breakdown (상세 분석: 2025-12-16 ~ 2026-01-15 CSV 기준) -->
+        <section class="chart-section animate" style="margin-top: 2rem;">
+            <div class="section-header">
+                <h2>🔍 토큰 상세 분석</h2>
+                <div class="line"></div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
+                📅 상세 분석 기간: 2025-12-16 ~ 2026-01-15 (CSV 기반)
+            </p>
+            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.05));">
+                    <div class="stat-icon">📥</div>
+                    <div class="stat-value">312.6M</div>
+                    <div class="stat-label">Billable Tokens</div>
+                    <div class="stat-detail">Input + Output (6.3%)</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(34, 211, 238, 0.05));">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-value">4.66B</div>
+                    <div class="stat-label">Cache Read</div>
+                    <div class="stat-detail">컨텍스트 재사용 (93.7%)</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));">
+                    <div class="stat-icon">📤</div>
+                    <div class="stat-value">25.9M</div>
+                    <div class="stat-label">Output Tokens</div>
+                    <div class="stat-detail">생성된 응답 (0.5%)</div>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; padding: 1.25rem; background: rgba(168, 85, 247, 0.1); border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.2);">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                    💡 <strong style="color: var(--accent-purple);">Cache Efficiency: 93.7%</strong><br>
+                    전체 토큰의 93.7%가 캐시에서 재사용됩니다. 실제 청구 대상은 <strong>Input(6.3%) + Output(0.5%) = 6.8%</strong>만 해당됩니다.
+                    <br><span style="color: var(--text-muted);">* 비용 효율화의 핵심: 컨텍스트 캐싱으로 반복 프롬프트 비용 절감</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Model Cost Distribution -->
+        <section class="chart-section animate" style="margin-top: 2rem;">
+            <div class="section-header">
+                <h2>⚠️ 트래픽 분리 분석</h2>
+                <div class="line"></div>
+            </div>
+            <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(236, 72, 153, 0.05));">
+                    <div class="stat-icon">🤖</div>
+                    <div class="stat-value">71.5%</div>
+                    <div class="stat-label">claude-4.5-opus</div>
+                    <div class="stat-detail">3.55B tokens / $3,942 (93.8% cost)</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(249, 115, 22, 0.05));">
+                    <div class="stat-icon">🔄</div>
+                    <div class="stat-value">27.8%</div>
+                    <div class="stat-label">agent_review (내부)</div>
+                    <div class="stat-detail">1.38B tokens / $215 (5.1% cost)</div>
+                </div>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(249, 115, 22, 0.1); border-radius: 10px; border-left: 3px solid var(--accent-orange);">
+                <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                    ⚠️ <strong>agent_review</strong>는 내부 코드 리뷰/평가용 트래픽으로, 토큰의 27.8%를 차지하지만 비용은 5.1%에 불과합니다.
+                    <br>실제 사용자 대화 토큰과 분리해서 해석해야 합니다.
+                </p>
+            </div>
+        </section>
+
         <!-- Highlights -->
         <div class="highlight-grid">
             <div class="highlight-card animate">
@@ -476,7 +542,7 @@
         <!-- Footer -->
         <footer class="footer">
             <p>Generated with ❤️ by <a href="https://cursor.com">Cursor</a> + Claude</p>
-            <p style="margin-top: 0.5rem;">Data period: 2025-11-01 ~ 2026-01-09</p>
+            <p style="margin-top: 0.5rem;">Data period: 2025-11-01 ~ 2026-01-15</p>
         </footer>
     </div>
 
@@ -652,13 +718,17 @@
             }
         });
 
-        // Model List
+        // Model List with percentage
         const modelList = document.getElementById('modelList');
         const maxTokens = modelData[0].total_tokens;
+        const totalTokens = modelData.reduce((sum, m) => sum + m.total_tokens, 0);
+        const totalCost = modelData.reduce((sum, m) => sum + m.cost, 0);
         
         modelData.forEach((model, index) => {
             const rankClass = index === 0 ? '' : index === 1 ? 'silver' : index === 2 ? 'bronze' : 'other';
-            const percentage = (model.total_tokens / maxTokens * 100).toFixed(0);
+            const barWidth = (model.total_tokens / maxTokens * 100).toFixed(0);
+            const tokenPct = (model.total_tokens / totalTokens * 100).toFixed(1);
+            const costPct = (model.cost / totalCost * 100).toFixed(1);
             const tokenStr = (model.total_tokens / 1e9).toFixed(2) + 'B';
             
             modelList.innerHTML += `
@@ -666,10 +736,13 @@
                     <div class="model-rank ${rankClass}">${index + 1}</div>
                     <div class="model-info">
                         <div class="model-name">${model.model}</div>
-                        <div class="model-stats">${model.count.toLocaleString()}회 · ${tokenStr} tokens · $${model.cost.toLocaleString()}</div>
+                        <div class="model-stats">
+                            ${model.count.toLocaleString()}회 · ${tokenStr} (<span style="color: var(--accent-purple);">${tokenPct}%</span>) · 
+                            $${model.cost.toLocaleString()} (<span style="color: var(--accent-green);">${costPct}%</span>)
+                        </div>
                     </div>
                     <div class="model-bar">
-                        <div class="model-bar-fill" style="width: ${percentage}%"></div>
+                        <div class="model-bar-fill" style="width: ${barWidth}%"></div>
                     </div>
                 </li>
             `;
