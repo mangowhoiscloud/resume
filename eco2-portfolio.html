@@ -4861,36 +4861,37 @@ Wave    Resources
 │                        LLM Pipeline I/O-bound 특성                              │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│   Stage별 소요 시간 (실측)                                                      │
-│   ─────────────────────────                                                     │
+│   Stage별 소요 시간 (저부하 k6 VU 10 기준)                                       │
+│   ─────────────────────────────────────────                                     │
 │                                                                                 │
 │   vision (40%) ████████████████████████████████████████  4.5초 (OpenAI Vision)  │
 │   answer (45%) ████████████████████████████████████████████  4.8초 (OpenAI Chat)│
-│   rule   (5%)  ████  0.3초 (PostgreSQL)                                         │
-│   reward (14%) ██████████████  1.7초 (Character Match)                          │
+│   rule   (3%)  ██  0.3초 (PostgreSQL)                                           │
+│   reward (15%) ███████████████  1.7초 (Character Match)                         │
 │                                                                                 │
 │   ──────────────────────────────────────────────────────────────────────────    │
-│   Total: ~11-13초 (평균) / ~21초 (p99)                                          │
+│   Total: ~11-12초 (저부하 평균) / 🎯 SLA 300 VU: p95 48.5초                     │
 │                                                                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│   ⚠️ 핵심 병목: OpenAI API (vision + answer) = 전체의 85%                       │
+│   ⚠️ 핵심 병목: OpenAI API (vision + answer) = 전체의 82%                       │
 │                                                                                 │
 │   100% I/O-bound 워크로드:                                                      │
-│   ├─ OpenAI API 호출: 65% (vision + answer)                                     │
-│   ├─ Rule-based retrieval: 21% (PostgreSQL I/O)                                 │
-│   └─ Character matching: 14% (DB + gRPC I/O)                                    │
+│   ├─ OpenAI API 호출: 82% (vision 4.5s + answer 4.8s = 9.3s)                    │
+│   ├─ Rule-based retrieval: 3% (PostgreSQL I/O)                                  │
+│   └─ Character matching: 15% (DB + gRPC I/O)                                    │
 │                                                                                 │
 │   → Gevent (greenlet) 전환으로 100+ 동시 I/O 가능                               │
-│   → OpenAI Rate Limit (500 RPM)이 실질 병목                                     │
+│   → 300 VU에서 99.9% 완료율 달성 (SLA 기준)                                     │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
-                <tr><th>Stage</th><th>평균</th><th>p99</th><th>병목 원인</th></tr>
-                <tr><td>vision</td><td>4.5초</td><td>10초</td><td>OpenAI Vision API</td></tr>
-                <tr><td>rule</td><td>0.3초</td><td>3초</td><td>PostgreSQL 쿼리</td></tr>
-                <tr><td>answer</td><td>4.8초</td><td>15초</td><td>OpenAI Chat API</td></tr>
-                <tr><td>reward</td><td>1.7초</td><td>5초</td><td>Character Match gRPC</td></tr>
+                <tr><th>Stage</th><th><span class="lang-ko">평균 (VU 10)</span><span class="lang-en">Avg (VU 10)</span></th><th><span class="lang-ko">비율</span><span class="lang-en">Ratio</span></th><th><span class="lang-ko">병목 원인</span><span class="lang-en">Bottleneck</span></th></tr>
+                <tr><td>vision</td><td>4.5초</td><td>40%</td><td>OpenAI Vision API (gpt-5.2)</td></tr>
+                <tr><td>answer</td><td>4.8초</td><td>42%</td><td>OpenAI Chat API (gpt-5.2)</td></tr>
+                <tr><td>reward</td><td>1.7초</td><td>15%</td><td>Character Match gRPC</td></tr>
+                <tr><td>rule</td><td>0.3초</td><td>3%</td><td>PostgreSQL 쿼리</td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~11.3초</strong></td><td>100%</td><td>🎯 SLA: 300 VU p95 48.5초</td></tr>
             </table>
         </div>
     </div>
@@ -6049,20 +6050,21 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                 <tr>
                     <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
                     <th>Avg</th>
-                    <th>p99</th>
                     <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">단일 요청</span><span class="lang-en">Single request</span></td>
+                    <td><strong>6.9s</strong></td>
+                    <td><span class="lang-ko">기준값 (워밍업 후)</span><span class="lang-en">Baseline (warmed up)</span></td>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span> (k6 VU 10)</td>
                     <td><strong>4.5s</strong></td>
-                    <td>-</td>
-                    <td><span class="lang-ko">비동기 전환 후</span><span class="lang-en">After async migration</span></td>
+                    <td><span class="lang-ko">비동기 Gevent 전환 후</span><span class="lang-en">After Gevent migration</span></td>
                 </tr>
-                <tr>
-                    <td><span class="lang-ko">부하</span><span class="lang-en">Load</span> (Locust 100U, 10 ramp)</td>
-                    <td>12.25s</td>
-                    <td><strong style="color: var(--warning);">37.91s</strong></td>
-                    <td><span class="lang-ko">OpenAI API 지연 시 급증</span><span class="lang-en">Spikes on OpenAI API delay</span></td>
+                <tr style="background: rgba(0,255,136,0.1);">
+                    <td><strong>🎯 SLA</strong> (k6 VU 300)</td>
+                    <td colspan="2"><span class="lang-ko">E2E p95: <strong>48.5s</strong> (전체 Chain 기준)</span><span class="lang-en">E2E p95: <strong>48.5s</strong> (total Chain)</span></td>
                 </tr>
             </table>
         </div>
@@ -6131,20 +6133,21 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                 <tr>
                     <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
                     <th>Avg</th>
-                    <th>p99</th>
                     <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">단일 요청</span><span class="lang-en">Single request</span></td>
+                    <td><strong>0.5ms</strong></td>
+                    <td><span class="lang-ko">기준값 (워밍업 후)</span><span class="lang-en">Baseline (warmed up)</span></td>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span> (k6 VU 10)</td>
                     <td><strong>0.3s</strong></td>
-                    <td>-</td>
-                    <td><span class="lang-ko">비동기 전환 후 (DB 조회)</span><span class="lang-en">After async (DB lookup)</span></td>
+                    <td><span class="lang-ko">비동기 Gevent 전환 후</span><span class="lang-en">After Gevent migration</span></td>
                 </tr>
-                <tr>
-                    <td><span class="lang-ko">부하</span><span class="lang-en">Load</span> (Locust 100U, 10 ramp)</td>
-                    <td>8.40s</td>
-                    <td><strong style="color: var(--danger);">49.75s</strong></td>
-                    <td><span class="lang-ko">Worker 동시성 병목 시</span><span class="lang-en">Worker concurrency bottleneck</span></td>
+                <tr style="background: rgba(0,255,136,0.1);">
+                    <td><strong>🎯 SLA</strong> (k6 VU 300)</td>
+                    <td colspan="2"><span class="lang-ko">E2E p95: <strong>48.5s</strong> (전체 Chain 기준)</span><span class="lang-en">E2E p95: <strong>48.5s</strong> (total Chain)</span></td>
                 </tr>
             </table>
         </div>
@@ -6211,51 +6214,53 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                 <tr>
                     <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
                     <th>Avg</th>
-                    <th>p99</th>
                     <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">단일 요청</span><span class="lang-en">Single request</span></td>
+                    <td><strong>4.8s</strong></td>
+                    <td><span class="lang-ko">기준값 (워밍업 후)</span><span class="lang-en">Baseline (warmed up)</span></td>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span> (k6 VU 10)</td>
                     <td><strong>4.8s</strong></td>
-                    <td>-</td>
-                    <td><span class="lang-ko">비동기 전환 후</span><span class="lang-en">After async migration</span></td>
-                </tr>
-                <tr>
-                    <td><span class="lang-ko">부하</span><span class="lang-en">Load</span> (Locust 100U, 10 ramp)</td>
-                    <td>14.13s</td>
-                    <td><strong style="color: var(--danger);">46.63s</strong></td>
-                    <td><span class="lang-ko">OpenAI API 지연 영향</span><span class="lang-en">OpenAI API delay impact</span></td>
+                    <td><span class="lang-ko">비동기 Gevent 전환 후</span><span class="lang-en">After Gevent migration</span></td>
                 </tr>
             </table>
             <h4 style="color: var(--accent-teal); margin: 1.2rem 0 0.8rem; font-size: 1rem;">
-                <span class="lang-ko">⏱️ 전체 Chain Duration</span>
-                <span class="lang-en">⏱️ Total Chain Duration</span>
+                <span class="lang-ko">⏱️ 전체 Chain Duration (E2E)</span>
+                <span class="lang-en">⏱️ Total Chain Duration (E2E)</span>
             </h4>
             <table class="modal-table">
                 <tr>
-                    <th><span class="lang-ko">지표</span><span class="lang-en">Metric</span></th>
-                    <th><span class="lang-ko">저부하</span><span class="lang-en">Low</span> (k6 VU 10)</th>
-                    <th><span class="lang-ko">부하</span><span class="lang-en">Load</span> (k6 VU 50)</th>
+                    <th>VU</th>
+                    <th><span class="lang-ko">완료율</span><span class="lang-en">Completion</span></th>
+                    <th>E2E p95</th>
+                    <th><span class="lang-ko">상태</span><span class="lang-en">Status</span></th>
                 </tr>
                 <tr>
-                    <td>p50</td>
-                    <td><strong>~11s</strong></td>
-                    <td>8s</td>
+                    <td>50</td>
+                    <td>99.7%</td>
+                    <td>17.7s</td>
+                    <td>✅</td>
                 </tr>
                 <tr>
-                    <td>p95</td>
-                    <td>~20s</td>
-                    <td>35s</td>
+                    <td>250</td>
+                    <td>99.9%</td>
+                    <td>40.5s</td>
+                    <td>✅</td>
                 </tr>
-                <tr>
-                    <td>p99</td>
-                    <td>~25s</td>
-                    <td><strong style="color: var(--danger);">51s</strong></td>
+                <tr style="background: rgba(0,255,136,0.1);">
+                    <td><strong>🎯 300 (SLA)</strong></td>
+                    <td><strong>99.9%</strong></td>
+                    <td><strong>48.5s</strong></td>
+                    <td>✅ <span class="lang-ko">안전 한계</span><span class="lang-en">Safe limit</span></td>
                 </tr>
-                <tr>
-                    <td><span class="lang-ko">평균</span><span class="lang-en">Avg</span></td>
-                    <td>11.3s</td>
-                    <td>41.65s</td>
+                <tr style="background: rgba(255,165,0,0.1);">
+                    <td>400</td>
+                    <td>98.9%</td>
+                    <td style="color: var(--warning);">62.0s</td>
+                    <td>⚠️ SLA &gt; 60s</td>
                 </tr>
             </table>
             <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(0, 255, 136, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
