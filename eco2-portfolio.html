@@ -5990,7 +5990,7 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 
     <!-- Scan AI Pipeline Modals -->
     <div class="modal-overlay" id="modal-scan-vision">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content" style="max-width: 950px;">
             <button class="modal-close" onclick="closeModal('modal-scan-vision')">×</button>
             <h3 class="modal-title">
                 <span class="lang-ko">👁️ Vision LLM (Pre-Retrieval)</span>
@@ -6003,8 +6003,8 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
-│   │  📷 Image    │  ──► │  🧠 GPT-4 Vision │  ──► │  📝 분류    │  │
-│   │  (Base64)    │      │                  │      │  결과       │  │
+│   │  📷 Image    │  ──► │  🧠 GPT-5.2 /    │  ──► │  📝 분류    │  │
+│   │  (Base64)    │      │  Gemini 3.0 Pro  │      │  결과       │  │
 │   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
 │                                  │                                  │
 │                                  ▼                                  │
@@ -6026,7 +6026,7 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">모델</span><span class="lang-en">Model</span></td>
-                    <td>GPT-4 Vision (gpt-4o)</td>
+                    <td><strong>gpt-5.2</strong> (default) / gemini-3-pro-preview</td>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">입력</span><span class="lang-en">Input</span></td>
@@ -6040,16 +6040,36 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <td><span class="lang-ko">프롬프트</span><span class="lang-en">Prompt</span></td>
                     <td><span class="lang-ko">분류 기준과 판단 근거를 명시한 시스템 프롬프트</span><span class="lang-en">System prompt with classification criteria and reasoning guidelines</span></td>
                 </tr>
+            </table>
+            <h4 style="color: var(--primary); margin: 1.2rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">📊 실측 레이턴시 (Prometheus)</span>
+                <span class="lang-en">📊 Measured Latency (Prometheus)</span>
+            </h4>
+            <table class="modal-table">
                 <tr>
-                    <td><span class="lang-ko">지연 시간</span><span class="lang-en">Latency</span></td>
-                    <td>~3s (I/O-bound)</td>
+                    <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
+                    <th>Avg</th>
+                    <th>p99</th>
+                    <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">저부하 (VU 10)</span><span class="lang-en">Low (VU 10)</span></td>
+                    <td><strong>4.5s</strong></td>
+                    <td>-</td>
+                    <td><span class="lang-ko">비동기 전환 후</span><span class="lang-en">After async migration</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></td>
+                    <td>12.25s</td>
+                    <td><strong style="color: var(--warning);">37.91s</strong></td>
+                    <td><span class="lang-ko">OpenAI API 지연 시 급증</span><span class="lang-en">Spikes on OpenAI API delay</span></td>
                 </tr>
             </table>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-scan-rule">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content" style="max-width: 950px;">
             <button class="modal-close" onclick="closeModal('modal-scan-rule')">×</button>
             <h3 class="modal-title">
                 <span class="lang-ko">📋 Rule Engine (온누리 규정 KB)</span>
@@ -6063,7 +6083,7 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 │                                                                     │
 │   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
 │   │  📝 분류     │  ──► │  🔍 Rule Search  │  ──► │  📄 관련    │  │
-│   │  결과        │      │                  │      │  규정       │  │
+│   │  결과        │      │ (Rule-based RAG) │      │  규정       │  │
 │   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
 │                                  │                                  │
 │                                  ▼                                  │
@@ -6103,11 +6123,35 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <td>200+ <span class="lang-ko">품목</span><span class="lang-en">items</span></td>
                 </tr>
             </table>
+            <h4 style="color: var(--primary); margin: 1.2rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">📊 실측 레이턴시 (Prometheus)</span>
+                <span class="lang-en">📊 Measured Latency (Prometheus)</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
+                    <th>Avg</th>
+                    <th>p99</th>
+                    <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">저부하 (VU 10)</span><span class="lang-en">Low (VU 10)</span></td>
+                    <td><strong>0.3s</strong></td>
+                    <td>-</td>
+                    <td><span class="lang-ko">비동기 전환 후 (DB 조회)</span><span class="lang-en">After async (DB lookup)</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></td>
+                    <td>8.40s</td>
+                    <td><strong style="color: var(--danger);">49.75s</strong></td>
+                    <td><span class="lang-ko">Worker 동시성 병목 시</span><span class="lang-en">Worker concurrency bottleneck</span></td>
+                </tr>
+            </table>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal-scan-answer">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content" style="max-width: 1000px;">
             <button class="modal-close" onclick="closeModal('modal-scan-answer')">×</button>
             <h3 class="modal-title">
                 <span class="lang-ko">💬 Answer LLM (Post-Retrieval)</span>
@@ -6120,8 +6164,8 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
-│   │  📄 관련     │  ──► │  🧠 GPT-4o       │  ──► │  📤 JSON    │  │
-│   │  규정        │      │  Answer Gen      │      │  Output     │  │
+│   │  📄 관련     │  ──► │  🧠 gpt-5.2-mini │  ──► │  📤 JSON    │  │
+│   │  규정        │      │  / Gemini 3 Flash│      │  Output     │  │
 │   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
 │                                  │                                  │
 │                                  ▼                                  │
@@ -6148,7 +6192,7 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">모델</span><span class="lang-en">Model</span></td>
-                    <td>GPT-4o</td>
+                    <td><strong>gpt-5.2</strong> (default) / gemini-3-flash-preview</td>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">입력</span><span class="lang-en">Input</span></td>
@@ -6158,15 +6202,72 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <td><span class="lang-ko">출력</span><span class="lang-en">Output</span></td>
                     <td><span class="lang-ko">JSON Structured Output (스키마 강제)</span><span class="lang-en">JSON Structured Output (schema enforced)</span></td>
                 </tr>
+            </table>
+            <h4 style="color: var(--primary); margin: 1.2rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">📊 실측 레이턴시 (Prometheus)</span>
+                <span class="lang-en">📊 Measured Latency (Prometheus)</span>
+            </h4>
+            <table class="modal-table">
                 <tr>
-                    <td><span class="lang-ko">지연 시간</span><span class="lang-en">Latency</span></td>
-                    <td>~8s (I/O-bound)</td>
+                    <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
+                    <th>Avg</th>
+                    <th>p99</th>
+                    <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">총 파이프라인</span><span class="lang-en">Total Pipeline</span></td>
-                    <td>~12s (Vision 3s + Rule ~1s + Answer 8s)</td>
+                    <td><span class="lang-ko">저부하 (VU 10)</span><span class="lang-en">Low (VU 10)</span></td>
+                    <td><strong>4.8s</strong></td>
+                    <td>-</td>
+                    <td><span class="lang-ko">비동기 전환 후</span><span class="lang-en">After async migration</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></td>
+                    <td>14.13s</td>
+                    <td><strong style="color: var(--danger);">46.63s</strong></td>
+                    <td><span class="lang-ko">OpenAI API 지연 영향</span><span class="lang-en">OpenAI API delay impact</span></td>
                 </tr>
             </table>
+            <h4 style="color: var(--accent-teal); margin: 1.2rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">⏱️ 전체 Chain Duration</span>
+                <span class="lang-en">⏱️ Total Chain Duration</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">지표</span><span class="lang-en">Metric</span></th>
+                    <th><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span></th>
+                    <th><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></th>
+                </tr>
+                <tr>
+                    <td>p50</td>
+                    <td><strong>~11s</strong></td>
+                    <td>8s</td>
+                </tr>
+                <tr>
+                    <td>p95</td>
+                    <td>~20s</td>
+                    <td>35s</td>
+                </tr>
+                <tr>
+                    <td>p99</td>
+                    <td>~25s</td>
+                    <td><strong style="color: var(--danger);">51s</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">평균</span><span class="lang-en">Avg</span></td>
+                    <td>11.3s</td>
+                    <td>41.65s</td>
+                </tr>
+            </table>
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(0, 255, 136, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">
+                    <span class="lang-ko">📈 비동기 전환 효과</span>
+                    <span class="lang-en">📈 Async Migration Impact</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">Vision 4.5s + Rule 0.3s + Answer 4.8s + Reward 1.7s = <strong>~11.3s</strong> (저부하 평균). OpenAI API가 전체 파이프라인의 <strong>82%</strong> (9.3s/11.3s) 차지.</span>
+                    <span class="lang-en">Vision 4.5s + Rule 0.3s + Answer 4.8s + Reward 1.7s = <strong>~11.3s</strong> (low load avg). OpenAI API accounts for <strong>82%</strong> (9.3s/11.3s) of total pipeline.</span>
+                </div>
+            </div>
         </div>
     </div>
 
