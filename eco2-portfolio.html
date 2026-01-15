@@ -3067,11 +3067,11 @@
             </div>
 
             <!-- Production-Ready: Scan -->
-            <div class="pipeline-subsection">
+            <div class="pipeline-subsection clickable" data-modal="modal-scan-infra" style="cursor: pointer;">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">📦 Scan: Celery + Gevent</span>
-                        <span class="lang-en">📦 Scan: Celery + Gevent</span>
+                        <span class="lang-ko">📦 Scan: Celery + Gevent <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 클릭하여 상세</span></span>
+                        <span class="lang-en">📦 Scan: Celery + Gevent <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 Click for details</span></span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -3105,31 +3105,31 @@
                     </div>
                 </div>
                 <div class="llm-pipeline-specs" style="margin-top: 1rem;">
-                <div class="spec-item">
-                    <span class="spec-label">Pool</span>
+                    <div class="spec-item">
+                        <span class="spec-label">Pool</span>
                         <span class="spec-value">gevent 100</span>
-                </div>
-                <div class="spec-item">
-                        <span class="spec-label">SLA</span>
-                        <span class="spec-value">300 VU 99.9%</span>
                     </div>
                     <div class="spec-item">
-                        <span class="spec-label">p95</span>
-                        <span class="spec-value">40s</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Throughput</span>
-                        <span class="spec-value">418 req/m</span>
+                        <span class="spec-label">🎯 SLA (VU 300)</span>
+                        <span class="spec-value">99.9%</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">E2E p95</span>
+                        <span class="spec-value">48.5s</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Throughput</span>
+                        <span class="spec-value">402 req/m</span>
                     </div>
                 </div>
             </div>
 
             <!-- Production-Ready: Chat -->
-            <div class="pipeline-subsection">
+            <div class="pipeline-subsection clickable" data-modal="modal-chat-infra" style="cursor: pointer;">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span></span>
-                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span></span>
+                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 클릭하여 상세</span></span>
+                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 Click for details</span></span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -3162,9 +3162,23 @@
                         <div class="async-desc">Client</div>
                     </div>
                 </div>
-                <div class="pipeline-detail">
-                    <span class="lang-ko">LangGraph 호환을 위해 asyncio-native Taskiq 선택. RabbitMQ 재사용, RedisSaver Cache-Aside 체크포인팅</span>
-                    <span class="lang-en">Chose asyncio-native Taskiq for LangGraph compatibility. RabbitMQ reuse, RedisSaver Cache-Aside checkpointing</span>
+                <div class="llm-pipeline-specs" style="margin-top: 1rem;">
+                    <div class="spec-item">
+                        <span class="spec-label">Workers</span>
+                        <span class="spec-value">4 × 10 tasks</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Timeout</span>
+                        <span class="spec-value">120s</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Checkpointer</span>
+                        <span class="spec-value">RedisSaver</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Status</span>
+                        <span class="spec-value" style="color: var(--warning);">🔄 Dev</span>
+                    </div>
                 </div>
             </div>
 
@@ -6610,6 +6624,328 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
         </div>
     </div>
 
+    <!-- Modal: Scan Infrastructure -->
+    <div class="modal-overlay" id="modal-scan-infra">
+        <div class="modal-content" style="max-width: 1200px;">
+            <button class="modal-close" onclick="closeModal('modal-scan-infra')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📦 Scan 인프라: Celery + Gevent 파이프라인</span>
+                <span class="lang-en">📦 Scan Infrastructure: Celery + Gevent Pipeline</span>
+            </h3>
+            
+            <div class="modal-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Scan Worker Infrastructure (Production)                       │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌────────────────────────────────────────────────────────────────────────┐    │
+│   │  Celery Worker (gevent pool=100)                                        │    │
+│   │  ───────────────────────────────────────────────────────────────────    │    │
+│   │  celery -A scan_worker.main worker --pool=gevent --concurrency=100      │    │
+│   │  -Q scan.vision,scan.rule,scan.answer,scan.reward                       │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+│   4-Stage Chain (순차 의존성)                                                   │
+│   ────────────────────────────────────────────────────────────────────────      │
+│   vision (4.5s) → rule (0.3s) → answer (4.8s) → reward (1.7s)                  │
+│      ↓ Avg         ↓ Avg         ↓ Avg          ↓ Avg                          │
+│   OpenAI API    PostgreSQL    OpenAI API    Character gRPC                     │
+│                                                                                 │
+│   Event Relay (3-Tier Redis)                                                    │
+│   ────────────────────────────────────────────────────────────────────────      │
+│   Worker → XADD → Streams (4 shards) → Event Router → PUBLISH → Pub/Sub        │
+│                                                           │                     │
+│                                                           ▼                     │
+│                                                    SSE Gateway → Client         │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🎯 SLA 성능 지표 (k6 VU 300 기준)</span>
+                <span class="lang-en">🎯 SLA Performance Metrics (k6 VU 300 baseline)</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th>VU</th>
+                    <th><span class="lang-ko">완료율</span><span class="lang-en">Completion</span></th>
+                    <th>E2E p95</th>
+                    <th><span class="lang-ko">처리량</span><span class="lang-en">Throughput</span></th>
+                    <th><span class="lang-ko">상태</span><span class="lang-en">Status</span></th>
+                </tr>
+                <tr>
+                    <td>50</td>
+                    <td>99.7%</td>
+                    <td>17.7s</td>
+                    <td>198 req/m</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>200</td>
+                    <td>99.8%</td>
+                    <td>33.2s</td>
+                    <td>370 req/m</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>250</td>
+                    <td>99.9%</td>
+                    <td>40.5s</td>
+                    <td>418 req/m</td>
+                    <td>✅</td>
+                </tr>
+                <tr style="background: rgba(0,255,136,0.1);">
+                    <td><strong>🎯 300 (SLA)</strong></td>
+                    <td><strong>99.9%</strong></td>
+                    <td><strong>48.5s</strong></td>
+                    <td><strong>402 req/m</strong></td>
+                    <td>✅ <span class="lang-ko">안전 한계</span><span class="lang-en">Safe limit</span></td>
+                </tr>
+                <tr style="background: rgba(255,165,0,0.1);">
+                    <td>400</td>
+                    <td>98.9%</td>
+                    <td style="color: var(--warning);">62.0s</td>
+                    <td>427 req/m</td>
+                    <td>⚠️ SLA &gt; 60s</td>
+                </tr>
+                <tr style="background: rgba(255,0,0,0.1);">
+                    <td>500</td>
+                    <td style="color: var(--danger);">94.0%</td>
+                    <td style="color: var(--danger);">76.3s</td>
+                    <td>428 req/m</td>
+                    <td>❌ <span class="lang-ko">포화</span><span class="lang-en">Saturated</span></td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">📊 스테이지별 레이턴시 (저부하 k6 VU 10)</span>
+                <span class="lang-en">📊 Stage Latency (Low load k6 VU 10)</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th>Stage</th>
+                    <th>Avg</th>
+                    <th><span class="lang-ko">비율</span><span class="lang-en">Ratio</span></th>
+                    <th><span class="lang-ko">병목 원인</span><span class="lang-en">Bottleneck</span></th>
+                </tr>
+                <tr><td>vision</td><td>4.5s</td><td>40%</td><td>OpenAI Vision API (gpt-5.2)</td></tr>
+                <tr><td>answer</td><td>4.8s</td><td>42%</td><td>OpenAI Chat API (gpt-5.2)</td></tr>
+                <tr><td>reward</td><td>1.7s</td><td>15%</td><td>Character Match gRPC</td></tr>
+                <tr><td>rule</td><td>0.3s</td><td>3%</td><td>PostgreSQL 쿼리</td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~11.3s</strong></td><td>100%</td><td>🎯 SLA 300 VU E2E p95 48.5s</td></tr>
+            </table>
+
+            <h4 style="color: var(--accent-purple); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚙️ 인프라 구성</span>
+                <span class="lang-en">⚙️ Infrastructure Configuration</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">구성 요소</span><span class="lang-en">Component</span></th>
+                    <th><span class="lang-ko">설정</span><span class="lang-en">Config</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td>Celery Pool</td>
+                    <td><code>gevent 100</code></td>
+                    <td><span class="lang-ko">100% I/O-bound → greenlet 100개 동시 처리</span><span class="lang-en">100% I/O-bound → 100 concurrent greenlets</span></td>
+                </tr>
+                <tr>
+                    <td>Queues</td>
+                    <td><code>scan.vision, rule, answer, reward</code></td>
+                    <td><span class="lang-ko">스테이지별 개별 큐 (Topology CR)</span><span class="lang-en">Per-stage queues (Topology CR)</span></td>
+                </tr>
+                <tr>
+                    <td>Redis Streams</td>
+                    <td><code>4 shards</code></td>
+                    <td><span class="lang-ko">이벤트 샤딩 (균등 분배)</span><span class="lang-en">Event sharding (balanced)</span></td>
+                </tr>
+                <tr>
+                    <td>KEDA Scaling</td>
+                    <td><code>1-5 replicas</code></td>
+                    <td><span class="lang-ko">RabbitMQ 큐 길이 기반</span><span class="lang-en">RabbitMQ queue length based</span></td>
+                </tr>
+            </table>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">📈 <span class="lang-ko">스냅샷 링크</span><span class="lang-en">Snapshot Links</span></strong>
+                <div style="margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/ZdMIItsw6ZRFhXKLO1M1BJDW14QkHC4o" target="_blank" style="color: var(--text-secondary);">VU 50 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/Xbr36P3VSZhqvE8RHv2vlpgNm8lHcwSs" target="_blank" style="color: var(--text-secondary);">VU 200 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/g3Qa0xMImwNmNuzQTXGW6C6I5VBopY5J" target="_blank" style="color: var(--text-secondary);">VU 250 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: var(--primary); font-weight: bold;">🎯 VU 300 SLA →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/frzezh23ZWCrpiWNprpEtv3tFsdTEouI" target="_blank" style="color: var(--warning);">VU 400 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/dtBvLo3J2JlQ3LwWbcM6iwBJJuhboow5" target="_blank" style="color: var(--danger);">VU 500 →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat Infrastructure -->
+    <div class="modal-overlay" id="modal-chat-infra">
+        <div class="modal-content" style="max-width: 1200px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-infra')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🤖 Chat 인프라: Taskiq + asyncio 파이프라인 <span class="status-badge in-progress" style="font-size: 0.8rem;">진행 중</span></span>
+                <span class="lang-en">🤖 Chat Infrastructure: Taskiq + asyncio Pipeline <span class="status-badge in-progress" style="font-size: 0.8rem;">In Progress</span></span>
+            </h3>
+            
+            <div class="modal-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Chat Worker Infrastructure (Development)                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌────────────────────────────────────────────────────────────────────────┐    │
+│   │  Taskiq Worker (asyncio-native)                                         │    │
+│   │  ───────────────────────────────────────────────────────────────────    │    │
+│   │  taskiq worker chat_worker.main:broker --workers 4 --max-async-tasks 10 │    │
+│   │  → 동시 40 tasks (4 workers × 10 async-tasks)                           │    │
+│   └────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                 │
+│   LangGraph Multi-Agent Pipeline                                                │
+│   ────────────────────────────────────────────────────────────────────────      │
+│   Intent (0.5s) → TagRetriever (0.2s) → Answer (3-8s) → [Eval → Fallback]      │
+│       ↓               ↓                     ↓               ↓                   │
+│   4분류 (LLM)   YAML inject        OpenAI/Gemini    품질 평가 + 재시도         │
+│                                                                                 │
+│   Event Relay (Scan과 동일)                                                     │
+│   ────────────────────────────────────────────────────────────────────────      │
+│   Worker → XADD → Streams (chat:events:*) → Event Router → Pub/Sub → SSE       │
+│                                                                                 │
+│   Checkpointing (RedisSaver)                                                    │
+│   ────────────────────────────────────────────────────────────────────────      │
+│   Human-in-the-Loop 대기 상태 유지, Cache-Aside 패턴으로 체크포인트 저장        │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h4 style="color: var(--warning); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔄 설계 기반 예상 성능 (부하 테스트 예정)</span>
+                <span class="lang-en">🔄 Expected Performance (Load test pending)</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">지표</span><span class="lang-en">Metric</span></th>
+                    <th><span class="lang-ko">목표값</span><span class="lang-en">Target</span></th>
+                    <th><span class="lang-ko">근거</span><span class="lang-en">Basis</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">동시 처리</span><span class="lang-en">Concurrency</span></td>
+                    <td><strong>40 tasks</strong></td>
+                    <td>4 workers × 10 async-tasks</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">Task 타임아웃</span><span class="lang-en">Task Timeout</span></td>
+                    <td><strong>120s</strong></td>
+                    <td><span class="lang-ko">Human-in-the-Loop 대기 포함</span><span class="lang-en">Includes Human-in-the-Loop wait</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">예상 E2E 레이턴시</span><span class="lang-en">Expected E2E Latency</span></td>
+                    <td><strong>5-30s</strong> (Avg)</td>
+                    <td><span class="lang-ko">Intent 0.5s + Retrieval 0.2s + LLM 3-8s + Eval</span><span class="lang-en">Intent 0.5s + Retrieval 0.2s + LLM 3-8s + Eval</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">재시도</span><span class="lang-en">Retry</span></td>
+                    <td><strong>max 2</strong></td>
+                    <td><span class="lang-ko">retry_on_error=True</span><span class="lang-en">retry_on_error=True</span></td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚡ Celery vs Taskiq 선택 이유</span>
+                <span class="lang-en">⚡ Why Taskiq over Celery</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">항목</span><span class="lang-en">Aspect</span></th>
+                    <th>Celery (Scan)</th>
+                    <th>Taskiq (Chat)</th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">동시성 모델</span><span class="lang-en">Concurrency</span></td>
+                    <td>gevent (greenlet)</td>
+                    <td><strong>asyncio (native)</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">LangGraph 호환</span><span class="lang-en">LangGraph</span></td>
+                    <td>△ (<span class="lang-ko">래핑 필요</span><span class="lang-en">Wrapping needed</span>)</td>
+                    <td><strong>✅ Native async</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">Broker</span><span class="lang-en">Broker</span></td>
+                    <td>RabbitMQ</td>
+                    <td><strong>RabbitMQ (재사용)</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">결과 반환</span><span class="lang-en">Result</span></td>
+                    <td>AsyncResult</td>
+                    <td><strong>TaskiqResult</strong></td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--accent-purple); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚙️ 인프라 구성</span>
+                <span class="lang-en">⚙️ Infrastructure Configuration</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">구성 요소</span><span class="lang-en">Component</span></th>
+                    <th><span class="lang-ko">설정</span><span class="lang-en">Config</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td>Broker</td>
+                    <td><code>AioPikaBroker</code></td>
+                    <td><span class="lang-ko">RabbitMQ asyncio 클라이언트</span><span class="lang-en">RabbitMQ asyncio client</span></td>
+                </tr>
+                <tr>
+                    <td>Exchange</td>
+                    <td><code>chat_tasks (direct)</code></td>
+                    <td><span class="lang-ko">Topology CR로 미리 생성</span><span class="lang-en">Pre-created by Topology CR</span></td>
+                </tr>
+                <tr>
+                    <td>Queue</td>
+                    <td><code>chat.process</code></td>
+                    <td><span class="lang-ko">DLX, TTL 설정 포함</span><span class="lang-en">With DLX, TTL settings</span></td>
+                </tr>
+                <tr>
+                    <td>Checkpointer</td>
+                    <td><code>RedisSaver</code></td>
+                    <td><span class="lang-ko">Human-in-the-Loop 상태 저장</span><span class="lang-en">Human-in-the-Loop state</span></td>
+                </tr>
+                <tr>
+                    <td>LLM Models</td>
+                    <td><code>gpt-5.2, gemini-3-flash</code></td>
+                    <td><span class="lang-ko">Fallback 체인</span><span class="lang-en">Fallback chain</span></td>
+                </tr>
+            </table>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 165, 0, 0.1); border-radius: 8px; border-left: 3px solid var(--warning);">
+                <strong style="color: var(--warning);">🚧 <span class="lang-ko">개발 진행 상황</span><span class="lang-en">Development Status</span></strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <span class="lang-ko">
+                        ✅ LangGraph 파이프라인 구현 완료<br>
+                        ✅ Intent Router + TagBasedRetriever 적용<br>
+                        ✅ Eval Agent + Fallback Chain 구현<br>
+                        🔄 부하 테스트 및 SLA 측정 예정<br>
+                        🔄 Human-in-the-Loop 시나리오 검증 예정
+                    </span>
+                    <span class="lang-en">
+                        ✅ LangGraph pipeline implemented<br>
+                        ✅ Intent Router + TagBasedRetriever applied<br>
+                        ✅ Eval Agent + Fallback Chain implemented<br>
+                        🔄 Load testing and SLA measurement pending<br>
+                        🔄 Human-in-the-Loop scenario verification pending
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function setLang(lang) {
             document.body.classList.remove('en');
@@ -6673,9 +7009,11 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
             document.body.style.overflow = '';
         }
 
-        // Click handler for achievements and pipeline stages
-        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable').forEach(el => {
-            el.addEventListener('click', () => {
+        // Click handler for achievements, pipeline stages, and subsections
+        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable, .pipeline-subsection.clickable').forEach(el => {
+            el.addEventListener('click', (e) => {
+                // Prevent opening modal when clicking on links inside
+                if (e.target.tagName === 'A') return;
                 const modalId = el.getAttribute('data-modal');
                 if (modalId) openModal(modalId);
             });
