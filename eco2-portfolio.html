@@ -2914,73 +2914,56 @@
                 <!-- Enhanced Pipeline Visualization -->
                 <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <!-- Main Pipeline Row -->
+                        <!-- Main Pipeline Row - Clickable -->
                         <div class="llm-pipeline-flow" style="justify-content: center;">
-                    <div class="pipeline-stage vision">
+                            <div class="pipeline-stage vision clickable" data-modal="modal-scan-vision" style="cursor: pointer;">
                         <div class="pipeline-icon">👁️</div>
                         <div class="pipeline-name">Vision LLM</div>
                         <div class="pipeline-model">Pre-Retrieval</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-stage rule">
+                            <div class="pipeline-stage rule clickable" data-modal="modal-scan-rule" style="cursor: pointer;">
                         <div class="pipeline-icon">📋</div>
                         <div class="pipeline-name">Rule Engine</div>
                         <div class="pipeline-model">온누리 규정 KB</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-stage answer">
+                            <div class="pipeline-stage answer clickable" data-modal="modal-scan-answer" style="cursor: pointer;">
                         <div class="pipeline-icon">💬</div>
                         <div class="pipeline-name">Answer LLM</div>
                         <div class="pipeline-model">Post-Retrieval</div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
                         <!-- Data Injection Row -->
                         <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 1rem; padding: 0 2rem;">
                             <div style="text-align: center; flex: 1;">
                                 <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↑ inject</div>
                                 <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
-                                    <div style="color: rgba(139, 92, 246, 0.9); font-weight: 600;">
-                                        <span class="lang-ko">시스템 프롬프트</span>
-                                        <span class="lang-en">System Prompt</span>
-                                    </div>
-                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">
-                                        <span class="lang-ko">분류 기준 · 출력 포맷</span>
-                                        <span class="lang-en">Classification · Output Format</span>
-                                    </div>
+                                    <div style="color: rgba(139, 92, 246, 0.9); font-weight: 600;">System Prompt</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">분류 기준</div>
                                 </div>
                             </div>
                             <div style="text-align: center; flex: 1;">
                                 <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↑ inject</div>
                                 <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
-                                    <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">
-                                        <span class="lang-ko">구조화된 YAML</span>
-                                        <span class="lang-en">Structured YAML</span>
-                                    </div>
-                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">
-                                        <span class="lang-ko">200+ 품목 규정</span>
-                                        <span class="lang-en">200+ Item Rules</span>
-                                    </div>
+                                    <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">YAML KB</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">200+ 품목</div>
                                 </div>
                             </div>
                             <div style="text-align: center; flex: 1;">
                                 <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↓ output</div>
                                 <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
-                                    <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">
-                                        <span class="lang-ko">구조화된 JSON</span>
-                                        <span class="lang-en">Structured JSON</span>
-                                    </div>
-                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">
-                                        <span class="lang-ko">분류 결과 · 처리 방법</span>
-                                        <span class="lang-en">Classification · Disposal</span>
-                                    </div>
+                                    <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">JSON Output</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">Structured</div>
                                 </div>
                             </div>
                         </div>
+                        <!-- Click hint -->
+                        <div style="text-align: center; color: var(--text-muted); font-size: 0.7rem; margin-top: 0.5rem;">
+                            <span class="lang-ko">💡 각 모듈 클릭 시 상세 보기</span>
+                            <span class="lang-en">💡 Click each module for details</span>
+                        </div>
                     </div>
-                </div>
-                <div class="pipeline-detail">
-                    <span class="lang-ko"><strong>Modular RAG 패턴</strong> — Pre/Post-Retrieval LLM 구조. <strong>Vision LLM</strong>이 이미지 분석 후 분류 결과를 생성하면, <strong>Rule Engine</strong>이 온누리 재활용 품목별 규정 YAML에서 관련 섹션을 검색하고, <strong>Answer LLM</strong>이 JSON Structured Output으로 최종 응답 생성. 각 단계에 시스템 프롬프트로 출력 형식과 판단 기준을 주입.</span>
-                    <span class="lang-en"><strong>Modular RAG Pattern</strong> — Pre/Post-Retrieval LLM architecture. <strong>Vision LLM</strong> analyzes image and generates classification, <strong>Rule Engine</strong> retrieves relevant sections from On-Nuri recycling regulation YAML, <strong>Answer LLM</strong> generates final JSON Structured Output. System prompts inject output format and judgment criteria at each stage.</span>
                 </div>
             </div>
 
@@ -3000,27 +2983,27 @@
                 <!-- Enhanced Pipeline Visualization -->
                 <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <!-- Main Pipeline Row -->
+                        <!-- Main Pipeline Row - Clickable -->
                         <div class="async-sse-flow" style="justify-content: center; flex-wrap: wrap;">
-                    <div class="async-item">
+                            <div class="async-item clickable" data-modal="modal-chat-intent" style="cursor: pointer;">
                         <div class="async-icon">🎯</div>
                                 <div class="async-name">Intent</div>
                                 <div class="async-desc">Multi-intent</div>
                         </div>
                             <div class="pipeline-arrow">→</div>
-                            <div class="async-item">
+                            <div class="async-item clickable" data-modal="modal-chat-retriever" style="cursor: pointer;">
                                 <div class="async-icon">📋</div>
                                 <div class="async-name">Retriever</div>
                                 <div class="async-desc">Tag-based</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
+                            <div class="async-item clickable" data-modal="modal-chat-eval" style="cursor: pointer;">
                                 <div class="async-icon">📊</div>
                                 <div class="async-name">Eval</div>
                                 <div class="async-desc">Phase 1-4</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
+                            <div class="async-item clickable" data-modal="modal-chat-fallback" style="cursor: pointer;">
                                 <div class="async-icon">🔄</div>
                                 <div class="async-name">Fallback</div>
                                 <div class="async-desc">3-tier Chain</div>
@@ -3034,57 +3017,52 @@
                 </div>
                         <!-- Data Injection Row -->
                         <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 0.8rem; padding: 0 1rem; flex-wrap: wrap;">
-                            <div style="text-align: center; min-width: 100px;">
-                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ inject</div>
-                                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                            <div style="text-align: center; min-width: 90px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
+                                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
                                     <div style="color: rgba(139, 92, 246, 0.9); font-weight: 600;">intent.txt</div>
-                                    <div style="color: var(--text-muted); font-size: 0.6rem;">4-class Prompt</div>
                                 </div>
                             </div>
-                            <div style="text-align: center; min-width: 100px;">
-                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ inject</div>
-                                <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                            <div style="text-align: center; min-width: 90px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
+                                <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
                                     <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">*.yaml</div>
-                                    <div style="color: var(--text-muted); font-size: 0.6rem;">200+ items · 100+ tags</div>
                                 </div>
                             </div>
-                            <div style="text-align: center; min-width: 100px;">
-                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ inject</div>
-                                <div style="background: linear-gradient(135deg, rgba(77, 170, 141, 0.15), rgba(77, 170, 141, 0.05)); border: 1px solid rgba(77, 170, 141, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                            <div style="text-align: center; min-width: 90px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
+                                <div style="background: linear-gradient(135deg, rgba(77, 170, 141, 0.15), rgba(77, 170, 141, 0.05)); border: 1px solid rgba(77, 170, 141, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
                                     <div style="color: rgba(77, 170, 141, 0.9); font-weight: 600;">eval.txt</div>
-                                    <div style="color: var(--text-muted); font-size: 0.6rem;">Citation·Nugget</div>
                                 </div>
                             </div>
-                            <div style="text-align: center; min-width: 100px;">
-                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑ config</div>
-                                <div style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(255, 165, 0, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
-                                    <div style="color: rgba(255, 165, 0, 0.9); font-weight: 600;">Chain Rules</div>
-                                    <div style="color: var(--text-muted); font-size: 0.6rem;">RAG→Web→LLM</div>
+                            <div style="text-align: center; min-width: 90px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
+                                <div style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(255, 165, 0, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
+                                    <div style="color: rgba(255, 165, 0, 0.9); font-weight: 600;">Chain Config</div>
                                 </div>
                             </div>
-                            <div style="text-align: center; min-width: 100px;">
-                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↓ output</div>
-                                <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.7rem;">
+                            <div style="text-align: center; min-width: 90px;">
+                                <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↓</div>
+                                <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
                                     <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">SSE Stream</div>
-                                    <div style="color: var(--text-muted); font-size: 0.6rem;">Token Streaming</div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Recursive Loop Indicator -->
-                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: rgba(139, 92, 246, 0.1); border-radius: 20px; font-size: 0.7rem;">
+                        <!-- Recursive Loop + Click Hint -->
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.3rem; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(139, 92, 246, 0.1); border-radius: 15px; font-size: 0.65rem;">
                                 <span style="color: rgba(139, 92, 246, 0.9);">🔁</span>
-                                <span style="color: var(--text-secondary);">
-                                    <span class="lang-ko">Recursive Self-Improvement: Eval 저품질 → Fallback → 재평가</span>
-                                    <span class="lang-en">Recursive Self-Improvement: Low Eval → Fallback → Re-evaluate</span>
+                                <span style="color: var(--text-secondary);">Recursive Self-Improvement</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(0, 255, 136, 0.1); border-radius: 15px; font-size: 0.65rem;">
+                                <span style="color: var(--text-muted);">💡</span>
+                                <span style="color: var(--text-muted);">
+                                    <span class="lang-ko">모듈 클릭 시 상세</span>
+                                    <span class="lang-en">Click for details</span>
                                 </span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="pipeline-detail" style="margin-top: 0.5rem;">
-                    <span class="lang-ko"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Intent</strong>: 4분류(waste/character/location/general) + 복합 질문 분해. <strong>2) TagRetriever</strong>: <code>item_class_list.yaml</code> + <code>situation_tags.yaml</code> 컨텍스트 주입 (Anthropic Contextual Retrieval). <strong>3) Eval</strong>: Phase 1-4 평가(Citation→Nugget→Groundedness→Just-in-Time), Rule + LLM 조합. <strong>4) Fallback</strong>: 저품질 시 Web Search → General LLM 복구, 불명확 시 Clarify. Human-in-the-Loop + Token Streaming.</span>
-                    <span class="lang-en"><strong>LangGraph + Recursive Self-Improvement</strong> — <strong>1) Intent</strong>: 4-class routing + compound query decomposition. <strong>2) TagRetriever</strong>: <code>item_class_list.yaml</code> + <code>situation_tags.yaml</code> context injection (Anthropic Contextual Retrieval). <strong>3) Eval</strong>: Phase 1-4 (Citation→Nugget→Groundedness→Just-in-Time), Rule + LLM combo. <strong>4) Fallback</strong>: On low quality, Web Search → General LLM recovery, Clarify for ambiguous. Human-in-the-Loop + Token Streaming.</span>
                 </div>
             </div>
 
@@ -6010,6 +5988,522 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
         </div>
     </div>
 
+    <!-- Scan AI Pipeline Modals -->
+    <div class="modal-overlay" id="modal-scan-vision">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-scan-vision')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">👁️ Vision LLM (Pre-Retrieval)</span>
+                <span class="lang-en">👁️ Vision LLM (Pre-Retrieval)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.8rem; line-height: 1.5;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                     Vision LLM Stage                                │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
+│   │  📷 Image    │  ──► │  🧠 GPT-4 Vision │  ──► │  📝 분류    │  │
+│   │  (Base64)    │      │                  │      │  결과       │  │
+│   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
+│                                  │                                  │
+│                                  ▼                                  │
+│                       ┌──────────────────────┐                      │
+│                       │ 📋 System Prompt     │                      │
+│                       │ ────────────────────│                       │
+│                       │ • 재활용 가능 여부   │                       │
+│                       │ • 분류 기준 제시     │                       │
+│                       │ • 출력 포맷 정의     │                       │
+│                       └──────────────────────┘                      │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">항목</span><span class="lang-en">Item</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">모델</span><span class="lang-en">Model</span></td>
+                    <td>GPT-4 Vision (gpt-4o)</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">입력</span><span class="lang-en">Input</span></td>
+                    <td><span class="lang-ko">사용자가 촬영한 이미지 (Base64 인코딩)</span><span class="lang-en">User-captured image (Base64 encoded)</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">출력</span><span class="lang-en">Output</span></td>
+                    <td><span class="lang-ko">품목 분류 결과 (대분류, 소분류, 재질)</span><span class="lang-en">Item classification (category, subcategory, material)</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">프롬프트</span><span class="lang-en">Prompt</span></td>
+                    <td><span class="lang-ko">분류 기준과 판단 근거를 명시한 시스템 프롬프트</span><span class="lang-en">System prompt with classification criteria and reasoning guidelines</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">지연 시간</span><span class="lang-en">Latency</span></td>
+                    <td>~3s (I/O-bound)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-scan-rule">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-scan-rule')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📋 Rule Engine (온누리 규정 KB)</span>
+                <span class="lang-en">📋 Rule Engine (On-Nuri Regulation KB)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.8rem; line-height: 1.5;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                     Rule Engine Stage                               │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
+│   │  📝 분류     │  ──► │  🔍 Rule Search  │  ──► │  📄 관련    │  │
+│   │  결과        │      │                  │      │  규정       │  │
+│   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
+│                                  │                                  │
+│                                  ▼                                  │
+│                  ┌──────────────────────────────┐                   │
+│                  │ 📁 YAML Knowledge Base       │                   │
+│                  │ ─────────────────────────────│                   │
+│                  │ item_class_list.yaml         │                   │
+│                  │ ├── 대분류: 플라스틱/종이/... │                   │
+│                  │ ├── 소분류: PET/PP/PE/...    │                   │
+│                  │ └── 규정: 세척/라벨제거/...  │                   │
+│                  │                              │                   │
+│                  │ 📊 200+ 품목 규정 수록       │                   │
+│                  └──────────────────────────────┘                   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">항목</span><span class="lang-en">Item</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">데이터 소스</span><span class="lang-en">Data Source</span></td>
+                    <td><span class="lang-ko">온누리 재활용 품목별 규정 (YAML 구조화)</span><span class="lang-en">On-Nuri recycling regulations per item (YAML structured)</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">검색 방식</span><span class="lang-en">Search Method</span></td>
+                    <td><span class="lang-ko">분류 결과 기반 키워드 매칭 → 관련 규정 추출</span><span class="lang-en">Keyword matching based on classification → Extract relevant rules</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">규정 항목</span><span class="lang-en">Rule Items</span></td>
+                    <td><span class="lang-ko">세척 여부, 라벨 제거, 분리배출 방법, 특이사항</span><span class="lang-en">Washing, label removal, disposal method, special notes</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">품목 수</span><span class="lang-en">Item Count</span></td>
+                    <td>200+ <span class="lang-ko">품목</span><span class="lang-en">items</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-scan-answer">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-scan-answer')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">💬 Answer LLM (Post-Retrieval)</span>
+                <span class="lang-en">💬 Answer LLM (Post-Retrieval)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.8rem; line-height: 1.5;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                     Answer LLM Stage                                │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
+│   │  📄 관련     │  ──► │  🧠 GPT-4o       │  ──► │  📤 JSON    │  │
+│   │  규정        │      │  Answer Gen      │      │  Output     │  │
+│   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
+│                                  │                                  │
+│                                  ▼                                  │
+│              ┌─────────────────────────────────────┐                │
+│              │ 📋 Structured Output Schema         │                │
+│              │ ──────────────────────────────────  │                │
+│              │ {                                   │                │
+│              │   "category": "플라스틱",           │                │
+│              │   "subcategory": "PET",             │                │
+│              │   "recyclable": true,               │                │
+│              │   "instructions": ["세척", "라벨제거"],│               │
+│              │   "reward_points": 10,              │                │
+│              │   "explanation": "..."              │                │
+│              │ }                                   │                │
+│              └─────────────────────────────────────┘                │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">항목</span><span class="lang-en">Item</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">모델</span><span class="lang-en">Model</span></td>
+                    <td>GPT-4o</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">입력</span><span class="lang-en">Input</span></td>
+                    <td><span class="lang-ko">Vision 분류 결과 + Rule Engine 검색 규정</span><span class="lang-en">Vision classification + Rule Engine retrieved regulations</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">출력</span><span class="lang-en">Output</span></td>
+                    <td><span class="lang-ko">JSON Structured Output (스키마 강제)</span><span class="lang-en">JSON Structured Output (schema enforced)</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">지연 시간</span><span class="lang-en">Latency</span></td>
+                    <td>~8s (I/O-bound)</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">총 파이프라인</span><span class="lang-en">Total Pipeline</span></td>
+                    <td>~12s (Vision 3s + Rule ~1s + Answer 8s)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Chat Agentic Workflow Modals -->
+    <div class="modal-overlay" id="modal-chat-intent">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-intent')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🎯 Intent Router (Multi-intent Classifier)</span>
+                <span class="lang-en">🎯 Intent Router (Multi-intent Classifier)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.8rem; line-height: 1.5;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                  Multi-intent Classification                        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   ┌──────────────┐      ┌──────────────────┐      ┌─────────────┐  │
+│   │  💬 User     │  ──► │  🧠 LLM          │  ──► │  🏷️ Intent │  │
+│   │  Query       │      │  Classifier      │      │  Tags       │  │
+│   └──────────────┘      └────────┬─────────┘      └─────────────┘  │
+│                                  │                                  │
+│                                  ▼                                  │
+│      ┌────────────────────────────────────────────────────────┐     │
+│      │ 📋 intent.txt (System Prompt)                          │     │
+│      │ ─────────────────────────────────────────────────────  │     │
+│      │ 4-Class Routing:                                       │     │
+│      │ ┌────────────┬────────────┬────────────┬────────────┐ │     │
+│      │ │ 🗑️ waste  │ 🎭 character│ 📍 location│ 💭 general │ │     │
+│      │ │ 분리배출   │ 캐릭터      │ 수거장소   │ 일반대화   │ │     │
+│      │ └────────────┴────────────┴────────────┴────────────┘ │     │
+│      │                                                        │     │
+│      │ 복합 질문 분해:                                        │     │
+│      │ "플라스틱 버리는 곳 알려줘" → [waste, location]        │     │
+│      └────────────────────────────────────────────────────────┘     │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">분류</span><span class="lang-en">Class</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                    <th><span class="lang-ko">예시</span><span class="lang-en">Example</span></th>
+                </tr>
+                <tr>
+                    <td>🗑️ <strong>waste</strong></td>
+                    <td><span class="lang-ko">분리배출 방법 질문</span><span class="lang-en">Recycling method questions</span></td>
+                    <td><span class="lang-ko">"페트병 어떻게 버려?"</span><span class="lang-en">"How to dispose PET bottles?"</span></td>
+                </tr>
+                <tr>
+                    <td>🎭 <strong>character</strong></td>
+                    <td><span class="lang-ko">캐릭터 관련 질문</span><span class="lang-en">Character-related questions</span></td>
+                    <td><span class="lang-ko">"초록이가 좋아하는 건?"</span><span class="lang-en">"What does Choroki like?"</span></td>
+                </tr>
+                <tr>
+                    <td>📍 <strong>location</strong></td>
+                    <td><span class="lang-ko">수거 장소 질문</span><span class="lang-en">Collection point questions</span></td>
+                    <td><span class="lang-ko">"근처 재활용 센터"</span><span class="lang-en">"Nearby recycling center"</span></td>
+                </tr>
+                <tr>
+                    <td>💭 <strong>general</strong></td>
+                    <td><span class="lang-ko">일반 대화/인사</span><span class="lang-en">General chat/greetings</span></td>
+                    <td><span class="lang-ko">"안녕!"</span><span class="lang-en">"Hello!"</span></td>
+                </tr>
+            </table>
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid rgba(139, 92, 246, 0.8);">
+                <strong style="color: rgba(139, 92, 246, 0.9);">
+                    <span class="lang-ko">💡 복합 질문 분해</span>
+                    <span class="lang-en">💡 Compound Query Decomposition</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">하나의 질문에 여러 의도가 포함된 경우, 각각 별도의 서브에이전트로 라우팅하여 병렬 처리 후 결과 통합</span>
+                    <span class="lang-en">When a query contains multiple intents, route to separate sub-agents for parallel processing, then merge results</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-chat-retriever">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-retriever')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📋 TagBasedRetriever (Contextual Retrieval)</span>
+                <span class="lang-en">📋 TagBasedRetriever (Contextual Retrieval)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                  TagBasedRetriever Architecture                          │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌──────────────┐                          ┌────────────────────────┐   │
+│   │ 💬 Query     │──────────────────────────│ 🔍 Vector Search       │   │
+│   │ + Intent     │                          │ (Embedding Similarity) │   │
+│   └──────┬───────┘                          └───────────┬────────────┘   │
+│          │                                              │                │
+│          ▼                                              ▼                │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │ 📁 Structured Data Injection (YAML → Context)                   │   │
+│   │ ────────────────────────────────────────────────────────────────│   │
+│   │                                                                  │   │
+│   │ item_class_list.yaml          situation_tags.yaml               │   │
+│   │ ┌─────────────────────┐       ┌─────────────────────┐          │   │
+│   │ │ 200+ 품목            │       │ 100+ 상황 태그       │          │   │
+│   │ │ ├── 플라스틱         │       │ ├── 청소            │          │   │
+│   │ │ │   ├── PET         │       │ ├── 분리수거        │          │   │
+│   │ │ │   ├── PP          │       │ ├── 재활용          │          │   │
+│   │ │ │   └── PE          │       │ └── 환경보호        │          │   │
+│   │ │ ├── 종이            │       └─────────────────────┘          │   │
+│   │ │ └── 금속            │                                         │   │
+│   │ └─────────────────────┘                                         │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                                    │                                     │
+│                                    ▼                                     │
+│                        ┌─────────────────────┐                          │
+│                        │ 📄 Enriched Context │                          │
+│                        │ (Query + YAML data) │                          │
+│                        └─────────────────────┘                          │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">파일</span><span class="lang-en">File</span></th>
+                    <th><span class="lang-ko">내용</span><span class="lang-en">Content</span></th>
+                    <th><span class="lang-ko">용도</span><span class="lang-en">Purpose</span></th>
+                </tr>
+                <tr>
+                    <td><code>item_class_list.yaml</code></td>
+                    <td><span class="lang-ko">200+ 품목 분류 체계</span><span class="lang-en">200+ item classification</span></td>
+                    <td><span class="lang-ko">분리배출 질문 시 품목 매칭</span><span class="lang-en">Item matching for disposal questions</span></td>
+                </tr>
+                <tr>
+                    <td><code>situation_tags.yaml</code></td>
+                    <td><span class="lang-ko">100+ 상황 태그</span><span class="lang-en">100+ situation tags</span></td>
+                    <td><span class="lang-ko">컨텍스트 기반 검색 강화</span><span class="lang-en">Contextual search enhancement</span></td>
+                </tr>
+            </table>
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(244, 197, 106, 0.1); border-radius: 8px; border-left: 3px solid rgba(244, 197, 106, 0.8);">
+                <strong style="color: rgba(244, 197, 106, 0.9);">
+                    <span class="lang-ko">🔗 Anthropic Contextual Retrieval 패턴</span>
+                    <span class="lang-en">🔗 Anthropic Contextual Retrieval Pattern</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">구조화된 YAML 데이터를 LLM 컨텍스트에 직접 주입하여 검색 정확도 향상. 기존 벡터 검색만으로는 놓칠 수 있는 도메인 특화 정보를 보완.</span>
+                    <span class="lang-en">Inject structured YAML data directly into LLM context for improved retrieval accuracy. Supplements domain-specific information that vector search alone might miss.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-chat-eval">
+        <div class="modal-content" style="max-width: 1050px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-eval')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📊 Eval Agent (Phase 1-4 평가)</span>
+                <span class="lang-en">📊 Eval Agent (Phase 1-4 Evaluation)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    Eval Agent - 4 Phase Evaluation                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Phase 1: Citation (근거 검증)                                   │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • 응답이 검색된 문서에 기반하는지 확인                          │   │
+│   │  • Rule-based 빠른 판단 (정규식, 키워드 매칭)                    │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                              ▼                                           │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Phase 2: Nugget (완전성 평가)                                   │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • 핵심 정보 포함 여부 체크                                      │   │
+│   │  • 누락된 정보 식별                                              │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                              ▼                                           │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Phase 3: Groundedness (검증)                                    │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • LLM 기반 정밀 평가                                            │   │
+│   │  • Hallucination 탐지                                            │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                              ▼                                           │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Phase 4: Just-in-Time (다음 액션)                               │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • 품질 점수 기반 분기 결정                                      │   │
+│   │  • Pass / Retry / Fallback 판단                                  │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th>Phase</th>
+                    <th><span class="lang-ko">평가 항목</span><span class="lang-en">Evaluation</span></th>
+                    <th><span class="lang-ko">방식</span><span class="lang-en">Method</span></th>
+                    <th><span class="lang-ko">기준</span><span class="lang-en">Threshold</span></th>
+                </tr>
+                <tr>
+                    <td>1. Citation</td>
+                    <td><span class="lang-ko">근거 존재</span><span class="lang-en">Evidence exists</span></td>
+                    <td>Rule-based</td>
+                    <td>≥1 <span class="lang-ko">참조</span><span class="lang-en">reference</span></td>
+                </tr>
+                <tr>
+                    <td>2. Nugget</td>
+                    <td><span class="lang-ko">정보 완전성</span><span class="lang-en">Info completeness</span></td>
+                    <td>Rule + LLM</td>
+                    <td>≥70%</td>
+                </tr>
+                <tr>
+                    <td>3. Groundedness</td>
+                    <td><span class="lang-ko">사실 검증</span><span class="lang-en">Fact verification</span></td>
+                    <td>LLM</td>
+                    <td>≥0.8 score</td>
+                </tr>
+                <tr>
+                    <td>4. Just-in-Time</td>
+                    <td><span class="lang-ko">다음 액션</span><span class="lang-en">Next action</span></td>
+                    <td>Decision Tree</td>
+                    <td>Pass/Retry/Fallback</td>
+                </tr>
+            </table>
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(77, 170, 141, 0.1); border-radius: 8px; border-left: 3px solid rgba(77, 170, 141, 0.8);">
+                <strong style="color: rgba(77, 170, 141, 0.9);">
+                    <span class="lang-ko">🔬 Anthropic RAG Evaluation Patterns</span>
+                    <span class="lang-en">🔬 Anthropic RAG Evaluation Patterns</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">Rule 기반 빠른 판단과 LLM 기반 정밀 평가를 조합하여 비용 효율적인 품질 평가. 저품질 응답은 Fallback Chain으로 전달.</span>
+                    <span class="lang-en">Combines rule-based fast judgment with LLM-based precise evaluation for cost-efficient quality assessment. Low-quality responses are passed to Fallback Chain.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-chat-fallback">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-fallback')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔄 Fallback Chain (3-tier Recovery)</span>
+                <span class="lang-en">🔄 Fallback Chain (3-tier Recovery)</span>
+            </h3>
+            <div class="modal-diagram">
+                <pre style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     Fallback Chain Strategy                              │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   Eval Agent 저품질 판정                                                 │
+│        │                                                                 │
+│        ▼                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Tier 1: RAG Retry (검색 재시도)                                 │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • 쿼리 리라이팅 후 재검색                                       │   │
+│   │  • 다른 검색 전략 시도                                           │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│        │ 실패 시                                                         │
+│        ▼                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Tier 2: Web Search (외부 검색)                                  │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • Tavily/Serper API로 웹 검색                                   │   │
+│   │  • 최신 정보 보완                                                │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│        │ 실패 시                                                         │
+│        ▼                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Tier 3: General LLM (일반 응답)                                 │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • 컨텍스트 없이 LLM 직접 응답                                   │   │
+│   │  • "정확한 정보 확인 필요" 안내 포함                             │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│        │ 의도 불명확 시                                                  │
+│        ▼                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Clarify Template (명확화 요청)                                  │   │
+│   │  ───────────────────────────────────────────────────────────────│   │
+│   │  • "좀 더 구체적으로 질문해 주세요"                              │   │
+│   │  • 예시 질문 제안                                                │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            <table class="modal-table">
+                <tr>
+                    <th>Tier</th>
+                    <th><span class="lang-ko">전략</span><span class="lang-en">Strategy</span></th>
+                    <th><span class="lang-ko">조건</span><span class="lang-en">Condition</span></th>
+                    <th><span class="lang-ko">비용</span><span class="lang-en">Cost</span></th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>RAG Retry</td>
+                    <td><span class="lang-ko">품질 점수 &lt; 임계값</span><span class="lang-en">Quality score &lt; threshold</span></td>
+                    <td><span class="lang-ko">낮음</span><span class="lang-en">Low</span></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Web Search</td>
+                    <td><span class="lang-ko">RAG 재시도 실패</span><span class="lang-en">RAG retry failed</span></td>
+                    <td><span class="lang-ko">중간</span><span class="lang-en">Medium</span></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>General LLM</td>
+                    <td><span class="lang-ko">Web 검색도 실패</span><span class="lang-en">Web search also failed</span></td>
+                    <td><span class="lang-ko">높음</span><span class="lang-en">High</span></td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                    <td>Clarify</td>
+                    <td><span class="lang-ko">의도 파악 불가</span><span class="lang-en">Intent unclear</span></td>
+                    <td><span class="lang-ko">없음</span><span class="lang-en">None</span></td>
+                </tr>
+            </table>
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(255, 165, 0, 0.1); border-radius: 8px; border-left: 3px solid rgba(255, 165, 0, 0.8);">
+                <strong style="color: rgba(255, 165, 0, 0.9);">
+                    <span class="lang-ko">🔁 Recursive Self-Improvement Loop</span>
+                    <span class="lang-en">🔁 Recursive Self-Improvement Loop</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">Fallback 결과도 Eval Agent로 재평가하여 품질 기준 충족 시까지 반복. 무한 루프 방지를 위해 최대 재시도 횟수 제한.</span>
+                    <span class="lang-en">Fallback results are re-evaluated by Eval Agent, repeating until quality threshold is met. Max retry limit prevents infinite loops.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function setLang(lang) {
             document.body.classList.remove('en');
@@ -6073,8 +6567,8 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
             document.body.style.overflow = '';
         }
 
-        // Click handler for achievements
-        document.querySelectorAll('.achievement.clickable').forEach(el => {
+        // Click handler for achievements and pipeline stages
+        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable').forEach(el => {
             el.addEventListener('click', () => {
                 const modalId = el.getAttribute('data-modal');
                 if (modalId) openModal(modalId);
