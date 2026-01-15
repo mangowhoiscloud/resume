@@ -6053,13 +6053,13 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">저부하 (VU 10)</span><span class="lang-en">Low (VU 10)</span></td>
+                    <td><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span> (k6 VU 10)</td>
                     <td><strong>4.5s</strong></td>
                     <td>-</td>
                     <td><span class="lang-ko">비동기 전환 후</span><span class="lang-en">After async migration</span></td>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></td>
+                    <td><span class="lang-ko">부하</span><span class="lang-en">Load</span> (Locust 100U, 10 ramp)</td>
                     <td>12.25s</td>
                     <td><strong style="color: var(--warning);">37.91s</strong></td>
                     <td><span class="lang-ko">OpenAI API 지연 시 급증</span><span class="lang-en">Spikes on OpenAI API delay</span></td>
@@ -6135,13 +6135,13 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">저부하 (VU 10)</span><span class="lang-en">Low (VU 10)</span></td>
+                    <td><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span> (k6 VU 10)</td>
                     <td><strong>0.3s</strong></td>
                     <td>-</td>
                     <td><span class="lang-ko">비동기 전환 후 (DB 조회)</span><span class="lang-en">After async (DB lookup)</span></td>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></td>
+                    <td><span class="lang-ko">부하</span><span class="lang-en">Load</span> (Locust 100U, 10 ramp)</td>
                     <td>8.40s</td>
                     <td><strong style="color: var(--danger);">49.75s</strong></td>
                     <td><span class="lang-ko">Worker 동시성 병목 시</span><span class="lang-en">Worker concurrency bottleneck</span></td>
@@ -6215,13 +6215,13 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <th><span class="lang-ko">비고</span><span class="lang-en">Note</span></th>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">저부하 (VU 10)</span><span class="lang-en">Low (VU 10)</span></td>
+                    <td><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span> (k6 VU 10)</td>
                     <td><strong>4.8s</strong></td>
                     <td>-</td>
                     <td><span class="lang-ko">비동기 전환 후</span><span class="lang-en">After async migration</span></td>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></td>
+                    <td><span class="lang-ko">부하</span><span class="lang-en">Load</span> (Locust 100U, 10 ramp)</td>
                     <td>14.13s</td>
                     <td><strong style="color: var(--danger);">46.63s</strong></td>
                     <td><span class="lang-ko">OpenAI API 지연 영향</span><span class="lang-en">OpenAI API delay impact</span></td>
@@ -6234,8 +6234,8 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
             <table class="modal-table">
                 <tr>
                     <th><span class="lang-ko">지표</span><span class="lang-en">Metric</span></th>
-                    <th><span class="lang-ko">저부하</span><span class="lang-en">Low Load</span></th>
-                    <th><span class="lang-ko">부하 테스트</span><span class="lang-en">Load Test</span></th>
+                    <th><span class="lang-ko">저부하</span><span class="lang-en">Low</span> (k6 VU 10)</th>
+                    <th><span class="lang-ko">부하</span><span class="lang-en">Load</span> (k6 VU 50)</th>
                 </tr>
                 <tr>
                     <td>p50</td>
