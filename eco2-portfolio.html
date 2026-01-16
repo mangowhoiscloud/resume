@@ -5830,73 +5830,87 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
 
             <h4 style="color: var(--primary); margin: 1.5rem 0 1rem; font-size: 1.1rem;">
-                <span class="lang-ko">📊 Clean Architecture 적용 앱별 커버리지</span>
-                <span class="lang-en">📊 Coverage by Clean Architecture Apps</span>
+                <span class="lang-ko">📊 앱별 테스트 현황 (2026-01 기준)</span>
+                <span class="lang-en">📊 Test Status by App (as of 2026-01)</span>
             </h4>
             
             <table class="modal-table">
                 <tr>
                     <th><span class="lang-ko">컴포넌트</span><span class="lang-en">Component</span></th>
                     <th><span class="lang-ko">테스트 파일</span><span class="lang-en">Test Files</span></th>
-                    <th><span class="lang-ko">단위 테스트</span><span class="lang-en">Unit Tests</span></th>
-                    <th><span class="lang-ko">통합 테스트</span><span class="lang-en">Integration</span></th>
-                    <th><span class="lang-ko">커버리지</span><span class="lang-en">Coverage</span></th>
-                    <th><span class="lang-ko">근거</span><span class="lang-en">Source</span></th>
+                    <th><span class="lang-ko">테스트 함수</span><span class="lang-en">Test Functions</span></th>
+                    <th><span class="lang-ko">주요 대상</span><span class="lang-en">Target</span></th>
+                </tr>
+                <tr style="background: rgba(0,255,136,0.08);">
+                    <td><strong>chat_worker</strong></td>
+                    <td>28</td>
+                    <td><strong style="color: var(--primary);">394</strong></td>
+                    <td>LangGraph Nodes, Adapters, Commands</td>
                 </tr>
                 <tr style="background: rgba(0,255,136,0.08);">
                     <td><strong>auth_worker</strong></td>
                     <td>11</td>
-                    <td>54 tests</td>
-                    <td><span class="lang-ko">별도 (배포 검증)</span><span class="lang-en">Separate (Deploy)</span></td>
-                    <td><strong style="color: var(--primary);">88%</strong></td>
-                    <td><a href="https://rooftopsnow.tistory.com/100" target="_blank">📝 Blog</a></td>
-                </tr>
-                <tr style="background: rgba(0,255,136,0.08);">
-                    <td><strong>chat_worker</strong></td>
-                    <td>20</td>
-                    <td>115 tests</td>
-                    <td><span class="lang-ko">Docker build 포함</span><span class="lang-en">Docker build</span></td>
-                    <td><strong style="color: var(--primary);">Core 88-100%</strong></td>
-                    <td><a href="https://rooftopsnow.tistory.com/165" target="_blank">📝 Report</a></td>
+                    <td><strong style="color: var(--primary);">69</strong></td>
+                    <td>OAuth, JWT, Commands</td>
                 </tr>
                 <tr>
                     <td><strong>auth</strong></td>
                     <td>10</td>
-                    <td>9 unit</td>
-                    <td>1 integration</td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td>67</td>
+                    <td>Controllers, Services</td>
                 </tr>
                 <tr>
-                    <td><strong>character</strong></td>
-                    <td>6</td>
-                    <td><span class="lang-ko">도메인 중심</span><span class="lang-en">Domain-focused</span></td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td><strong>scan</strong></td>
-                    <td>3</td>
-                    <td><span class="lang-ko">Submit 중심</span><span class="lang-en">Submit-focused</span></td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td><strong>users</strong></td>
-                    <td>3</td>
-                    <td><span class="lang-ko">도메인/컨트롤러</span><span class="lang-en">Domain/Controller</span></td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td><strong>auth_relay</strong></td>
+                    <td>10</td>
+                    <td>64</td>
+                    <td>Token Relay, Middleware</td>
                 </tr>
                 <tr>
                     <td><strong>location</strong></td>
                     <td>4</td>
-                    <td><span class="lang-ko">서비스/쿼리</span><span class="lang-en">Service/Query</span></td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td>65</td>
+                    <td>gRPC, Queries</td>
+                </tr>
+                <tr>
+                    <td><strong>character</strong></td>
+                    <td>6</td>
+                    <td>42</td>
+                    <td>Domain, gRPC</td>
+                </tr>
+                <tr>
+                    <td><strong>sse_gateway</strong></td>
+                    <td>4</td>
+                    <td>31</td>
+                    <td>Event Streaming</td>
+                </tr>
+                <tr>
+                    <td><strong>scan</strong></td>
+                    <td>3</td>
+                    <td>27</td>
+                    <td>Submit API</td>
+                </tr>
+                <tr>
+                    <td><strong>users</strong></td>
+                    <td>3</td>
+                    <td>26</td>
+                    <td>Domain, Controllers</td>
+                </tr>
+                <tr>
+                    <td><strong>scan_worker</strong></td>
+                    <td>4</td>
+                    <td>15</td>
+                    <td>Celery Tasks</td>
+                </tr>
+                <tr>
+                    <td><strong>event_router</strong></td>
+                    <td>3</td>
+                    <td>13</td>
+                    <td>Redis Streams</td>
+                </tr>
+                <tr style="border-top: 2px solid var(--primary);">
+                    <td><strong>Total</strong></td>
+                    <td><strong>86</strong></td>
+                    <td><strong style="color: var(--primary);">813</strong></td>
                     <td>-</td>
                 </tr>
             </table>
