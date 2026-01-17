@@ -1916,6 +1916,22 @@
             gap: 0.5rem;
         }
 
+        .domain-gif-link {
+            display: block;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .domain-gif-link:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(91, 163, 163, 0.3);
+        }
+
+        .domain-gif-link:hover .domain-gif-container {
+            border-color: var(--primary);
+        }
+
         .domain-gif-container {
             width: 100%;
             max-height: 400px;
@@ -1927,6 +1943,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            transition: border-color 0.2s ease;
         }
 
         .domain-gif-container img {
@@ -3892,12 +3909,14 @@
             <h3 class="modal-title">🔐 Auth Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/auth-api.gif" alt="Auth API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/auth-api.gif" alt="Auth API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -3909,11 +3928,11 @@
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Auth API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">OAuth Provider</span>
+                    <span class="domain-flow-item">OAuth (Google/Kakao/Naver)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">JWT Issue</span>
+                    <span class="domain-flow-item">JWT (HS256)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Blacklist</span>
+                    <span class="domain-flow-item">Redis Blacklist (JTI)</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
@@ -3958,12 +3977,14 @@
             <h3 class="modal-title">🐰 Character Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/character-api.gif" alt="Character API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/character-api.gif" alt="Character API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -3973,9 +3994,9 @@
                 <div class="domain-flow">
                     <span class="domain-flow-item">Scan Worker</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Character API</span>
+                    <span class="domain-flow-item">Character API (gRPC)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">RabbitMQ</span>
+                    <span class="domain-flow-item">RabbitMQ (Fanout)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Character Worker</span>
                     <span class="domain-flow-arrow">→</span>
@@ -4024,12 +4045,14 @@
             <h3 class="modal-title">💬 Chat Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작 (LLM Assistant 기준, 현재 Agent 전환 중)</span>
+                    <span class="lang-en">📹 API Action (LLM Assistant, Agent migration in progress)</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/chat-api.gif" alt="Chat API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/chat-api.gif" alt="Chat API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -4037,13 +4060,13 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">Chat API</span>
+                    <span class="domain-flow-item">Chat API (TaskIQ)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">RabbitMQ</span>
+                    <span class="domain-flow-item">RabbitMQ (Direct)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Chat Worker</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">LangGraph</span>
+                    <span class="domain-flow-item">LangGraph (Send API)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Redis Streams</span>
                     <span class="domain-flow-arrow">→</span>
@@ -4092,12 +4115,14 @@
             <h3 class="modal-title">📷 Scan Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/scan-api.gif" alt="Scan API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/scan-api.gif" alt="Scan API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -4105,15 +4130,15 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">POST /scan</span>
+                    <span class="domain-flow-item">POST /scan (image_url)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">TaskIQ</span>
+                    <span class="domain-flow-item">TaskIQ (RabbitMQ)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Scan Worker</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">GPT Vision</span>
+                    <span class="domain-flow-item">GPT-5.1/5.2 Vision</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">SSE Stream</span>
+                    <span class="domain-flow-item">SSE (Redis Streams)</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
@@ -4158,12 +4183,14 @@
             <h3 class="modal-title">📍 Location Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/location-api.gif" alt="Location API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/location-api.gif" alt="Location API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -4171,15 +4198,15 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">User GPS</span>
+                    <span class="domain-flow-item">User GPS (lat/lon)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Location API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostGIS Query</span>
+                    <span class="domain-flow-item">PostGIS (earth_distance)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">거리 계산</span>
+                    <span class="domain-flow-item">반경 필터</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">결과 반환</span>
+                    <span class="domain-flow-item">거리순 정렬</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
@@ -4224,12 +4251,14 @@
             <h3 class="modal-title">👤 Users Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/users-api.gif" alt="Users API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/users-api.gif" alt="Users API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -4239,13 +4268,13 @@
                 <div class="domain-flow">
                     <span class="domain-flow-item">Users API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostgreSQL</span>
+                    <span class="domain-flow-item">PostgreSQL (Profile)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Users Worker</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">RabbitMQ</span>
+                    <span class="domain-flow-item">RabbitMQ (Fanout)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Character Worker</span>
+                    <span class="domain-flow-item">Character Worker (gRPC)</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
@@ -4290,12 +4319,14 @@
             <h3 class="modal-title">🖼️ Images Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/images-api.gif" alt="Image API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/images-api.gif" alt="Image API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -4305,13 +4336,13 @@
                 <div class="domain-flow">
                     <span class="domain-flow-item">Client</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Image API</span>
+                    <span class="domain-flow-item">Images API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Presigned URL</span>
+                    <span class="domain-flow-item">Presigned URL (IRSA)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">S3 Direct</span>
+                    <span class="domain-flow-item">S3 Direct Upload</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">CloudFront</span>
+                    <span class="domain-flow-item">CloudFront CDN</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
@@ -4356,12 +4387,14 @@
             <h3 class="modal-title">ℹ️ Info Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 데모</span>
-                    <span class="lang-en">📹 API Demo</span>
+                    <span class="lang-ko">📹 API 동작</span>
+                    <span class="lang-en">📹 API Action</span>
                 </div>
-                <div class="domain-gif-container">
-                    <img src="assets/gifs/info-api.gif" alt="Info API Demo">
-                </div>
+                <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
+                    <div class="domain-gif-container">
+                        <img src="assets/gifs/info-api.gif" alt="Info API Demo">
+                    </div>
+                </a>
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
@@ -4373,9 +4406,9 @@
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Info API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Cache</span>
+                    <span class="domain-flow-item">Redis (TTL 5분)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Naver / NewsData API</span>
+                    <span class="domain-flow-item">Naver / NewsData.io</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
