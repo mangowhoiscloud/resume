@@ -2577,32 +2577,32 @@
                                 <span class="lang-en"><strong>Send API Parallel Routing</strong> Dynamic Router + Enrichment Rules auto-add weather for waste, results collected at Aggregator <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" onclick="openModal('modal-memory-streaming')" style="cursor: pointer;">
                             <span class="achievement-icon">💾</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>3-Tier Memory</strong> Token Stream/State(1h TTL) + Checkpoint Cache(24h) → PostgreSQL Fallback, Hot session ~1ms</span>
-                                <span class="lang-en"><strong>3-Tier Memory</strong> Token Stream/State (1h TTL) + Checkpoint Cache (24h) → PostgreSQL Fallback, Hot session ~1ms</span>
+                                <span class="lang-ko"><strong>3-Tier Memory</strong> Redis Hot(~1ms) + PostgreSQL Persistent + ChatState, CachedPostgresSaver 패턴 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>3-Tier Memory</strong> Redis Hot (~1ms) + PostgreSQL Persistent + ChatState, CachedPostgresSaver pattern <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" onclick="openModal('modal-memory-streaming')" style="cursor: pointer;">
                             <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Token v2 스트리밍</strong> 재연결 시 seq 기반 catch-up, 10토큰마다 State 스냅샷, XRANGE로 누락 토큰 복구</span>
-                                <span class="lang-en"><strong>Token v2 Streaming</strong> Seq-based catch-up on reconnect, State snapshot every 10 tokens, XRANGE for missing token recovery</span>
+                                <span class="lang-ko"><strong>Token v2 + Context 압축</strong> XRANGE 복구, 동적 Summarization (272K trigger, 5-Tier 구조) <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Token v2 + Context Compression</strong> XRANGE recovery, dynamic Summarization (272K trigger, 5-Tier structure) <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" onclick="openModal('modal-resilience')" style="cursor: pointer;">
                             <span class="achievement-icon">🛡️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Production Resilience</strong> NodePolicy(fail_open/close/fallback), Circuit Breaker(5회 실패→60s 차단), Intent별 Timeout</span>
-                                <span class="lang-en"><strong>Production Resilience</strong> NodePolicy (fail_open/close/fallback), Circuit Breaker (5 failures→60s block), Per-Intent Timeout</span>
+                                <span class="lang-ko"><strong>Production Resilience</strong> NodePolicy (FAIL_OPEN/CLOSE), Circuit Breaker, 4-dim RAG 품질 평가 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Production Resilience</strong> NodePolicy (FAIL_OPEN/CLOSE), Circuit Breaker, 4-dim RAG quality eval <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" onclick="openModal('modal-resilience')" style="cursor: pointer;">
                             <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Observability</strong> LangSmith 자동 수집(노드별 Latency/토큰) + Prometheus 메트릭 + astream_events 네이티브 스트리밍</span>
-                                <span class="lang-en"><strong>Observability</strong> LangSmith auto-collection (per-node Latency/tokens) + Prometheus metrics + astream_events native streaming</span>
+                                <span class="lang-ko"><strong>Feedback + Fallback Chain</strong> RAG → web_search → general_llm, Clarification 메시지 생성 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Feedback + Fallback Chain</strong> RAG → web_search → general_llm, Clarification message generation <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                     </div>
@@ -4174,32 +4174,40 @@
 
             <!-- LangGraph Pipeline ASCII -->
             <div style="margin-bottom: 2rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">LangGraph Send API Pipeline</h4>
-                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        LangGraph Pipeline (Send API)                    │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│   START → intent_node → [vision_node?] → router_node (Dynamic Router)  │
-│                                               │                         │
-│              ╔════════════════════════════════╧════════════════════════╗│
-│              ║           Send API (Multi-Intent Fanout)                ║│
-│              ║  ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┐     ║│
-│              ║  ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼     ║│
-│              ║ waste  char   loc   bulk  price collect  web   image   ║│
-│              ║ (RAG) (gRPC)(PostGIS)(MOIS)(KECO)(KECO) (DDG)(Responses)║│
-│              ║  │      │      │      │      │      │      │      │     ║│
-│              ╚══╧══════╧══════╧══════╧══════╧══════╧══════╧══════╧═════╝│
-│                                    │                                    │
-│                           aggregator_node (결과 수집)                   │
-│                                    │                                    │
-│                    [feedback_node] ← RAG 품질 평가 + Fallback Chain     │
-│                                    │                                    │
-│                           answer_node (토큰 스트리밍)                   │
-│                                    │                                    │
-│                                   END                                   │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘</div>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">LangGraph Send API Pipeline (17 Nodes)</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                     LangGraph Pipeline (Send API + Summarization)            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  START → intent_node(2s) → [vision_node?(3s)] → router_node(Dynamic Router) │
+│                                                        │                     │
+│           ╔════════════════════════════════════════════╧════════════════════╗│
+│           ║              Send API (Multi-Intent Fanout)                     ║│
+│           ║  ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┐      ║│
+│           ║  ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼      ║│
+│           ║ waste  char   loc   bulk  price collect  web  image weather    ║│
+│           ║ (RAG) (gRPC)(Kakao)(MOIS)(KECO)(KECO) (DDG)(API)(KMA)          ║│
+│           ║  │      │      │      │      │      │      │     │     │       ║│
+│           ╚══╧══════╧══════╧══════╧══════╧══════╧══════╧═════╧═════╧═══════╝│
+│                                       │                                      │
+│                              aggregator_node (결과 수집 + 검증)              │
+│                                       │                                      │
+│                       [feedback_node] ← RAG 품질 평가 (4-dim scoring)        │
+│                              │        └→ Fallback: web_search → general_llm │
+│                              ▼                                               │
+│              ┌────────────────────────────────────────┐                      │
+│              │  [summarize_node?] 동적 컨텍스트 압축  │                      │
+│              │  ├─ Trigger: context > 272K tokens    │                      │
+│              │  ├─ 5-Tier Summary Structure          │                      │
+│              │  └─ PRUNE_PROTECT: 40K recent tokens  │                      │
+│              └────────────────────────────────────────┘                      │
+│                                       │                                      │
+│                         answer_node(5s) (토큰 스트리밍)                      │
+│                                       │                                      │
+│                                      END                                     │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
             <!-- Technical Details -->
@@ -4241,6 +4249,189 @@
                         <div>→ Send(<span style="color: #8b5cf6;">waste_rag</span>)</div>
                         <div>→ Send(<span style="color: #0ea5e9;">collection_point</span>)</div>
                         <div>→ Send(<span style="color: #22c55e;">weather</span>) <span style="color: var(--text-muted)">(enrichment)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Memory & Streaming -->
+    <div class="modal-overlay" id="modal-memory-streaming">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-memory-streaming')">×</button>
+            <h3 class="modal-title">💾 3-Tier Memory + Token v2 Streaming</h3>
+
+            <!-- Memory Architecture -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">3-Tier Memory Architecture</h4>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                         3-Tier Memory System                             │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────────────────────────────────────────────────────────┐    │
+│   │  L1: Redis Hot Cache (~1ms latency)                             │    │
+│   │  ├─ Intent Cache: intent:{hash} (TTL 3600s)                     │    │
+│   │  ├─ Checkpoint Cache: chat:checkpoint:cache:{thread_id} (24h)   │    │
+│   │  └─ Token Stream: Redis Streams (TTL 1h, seq-based)             │    │
+│   └─────────────────────────────────────────────────────────────────┘    │
+│                              ↓ Cache Miss                                │
+│   ┌─────────────────────────────────────────────────────────────────┐    │
+│   │  L2: PostgreSQL Persistent (10-50ms latency)                    │    │
+│   │  ├─ AsyncPostgresSaver (LangGraph Native Checkpointer)          │    │
+│   │  ├─ Conversation History (permanent retention)                  │    │
+│   │  └─ Message State with add_messages Reducer                     │    │
+│   └─────────────────────────────────────────────────────────────────┘    │
+│                              ↓ On Read                                   │
+│   ┌─────────────────────────────────────────────────────────────────┐    │
+│   │  L3: LangGraph ChatState (Application Memory)                   │    │
+│   │  ├─ messages: Annotated[list, add_messages] (accumulator)       │    │
+│   │  ├─ summary: str (compressed context)                           │    │
+│   │  ├─ intent_history: list[str] (Chain-of-Intent tracking)        │    │
+│   │  └─ context: dict[str, Any] (subagent results)                  │    │
+│   └─────────────────────────────────────────────────────────────────┘    │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Token Streaming v2 -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Token v2 Recoverable Streaming</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #22c55e; margin-bottom: 0.75rem;">📤 Write Path</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>1. LLM → astream chunks</div>
+                            <div>2. Redis Streams XADD (seq)</div>
+                            <div>3. State snapshot (10토큰마다)</div>
+                            <div>4. SSE Gateway broadcast</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">📥 Reconnect Path</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>1. Client reconnect (last_seq)</div>
+                            <div>2. XRANGE catch-up query</div>
+                            <div>3. Missing tokens replay</div>
+                            <div>4. Resume streaming</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Context Compression -->
+            <div>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Dynamic Context Compression (OpenCode-style)</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">⚙️ Trigger Conditions</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
+                            threshold = context_window - max_output<br><br>
+                            GPT-5.2: 400K - 128K = 272K<br>
+                            Gemini-3: 1M - 64K = 936K<br><br>
+                            Summary size: 15% (min 20K, max 65K)
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📋 5-Tier Summary Structure</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>1. User request (original)</div>
+                            <div>2. Goal & expected result</div>
+                            <div>3. Completed tasks</div>
+                            <div>4. In-progress/remaining</div>
+                            <div>5. Critical context (failures, constraints)</div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">PRUNE_PROTECT: 40K tokens (recent)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Resilience & Feedback -->
+    <div class="modal-overlay" id="modal-resilience">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-resilience')">×</button>
+            <h3 class="modal-title">🛡️ Production Resilience + Feedback Loop</h3>
+
+            <!-- Node Executor Pattern -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">NodeExecutor Policy System</h4>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     NodeExecutor Policy Application                      │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   execute(node_name, node_func, state)                                   │
+│     │                                                                    │
+│     ├→ 1. Get NodePolicy (timeout, retry, fail_mode)                     │
+│     ├→ 2. Check CircuitBreaker state                                     │
+│     │      └→ OPEN? → fail immediately                                   │
+│     ├→ 3. asyncio.wait_for(timeout) wrapper                              │
+│     ├→ 4. Retry loop (max_retries attempts)                              │
+│     ├→ 5. Record success/failure metrics                                 │
+│     └→ 6. Handle failure per FailMode:                                   │
+│            ├→ FAIL_OPEN: Continue with error (optional nodes)            │
+│            ├→ FAIL_CLOSE: Stop pipeline (critical nodes)                 │
+│            └→ FAIL_FALLBACK: Execute fallback function                   │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Node Policies Table -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Node Policy Configuration</h4>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: rgba(91,163,163,0.2);">
+                                <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--border-subtle);">Node</th>
+                                <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">Timeout</th>
+                                <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">Retry</th>
+                                <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">FailMode</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color: var(--text-secondary);">
+                            <tr><td style="padding: 0.4rem;">intent</td><td style="text-align: center;">2000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #ef4444;">CLOSE</td></tr>
+                            <tr><td style="padding: 0.4rem;">waste_rag</td><td style="text-align: center;">1000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #ef4444;">CLOSE</td></tr>
+                            <tr><td style="padding: 0.4rem;">answer</td><td style="text-align: center;">5000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #ef4444;">CLOSE</td></tr>
+                            <tr><td style="padding: 0.4rem;">character (gRPC)</td><td style="text-align: center;">3000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
+                            <tr><td style="padding: 0.4rem;">location (Kakao)</td><td style="text-align: center;">2000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
+                            <tr><td style="padding: 0.4rem;">web_search</td><td style="text-align: center;">3000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
+                            <tr><td style="padding: 0.4rem;">weather</td><td style="text-align: center;">1500ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Feedback & Fallback -->
+            <div>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">RAG Quality Evaluation + Fallback Chain</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 4-Dimension Scoring</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div style="display: flex; justify-content: space-between;"><span>Result existence</span><span>0.3</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Category matching</span><span>0.2</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Info richness</span><span>0.2</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Keyword matching</span><span>0.3</span></div>
+                            <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--border-subtle);">
+                                <span style="color: #22c55e;">EXCELLENT ≥0.9</span> |
+                                <span style="color: #f59e0b;">GOOD 0.7-0.9</span> |
+                                <span style="color: #ef4444;">POOR &lt;0.4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🔄 Fallback Chain</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div><span style="color: #8b5cf6;">rag</span> → web_search → general_llm</div>
+                            <div><span style="color: #a855f7;">web_search</span> → general_llm</div>
+                            <div><span style="color: #f59e0b;">character</span> → retry → skip</div>
+                            <div><span style="color: #ef4444;">location</span> → retry → skip</div>
+                            <div><span style="color: #6b7280;">intent</span> → clarify → general</div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Circuit Breaker: 5회 실패 → 60s 차단</div>
+                        </div>
                     </div>
                 </div>
             </div>
