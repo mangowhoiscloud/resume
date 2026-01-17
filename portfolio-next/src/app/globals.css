@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  /* Base colors */
+  --background: #0a0a0f;
+  --foreground: #ededed;
+
+  /* Primary accent */
+  --primary: #00ff88;
+  --primary-dim: rgba(0, 255, 136, 0.1);
+
+  /* Secondary colors */
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-orange: #f59e0b;
+  --accent-pink: #ec4899;
+
+  /* Text hierarchy */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+
+  /* Surfaces */
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-elevated: rgba(255, 255, 255, 0.05);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+
+  /* Category colors */
+  --k8s-primary: #326ce5;
+  --auth-primary: #10b981;
+  --async-primary: #8b5cf6;
+  --sse-primary: #f59e0b;
+  --clean-primary: #06b6d4;
+  --obs-primary: #ec4899;
+  --ai-primary: #00ff88;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* React Flow custom styles */
+.react-flow__node {
+  font-family: var(--font-sans);
+}
+
+.react-flow__edge-path {
+  stroke: var(--primary);
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated path {
+  stroke-dasharray: 5;
+  animation: dash 0.5s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Selection */
+::selection {
+  background: var(--primary-dim);
+  color: var(--primary);
+}

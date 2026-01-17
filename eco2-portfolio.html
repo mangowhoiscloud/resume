@@ -1838,16 +1838,16 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: var(--domain-color, var(--primary));
+            height: 4px;
+            background: var(--ec-primary);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .domain-card:hover {
             transform: translateY(-4px);
-            border-color: var(--domain-color, var(--primary));
-            box-shadow: 0 8px 32px rgba(var(--domain-color-rgb, 99, 102, 241), 0.2);
+            border-color: var(--ec-primary);
+            box-shadow: 0 8px 32px rgba(91, 163, 163, 0.3);
         }
 
         .domain-card:hover::before {
@@ -2448,10 +2448,10 @@
                 </div>
             </div>
 
-            <!-- 7. Image -->
+            <!-- 7. Images -->
             <div class="domain-card clickable" data-modal="modal-domain-image" style="--domain-color: #ec4899;">
                 <div class="domain-icon">🖼️</div>
-                <div class="domain-title">Image</div>
+                <div class="domain-title">Images</div>
                 <div class="domain-type">
                     <span class="domain-type-badge">API</span>
                 </div>
@@ -2528,8 +2528,8 @@
                     </div>
                     <div class="category-badges">
                         <span class="status-badge deployed">
-                            <span class="lang-ko">배포 완료</span>
-                            <span class="lang-en">Deployed</span>
+                            <span class="lang-ko">배포 완료, E2E 검증중</span>
+                            <span class="lang-en">Deployed, E2E Testing</span>
                         </span>
                         <span class="tech-badge">LangGraph</span>
                         <span class="tech-badge">Send API</span>
@@ -4291,7 +4291,7 @@
     <div class="modal-overlay" id="modal-domain-image">
         <div class="modal-content domain-modal-content">
             <button class="modal-close" onclick="closeModal('modal-domain-image')">×</button>
-            <h3 class="modal-title">🖼️ Image Domain</h3>
+            <h3 class="modal-title">🖼️ Images Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작 데모</span>
@@ -8098,7 +8098,7 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
         }
 
         // Click handler for achievements, pipeline stages, and subsections
-        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable, .pipeline-subsection.clickable').forEach(el => {
+        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable, .pipeline-subsection.clickable, .domain-card.clickable').forEach(el => {
             el.addEventListener('click', (e) => {
                 // Prevent opening modal when clicking on links inside
                 if (e.target.tagName === 'A') return;
