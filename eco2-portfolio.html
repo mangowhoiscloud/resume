@@ -1780,13 +1780,234 @@
             .node-tooltip {
                 display: none;
             }
-            
+
             .methodology-steps {
                 flex-direction: column;
             }
-            
+
             .step-arrow {
                 transform: rotate(90deg);
+            }
+
+            .domain-showcase {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .domain-card {
+                padding: 1rem;
+            }
+
+            .domain-icon {
+                font-size: 1.5rem;
+            }
+
+            .domain-title {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Domain Showcase Styles */
+        .domain-showcase {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .domain-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--domain-color, var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--domain-color, var(--primary));
+            box-shadow: 0 8px 32px rgba(var(--domain-color-rgb, 99, 102, 241), 0.2);
+        }
+
+        .domain-card:hover::before {
+            opacity: 1;
+        }
+
+        .domain-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .domain-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .domain-type {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .domain-type-badge {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            background: var(--domain-color, var(--primary));
+            color: white;
+            font-weight: 500;
+        }
+
+        .domain-type-badge.worker {
+            background: var(--warning);
+        }
+
+        .domain-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* Domain Modal Styles */
+        .domain-modal-content {
+            max-width: 900px;
+        }
+
+        .domain-demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .domain-demo-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .domain-gif-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .domain-gif-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .domain-gif-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .domain-architecture {
+            margin-top: 1.5rem;
+        }
+
+        .domain-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .domain-flow-item {
+            padding: 0.5rem 1rem;
+            background: var(--domain-color, var(--primary));
+            color: white;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .domain-flow-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .domain-details {
+            margin-top: 1.5rem;
+        }
+
+        .domain-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .domain-detail-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .domain-detail-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .domain-detail-value {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .domain-detail-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1865,8 +2086,8 @@
                 <span class="lang-en">Agent-Driven Development</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">Google DeepMind의 World Model 아키텍처를 개발 프로세스에 투영했습니다. 24-노드 분산 클러스터는 Agent가 탐색하고 상호작용하는 '세계(World)'로 기능하며, LLM Agent는 코드베이스 구조와 실시간 Observability 메트릭을 컨텍스트로 주입받아 환경의 현재 상태를 파악하고 다음 행동을 결정합니다. 배포 → 관측 → 피드백의 연속적인 사이클 속에서 Agent의 환경 인식은 점차 정교해지고, 개발자와 클러스터는 함께 진화합니다.</span>
-                <span class="lang-en">This development process is a projection of Google DeepMind's World Model architecture. The 24-node distributed cluster functions as the 'World' that the Agent explores and interacts with, while the LLM Agent receives codebase structure and real-time Observability metrics as context to comprehend the current state and determine subsequent actions. Through the continuous Deploy → Observe → Feedback cycle, progressively refining the Agent's environmental awareness as both developer and cluster evolve in tandem.</span>
+                <span class="lang-ko">Google DeepMind의 World Model 아키텍처를 개발 프로세스에 투영했습니다. 25-노드 분산 클러스터는 Agent가 탐색하고 상호작용하는 '세계(World)'로 기능하며, LLM Agent는 코드베이스 구조와 실시간 Observability 메트릭을 컨텍스트로 주입받아 환경의 현재 상태를 파악하고 다음 행동을 결정합니다. 배포 → 관측 → 피드백의 연속적인 사이클 속에서 Agent의 환경 인식은 점차 정교해지고, 개발자와 클러스터는 함께 진화합니다.</span>
+                <span class="lang-en">This development process is a projection of Google DeepMind's World Model architecture. The 25-node distributed cluster functions as the 'World' that the Agent explores and interacts with, while the LLM Agent receives codebase structure and real-time Observability metrics as context to comprehend the current state and determine subsequent actions. Through the continuous Deploy → Observe → Feedback cycle, progressively refining the Agent's environmental awareness as both developer and cluster evolve in tandem.</span>
             </p>
         </div>
 
@@ -2137,13 +2358,201 @@
                 <span class="lang-en">Project Categories</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">7개 핵심 도메인에서의 설계, 구현, 트러블슈팅 경험을 기록했습니다.</span>
-                <span class="lang-en">Documented design, implementation, and troubleshooting experiences across 7 core domains.</span>
+                <span class="lang-ko">8개 핵심 도메인에서의 설계, 구현, 트러블슈팅 경험을 기록했습니다.</span>
+                <span class="lang-en">Documented design, implementation, and troubleshooting experiences across 8 core domains.</span>
             </p>
         </div>
 
+        <!-- Domain Showcase -->
+        <div class="domain-showcase">
+            <!-- 1. Auth -->
+            <div class="domain-card clickable" data-modal="modal-domain-auth" style="--domain-color: #6366f1;">
+                <div class="domain-icon">🔐</div>
+                <div class="domain-title">Auth</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">OAuth 2.0 + JWT 인증</span>
+                    <span class="lang-en">OAuth 2.0 + JWT Auth</span>
+                </div>
+            </div>
+
+            <!-- 2. Character -->
+            <div class="domain-card clickable" data-modal="modal-domain-character" style="--domain-color: #f59e0b;">
+                <div class="domain-icon">🐰</div>
+                <div class="domain-title">Character</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">캐릭터 + gRPC 서비스</span>
+                    <span class="lang-en">Character + gRPC Service</span>
+                </div>
+            </div>
+
+            <!-- 3. Chat -->
+            <div class="domain-card clickable" data-modal="modal-domain-chat" style="--domain-color: #10b981;">
+                <div class="domain-icon">💬</div>
+                <div class="domain-title">Chat</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">LangGraph 에이전트</span>
+                    <span class="lang-en">LangGraph Agent</span>
+                </div>
+            </div>
+
+            <!-- 4. Scan -->
+            <div class="domain-card clickable" data-modal="modal-domain-scan" style="--domain-color: #8b5cf6;">
+                <div class="domain-icon">📷</div>
+                <div class="domain-title">Scan</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Vision AI 폐기물 분류</span>
+                    <span class="lang-en">Vision AI Waste Classifier</span>
+                </div>
+            </div>
+
+            <!-- 5. Location -->
+            <div class="domain-card clickable" data-modal="modal-domain-location" style="--domain-color: #ef4444;">
+                <div class="domain-icon">📍</div>
+                <div class="domain-title">Location</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Kakao Map 위치 검색</span>
+                    <span class="lang-en">Kakao Map Location</span>
+                </div>
+            </div>
+
+            <!-- 6. Users -->
+            <div class="domain-card clickable" data-modal="modal-domain-users" style="--domain-color: #0ea5e9;">
+                <div class="domain-icon">👤</div>
+                <div class="domain-title">Users</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">프로필 + 리워드</span>
+                    <span class="lang-en">Profile + Rewards</span>
+                </div>
+            </div>
+
+            <!-- 7. Image -->
+            <div class="domain-card clickable" data-modal="modal-domain-image" style="--domain-color: #ec4899;">
+                <div class="domain-icon">🖼️</div>
+                <div class="domain-title">Image</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">S3 + CloudFront CDN</span>
+                    <span class="lang-en">S3 + CloudFront CDN</span>
+                </div>
+            </div>
+
+            <!-- 8. Event -->
+            <div class="domain-card clickable" data-modal="modal-domain-event" style="--domain-color: #14b8a6;">
+                <div class="domain-icon">📡</div>
+                <div class="domain-title">Event</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">SSE + Redis Streams</span>
+                    <span class="lang-en">SSE + Redis Streams</span>
+                </div>
+            </div>
+        </div>
+
         <div class="categories">
-            <!-- 1. Kubernetes + GitOps -->
+            <!-- 1. Multi-Agent Chat -->
+            <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
+                <div class="category-header">
+                    <div class="category-info">
+                        <div class="category-icon">🤖</div>
+                        <h3 class="category-title">Multi-Agent Chat</h3>
+                        <div class="category-posts">8 posts</div>
+                    </div>
+                    <div class="category-badges">
+                        <span class="status-badge deployed">
+                            <span class="lang-ko">배포 완료</span>
+                            <span class="lang-en">Deployed</span>
+                        </span>
+                        <span class="tech-badge">LangGraph</span>
+                        <span class="tech-badge">Send API</span>
+                        <span class="tech-badge">Token v2</span>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <p class="category-desc">
+                        <span class="lang-ko"><strong>LangGraph Send API</strong> 기반 동적 병렬 라우팅을 구현했습니다. <strong>9분류 Intent(waste/character/location/bulk_waste/recyclable_price/collection_point/web_search/image_generation/general)</strong>와 <strong>Multi-Intent Fanout</strong>으로 "종이 버리고 수거함도 알려줘" 같은 복합 질문을 병렬 처리합니다. <strong>3-Tier Memory(Redis + PostgreSQL)</strong>와 <strong>Token v2 복구 가능 스트리밍</strong>으로 재연결 시 토큰 catch-up을 지원합니다.</span>
+                        <span class="lang-en">Implemented dynamic parallel routing based on <strong>LangGraph Send API</strong>. <strong>9-class Intent (waste/character/location/bulk_waste/recyclable_price/collection_point/web_search/image_generation/general)</strong> with <strong>Multi-Intent Fanout</strong> handles compound queries like "How to dispose paper and show collection points" in parallel. <strong>3-Tier Memory (Redis + PostgreSQL)</strong> and <strong>Token v2 recoverable streaming</strong> enable token catch-up on reconnection.</span>
+                    </p>
+                    <div class="achievements">
+                        <div class="achievement">
+                            <span class="achievement-icon">🎯</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>9분류 Intent + Multi-Intent</strong> 키워드 맵 신뢰도 보정, Chain-of-Intent로 연속 질문 문맥 유지</span>
+                                <span class="lang-en"><strong>9-class Intent + Multi-Intent</strong> Keyword map confidence calibration, Chain-of-Intent for continuous query context</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">⚡</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Send API 병렬 라우팅</strong> Dynamic Router + Enrichment Rules로 waste → weather 자동 추가, Aggregator에서 결과 수집</span>
+                                <span class="lang-en"><strong>Send API Parallel Routing</strong> Dynamic Router + Enrichment Rules auto-add weather for waste, results collected at Aggregator</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">💾</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>3-Tier Memory</strong> Token Stream/State(1h TTL) + Checkpoint Cache(24h) → PostgreSQL Fallback, Hot session ~1ms</span>
+                                <span class="lang-en"><strong>3-Tier Memory</strong> Token Stream/State (1h TTL) + Checkpoint Cache (24h) → PostgreSQL Fallback, Hot session ~1ms</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🔄</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Token v2 스트리밍</strong> 재연결 시 seq 기반 catch-up, 10토큰마다 State 스냅샷, XRANGE로 누락 토큰 복구</span>
+                                <span class="lang-en"><strong>Token v2 Streaming</strong> Seq-based catch-up on reconnect, State snapshot every 10 tokens, XRANGE for missing token recovery</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">🛡️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Production Resilience</strong> NodePolicy(fail_open/close/fallback), Circuit Breaker(5회 실패→60s 차단), Intent별 Timeout</span>
+                                <span class="lang-en"><strong>Production Resilience</strong> NodePolicy (fail_open/close/fallback), Circuit Breaker (5 failures→60s block), Per-Intent Timeout</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-icon">📊</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Observability</strong> LangSmith 자동 수집(노드별 Latency/토큰) + Prometheus 메트릭 + astream_events 네이티브 스트리밍</span>
+                                <span class="lang-en"><strong>Observability</strong> LangSmith auto-collection (per-node Latency/tokens) + Prometheus metrics + astream_events native streaming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Agent" target="_blank" class="blog-link">
+                        <span class="lang-ko">블로그에서 자세히 보기</span>
+                        <span class="lang-en">Read more on blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Kubernetes + GitOps -->
             <div class="category-card" style="--category-color: var(--k8s-primary); --category-glow: var(--k8s-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2161,22 +2570,22 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko"><strong>7개 도메인 API(Auth, Character, Chat, Scan, Location, Users, Image)</strong>를 개발하고, 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Istio VirtualService + 헤더 기반 Canary</strong>로 단일 클러스터 내 dev/prod 환경을 병행하여 별도 클러스터 운영 비용 없이 프로덕션 동일 조건에서 검증합니다. ArgoCD App-of-Apps + Sync Wave로 Git을 SSOT로 삼아 클러스터 상태를 선언적으로 관리하고, 코드베이스만으로 전체 인프라 재현이 가능합니다.</span>
-                        <span class="lang-en">Developed <strong>7 domain APIs (Auth, Character, Chat, Scan, Location, Users, Image)</strong> and designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
+                        <span class="lang-ko"><strong>8개 도메인 API(Auth, Character, Chat, Scan, Location, Users, Image, Event)</strong>를 개발하고, 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Istio VirtualService + 헤더 기반 Canary</strong>로 단일 클러스터 내 dev/prod 환경을 병행하여 별도 클러스터 운영 비용 없이 프로덕션 동일 조건에서 검증합니다. ArgoCD App-of-Apps + Sync Wave로 Git을 SSOT로 삼아 클러스터 상태를 선언적으로 관리하고, 코드베이스만으로 전체 인프라 재현이 가능합니다.</span>
+                        <span class="lang-en">Developed <strong>8 domain APIs (Auth, Character, Chat, Scan, Location, Users, Image, Event)</strong> and designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement clickable" data-modal="modal-platform">
                             <span class="achievement-icon">🏗️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>24-nodes 클러스터</strong> 도메인별 장애 격리 + 스케일 실험 목적</span>
-                                <span class="lang-en"><strong>24-node cluster</strong> domain fault isolation + scaling experiments</span>
+                                <span class="lang-ko"><strong>25-nodes 클러스터</strong> 도메인별 장애 격리 + 스케일 실험 목적</span>
+                                <span class="lang-en"><strong>25-node cluster</strong> domain fault isolation + scaling experiments</span>
                             </div>
                         </div>
                         <div class="achievement clickable" data-modal="modal-node-specs">
                             <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>노드 스펙</strong> 24-node EC2 인스턴스 상세 사양</span>
-                                <span class="lang-en"><strong>Node Specs</strong> 24-node EC2 instance specifications</span>
+                                <span class="lang-ko"><strong>노드 스펙</strong> 25-node EC2 인스턴스 상세 사양</span>
+                                <span class="lang-en"><strong>Node Specs</strong> 25-node EC2 instance specifications</span>
                             </div>
                         </div>
                         <div class="achievement clickable" data-modal="modal-5layer">
@@ -2249,7 +2658,7 @@
                 </div>
             </div>
 
-            <!-- 2. Auth Offloading -->
+            <!-- 3. Auth Offloading -->
             <div class="category-card" style="--category-color: var(--auth-primary); --category-glow: var(--auth-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2326,7 +2735,7 @@
                 </div>
             </div>
 
-            <!-- 3. Observability -->
+            <!-- 4. Observability -->
             <div class="category-card" style="--category-color: var(--obs-primary); --category-glow: var(--obs-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2345,15 +2754,15 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">Agent-Driven Development의 <strong>Recursive Self-Improvement</strong>를 위해 <strong>로그-트레이스-메트릭 통합</strong>이 필수였습니다. Helm Chart 대신 ECK Operator를 선택해 ES 클러스터 관리 복잡도를 낮추고, ECS 스키마로 7개 도메인의 로그 포맷을 표준화했습니다.</span>
-                        <span class="lang-en"><strong>Log-trace-metric integration</strong> was essential for Agent-Driven Development's <strong>Recursive Self-Improvement</strong>. Chose ECK Operator over Helm Charts to reduce ES cluster management complexity, standardized log format across 7 domains with ECS schema.</span>
+                        <span class="lang-ko">Agent-Driven Development의 <strong>Recursive Self-Improvement</strong>를 위해 <strong>로그-트레이스-메트릭 통합</strong>이 필수였습니다. Helm Chart 대신 ECK Operator를 선택해 ES 클러스터 관리 복잡도를 낮추고, ECS 스키마로 8개 도메인의 로그 포맷을 표준화했습니다.</span>
+                        <span class="lang-en"><strong>Log-trace-metric integration</strong> was essential for Agent-Driven Development's <strong>Recursive Self-Improvement</strong>. Chose ECK Operator over Helm Charts to reduce ES cluster management complexity, standardized log format across 8 domains with ECS schema.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement clickable" data-modal="modal-obs-efk">
                             <span class="achievement-icon">📝</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>24-nodes 로그 중앙화</strong> Fluent Bit DaemonSet → ES</span>
-                                <span class="lang-en"><strong>24-node log centralization</strong> Fluent Bit DaemonSet → ES</span>
+                                <span class="lang-ko"><strong>25-nodes 로그 중앙화</strong> Fluent Bit DaemonSet → ES</span>
+                                <span class="lang-en"><strong>25-node log centralization</strong> Fluent Bit DaemonSet → ES</span>
                             </div>
                         </div>
                         <div class="achievement clickable" data-modal="modal-obs-trace">
@@ -2401,7 +2810,7 @@
                 </div>
             </div>
 
-            <!-- 4. Message Queue -->
+            <!-- 5. Message Queue -->
             <div class="category-card" style="--category-color: var(--mq-primary); --category-glow: var(--mq-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2475,7 +2884,7 @@
                 </div>
             </div>
 
-            <!-- 5. Event Streams & Scaling -->
+            <!-- 6. Event Streams & Scaling -->
             <div class="category-card" style="--category-color: var(--stream-primary); --category-glow: var(--stream-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2549,7 +2958,7 @@
                 </div>
             </div>
 
-            <!-- 6. Eventual Consistency -->
+            <!-- 7. Eventual Consistency -->
             <div class="category-card" style="--category-color: var(--ec-primary); --category-glow: var(--ec-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2622,7 +3031,7 @@
                 </div>
             </div>
 
-            <!-- 7. Clean Architecture Migration -->
+            <!-- 8. Clean Architecture Migration -->
             <div class="category-card" style="--category-color: var(--clean-primary); --category-glow: var(--clean-glow);">
                 <div class="category-header">
                     <div class="category-info">
@@ -2713,74 +3122,6 @@
                 </div>
             </div>
 
-            <!-- 8. Recycling Agent -->
-            <div class="category-card" style="--category-color: var(--agent-primary); --category-glow: var(--agent-glow);">
-                <div class="category-header">
-                    <div class="category-info">
-                        <div class="category-icon">🤖</div>
-                        <h3 class="category-title">Recycling Agent</h3>
-                        <div class="category-posts">7 posts</div>
-                    </div>
-                    <div class="category-badges">
-                        <span class="status-badge in-progress">
-                            <span class="lang-ko">진행 중</span>
-                            <span class="lang-en">In Progress</span>
-                        </span>
-                        <span class="tech-badge">Taskiq</span>
-                        <span class="tech-badge">LangGraph</span>
-                        <span class="tech-badge">Human-in-the-Loop</span>
-                    </div>
-                </div>
-                <div class="category-content">
-                    <p class="category-desc">
-                        <span class="lang-ko">기존 Chat은 시스템 프롬프트 기반 <strong>페르소나 + 이미지 입력 분기</strong>만 존재했습니다. 여기에 <strong>Intent Routing(4분류: waste/character/location/general)</strong>과 <strong>Subagent 패턴(gRPC Direct Call)</strong>을 도입해 Chat을 에이전트로 디벨롭 중입니다. Taskiq asyncio-native로 5-30초 LLM 파이프라인을 비동기화하고, <strong>Human-in-the-Loop</strong> SSE로 위치 정보 등 추가 입력을 대화 흐름 내에서 자연스럽게 요청합니다.</span>
-                        <span class="lang-en">Original Chat only had system prompt-based <strong>persona + image input branching</strong>. Now evolving Chat into an agent by adding <strong>Intent Routing (4-class: waste/character/location/general)</strong> and <strong>Subagent pattern (gRPC Direct Call)</strong>. Async-ified 5-30s LLM pipeline via Taskiq asyncio-native, <strong>Human-in-the-Loop</strong> SSE requests additional inputs (e.g., location) naturally within conversation flow.</span>
-                    </p>
-                    <div class="achievements">
-                        <div class="achievement">
-                            <span class="achievement-icon">🔄</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Taskiq 선택</strong> 기존 동기 응답 → asyncio Job Queue 비동기화, LangGraph 호환, RabbitMQ 재사용</span>
-                                <span class="lang-en"><strong>Taskiq Selection</strong> Sync response → asyncio Job Queue async, LangGraph compatible, RabbitMQ reuse</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🎯</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Intent Router</strong> LLM 기반 4분류 (waste/character/location/general), temperature 0.1 안정성, QueryComplexity로 Subagent 분기 결정</span>
-                                <span class="lang-en"><strong>Intent Router</strong> LLM-based 4-class (waste/character/location/general), temperature 0.1 stability, QueryComplexity for Subagent branching</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🔗</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Subagent gRPC</strong> Port/Adapter + DI 패턴, Character API(LocalCache ~1-3ms) / Location API(PostGIS) 연동, asyncio non-blocking await</span>
-                                <span class="lang-en"><strong>Subagent gRPC</strong> Port/Adapter + DI pattern, Character API (LocalCache ~1-3ms) / Location API (PostGIS), asyncio non-blocking await</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">🔁</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>Human-in-the-Loop</strong> SSE needs_input 이벤트로 위치/확인/선택 요청, 대화 흐름 내 자연스러운 권한 요청</span>
-                                <span class="lang-en"><strong>Human-in-the-Loop</strong> SSE needs_input event for location/confirmation/selection, natural permission request in conversation</span>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <span class="achievement-icon">💾</span>
-                            <div class="achievement-text">
-                                <span class="lang-ko"><strong>상태 복원</strong> RedisSaver 체크포인팅, Cache-Aside 패턴, Hot session Redis 응답</span>
-                                <span class="lang-en"><strong>State Recovery</strong> RedisSaver checkpointing, Cache-Aside pattern, Hot session from Redis</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-footer">
-                    <a href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Agent" target="_blank" class="blog-link">
-                        <span class="lang-ko">블로그에서 자세히 보기</span>
-                        <span class="lang-en">Read more on blog</span>
-                    </a>
-                </div>
-            </div>
         </div>
 
     </section>
@@ -3357,12 +3698,12 @@
             <div class="timeline-item">
                 <div class="timeline-date">2025.11.20 - 11.30</div>
                 <div class="timeline-title">
-                    <span class="lang-ko">🖥️ 7개 도메인 서버 개발</span>
-                    <span class="lang-en">🖥️ 7 Domain Server Development</span>
+                    <span class="lang-ko">🖥️ 8개 도메인 서버 개발</span>
+                    <span class="lang-en">🖥️ 8 Domain Server Development</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">Auth, Character, Chat, Scan, Location, Users, Image 7개 마이크로서비스 개발</span>
-                    <span class="lang-en">Developed 7 microservices: Auth, Character, Chat, Scan, Location, Users, Image</span>
+                    <span class="lang-ko">Auth, Character, Chat, Scan, Location, Users, Image, Event 8개 마이크로서비스 개발</span>
+                    <span class="lang-en">Developed 8 microservices: Auth, Character, Chat, Scan, Location, Users, Image, Event</span>
                 </div>
             </div>
             <div class="timeline-item">
@@ -3427,8 +3768,8 @@
                     <span class="lang-en">🏛️ Clean Architecture Migration</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">7개 도메인 점진적 마이그레이션, DIP/Port & Adapter/CQRS 적용</span>
-                    <span class="lang-en">Incremental migration of 7 domains, DIP/Port & Adapter/CQRS application</span>
+                    <span class="lang-ko">8개 도메인 점진적 마이그레이션, DIP/Port & Adapter/CQRS 적용</span>
+                    <span class="lang-en">Incremental migration of 8 domains, DIP/Port & Adapter/CQRS application</span>
                 </div>
             </div>
             <div class="timeline-item" style="--category-color: var(--ec-primary);">
@@ -3501,14 +3842,583 @@
     </footer>
 
     <!-- Modals -->
+
+    <!-- Modal: Domain - Auth -->
+    <div class="modal-overlay" id="modal-domain-auth">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-auth')">×</button>
+            <h3 class="modal-title">🔐 Auth Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">OAuth 로그인 → JWT 발급 → 토큰 갱신 GIF</span>
+                        <span class="lang-en">OAuth Login → JWT Issue → Token Refresh GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Client</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Auth API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">OAuth Provider</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">JWT Issue</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Auth Worker</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">PostgreSQL</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">인증 방식</span>
+                                <span class="lang-en">Auth Method</span>
+                            </div>
+                            <div class="domain-detail-value">OAuth 2.0 (Google, Kakao, Apple) + JWT (Access 15m / Refresh 7d)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">토큰 관리</span>
+                                <span class="lang-en">Token Management</span>
+                            </div>
+                            <div class="domain-detail-value">Redis Blacklist + Sliding Window Rate Limit (10 req/min)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">보안</span>
+                                <span class="lang-en">Security</span>
+                            </div>
+                            <div class="domain-detail-value">ext-authz (Go) → Istio Sidecar 연동, PKCE Flow</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">비동기 처리</span>
+                                <span class="lang-en">Async Processing</span>
+                            </div>
+                            <div class="domain-detail-value">Auth Worker: 회원가입 이벤트 → Users 도메인 프로필 생성</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Character -->
+    <div class="modal-overlay" id="modal-domain-character">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-character')">×</button>
+            <h3 class="modal-title">🐰 Character Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">캐릭터 조회 → gRPC 호출 → 응답 GIF</span>
+                        <span class="lang-en">Character Query → gRPC Call → Response GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Chat Worker</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">gRPC Client</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Character API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Local Cache</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">PostgreSQL</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">gRPC 서비스</span>
+                                <span class="lang-en">gRPC Service</span>
+                            </div>
+                            <div class="domain-detail-value">CharacterService.GetCharacter (Unary), Local Cache ~1-3ms 응답</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">캐싱 전략</span>
+                                <span class="lang-en">Caching Strategy</span>
+                            </div>
+                            <div class="domain-detail-value">In-Memory Cache + TTL 5min, 캐릭터 메타데이터 정적 데이터</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">캐릭터 시스템</span>
+                                <span class="lang-en">Character System</span>
+                            </div>
+                            <div class="domain-detail-value">5종 캐릭터 (비니, 캔디, 글라스, 페퍼, 트리) + 성장 시스템</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Worker 역할</span>
+                                <span class="lang-en">Worker Role</span>
+                            </div>
+                            <div class="domain-detail-value">리워드 지급 시 캐릭터 경험치 업데이트 + 레벨업 이벤트 발행</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Chat -->
+    <div class="modal-overlay" id="modal-domain-chat">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-chat')">×</button>
+            <h3 class="modal-title">💬 Chat Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">채팅 입력 → Intent 분류 → 병렬 처리 → SSE 스트리밍 GIF</span>
+                        <span class="lang-en">Chat Input → Intent Classification → Parallel Processing → SSE Streaming GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Chat API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">RabbitMQ</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Chat Worker</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">LangGraph</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Redis Streams</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">SSE Gateway</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">파이프라인</span>
+                                <span class="lang-en">Pipeline</span>
+                            </div>
+                            <div class="domain-detail-value">LangGraph Send API + 9분류 Intent + Multi-Intent Fanout 병렬 처리</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">메모리 계층</span>
+                                <span class="lang-en">Memory Hierarchy</span>
+                            </div>
+                            <div class="domain-detail-value">3-Tier: Token Stream (1h) + Checkpoint Cache (24h) + PostgreSQL</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">토큰 스트리밍</span>
+                                <span class="lang-en">Token Streaming</span>
+                            </div>
+                            <div class="domain-detail-value">Token v2: 재연결 시 seq 기반 catch-up, 10토큰마다 State 스냅샷</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Resilience</span>
+                                <span class="lang-en">Resilience</span>
+                            </div>
+                            <div class="domain-detail-value">NodePolicy (fail_open/close/fallback) + Circuit Breaker + Intent별 Timeout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Scan -->
+    <div class="modal-overlay" id="modal-domain-scan">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-scan')">×</button>
+            <h3 class="modal-title">📷 Scan Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">이미지 촬영 → Vision AI 분류 → 결과 표시 GIF</span>
+                        <span class="lang-en">Image Capture → Vision AI Classification → Result Display GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Mobile Camera</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Scan API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">S3 Upload</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Scan Worker</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">OpenAI Vision</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">결과 저장</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Vision AI</span>
+                                <span class="lang-en">Vision AI</span>
+                            </div>
+                            <div class="domain-detail-value">OpenAI GPT-4o Vision + 폐기물 분류 프롬프트 (major/sub category)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">분류 체계</span>
+                                <span class="lang-en">Classification</span>
+                            </div>
+                            <div class="domain-detail-value">6대 분류 (플라스틱, 종이, 캔, 유리, 비닐, 일반) + 세부 카테고리</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">이미지 처리</span>
+                                <span class="lang-en">Image Processing</span>
+                            </div>
+                            <div class="domain-detail-value">Presigned URL 업로드 → S3 → CloudFront CDN 제공</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">리워드 연동</span>
+                                <span class="lang-en">Reward Integration</span>
+                            </div>
+                            <div class="domain-detail-value">스캔 성공 시 RabbitMQ → Users Worker → 포인트 지급</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Location -->
+    <div class="modal-overlay" id="modal-domain-location">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-location')">×</button>
+            <h3 class="modal-title">📍 Location Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">위치 검색 → Kakao Map → 주변 수거함 표시 GIF</span>
+                        <span class="lang-en">Location Search → Kakao Map → Nearby Collection Points GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">User GPS</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Location API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Kakao Local API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">결과 필터링</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Map Render</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">외부 API</span>
+                                <span class="lang-en">External API</span>
+                            </div>
+                            <div class="domain-detail-value">Kakao Local API: 키워드 검색 + 카테고리 검색 + 거리 기반 정렬</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">검색 대상</span>
+                                <span class="lang-en">Search Targets</span>
+                            </div>
+                            <div class="domain-detail-value">의류수거함, 폐건전지수거함, 재활용센터, 대형폐기물 처리장</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">캐싱</span>
+                                <span class="lang-en">Caching</span>
+                            </div>
+                            <div class="domain-detail-value">Redis Cache + Geohash 기반 키 (반경 500m 단위), TTL 1시간</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Chat 연동</span>
+                                <span class="lang-en">Chat Integration</span>
+                            </div>
+                            <div class="domain-detail-value">Chat Worker → kakao_place_node 직접 호출 (gRPC deprecated)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Users -->
+    <div class="modal-overlay" id="modal-domain-users">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-users')">×</button>
+            <h3 class="modal-title">👤 Users Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">프로필 조회 → 포인트 내역 → 캐릭터 인벤토리 GIF</span>
+                        <span class="lang-en">Profile View → Point History → Character Inventory GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Users API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">PostgreSQL</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Users Worker</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">RabbitMQ</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Character Worker</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">프로필 관리</span>
+                                <span class="lang-en">Profile Management</span>
+                            </div>
+                            <div class="domain-detail-value">닉네임, 프로필 이미지, 선호 캐릭터, 알림 설정</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">리워드 시스템</span>
+                                <span class="lang-en">Reward System</span>
+                            </div>
+                            <div class="domain-detail-value">포인트 적립 (스캔, 채팅, 출석) + 사용 내역 + 랭킹</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">이벤트 발행</span>
+                                <span class="lang-en">Event Publishing</span>
+                            </div>
+                            <div class="domain-detail-value">Fanout Exchange → reward.scan, reward.chat, reward.daily</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">통계</span>
+                                <span class="lang-en">Statistics</span>
+                            </div>
+                            <div class="domain-detail-value">일별/주별/월별 활동 통계, 분리배출 기여도 계산</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Image -->
+    <div class="modal-overlay" id="modal-domain-image">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-image')">×</button>
+            <h3 class="modal-title">🖼️ Image Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">이미지 업로드 → S3 저장 → CDN 제공 GIF</span>
+                        <span class="lang-en">Image Upload → S3 Storage → CDN Delivery GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Client</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Image API</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Presigned URL</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">S3 Direct</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">CloudFront</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">업로드 방식</span>
+                                <span class="lang-en">Upload Method</span>
+                            </div>
+                            <div class="domain-detail-value">Presigned URL + Direct S3 Upload (서버 부하 최소화)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">CDN 구성</span>
+                                <span class="lang-en">CDN Configuration</span>
+                            </div>
+                            <div class="domain-detail-value">CloudFront + S3 Origin + images.*.growbin.app 도메인</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">이미지 처리</span>
+                                <span class="lang-en">Image Processing</span>
+                            </div>
+                            <div class="domain-detail-value">썸네일 생성 (128/256/512px), WebP 변환, 메타데이터 추출</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">보안</span>
+                                <span class="lang-en">Security</span>
+                            </div>
+                            <div class="domain-detail-value">IRSA (IAM Roles for Service Accounts) + S3 버킷 정책</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Domain - Event -->
+    <div class="modal-overlay" id="modal-domain-event">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-domain-event')">×</button>
+            <h3 class="modal-title">📡 Event Domain</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">📹 API 동작 데모</span>
+                    <span class="lang-en">📹 API Demo</span>
+                </div>
+                <div class="domain-gif-container">
+                    <div class="domain-gif-placeholder">
+                        <div class="domain-gif-placeholder-icon">🎬</div>
+                        <span class="lang-ko">이벤트 발생 → Redis Streams → SSE 전달 GIF</span>
+                        <span class="lang-en">Event Emit → Redis Streams → SSE Delivery GIF</span>
+                    </div>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Producer</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Redis Streams</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Event Router</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Pub/Sub</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">SSE Gateway</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Browser</span>
+                </div>
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">이벤트 흐름</span>
+                                <span class="lang-en">Event Flow</span>
+                            </div>
+                            <div class="domain-detail-value">Redis Streams (4 shards) + Consumer Group + Lua Script 원자적 처리</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">SSE Gateway</span>
+                                <span class="lang-en">SSE Gateway</span>
+                            </div>
+                            <div class="domain-detail-value">job_id별 구독 + Pub/Sub 라우팅 + 재연결 시 상태 복구</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">이벤트 타입</span>
+                                <span class="lang-en">Event Types</span>
+                            </div>
+                            <div class="domain-detail-value">progress (진행률), token (LLM 응답), done (완료), error (오류)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">스케일링</span>
+                                <span class="lang-en">Scaling</span>
+                            </div>
+                            <div class="domain-detail-value">SSE Gateway 수평 확장, Sharded Streams로 분산 처리</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Platform Architecture -->
     <div class="modal-overlay" id="modal-platform">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('modal-platform')">×</button>
-            <h3 class="modal-title">🏗️ 24-Nodes Platform Architecture</h3>
+            <h3 class="modal-title">🏗️ 25-Nodes Platform Architecture</h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                  Eco² Platform Architecture (24 Nodes + AWS)                    │
+│                  Eco² Platform Architecture (25 Nodes + AWS)                    │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  ┌─────────────────────────────── AWS ──────────────────────────────────────┐   │
@@ -3530,7 +4440,7 @@
 │  └─────────┼──────────────────────────┼─────────────────────────────────────┘   │
 │            │                          │                                         │
 │  ══════════════════════════════════════════════════════════════════════════     │
-│                     KUBERNETES CLUSTER (24 NODES)                               │
+│                     KUBERNETES CLUSTER (25 NODES)                               │
 │  ══════════════════════════════════════════════════════════════════════════     │
 │            │                 ┌────────▼─────────┐                               │
 │            │                 │  Istio Ingress   │                               │
