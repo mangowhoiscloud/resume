@@ -2047,7 +2047,7 @@
         </p>
         <div class="hero-stats">
             <div class="hero-stat">
-                <div class="hero-stat-value">24</div>
+                <div class="hero-stat-value">25</div>
                 <div class="hero-stat-label">
                     <span class="lang-ko">클러스터 노드</span>
                     <span class="lang-en">Cluster Nodes</span>
@@ -2068,7 +2068,7 @@
                 </div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-value">83+ · 51+</div>
+                <div class="hero-stat-value">100+ · 76+</div>
                 <div class="hero-stat-label">
                     <span class="lang-ko">개발 기록 · Knowledge Base</span>
                     <span class="lang-en">Dev Logs · Knowledge Base</span>
@@ -2461,16 +2461,58 @@
                 </div>
             </div>
 
-            <!-- 8. Event -->
-            <div class="domain-card clickable" data-modal="modal-domain-event" style="--domain-color: #14b8a6;">
-                <div class="domain-icon">📡</div>
-                <div class="domain-title">Event</div>
+            <!-- 8. Info -->
+            <div class="domain-card clickable" data-modal="modal-domain-info" style="--domain-color: #14b8a6;">
+                <div class="domain-icon">ℹ️</div>
+                <div class="domain-title">Info</div>
                 <div class="domain-type">
                     <span class="domain-type-badge">API</span>
                 </div>
                 <div class="domain-desc">
-                    <span class="lang-ko">SSE + Redis Streams</span>
-                    <span class="lang-en">SSE + Redis Streams</span>
+                    <span class="lang-ko">공지사항 + 버전 정보</span>
+                    <span class="lang-en">Announcements + Version</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infrastructure Features -->
+        <div class="domain-showcase" style="grid-template-columns: repeat(3, 1fr); margin-top: 1rem;">
+            <!-- ext-authz -->
+            <div class="domain-card clickable" data-modal="modal-infra-extauthz" style="--domain-color: #dc2626;">
+                <div class="domain-icon">🛡️</div>
+                <div class="domain-title">ext-authz</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge" style="background: #dc2626;">Infra</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Istio 외부 인가 (Go)</span>
+                    <span class="lang-en">Istio External Auth (Go)</span>
+                </div>
+            </div>
+
+            <!-- SSE Gateway -->
+            <div class="domain-card clickable" data-modal="modal-infra-sse" style="--domain-color: #7c3aed;">
+                <div class="domain-icon">📡</div>
+                <div class="domain-title">SSE Gateway</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge" style="background: #7c3aed;">Infra</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">실시간 이벤트 스트리밍</span>
+                    <span class="lang-en">Real-time Event Streaming</span>
+                </div>
+            </div>
+
+            <!-- Event Router -->
+            <div class="domain-card clickable" data-modal="modal-infra-eventrouter" style="--domain-color: #059669;">
+                <div class="domain-icon">🔀</div>
+                <div class="domain-title">Event Router</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge" style="background: #059669;">Infra</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Redis Streams 라우팅</span>
+                    <span class="lang-en">Redis Streams Routing</span>
                 </div>
             </div>
         </div>
@@ -2570,8 +2612,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko"><strong>8개 도메인 API(Auth, Character, Chat, Scan, Location, Users, Image, Event)</strong>를 개발하고, 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Istio VirtualService + 헤더 기반 Canary</strong>로 단일 클러스터 내 dev/prod 환경을 병행하여 별도 클러스터 운영 비용 없이 프로덕션 동일 조건에서 검증합니다. ArgoCD App-of-Apps + Sync Wave로 Git을 SSOT로 삼아 클러스터 상태를 선언적으로 관리하고, 코드베이스만으로 전체 인프라 재현이 가능합니다.</span>
-                        <span class="lang-en">Developed <strong>8 domain APIs (Auth, Character, Chat, Scan, Location, Users, Image, Event)</strong> and designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
+                        <span class="lang-ko"><strong>8개 도메인 API(Auth, Character, Chat, Scan, Location, Users, Image, Info)</strong>를 개발하고, 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Istio VirtualService + 헤더 기반 Canary</strong>로 단일 클러스터 내 dev/prod 환경을 병행하여 별도 클러스터 운영 비용 없이 프로덕션 동일 조건에서 검증합니다. ArgoCD App-of-Apps + Sync Wave로 Git을 SSOT로 삼아 클러스터 상태를 선언적으로 관리하고, 코드베이스만으로 전체 인프라 재현이 가능합니다.</span>
+                        <span class="lang-en">Developed <strong>8 domain APIs (Auth, Character, Chat, Scan, Location, Users, Image, Info)</strong> and designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement clickable" data-modal="modal-platform">
@@ -3702,8 +3744,8 @@
                     <span class="lang-en">🖥️ 8 Domain Server Development</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">Auth, Character, Chat, Scan, Location, Users, Image, Event 8개 마이크로서비스 개발</span>
-                    <span class="lang-en">Developed 8 microservices: Auth, Character, Chat, Scan, Location, Users, Image, Event</span>
+                    <span class="lang-ko">Auth, Character, Chat, Scan, Location, Users, Image, Info 8개 마이크로서비스 개발</span>
+                    <span class="lang-en">Developed 8 microservices: Auth, Character, Chat, Scan, Location, Users, Image, Info</span>
                 </div>
             </div>
             <div class="timeline-item">
@@ -3854,11 +3896,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">OAuth 로그인 → JWT 발급 → 토큰 갱신 GIF</span>
-                        <span class="lang-en">OAuth Login → JWT Issue → Token Refresh GIF</span>
-                    </div>
+                    <img src="assets/gifs/auth-api.gif" alt="Auth API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -3926,11 +3964,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">캐릭터 조회 → gRPC 호출 → 응답 GIF</span>
-                        <span class="lang-en">Character Query → gRPC Call → Response GIF</span>
-                    </div>
+                    <img src="assets/gifs/character-api.gif" alt="Character API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -3996,11 +4030,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">채팅 입력 → Intent 분류 → 병렬 처리 → SSE 스트리밍 GIF</span>
-                        <span class="lang-en">Chat Input → Intent Classification → Parallel Processing → SSE Streaming GIF</span>
-                    </div>
+                    <img src="assets/gifs/chat-api.gif" alt="Chat API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -4068,11 +4098,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">이미지 촬영 → Vision AI 분류 → 결과 표시 GIF</span>
-                        <span class="lang-en">Image Capture → Vision AI Classification → Result Display GIF</span>
-                    </div>
+                    <img src="assets/gifs/scan-api.gif" alt="Scan API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -4140,11 +4166,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">위치 검색 → Kakao Map → 주변 수거함 표시 GIF</span>
-                        <span class="lang-en">Location Search → Kakao Map → Nearby Collection Points GIF</span>
-                    </div>
+                    <img src="assets/gifs/location-api.gif" alt="Location API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -4210,11 +4232,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">프로필 조회 → 포인트 내역 → 캐릭터 인벤토리 GIF</span>
-                        <span class="lang-en">Profile View → Point History → Character Inventory GIF</span>
-                    </div>
+                    <img src="assets/gifs/users-api.gif" alt="Users API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -4280,11 +4298,7 @@
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">이미지 업로드 → S3 저장 → CDN 제공 GIF</span>
-                        <span class="lang-en">Image Upload → S3 Storage → CDN Delivery GIF</span>
-                    </div>
+                    <img src="assets/gifs/images-api.gif" alt="Image API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -4339,22 +4353,18 @@
         </div>
     </div>
 
-    <!-- Modal: Domain - Event -->
-    <div class="modal-overlay" id="modal-domain-event">
+    <!-- Modal: Domain - Info -->
+    <div class="modal-overlay" id="modal-domain-info">
         <div class="modal-content domain-modal-content">
-            <button class="modal-close" onclick="closeModal('modal-domain-event')">×</button>
-            <h3 class="modal-title">📡 Event Domain</h3>
+            <button class="modal-close" onclick="closeModal('modal-domain-info')">×</button>
+            <h3 class="modal-title">ℹ️ Info Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작 데모</span>
                     <span class="lang-en">📹 API Demo</span>
                 </div>
                 <div class="domain-gif-container">
-                    <div class="domain-gif-placeholder">
-                        <div class="domain-gif-placeholder-icon">🎬</div>
-                        <span class="lang-ko">이벤트 발생 → Redis Streams → SSE 전달 GIF</span>
-                        <span class="lang-en">Event Emit → Redis Streams → SSE Delivery GIF</span>
-                    </div>
+                    <img src="assets/gifs/info-api.gif" alt="Info API Demo">
                 </div>
             </div>
             <div class="domain-architecture">
@@ -4363,47 +4373,218 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">Producer</span>
+                    <span class="domain-flow-item">Client</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Streams</span>
+                    <span class="domain-flow-item">Info API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Event Router</span>
+                    <span class="domain-flow-item">Redis Cache</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Pub/Sub</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">SSE Gateway</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Browser</span>
+                    <span class="domain-flow-item">PostgreSQL</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">이벤트 흐름</span>
-                                <span class="lang-en">Event Flow</span>
+                                <span class="lang-ko">공지사항</span>
+                                <span class="lang-en">Announcements</span>
                             </div>
-                            <div class="domain-detail-value">Redis Streams (4 shards) + Consumer Group + Lua Script 원자적 처리</div>
+                            <div class="domain-detail-value">앱 공지사항, 긴급 알림, 이벤트 배너 관리</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">SSE Gateway</span>
-                                <span class="lang-en">SSE Gateway</span>
+                                <span class="lang-ko">버전 정보</span>
+                                <span class="lang-en">Version Info</span>
                             </div>
-                            <div class="domain-detail-value">job_id별 구독 + Pub/Sub 라우팅 + 재연결 시 상태 복구</div>
+                            <div class="domain-detail-value">앱 버전 체크, 강제 업데이트 플래그, 변경 로그</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">이벤트 타입</span>
-                                <span class="lang-en">Event Types</span>
+                                <span class="lang-ko">캐싱</span>
+                                <span class="lang-en">Caching</span>
                             </div>
-                            <div class="domain-detail-value">progress (진행률), token (LLM 응답), done (완료), error (오류)</div>
+                            <div class="domain-detail-value">Redis Cache-Aside (TTL 5분), 빈번한 조회 최적화</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">관리자 기능</span>
+                                <span class="lang-en">Admin Features</span>
+                            </div>
+                            <div class="domain-detail-value">공지 CRUD, 예약 발행, 타겟 사용자 그룹 지정</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Infrastructure - ext-authz -->
+    <div class="modal-overlay" id="modal-infra-extauthz">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-infra-extauthz')">×</button>
+            <h3 class="modal-title">🛡️ ext-authz (External Authorization)</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Client Request</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Istio Sidecar</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">ext-authz (Go)</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Redis Blacklist</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Allow/Deny</span>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">구현 언어</span>
+                                <span class="lang-en">Language</span>
+                            </div>
+                            <div class="domain-detail-value">Go (Envoy ext_authz gRPC 프로토콜), 평균 응답 ~2ms</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">JWT 검증</span>
+                                <span class="lang-en">JWT Validation</span>
+                            </div>
+                            <div class="domain-detail-value">RS256 서명 검증 + 만료 체크 + Redis Blacklist 확인</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Istio 연동</span>
+                                <span class="lang-en">Istio Integration</span>
+                            </div>
+                            <div class="domain-detail-value">AuthorizationPolicy + EnvoyFilter, Sidecar 레벨 인가</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Auth Offloading</span>
+                                <span class="lang-en">Auth Offloading</span>
+                            </div>
+                            <div class="domain-detail-value">각 API 서버에서 인증 로직 제거, 중앙화된 인가 처리</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Infrastructure - SSE Gateway -->
+    <div class="modal-overlay" id="modal-infra-sse">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-infra-sse')">×</button>
+            <h3 class="modal-title">📡 SSE Gateway</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Browser</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">SSE Gateway</span>
+                    <span class="domain-flow-arrow">←</span>
+                    <span class="domain-flow-item">Redis Pub/Sub</span>
+                    <span class="domain-flow-arrow">←</span>
+                    <span class="domain-flow-item">Event Router</span>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">SSE 프로토콜</span>
+                                <span class="lang-en">SSE Protocol</span>
+                            </div>
+                            <div class="domain-detail-value">Server-Sent Events, job_id별 독립 채널, 단방향 스트리밍</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">구독 관리</span>
+                                <span class="lang-en">Subscription Management</span>
+                            </div>
+                            <div class="domain-detail-value">Redis Pub/Sub sse:events:{job_id} 채널 구독</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">재연결 복구</span>
+                                <span class="lang-en">Reconnection Recovery</span>
+                            </div>
+                            <div class="domain-detail-value">Last-Event-ID + Token State 스냅샷으로 catch-up</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">스케일링</span>
                                 <span class="lang-en">Scaling</span>
                             </div>
-                            <div class="domain-detail-value">SSE Gateway 수평 확장, Sharded Streams로 분산 처리</div>
+                            <div class="domain-detail-value">Stateless 수평 확장, Pub/Sub으로 모든 인스턴스 동기화</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Infrastructure - Event Router -->
+    <div class="modal-overlay" id="modal-infra-eventrouter">
+        <div class="modal-content domain-modal-content">
+            <button class="modal-close" onclick="closeModal('modal-infra-eventrouter')">×</button>
+            <h3 class="modal-title">🔀 Event Router</h3>
+            <div class="domain-demo-section">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
+                    <span class="lang-en">🏗️ System Architecture</span>
+                </div>
+                <div class="domain-flow">
+                    <span class="domain-flow-item">Workers</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Redis Streams (4 shards)</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Event Router</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Lua Script</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Pub/Sub</span>
+                </div>
+            </div>
+            <div class="domain-architecture">
+                <div class="domain-details">
+                    <div class="domain-detail-grid">
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Redis Streams</span>
+                                <span class="lang-en">Redis Streams</span>
+                            </div>
+                            <div class="domain-detail-value">4개 Shard (hash(job_id) % 4), Consumer Group, MAXLEN 10,000</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Lua Script</span>
+                                <span class="lang-en">Lua Script</span>
+                            </div>
+                            <div class="domain-detail-value">원자적 처리: State 업데이트 + Pub/Sub 발행 + Idempotency 마커</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">이벤트 타입</span>
+                                <span class="lang-en">Event Types</span>
+                            </div>
+                            <div class="domain-detail-value">progress, token, done, error, needs_input (Human-in-the-Loop)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">분산 처리</span>
+                                <span class="lang-en">Distributed Processing</span>
+                            </div>
+                            <div class="domain-detail-value">XREADGROUP BLOCK, 다중 라우터 인스턴스 병렬 소비</div>
                         </div>
                     </div>
                 </div>
