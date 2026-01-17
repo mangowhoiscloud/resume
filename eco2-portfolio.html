@@ -27,6 +27,8 @@
             --border-glow: rgba(229,168,59,0.2);
             
             /* Category Colors - Mango + Teal harmony */
+            --agent-primary: #10b981;
+            --agent-glow: rgba(16,185,129,0.2);
             --k8s-primary: #3D9A9A;
             --k8s-glow: rgba(61,154,154,0.2);
             --auth-primary: #E5A83B;
@@ -2398,15 +2400,15 @@
 
             <!-- 2. Character -->
             <div class="domain-card clickable" data-modal="modal-domain-character" style="--domain-color: #f59e0b;">
-                <div class="domain-icon">🐰</div>
+                <div class="domain-icon">🌍</div>
                 <div class="domain-title">Character</div>
                 <div class="domain-type">
                     <span class="domain-type-badge">API</span>
                     <span class="domain-type-badge worker">Worker</span>
                 </div>
                 <div class="domain-desc">
-                    <span class="lang-ko">캐릭터 + gRPC 서비스</span>
-                    <span class="lang-en">Character + gRPC Service</span>
+                    <span class="lang-ko">캐릭터 수집 + gRPC</span>
+                    <span class="lang-en">Character Collection + gRPC</span>
                 </div>
             </div>
 
@@ -2446,8 +2448,8 @@
                     <span class="domain-type-badge">API</span>
                 </div>
                 <div class="domain-desc">
-                    <span class="lang-ko">Kakao Map 위치 검색</span>
-                    <span class="lang-en">Kakao Map Location</span>
+                    <span class="lang-ko">PostGIS 위치 검색</span>
+                    <span class="lang-en">PostGIS Location Search</span>
                 </div>
             </div>
 
@@ -2460,8 +2462,8 @@
                     <span class="domain-type-badge worker">Worker</span>
                 </div>
                 <div class="domain-desc">
-                    <span class="lang-ko">프로필 + 리워드</span>
-                    <span class="lang-en">Profile + Rewards</span>
+                    <span class="lang-ko">프로필 + 캐릭터 소유</span>
+                    <span class="lang-en">Profile + Character Ownership</span>
                 </div>
             </div>
 
@@ -2480,14 +2482,14 @@
 
             <!-- 8. Info -->
             <div class="domain-card clickable" data-modal="modal-domain-info" style="--domain-color: #14b8a6;">
-                <div class="domain-icon">ℹ️</div>
+                <div class="domain-icon">📰</div>
                 <div class="domain-title">Info</div>
                 <div class="domain-type">
                     <span class="domain-type-badge">API</span>
                 </div>
                 <div class="domain-desc">
-                    <span class="lang-ko">공지사항 + 버전 정보</span>
-                    <span class="lang-en">Announcements + Version</span>
+                    <span class="lang-ko">환경/에너지/AI 뉴스피드</span>
+                    <span class="lang-en">Eco/Energy/AI Newsfeed</span>
                 </div>
             </div>
         </div>
@@ -3974,7 +3976,7 @@
     <div class="modal-overlay" id="modal-domain-character">
         <div class="modal-content domain-modal-content">
             <button class="modal-close" onclick="closeModal('modal-domain-character')">×</button>
-            <h3 class="modal-title">🐰 Character Domain</h3>
+            <h3 class="modal-title">🌍 Character Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
