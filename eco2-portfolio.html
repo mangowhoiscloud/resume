@@ -2486,6 +2486,8 @@
                 <div class="domain-title">Info</div>
                 <div class="domain-type">
                     <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                    <span class="domain-type-badge" style="background: #3b82f6;">FE</span>
                 </div>
                 <div class="domain-desc">
                     <span class="lang-ko">환경/에너지/AI 뉴스피드</span>
@@ -2561,18 +2563,18 @@
                         <span class="lang-en">Implemented dynamic parallel routing based on <strong>LangGraph Send API</strong>. <strong>9-class Intent (waste/character/location/bulk_waste/recyclable_price/collection_point/web_search/image_generation/general)</strong> with <strong>Multi-Intent Fanout</strong> handles compound queries like "How to dispose paper and show collection points" in parallel. <strong>3-Tier Memory (Redis + PostgreSQL)</strong> and <strong>Token v2 recoverable streaming</strong> enable token catch-up on reconnection.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement">
+                        <div class="achievement clickable" onclick="openModal('modal-intent-pipeline')" style="cursor: pointer;">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>9분류 Intent + Multi-Intent</strong> 키워드 맵 신뢰도 보정, Chain-of-Intent로 연속 질문 문맥 유지</span>
-                                <span class="lang-en"><strong>9-class Intent + Multi-Intent</strong> Keyword map confidence calibration, Chain-of-Intent for continuous query context</span>
+                                <span class="lang-ko"><strong>9분류 Intent + Multi-Intent</strong> 키워드 맵 신뢰도 보정, Chain-of-Intent로 연속 질문 문맥 유지 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>9-class Intent + Multi-Intent</strong> Keyword map confidence calibration, Chain-of-Intent for continuous query context <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement">
+                        <div class="achievement clickable" onclick="openModal('modal-intent-pipeline')" style="cursor: pointer;">
                             <span class="achievement-icon">⚡</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Send API 병렬 라우팅</strong> Dynamic Router + Enrichment Rules로 waste → weather 자동 추가, Aggregator에서 결과 수집</span>
-                                <span class="lang-en"><strong>Send API Parallel Routing</strong> Dynamic Router + Enrichment Rules auto-add weather for waste, results collected at Aggregator</span>
+                                <span class="lang-ko"><strong>Send API 병렬 라우팅</strong> Dynamic Router + Enrichment Rules로 waste → weather 자동 추가, Aggregator에서 결과 수집 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Send API Parallel Routing</strong> Dynamic Router + Enrichment Rules auto-add weather for waste, results collected at Aggregator <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                         <div class="achievement">
@@ -3930,11 +3932,11 @@
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Auth API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">OAuth (Google/Kakao/Naver)</span>
+                    <span class="domain-flow-item">OAuth (Google/Kakao)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">JWT (HS256)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Blacklist (JTI)</span>
+                    <span class="domain-flow-item">Redis Blacklist</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
@@ -3943,28 +3945,28 @@
                                 <span class="lang-ko">OAuth 2.0</span>
                                 <span class="lang-en">OAuth 2.0</span>
                             </div>
-                            <div class="domain-detail-value">Google, Kakao, Naver 소셜 로그인 지원</div>
+                            <div class="domain-detail-value">Google, Kakao 소셜 로그인, PKCE (S256) 지원</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">JWT 설정</span>
                                 <span class="lang-en">JWT Config</span>
                             </div>
-                            <div class="domain-detail-value">HS256, Access 15분 / Refresh 7일, iss: auth-service</div>
+                            <div class="domain-detail-value">HS256, Access 15분 / Refresh 7일, JTI 기반 무효화</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">토큰 관리</span>
-                                <span class="lang-en">Token Management</span>
+                                <span class="lang-ko">Auth Relay</span>
+                                <span class="lang-en">Auth Relay</span>
                             </div>
-                            <div class="domain-detail-value">Redis Blacklist (JTI 기반), 로그아웃 시 토큰 무효화</div>
+                            <div class="domain-detail-value">Redis Outbox → RabbitMQ Fanout (blacklist.events), aio_pika 비동기</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">Auth Worker</span>
                                 <span class="lang-en">Auth Worker</span>
                             </div>
-                            <div class="domain-detail-value">토큰 블랙리스트 관리 (add/remove), TTL 자동 만료</div>
+                            <div class="domain-detail-value">Celery 비동기 블랙리스트 동기화, At-Least-Once 보장</div>
                         </div>
                     </div>
                 </div>
@@ -4104,6 +4106,141 @@
                             </div>
                             <div class="domain-detail-value">NodePolicy (fail_open/close/fallback) + Circuit Breaker + Intent별 Timeout</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Intent Pipeline Link -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="openModal('modal-intent-pipeline')">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 1.5rem;">🎯</span>
+                    <div>
+                        <div style="color: var(--primary); font-weight: 600;">9분류 Intent + LangGraph Pipeline 상세 보기</div>
+                        <div style="color: var(--text-secondary); font-size: 0.85rem;">클릭하여 Intent 분류 시스템 및 Send API 라우팅 시각화</div>
+                    </div>
+                    <span style="margin-left: auto; color: var(--primary);">→</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent Pipeline Visualization -->
+    <div class="modal-overlay" id="modal-intent-pipeline">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-pipeline')">×</button>
+            <h3 class="modal-title">🎯 9-Class Intent + LangGraph Pipeline</h3>
+
+            <!-- Intent Classification Grid -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Intent 분류 체계</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #8b5cf6;">🗑️ waste</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">폐기물 분리배출 (RAG)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #f59e0b;">🌍 character</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">캐릭터 질문 (gRPC)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #ef4444;">📍 location</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">위치 기반 검색 (PostGIS)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #ec4899;">🛋️ bulk_waste</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">대형폐기물 (행안부 API)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #22c55e;">💰 recyclable_price</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">재활용 시세 (환경공단)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #0ea5e9;">📦 collection_point</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">수거함 위치 (KECO API)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #a855f7;">🔍 web_search</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">웹 검색 (DuckDuckGo)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #fb923c;">🎨 image_generation</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">이미지 생성 (Responses API)</div>
+                    </div>
+                    <div class="intent-card" style="background: rgba(107,114,128,0.15); border: 1px solid rgba(107,114,128,0.4); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #6b7280;">💬 general</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">일반 대화 (Fallback)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LangGraph Pipeline ASCII -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">LangGraph Send API Pipeline</h4>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        LangGraph Pipeline (Send API)                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│   START → intent_node → [vision_node?] → router_node (Dynamic Router)  │
+│                                               │                         │
+│              ╔════════════════════════════════╧════════════════════════╗│
+│              ║           Send API (Multi-Intent Fanout)                ║│
+│              ║  ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┐     ║│
+│              ║  ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼     ║│
+│              ║ waste  char   loc   bulk  price collect  web   image   ║│
+│              ║ (RAG) (gRPC)(PostGIS)(MOIS)(KECO)(KECO) (DDG)(Responses)║│
+│              ║  │      │      │      │      │      │      │      │     ║│
+│              ╚══╧══════╧══════╧══════╧══════╧══════╧══════╧══════╧═════╝│
+│                                    │                                    │
+│                           aggregator_node (결과 수집)                   │
+│                                    │                                    │
+│                    [feedback_node] ← RAG 품질 평가 + Fallback Chain     │
+│                                    │                                    │
+│                           answer_node (토큰 스트리밍)                   │
+│                                    │                                    │
+│                                   END                                   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Technical Details -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🧠 Confidence Scoring</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
+                        final = llm_conf + keyword_boost<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + transition_boost + length_penalty<br><br>
+                        • keyword_boost: 0.0 ~ 0.2<br>
+                        • transition_boost: 0.0 ~ 0.15 (Chain-of-Intent)<br>
+                        • Threshold: 0.6 (미만 시 general)
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🔗 Chain-of-Intent Transitions</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div style="display: flex; justify-content: space-between;"><span>waste → location</span><span style="color: #22c55e;">+0.15</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>waste → collection_point</span><span style="color: #22c55e;">+0.10</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>location → waste</span><span style="color: #22c55e;">+0.10</span></div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">※ last_confidence ≥ 0.7일 때만 적용</div>
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🌤️ Enrichment Rules</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• waste → <span style="color: #0ea5e9;">+weather</span> (분리배출 팁)</div>
+                        <div>• bulk_waste → <span style="color: #0ea5e9;">+weather</span> (배출일 날씨)</div>
+                        <div>• user_location 존재 → <span style="color: #0ea5e9;">+weather</span></div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">※ Dynamic Router에서 자동 추가</div>
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 Multi-Intent Example</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5rem;">
+                            "종이 어떻게 버려? 수거함도 알려줘"
+                        </div>
+                        <div>→ Send(<span style="color: #8b5cf6;">waste_rag</span>)</div>
+                        <div>→ Send(<span style="color: #0ea5e9;">collection_point</span>)</div>
+                        <div>→ Send(<span style="color: #22c55e;">weather</span>) <span style="color: var(--text-muted)">(enrichment)</span></div>
                     </div>
                 </div>
             </div>
@@ -4386,7 +4523,7 @@
     <div class="modal-overlay" id="modal-domain-info">
         <div class="modal-content domain-modal-content">
             <button class="modal-close" onclick="closeModal('modal-domain-info')">×</button>
-            <h3 class="modal-title">ℹ️ Info Domain</h3>
+            <h3 class="modal-title">📰 Info Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4404,43 +4541,45 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">Client</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Info API</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis (TTL 5분)</span>
+                    <span class="domain-flow-item">Info Worker (Beat)</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Naver / NewsData.io</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Redis (Write-Through)</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Info API (Read)</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">React Query</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">뉴스 수집</span>
-                                <span class="lang-en">News Aggregation</span>
+                                <span class="lang-ko">CQRS 패턴</span>
+                                <span class="lang-en">CQRS Pattern</span>
                             </div>
-                            <div class="domain-detail-value">환경/분리배출 관련 뉴스 Naver + NewsData.io API 수집</div>
+                            <div class="domain-detail-value">Worker: Write (수집) / API: Read (조회), Cache-Aside Fallback</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">검색 키워드</span>
-                                <span class="lang-en">Search Keywords</span>
+                                <span class="lang-ko">Info Worker</span>
+                                <span class="lang-en">Info Worker</span>
                             </div>
-                            <div class="domain-detail-value">분리배출, 재활용, 환경정책, 폐기물 관련 키워드 자동 수집</div>
+                            <div class="domain-detail-value">Celery gevent (100 동시성) + Beat Sidecar, 5분/30분 주기 수집</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">캐싱</span>
-                                <span class="lang-en">Caching</span>
+                                <span class="lang-ko">OG 이미지</span>
+                                <span class="lang-en">OG Image</span>
                             </div>
-                            <div class="domain-detail-value">Redis Cache-Aside (TTL 5분), API Rate Limit 최적화</div>
+                            <div class="domain-detail-value">OpenGraph 썸네일 추출 86.4% 성공률 (~153ms/article)</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">응답 형식</span>
-                                <span class="lang-en">Response Format</span>
+                                <span class="lang-ko">Frontend</span>
+                                <span class="lang-en">Frontend</span>
                             </div>
-                            <div class="domain-detail-value">제목, 요약, 원문 링크, 발행일 정규화 응답</div>
+                            <div class="domain-detail-value">React Query useInfiniteQuery + IntersectionObserver 무한스크롤</div>
                         </div>
                     </div>
                 </div>
