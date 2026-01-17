@@ -1918,21 +1918,21 @@
 
         .domain-gif-container {
             width: 100%;
-            aspect-ratio: 16/9;
+            max-height: 400px;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
         }
 
         .domain-gif-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
         }
 
         .domain-gif-placeholder {
@@ -3913,39 +3913,37 @@
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">JWT Issue</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Auth Worker</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostgreSQL</span>
+                    <span class="domain-flow-item">Redis Blacklist</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">인증 방식</span>
-                                <span class="lang-en">Auth Method</span>
+                                <span class="lang-ko">OAuth 2.0</span>
+                                <span class="lang-en">OAuth 2.0</span>
                             </div>
-                            <div class="domain-detail-value">OAuth 2.0 (Google, Kakao, Apple) + JWT (Access 15m / Refresh 7d)</div>
+                            <div class="domain-detail-value">Google, Kakao, Naver 소셜 로그인 지원</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">JWT 설정</span>
+                                <span class="lang-en">JWT Config</span>
+                            </div>
+                            <div class="domain-detail-value">HS256, Access 15분 / Refresh 7일, iss: auth-service</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">토큰 관리</span>
                                 <span class="lang-en">Token Management</span>
                             </div>
-                            <div class="domain-detail-value">Redis Blacklist + Sliding Window Rate Limit (10 req/min)</div>
+                            <div class="domain-detail-value">Redis Blacklist (JTI 기반), 로그아웃 시 토큰 무효화</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">보안</span>
-                                <span class="lang-en">Security</span>
+                                <span class="lang-ko">Auth Worker</span>
+                                <span class="lang-en">Auth Worker</span>
                             </div>
-                            <div class="domain-detail-value">ext-authz (Go) → Istio Sidecar 연동, PKCE Flow</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">비동기 처리</span>
-                                <span class="lang-en">Async Processing</span>
-                            </div>
-                            <div class="domain-detail-value">Auth Worker: 회원가입 이벤트 → Users 도메인 프로필 생성</div>
+                            <div class="domain-detail-value">토큰 블랙리스트 관리 (add/remove), TTL 자동 만료</div>
                         </div>
                     </div>
                 </div>
@@ -3973,13 +3971,13 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">Chat Worker</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">gRPC Client</span>
+                    <span class="domain-flow-item">Scan Worker</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Character API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Local Cache</span>
+                    <span class="domain-flow-item">RabbitMQ</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">Character Worker</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">PostgreSQL</span>
                 </div>
@@ -3987,31 +3985,31 @@
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">gRPC 서비스</span>
-                                <span class="lang-en">gRPC Service</span>
+                                <span class="lang-ko">캐릭터 수집</span>
+                                <span class="lang-en">Character Collection</span>
                             </div>
-                            <div class="domain-detail-value">CharacterService.GetCharacter (Unary), Local Cache ~1-3ms 응답</div>
+                            <div class="domain-detail-value">분리배출 분류 결과에 따라 캐릭터 보상 획득</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">캐싱 전략</span>
-                                <span class="lang-en">Caching Strategy</span>
+                                <span class="lang-ko">API 엔드포인트</span>
+                                <span class="lang-en">API Endpoints</span>
                             </div>
-                            <div class="domain-detail-value">In-Memory Cache + TTL 5min, 캐릭터 메타데이터 정적 데이터</div>
+                            <div class="domain-detail-value">GET /catalog (목록), POST /internal/rewards (보상 평가)</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">캐릭터 시스템</span>
-                                <span class="lang-en">Character System</span>
+                                <span class="lang-ko">캐릭터 매칭</span>
+                                <span class="lang-en">Character Matching</span>
                             </div>
-                            <div class="domain-detail-value">5종 캐릭터 (비니, 캔디, 글라스, 페퍼, 트리) + 성장 시스템</div>
+                            <div class="domain-detail-value">middle_category → 캐릭터 매핑, In-Memory Cache</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">Worker 역할</span>
-                                <span class="lang-en">Worker Role</span>
+                                <span class="lang-ko">Character Worker</span>
+                                <span class="lang-en">Character Worker</span>
                             </div>
-                            <div class="domain-detail-value">리워드 지급 시 캐릭터 경험치 업데이트 + 레벨업 이벤트 발행</div>
+                            <div class="domain-detail-value">캐릭터 소유권 배치 저장, RabbitMQ 이벤트 소비</div>
                         </div>
                     </div>
                 </div>
@@ -4107,47 +4105,45 @@
                     <span class="lang-en">🏗️ System Architecture</span>
                 </div>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">Mobile Camera</span>
+                    <span class="domain-flow-item">POST /scan</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Scan API</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">S3 Upload</span>
+                    <span class="domain-flow-item">TaskIQ</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Scan Worker</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">OpenAI Vision</span>
+                    <span class="domain-flow-item">GPT Vision</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">결과 저장</span>
+                    <span class="domain-flow-item">SSE Stream</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">Vision AI</span>
-                                <span class="lang-en">Vision AI</span>
+                                <span class="lang-ko">Vision API</span>
+                                <span class="lang-en">Vision API</span>
                             </div>
-                            <div class="domain-detail-value">OpenAI GPT-4o Vision + 폐기물 분류 프롬프트 (major/sub category)</div>
+                            <div class="domain-detail-value">OpenAI GPT-5.1/5.2 Vision, Structured Output (Pydantic)</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">분류 체계</span>
-                                <span class="lang-en">Classification</span>
+                                <span class="lang-ko">파이프라인</span>
+                                <span class="lang-en">Pipeline</span>
                             </div>
-                            <div class="domain-detail-value">6대 분류 (플라스틱, 종이, 캔, 유리, 비닐, 일반) + 세부 카테고리</div>
+                            <div class="domain-detail-value">queued → vision → rule → answer → reward → done</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">이미지 처리</span>
-                                <span class="lang-en">Image Processing</span>
+                                <span class="lang-ko">이미지 최적화</span>
+                                <span class="lang-en">Image Optimization</span>
                             </div>
-                            <div class="domain-detail-value">Presigned URL 업로드 → S3 → CloudFront CDN 제공</div>
+                            <div class="domain-detail-value">detail: low (85 tokens, 89% 절약), 상황 태그 추출</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">리워드 연동</span>
-                                <span class="lang-en">Reward Integration</span>
+                                <span class="lang-ko">결과 폴링</span>
+                                <span class="lang-en">Result Polling</span>
                             </div>
-                            <div class="domain-detail-value">스캔 성공 시 RabbitMQ → Users Worker → 포인트 지급</div>
+                            <div class="domain-detail-value">GET /scan/{job_id}/result, 202 (진행중) / 200 (완료)</div>
                         </div>
                     </div>
                 </div>
@@ -4179,41 +4175,41 @@
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Location API</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Kakao Local API</span>
+                    <span class="domain-flow-item">PostGIS Query</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">결과 필터링</span>
+                    <span class="domain-flow-item">거리 계산</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Map Render</span>
+                    <span class="domain-flow-item">결과 반환</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">외부 API</span>
-                                <span class="lang-en">External API</span>
+                                <span class="lang-ko">지리 데이터베이스</span>
+                                <span class="lang-en">Geo Database</span>
                             </div>
-                            <div class="domain-detail-value">Kakao Local API: 키워드 검색 + 카테고리 검색 + 거리 기반 정렬</div>
+                            <div class="domain-detail-value">PostgreSQL + PostGIS, earth_distance 확장</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">검색 파라미터</span>
+                                <span class="lang-en">Search Params</span>
+                            </div>
+                            <div class="domain-detail-value">lat/lon, radius (100-50000m), zoom, store/pickup_category</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">검색 대상</span>
                                 <span class="lang-en">Search Targets</span>
                             </div>
-                            <div class="domain-detail-value">의류수거함, 폐건전지수거함, 재활용센터, 대형폐기물 처리장</div>
+                            <div class="domain-detail-value">재활용센터, 수거함 위치 (정부 공공데이터 정규화)</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">캐싱</span>
-                                <span class="lang-en">Caching</span>
+                                <span class="lang-ko">거리 계산</span>
+                                <span class="lang-en">Distance Calc</span>
                             </div>
-                            <div class="domain-detail-value">Redis Cache + Geohash 기반 키 (반경 500m 단위), TTL 1시간</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Chat 연동</span>
-                                <span class="lang-en">Chat Integration</span>
-                            </div>
-                            <div class="domain-detail-value">Chat Worker → kakao_place_node 직접 호출 (gRPC deprecated)</div>
+                            <div class="domain-detail-value">PostGIS 우선, Haversine 공식 Fallback</div>
                         </div>
                     </div>
                 </div>
@@ -4258,28 +4254,28 @@
                                 <span class="lang-ko">프로필 관리</span>
                                 <span class="lang-en">Profile Management</span>
                             </div>
-                            <div class="domain-detail-value">닉네임, 프로필 이미지, 선호 캐릭터, 알림 설정</div>
+                            <div class="domain-detail-value">닉네임, 프로필 이미지 URL, 선호 캐릭터 설정</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">리워드 시스템</span>
-                                <span class="lang-en">Reward System</span>
+                                <span class="lang-ko">캐릭터 소유</span>
+                                <span class="lang-en">Character Ownership</span>
                             </div>
-                            <div class="domain-detail-value">포인트 적립 (스캔, 채팅, 출석) + 사용 내역 + 랭킹</div>
+                            <div class="domain-detail-value">User-Character 다대다 관계, 분리배출 완료 시 캐릭터 획득</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">이벤트 발행</span>
-                                <span class="lang-en">Event Publishing</span>
+                                <span class="lang-ko">Worker 연동</span>
+                                <span class="lang-en">Worker Integration</span>
                             </div>
-                            <div class="domain-detail-value">Fanout Exchange → reward.scan, reward.chat, reward.daily</div>
+                            <div class="domain-detail-value">users_worker → Character Worker RPC, 비동기 캐릭터 할당</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">통계</span>
-                                <span class="lang-en">Statistics</span>
+                                <span class="lang-ko">데이터 모델</span>
+                                <span class="lang-en">Data Model</span>
                             </div>
-                            <div class="domain-detail-value">일별/주별/월별 활동 통계, 분리배출 기여도 계산</div>
+                            <div class="domain-detail-value">UserProfile, UserCharacter 엔티티, SQLAlchemy ORM</div>
                         </div>
                     </div>
                 </div>
@@ -4321,10 +4317,10 @@
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">업로드 방식</span>
-                                <span class="lang-en">Upload Method</span>
+                                <span class="lang-ko">업로드 플로우</span>
+                                <span class="lang-en">Upload Flow</span>
                             </div>
-                            <div class="domain-detail-value">Presigned URL + Direct S3 Upload (서버 부하 최소화)</div>
+                            <div class="domain-detail-value">Presigned URL 발급 → 클라이언트 S3 Direct Upload → Callback 확인</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
@@ -4335,17 +4331,17 @@
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">이미지 처리</span>
-                                <span class="lang-en">Image Processing</span>
-                            </div>
-                            <div class="domain-detail-value">썸네일 생성 (128/256/512px), WebP 변환, 메타데이터 추출</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
                                 <span class="lang-ko">보안</span>
                                 <span class="lang-en">Security</span>
                             </div>
                             <div class="domain-detail-value">IRSA (IAM Roles for Service Accounts) + S3 버킷 정책</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">설계 원칙</span>
+                                <span class="lang-en">Design Principle</span>
+                            </div>
+                            <div class="domain-detail-value">서버 무부하 업로드, 이미지 처리 없음 (원본 저장 only)</div>
                         </div>
                     </div>
                 </div>
@@ -4379,37 +4375,37 @@
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">Redis Cache</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostgreSQL</span>
+                    <span class="domain-flow-item">Naver / NewsData API</span>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">공지사항</span>
-                                <span class="lang-en">Announcements</span>
+                                <span class="lang-ko">뉴스 수집</span>
+                                <span class="lang-en">News Aggregation</span>
                             </div>
-                            <div class="domain-detail-value">앱 공지사항, 긴급 알림, 이벤트 배너 관리</div>
+                            <div class="domain-detail-value">환경/분리배출 관련 뉴스 Naver + NewsData.io API 수집</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">버전 정보</span>
-                                <span class="lang-en">Version Info</span>
+                                <span class="lang-ko">검색 키워드</span>
+                                <span class="lang-en">Search Keywords</span>
                             </div>
-                            <div class="domain-detail-value">앱 버전 체크, 강제 업데이트 플래그, 변경 로그</div>
+                            <div class="domain-detail-value">분리배출, 재활용, 환경정책, 폐기물 관련 키워드 자동 수집</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">캐싱</span>
                                 <span class="lang-en">Caching</span>
                             </div>
-                            <div class="domain-detail-value">Redis Cache-Aside (TTL 5분), 빈번한 조회 최적화</div>
+                            <div class="domain-detail-value">Redis Cache-Aside (TTL 5분), API Rate Limit 최적화</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">관리자 기능</span>
-                                <span class="lang-en">Admin Features</span>
+                                <span class="lang-ko">응답 형식</span>
+                                <span class="lang-en">Response Format</span>
                             </div>
-                            <div class="domain-detail-value">공지 CRUD, 예약 발행, 타겟 사용자 그룹 지정</div>
+                            <div class="domain-detail-value">제목, 요약, 원문 링크, 발행일 정규화 응답</div>
                         </div>
                     </div>
                 </div>
