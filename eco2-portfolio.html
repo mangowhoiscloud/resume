@@ -5010,12 +5010,23 @@ START → intent → [vision?] → dynamic_router
                 </table>
             </div>
 
-            <!-- Why gRPC vs Celery -->
+            <!-- LangGraph 단일 Task 설계 -->
             <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                <strong style="color: var(--primary);">왜 gRPC (동기) vs Celery (비동기)?</strong>
-                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
-                    LangGraph는 asyncio 기반 오케스트레이션. gRPC는 grpc.aio로 asyncio 네이티브 지원 (~1-100ms).
-                    Celery는 Fire & Forget에 적합하나, 결과 대기(await)에는 부적합.
+                <strong style="color: var(--primary);">왜 LangGraph를 단일 Task로 큐잉하는가?</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7;">
+                    <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">@broker.task("chat.process")</code>는
+                    LangGraph StateGraph 전체를 <strong>하나의 Task 단위</strong>로 큐잉합니다.
+                    DAG 절차(Intent → Router → Subagents → Aggregator)를 개별 Task로 분리하지 않은 이유:<br><br>
+                    <strong style="color: #f59e0b;">1. 런타임 동적 라우팅</strong> — Send API는 실행 시점에 <code style="background: rgba(245,158,11,0.2); padding: 0.1rem 0.3rem; border-radius: 3px;">additional_intents</code>와 Enrichment Rules를 평가해 병렬 노드를 결정.
+                    큐잉 시점에 어떤 서브에이전트가 실행될지 예측 불가.<br>
+                    <strong style="color: #f59e0b;">2. Conditional Edges</strong> — <code style="background: rgba(245,158,11,0.2); padding: 0.1rem 0.3rem; border-radius: 3px;">route_after_feedback</code>처럼
+                    노드 결과에 따라 다음 경로가 결정되는 조건부 엣지는 DAG를 정적으로 분할할 수 없음.<br>
+                    <strong style="color: #f59e0b;">3. State 일관성</strong> — LangGraph의 <code style="background: rgba(245,158,11,0.2); padding: 0.1rem 0.3rem; border-radius: 3px;">ChatState</code>는
+                    모든 노드가 공유하는 단일 상태 객체. 분산 Task 간 상태 동기화는 복잡도와 오버헤드를 증가시킴.<br><br>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">
+                        → gRPC(<code>grpc.aio</code>)는 asyncio 네이티브로 Graph 내부에서 ~1-100ms 응답.
+                        Celery는 Fire & Forget에 적합하나, await 기반 결과 대기에는 부적합.
+                    </span>
                 </div>
             </div>
         </div>
