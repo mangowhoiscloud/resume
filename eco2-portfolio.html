@@ -4274,55 +4274,9 @@
                         <span class="domain-flow-item">SSE Gateway</span>
                     </div>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">KEDA 오토스케일링</span>
-                                <span class="lang-en">KEDA Autoscaling</span>
-                            </div>
-                            <div class="domain-detail-value">Worker: RabbitMQ 큐 길이 (5msg, 1-4 pods) | SSE: 연결 수 (100/pod, 1-3) | Router: Pending (100, 1-2)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">네이티브 스트리밍</span>
-                                <span class="lang-en">Native Streaming</span>
-                            </div>
-                            <div class="domain-detail-value">astream_events v2 + DynamicProgressTracker (Phase 기반 병렬 서브에이전트 진행률)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Event-First</span>
-                                <span class="lang-en">Event-First</span>
-                            </div>
-                            <div class="domain-detail-value">Single Write Path → Consumer Group으로 SSE + PostgreSQL 분기</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">토큰 스트리밍</span>
-                                <span class="lang-en">Token Streaming</span>
-                            </div>
-                            <div class="domain-detail-value">Token v2: chat:tokens:{job_id} + 10토큰마다 State 스냅샷 → 재연결 시 catch-up</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Resilience</span>
-                                <span class="lang-en">Resilience</span>
-                            </div>
-                            <div class="domain-detail-value">NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker + NodeExecutor</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">컨텍스트 압축</span>
-                                <span class="lang-en">Context Compression</span>
-                            </div>
-                            <div class="domain-detail-value">OpenCode 스타일: PRUNE_PROTECT 40K, 모델별 272K 트리거, 5섹션 구조화 요약</div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <!-- Intent Classification Grid (Inline) -->
+            <!-- Intent Classification Grid (Inline) - After Architecture -->
             <div style="margin-top: 1.5rem;">
                 <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">🎯 9-Class Intent Classification</div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
@@ -4392,6 +4346,54 @@
                             <div style="color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Event Bus</div>
                             <div style="color: var(--text-secondary); font-size: 0.7rem;">Streams, Token v2</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Domain Details - At the End -->
+            <div class="domain-details" style="margin-top: 1.5rem;">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">
+                            <span class="lang-ko">KEDA 오토스케일링</span>
+                            <span class="lang-en">KEDA Autoscaling</span>
+                        </div>
+                        <div class="domain-detail-value">Worker: RabbitMQ 큐 길이 (5msg, 1-4 pods) | SSE: 연결 수 (100/pod, 1-3) | Router: Pending (100, 1-2)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">
+                            <span class="lang-ko">네이티브 스트리밍</span>
+                            <span class="lang-en">Native Streaming</span>
+                        </div>
+                        <div class="domain-detail-value">astream_events v2 + DynamicProgressTracker (Phase 기반 병렬 서브에이전트 진행률)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">
+                            <span class="lang-ko">Event-First</span>
+                            <span class="lang-en">Event-First</span>
+                        </div>
+                        <div class="domain-detail-value">Single Write Path → Consumer Group으로 SSE + PostgreSQL 분기</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">
+                            <span class="lang-ko">토큰 스트리밍</span>
+                            <span class="lang-en">Token Streaming</span>
+                        </div>
+                        <div class="domain-detail-value">Token v2: chat:tokens:{job_id} + 10토큰마다 State 스냅샷 → 재연결 시 catch-up</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">
+                            <span class="lang-ko">Resilience</span>
+                            <span class="lang-en">Resilience</span>
+                        </div>
+                        <div class="domain-detail-value">NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker + NodeExecutor</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">
+                            <span class="lang-ko">컨텍스트 압축</span>
+                            <span class="lang-en">Context Compression</span>
+                        </div>
+                        <div class="domain-detail-value">OpenCode 스타일: PRUNE_PROTECT 40K, 모델별 272K 트리거, 5섹션 구조화 요약</div>
                     </div>
                 </div>
             </div>
