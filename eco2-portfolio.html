@@ -11166,8 +11166,8 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
             document.body.style.overflow = '';
         }
 
-        // Click handler for achievements, pipeline stages, and subsections
-        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable, .pipeline-subsection.clickable, .domain-card.clickable').forEach(el => {
+        // Click handler for achievements, pipeline stages, subsections, and cycle nodes
+        document.querySelectorAll('.achievement.clickable, .pipeline-stage.clickable, .async-item.clickable, .pipeline-subsection.clickable, .domain-card.clickable, .cycle-node.clickable').forEach(el => {
             el.addEventListener('click', (e) => {
                 // Prevent opening modal when clicking on links inside
                 if (e.target.tagName === 'A') return;
