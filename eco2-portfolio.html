@@ -3800,12 +3800,12 @@
             <div class="timeline-item">
                 <div class="timeline-date">2025.11.20 - 11.30</div>
                 <div class="timeline-title">
-                    <span class="lang-ko">🖥️ 8개 도메인 서버 개발</span>
-                    <span class="lang-en">🖥️ 8 Domain Server Development</span>
+                    <span class="lang-ko">🖥️ 7개 도메인 서버 개발</span>
+                    <span class="lang-en">🖥️ 7 Domain Server Development</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">Auth, Character, Chat, Scan, Location, Users, Image, Info 8개 마이크로서비스 개발</span>
-                    <span class="lang-en">Developed 8 microservices: Auth, Character, Chat, Scan, Location, Users, Image, Info</span>
+                    <span class="lang-ko">Auth, Character, Chat, Scan, Location, Users, Image 7개 마이크로서비스 개발</span>
+                    <span class="lang-en">Developed 7 microservices: Auth, Character, Chat, Scan, Location, Users, Image</span>
                 </div>
             </div>
             <div class="timeline-item">
@@ -3870,8 +3870,8 @@
                     <span class="lang-en">🏛️ Clean Architecture Migration</span>
                 </div>
                 <div class="timeline-desc">
-                    <span class="lang-ko">8개 도메인 점진적 마이그레이션, DIP/Port & Adapter/CQRS 적용</span>
-                    <span class="lang-en">Incremental migration of 8 domains, DIP/Port & Adapter/CQRS application</span>
+                    <span class="lang-ko">7개 도메인 점진적 마이그레이션, DIP/Port & Adapter/CQRS 적용, Info 서비스 추가 개발 (뉴스 피드)</span>
+                    <span class="lang-en">Incremental migration of 7 domains, DIP/Port & Adapter/CQRS, Info service addition (News Feed)</span>
                 </div>
             </div>
             <div class="timeline-item" style="--category-color: var(--ec-primary);">
@@ -4295,6 +4295,53 @@
                     <div style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-muted);">
                         <span class="lang-ko">__start__ → intent → vision → router → [11 subagents] → aggregator → summarize → answer → __end__</span>
                         <span class="lang-en">__start__ → intent → vision → router → [11 subagents] → aggregator → summarize → answer → __end__</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LangGraph Node Details -->
+            <div style="margin-bottom: 1.5rem;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <!-- Intent Node -->
+                    <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #8b5cf6; font-size: 0.85rem; margin-bottom: 0.5rem;">🎯 Intent Classification</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.5;">
+                            <div><strong>Multi-Intent ICL</strong> (arxiv:2304.11384)</div>
+                            <div><strong>Chain-of-Intent</strong> (CIKM '25) - 전이 부스트 최대 0.15</div>
+                            <div>IntentSignals: llm_confidence + keyword_boost + transition_boost</div>
+                            <div>신뢰도 < 0.6 → general fallback</div>
+                            <div style="color: var(--text-muted); margin-top: 0.25rem;">Cache TTL: 1h (SHA256 해싱)</div>
+                        </div>
+                    </div>
+                    <!-- Dynamic Router -->
+                    <div style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #3b82f6; font-size: 0.85rem; margin-bottom: 0.5rem;">🔀 Dynamic Router (Send API)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.5;">
+                            <div><strong>Multi-intent fanout</strong>: additional_intents → 병렬 Send</div>
+                            <div><strong>Intent enrichment</strong>: waste/bulk_waste → weather 자동 추가</div>
+                            <div><strong>Conditional</strong>: user_location → weather 조건부 추가</div>
+                            <div style="color: var(--text-muted); margin-top: 0.25rem;">예: "종이 어떻게 버려? 수거함도" → 3노드 병렬</div>
+                        </div>
+                    </div>
+                    <!-- Aggregator -->
+                    <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #10b981; font-size: 0.85rem; margin-bottom: 0.5rem;">📦 Aggregator</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.5;">
+                            <div><strong>병렬 결과 수집</strong>: 9개 context 필드 병합</div>
+                            <div><strong>Required/Optional 검증</strong>: contracts.py SSOT</div>
+                            <div><strong>필수 누락 시</strong>: needs_fallback=True 트리거</div>
+                            <div style="color: var(--text-muted); margin-top: 0.25rem;">Progress: 60% → 65% (정보 취합 중)</div>
+                        </div>
+                    </div>
+                    <!-- Summarize -->
+                    <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 0.75rem;">
+                        <div style="font-weight: 600; color: #f59e0b; font-size: 0.85rem; margin-bottom: 0.5rem;">📝 Summarize (Context Compression)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.5;">
+                            <div><strong>OpenCode 스타일</strong>: context_window - max_output 초과 시</div>
+                            <div><strong>GPT-5.2</strong>: 400K context, 트리거 272K, 요약 60K</div>
+                            <div><strong>구조화된 5섹션</strong>: 요청/목표/완료/진행/컨텍스트</div>
+                            <div style="color: var(--text-muted); margin-top: 0.25rem;">PRUNE_PROTECT: 40K 토큰 (최근 보호)</div>
+                        </div>
                     </div>
                 </div>
             </div>
