@@ -4241,43 +4241,8 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ Event Bus 아키텍처</span>
-                    <span class="lang-en">🏗️ Event Bus Architecture</span>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Job Dispatch: RabbitMQ (DIRECT)</div>
-                    <div class="domain-flow">
-                        <span class="domain-flow-item">Chat API</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">TaskIQ</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">chat.process 큐</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Chat Worker</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">LangGraph</span>
-                    </div>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Event Bus: Redis Streams + Pub/Sub</div>
-                    <div class="domain-flow">
-                        <span class="domain-flow-item">Worker XADD</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">chat:events:{shard}</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Event Router</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Pub/Sub</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">SSE Gateway</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Intent Classification Grid (Inline) - After Architecture -->
-            <div style="margin-top: 1.5rem;">
+            <!-- Intent Classification Grid - First -->
+            <div style="margin-bottom: 1.5rem;">
                 <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">🎯 9-Class Intent Classification</div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
                     <div style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 6px; padding: 0.5rem;">
@@ -4319,8 +4284,49 @@
                 </div>
             </div>
 
-            <!-- Intent Details, Send API, Event Bus Links -->
-            <div style="margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+            <!-- Event Bus Architecture - After Intent Grid -->
+            <div class="domain-architecture">
+                <div class="domain-demo-title">
+                    <span class="lang-ko">🏗️ Event Bus 아키텍처</span>
+                    <span class="lang-en">🏗️ Event Bus Architecture</span>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Job Dispatch: RabbitMQ (DIRECT)</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">Chat API</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">TaskIQ</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">chat.process 큐</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Chat Worker</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">LangGraph</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Event Bus: Redis Streams + Pub/Sub</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">Worker XADD</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">chat:events:{shard}</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Event Router</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Pub/Sub</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">SSE Gateway</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deep Dive Section -->
+            <div style="margin-top: 1.5rem;">
+                <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">
+                    <span class="lang-ko">📚 상세 문서</span>
+                    <span class="lang-en">📚 Deep Dive</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
                 <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="openModal('modal-intent-classification')">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 1rem;">🎯</span>
