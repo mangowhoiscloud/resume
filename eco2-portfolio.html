@@ -5017,15 +5017,29 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">🏗️ Event Bus 아키텍처</h4>
                 <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Job Dispatch: RabbitMQ (Celery)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">4-Stage Celery Pipeline (scan.direct Exchange)</div>
                     <div class="domain-flow">
                         <span class="domain-flow-item">Scan API</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan.vision 큐</span>
+                        <span class="domain-flow-item">scan.vision</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Scan Worker</span>
+                        <span class="domain-flow-item">scan.rule</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan.answer/rule 큐</span>
+                        <span class="domain-flow-item">scan.answer</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">scan.reward</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Cross-Domain Dispatch (reward.events Fanout Exchange)</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">scan.reward</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">character.match (동기 10s)</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">reward.events</span>
+                        <span class="domain-flow-arrow">⇉</span>
+                        <span class="domain-flow-item">character.save_ownership + users.save_character</span>
                     </div>
                 </div>
                 <div style="margin-bottom: 1rem;">
@@ -5066,6 +5080,10 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Event Bus 분리</div>
                         <div class="domain-detail-value">Streams(영속) + Pub/Sub(실시간) + State KV(복구) — 연결 복잡도 O(n×m) → O(n)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Cross-Domain Fanout</div>
+                        <div class="domain-detail-value">reward.events Exchange (Fanout) → character-worker + users-worker 동시 발행, Fire & Forget</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Image Storage</div>
