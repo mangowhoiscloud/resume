@@ -1,6 +1,6 @@
 # Info Domain API
 
-> CQRS 패턴 기반 환경 뉴스 피드 서비스
+> CQRS + Cache Aside 패턴 기반 환경 뉴스 피드 서비스
 
 ---
 
@@ -9,7 +9,7 @@
 | 항목 | 내용 |
 |------|------|
 | **서비스** | Info API + Info Worker + Frontend |
-| **패턴** | CQRS (Command Query Responsibility Segregation) |
+| **패턴** | CQRS + Cache Aside + Write-Through |
 | **데이터 소스** | Naver News API, NewsData.io |
 | **특징** | 실시간 환경/에너지/AI 뉴스 피드 |
 
@@ -18,78 +18,87 @@
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           Info Domain (CQRS)                             │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│   ┌─────────────────────────────────────────────────────────────────┐   │
-│   │                     Command Side (Write)                         │   │
-│   │                                                                  │   │
-│   │   ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐   │   │
-│   │   │ Info Worker │────▶│  RabbitMQ   │────▶│   PostgreSQL    │   │   │
-│   │   │ (Celery)    │     │   Queue     │     │   (Articles)    │   │   │
-│   │   └──────┬──────┘     └─────────────┘     └─────────────────┘   │   │
-│   │          │                                                       │   │
-│   │          │  Fetch & Process                                      │   │
-│   │          │                                                       │   │
-│   │   ┌──────▼──────┐     ┌─────────────┐                           │   │
-│   │   │ Beat Sidecar│     │ News APIs   │                           │   │
-│   │   │ (Scheduler) │     │ Naver/News  │                           │   │
-│   │   └─────────────┘     └─────────────┘                           │   │
-│   │                                                                  │   │
-│   └─────────────────────────────────────────────────────────────────┘   │
-│                                                                          │
-│   ┌─────────────────────────────────────────────────────────────────┐   │
-│   │                      Query Side (Read)                           │   │
-│   │                                                                  │   │
-│   │   ┌──────────┐     ┌─────────────┐     ┌─────────────────┐      │   │
-│   │   │ Frontend │────▶│  Info API   │────▶│     Redis       │      │   │
-│   │   │  (React) │     │  (FastAPI)  │     │    (Cache)      │      │   │
-│   │   └──────────┘     └──────┬──────┘     └────────┬────────┘      │   │
-│   │                           │                     │                │   │
-│   │                           │  Cache-Aside        │                │   │
-│   │                           │  Fallback           │                │   │
-│   │                           ▼                     ▼                │   │
-│   │                    ┌─────────────────────────────────┐           │   │
-│   │                    │         PostgreSQL              │           │   │
-│   │                    │         (Articles)              │           │   │
-│   │                    └─────────────────────────────────┘           │   │
-│   │                                                                  │   │
-│   └─────────────────────────────────────────────────────────────────┘   │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│                           Info Domain - CQRS + Cache Aside                            │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                       │
+│  ╔═══════════════════════════════════════════════════════════════════════════════╗   │
+│  ║                        WRITE PATH (info_worker Pod)                            ║   │
+│  ╠═══════════════════════════════════════════════════════════════════════════════╣   │
+│  ║                                                                                ║   │
+│  ║  ┌─────────────┐    ┌─────────────────────────────────────────────────────┐   ║   │
+│  ║  │Beat Sidecar │    │              Celery Worker (gevent -c 100)          │   ║   │
+│  ║  │             │    │                                                     │   ║   │
+│  ║  │ • 5min Naver│───▶│  CollectNewsCommand                                 │   ║   │
+│  ║  │ • 30min News│    │    │                                                │   ║   │
+│  ║  │   Data.io   │    │    ▼                                                │   ║   │
+│  ║  │ • 03:00     │    │  ┌─────────────┐   ┌─────────────┐                  │   ║   │
+│  ║  │   cleanup   │    │  │ Naver API   │   │NewsData.io  │  API Calls       │   ║   │
+│  ║  └─────────────┘    │  │ (3x, 1.10s) │   │(3x, 0.69s)  │  (1.79s)         │   ║   │
+│  ║                     │  └──────┬──────┘   └──────┬──────┘                  │   ║   │
+│  ║  emptyDir:          │         └────────┬────────┘                         │   ║   │
+│  ║  /tmp/celerybeat    │                  ▼                                  │   ║   │
+│  ║                     │         ┌─────────────────┐                         │   ║   │
+│  ║                     │         │  OG Extraction  │  httpx.Client           │   ║   │
+│  ║                     │         │  95/110 = 86.4% │  (14.53s) ⚠️ bottleneck │   ║   │
+│  ║                     │         └────────┬────────┘                         │   ║   │
+│  ║                     │                  ▼                                  │   ║   │
+│  ║                     │  ┌─────────────────────────────────────────────┐    │   ║   │
+│  ║                     │  │  PostgreSQL UPSERT (0.20s)                  │    │   ║   │
+│  ║                     │  │  psycopg2 + ThreadedConnectionPool          │    │   ║   │
+│  ║                     │  └────────────────────┬────────────────────────┘    │   ║   │
+│  ║                     │                       ▼                             │   ║   │
+│  ║                     │  ┌─────────────────────────────────────────────┐    │   ║   │
+│  ║                     │  │  Redis Write-Through (0.04s)                │    │   ║   │
+│  ║                     │  │  TTL: lists 3600s / articles 86400s         │    │   ║   │
+│  ║                     │  └─────────────────────────────────────────────┘    │   ║   │
+│  ║                     └─────────────────────────────────────────────────────┘   ║   │
+│  ║                                                                                ║   │
+│  ║  Total: 110 articles fetched → 110 cached → 16.95s/task                       ║   │
+│  ╚═══════════════════════════════════════════════════════════════════════════════╝   │
+│                                                                                       │
+│  ╔═══════════════════════════════════════════════════════════════════════════════╗   │
+│  ║                        READ PATH (info API - Cache Aside)                      ║   │
+│  ╠═══════════════════════════════════════════════════════════════════════════════╣   │
+│  ║                                                                                ║   │
+│  ║  ┌──────────┐     ┌─────────────┐     ┌─────────────┐                         ║   │
+│  ║  │  Client  │────▶│  Info API   │────▶│    Redis    │──── HIT ────▶ Response  ║   │
+│  ║  │ (React)  │     │  (FastAPI)  │     │  (Primary)  │     source: "redis"     ║   │
+│  ║  └──────────┘     │             │     └──────┬──────┘                         ║   │
+│  ║                   │  asyncpg    │            │ MISS                           ║   │
+│  ║                   │  redis.aio  │            ▼                                ║   │
+│  ║                   └─────────────┘     ┌─────────────┐                         ║   │
+│  ║                                       │ PostgreSQL  │──── Fallback ──▶ Resp   ║   │
+│  ║                                       │ (Emergency) │     source: "postgres"  ║   │
+│  ║                                       └─────────────┘                         ║   │
+│  ║                                                                                ║   │
+│  ║  Zero-downtime: Redis 장애 시에도 PostgreSQL Fallback으로 서비스 유지           ║   │
+│  ╚═══════════════════════════════════════════════════════════════════════════════╝   │
+│                                                                                       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## CQRS Pattern Detail
+## Performance Metrics (Production)
+
+| Metric | Value | Description |
+|--------|-------|-------------|
+| **Articles/Task** | 110 | 한 번의 수집 태스크당 기사 수 |
+| **OG Success Rate** | 86.4% | OpenGraph 이미지 추출 성공률 |
+| **Task Duration** | 16.95s | 전체 태스크 소요 시간 |
+| **gevent Pool** | 100 | 동시성 워커 수 |
+| **OG Bottleneck** | 14.53s | 이미지 추출 소요 시간 (85%) |
+
+### Task Duration Breakdown
 
 ```
-                    ┌─────────────────────────────────────┐
-                    │           Info Domain               │
-                    └─────────────────────────────────────┘
-                                    │
-                 ┌──────────────────┴──────────────────┐
-                 │                                     │
-                 ▼                                     ▼
-    ┌────────────────────────┐          ┌────────────────────────┐
-    │    Command Side        │          │     Query Side         │
-    │    (Info Worker)       │          │     (Info API)         │
-    └────────────────────────┘          └────────────────────────┘
-                 │                                     │
-                 │                                     │
-    ┌────────────▼────────────┐        ┌──────────────▼──────────┐
-    │ - 뉴스 수집 (Naver API)   │        │ - 뉴스 목록 조회         │
-    │ - 뉴스 처리 (NewsData)    │        │ - 카테고리 필터링        │
-    │ - 중복 제거              │        │ - 검색                  │
-    │ - 카테고리 분류           │        │ - Cache-Aside 패턴      │
-    └────────────┬────────────┘        └──────────────┬──────────┘
-                 │                                     │
-                 │                                     │
-                 │         ┌─────────────┐             │
-                 └────────▶│ PostgreSQL  │◀────────────┘
-                           │  (Write)    │   (Read)
-                           └─────────────┘
+Total: 16.95s
+├── Naver API calls (3x): 1.10s (6.5%)
+├── NewsData API calls (3x): 0.69s (4.1%)
+├── OG image extraction (95/110): 14.53s (85.7%) ⚠️ bottleneck
+├── PostgreSQL UPSERT: 0.20s (1.2%)
+└── Redis warming: 0.04s (0.2%)
 ```
 
 ---
@@ -98,30 +107,49 @@
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/info/articles` | 뉴스 목록 조회 |
-| `GET` | `/info/articles/{id}` | 뉴스 상세 조회 |
-| `GET` | `/info/articles/search` | 뉴스 검색 |
-| `GET` | `/info/categories` | 카테고리 목록 |
-| `GET` | `/info/trending` | 인기 뉴스 |
+| `GET` | `/api/v1/info/news` | 뉴스 목록 조회 |
+| `GET` | `/api/v1/info/news?category=energy` | 카테고리별 필터링 |
+| `GET` | `/api/v1/info/news/categories` | 카테고리 목록 |
 
 ---
 
-## Key Implementation Patterns
+## Tech Stack Decisions
 
-### 1. Info Worker (Command Side)
+### Worker (Sync - gevent compatible)
+
+| Component | Choice | Rationale |
+|-----------|--------|-----------|
+| **Database** | psycopg2 | gevent greenlet 변환 안정성 |
+| **Cache** | redis-py (sync) | 단순 연산, 비동기 불필요 |
+| **HTTP Client** | httpx.Client | OG 추출용 connection pooling |
+| **Concurrency** | gevent -c 100 | 고동시성 I/O bound 작업 |
+
+### API (Async - FastAPI native)
+
+| Component | Choice | Rationale |
+|-----------|--------|-----------|
+| **Database** | asyncpg | FastAPI async 모델 일치 |
+| **Cache** | redis.asyncio | 비동기 네이티브 연산 |
+| **Metadata** | source field | "redis" / "postgres" 응답 추적 |
+
+---
+
+## CQRS Pattern Detail
+
+### Write Path (Command Side)
 
 ```python
 # Beat Sidecar 스케줄 설정
 CELERY_BEAT_SCHEDULE = {
     "fetch-naver-news": {
-        "task": "info_worker.tasks.fetch_naver_news",
-        "schedule": crontab(minute="*/30"),  # 30분마다
-        "args": (["환경", "재활용", "에너지", "AI"],),
+        "task": "info_worker.tasks.collect_news",
+        "schedule": crontab(minute="*/5"),  # 5분마다
+        "args": ("naver",),
     },
     "fetch-newsdata-news": {
-        "task": "info_worker.tasks.fetch_newsdata",
-        "schedule": crontab(minute="*/60"),  # 1시간마다
-        "args": (["environment", "recycling", "energy"],),
+        "task": "info_worker.tasks.collect_news",
+        "schedule": crontab(minute="*/30"),  # 30분마다
+        "args": ("newsdata",),
     },
     "cleanup-old-articles": {
         "task": "info_worker.tasks.cleanup_articles",
@@ -131,45 +159,7 @@ CELERY_BEAT_SCHEDULE = {
 }
 ```
 
-### 2. News Fetch Task
-
-```python
-@celery_app.task(bind=True, max_retries=3)
-def fetch_naver_news(self, keywords: list[str]):
-    """Naver News API에서 뉴스 수집"""
-    articles = []
-
-    for keyword in keywords:
-        response = naver_client.search_news(
-            query=keyword,
-            display=100,
-            sort="date",
-        )
-
-        for item in response["items"]:
-            article = Article(
-                title=clean_html(item["title"]),
-                description=clean_html(item["description"]),
-                link=item["originallink"],
-                pub_date=parse_date(item["pubDate"]),
-                source="naver",
-                category=categorize(keyword),
-            )
-
-            # 중복 체크 (URL 기반)
-            if not article_repo.exists_by_link(article.link):
-                articles.append(article)
-
-    # 배치 저장
-    article_repo.bulk_save(articles)
-
-    # 캐시 무효화
-    redis_client.delete("info:articles:*")
-
-    return {"saved": len(articles)}
-```
-
-### 3. Info API (Query Side) - Cache-Aside Pattern
+### Read Path (Query Side - Cache Aside)
 
 ```python
 class InfoService:
@@ -178,34 +168,113 @@ class InfoService:
         category: str | None = None,
         page: int = 1,
         limit: int = 20,
-    ) -> list[Article]:
-        """뉴스 목록 조회 (Cache-Aside)"""
+    ) -> tuple[list[Article], str]:
+        """뉴스 목록 조회 (Cache Aside + Fallback)"""
 
-        # 1. 캐시 조회
         cache_key = f"info:articles:{category}:{page}:{limit}"
+
+        # 1. Redis 조회 (Primary)
         cached = await self.redis.get(cache_key)
-
         if cached:
-            return json.loads(cached)
+            return json.loads(cached), "redis"
 
-        # 2. 캐시 미스 → DB 조회
+        # 2. PostgreSQL Fallback (Emergency)
         articles = await self.article_repo.get_articles(
             category=category,
             offset=(page - 1) * limit,
             limit=limit,
         )
 
-        # 3. 캐시 저장 (TTL 5분)
+        # 3. 캐시 워밍 (다음 요청을 위해)
         await self.redis.setex(
             cache_key,
-            300,
+            3600,  # TTL 1시간
             json.dumps([a.dict() for a in articles]),
         )
 
-        return articles
+        return articles, "postgres"
 ```
 
-### 4. News Categories
+---
+
+## RabbitMQ Queue Configuration
+
+```yaml
+# Topology CR로 큐 생성 (Worker는 소비만)
+Queue: info.collect_news
+  Type: classic
+  TTL: 10min
+  DLX: dlx → dlq.info.collect_news
+```
+
+**핵심 원칙**: 인프라 레벨에서 큐 정책 관리, 코드 재배포 없이 정책 변경 가능
+
+---
+
+## Cache Strategy
+
+### Write-Through (Worker → Redis)
+
+```python
+# 수집 후 즉시 Redis에 캐시
+async def warm_cache(articles: list[Article]):
+    pipe = redis.pipeline()
+
+    # 목록 캐시
+    pipe.setex("info:articles:all", 3600, json.dumps(articles))
+
+    # 개별 기사 캐시
+    for article in articles:
+        pipe.setex(f"info:article:{article.id}", 86400, article.json())
+
+    await pipe.execute()
+```
+
+### Cache TTL Policy
+
+| Key Pattern | TTL | Description |
+|-------------|-----|-------------|
+| `info:articles:*` | 3600s (1h) | 목록 캐시 |
+| `info:article:{id}` | 86400s (24h) | 개별 기사 |
+
+---
+
+## Worker Architecture (Beat Sidecar Pattern)
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│                    Info Worker Pod                             │
+├───────────────────────────────────────────────────────────────┤
+│                                                                │
+│   ┌─────────────────────────┐   ┌─────────────────────────┐   │
+│   │     Celery Worker       │   │     Beat Sidecar        │   │
+│   │     (Main Container)    │   │     (Scheduler)         │   │
+│   │                         │   │                         │   │
+│   │   -P gevent             │   │   celery beat           │   │
+│   │   -c 100                │   │   --schedule=/tmp/...   │   │
+│   │                         │   │                         │   │
+│   │   • collect_news        │◀──│   • 5min (naver)        │   │
+│   │   • cleanup_articles    │   │   • 30min (newsdata)    │   │
+│   │   • extract_og_image    │   │   • 03:00 (cleanup)     │   │
+│   └─────────────────────────┘   └─────────────────────────┘   │
+│              │                              │                  │
+│              └──────────────────────────────┘                  │
+│                         │                                      │
+│                         ▼                                      │
+│              ┌─────────────────────┐                          │
+│              │    emptyDir         │                          │
+│              │ /tmp/celerybeat-    │                          │
+│              │      schedule       │                          │
+│              └─────────────────────┘                          │
+│                                                                │
+└───────────────────────────────────────────────────────────────┘
+```
+
+**Beat Sidecar 선택 이유**: gevent와 embedded `-B` 플래그 비호환성 해결
+
+---
+
+## News Categories
 
 | Category | Keywords | Description |
 |----------|----------|-------------|
@@ -220,78 +289,17 @@ class InfoService:
 ## Frontend Integration
 
 ```typescript
-// React 컴포넌트에서 뉴스 피드 사용
-const NewsFeed: React.FC = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['news', category, page],
-    queryFn: () => infoApi.getArticles({ category, page }),
+// React Query useInfiniteQuery + IntersectionObserver
+const useNewsInfiniteQuery = (category?: string) => {
+  return useInfiniteQuery({
+    queryKey: ['news', category],
+    queryFn: ({ pageParam = 1 }) =>
+      infoApi.getArticles({ category, page: pageParam }),
+    getNextPageParam: (lastPage, pages) =>
+      lastPage.hasMore ? pages.length + 1 : undefined,
     staleTime: 5 * 60 * 1000, // 5분
   });
-
-  return (
-    <div className="news-feed">
-      {data?.articles.map(article => (
-        <NewsCard
-          key={article.id}
-          title={article.title}
-          description={article.description}
-          category={article.category}
-          pubDate={article.pubDate}
-          onClick={() => window.open(article.link, '_blank')}
-        />
-      ))}
-    </div>
-  );
 };
-```
-
----
-
-## Database Schema
-
-```sql
--- 뉴스 기사 테이블
-CREATE TABLE articles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title VARCHAR(500) NOT NULL,
-    description TEXT,
-    link VARCHAR(1000) NOT NULL UNIQUE,
-    source VARCHAR(50) NOT NULL,
-    category VARCHAR(50),
-    pub_date TIMESTAMP NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW(),
-
-    -- 인덱스
-    INDEX idx_articles_category (category),
-    INDEX idx_articles_pub_date (pub_date DESC),
-    INDEX idx_articles_source (source)
-);
-
--- 전문 검색 인덱스
-CREATE INDEX idx_articles_search
-ON articles USING GIN (to_tsvector('korean', title || ' ' || description));
-```
-
----
-
-## Worker Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Info Worker Pod                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   ┌─────────────────────┐   ┌─────────────────────┐         │
-│   │   Celery Worker     │   │   Beat Sidecar      │         │
-│   │   (Main Container)  │   │   (Scheduler)       │         │
-│   │                     │   │                     │         │
-│   │   - fetch_naver     │   │   - crontab         │         │
-│   │   - fetch_newsdata  │   │   - schedule tasks  │         │
-│   │   - cleanup         │   │                     │         │
-│   │   - categorize      │   │                     │         │
-│   └─────────────────────┘   └─────────────────────┘         │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -299,8 +307,14 @@ ON articles USING GIN (to_tsvector('korean', title || ' ' || description));
 ## Infrastructure
 
 - **Kubernetes**: Worker Deployment + Beat Sidecar
-- **PostgreSQL**: Articles 저장
-- **Redis**: Query 캐시 (Cache-Aside)
-- **RabbitMQ**: Task queue
+- **PostgreSQL**: Articles 저장 (psycopg2 / asyncpg)
+- **Redis Sentinel**: Cache (Write-Through + Cache Aside)
+- **RabbitMQ**: Task queue (Topology CR 관리)
 - **Naver API**: 한국 뉴스 소스
 - **NewsData.io**: 글로벌 뉴스 소스
+
+---
+
+## References
+
+- [Info 서비스 CQRS + Cache Aside 패턴](https://rooftopsnow.tistory.com/208)

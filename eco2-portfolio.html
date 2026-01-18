@@ -4932,9 +4932,9 @@
 
     <!-- Modal: Domain - Info -->
     <div class="modal-overlay" id="modal-domain-info">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content" style="max-width: 1000px;">
             <button class="modal-close" onclick="closeModal('modal-domain-info')">×</button>
-            <h3 class="modal-title">📰 Info Domain - CQRS Pattern</h3>
+            <h3 class="modal-title">📰 Info Domain - CQRS + Cache Aside Pattern</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4947,94 +4947,147 @@
                 </a>
             </div>
 
-            <!-- CQRS Architecture -->
+            <!-- Full Architecture Diagram -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">CQRS (Command Query Responsibility Segregation)</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">CQRS + Cache Aside Architecture</h4>
+                <div class="modal-diagram" style="font-size: 0.65rem; line-height: 1.3;">
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│                           Info Domain - CQRS + Cache Aside                            │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                       │
+│  ╔═══════════════════════════════════════════════════════════════════════════════╗   │
+│  ║                        WRITE PATH (info_worker Pod)                            ║   │
+│  ╠═══════════════════════════════════════════════════════════════════════════════╣   │
+│  ║                                                                                ║   │
+│  ║  ┌─────────────┐    ┌─────────────────────────────────────────────────────┐   ║   │
+│  ║  │Beat Sidecar │    │              Celery Worker (gevent -c 100)          │   ║   │
+│  ║  │             │    │                                                     │   ║   │
+│  ║  │ • 5min Naver│───▶│  CollectNewsCommand                                 │   ║   │
+│  ║  │ • 30min News│    │    │                                                │   ║   │
+│  ║  │   Data.io   │    │    ▼                                                │   ║   │
+│  ║  │ • 03:00     │    │  ┌─────────────┐   ┌─────────────┐                  │   ║   │
+│  ║  │   cleanup   │    │  │ Naver API   │   │NewsData.io  │  API Calls       │   ║   │
+│  ║  └─────────────┘    │  │ (3x, 1.10s) │   │(3x, 0.69s)  │  (1.79s)         │   ║   │
+│  ║                     │  └──────┬──────┘   └──────┬──────┘                  │   ║   │
+│  ║  emptyDir:          │         └────────┬────────┘                         │   ║   │
+│  ║  /tmp/celerybeat    │                  ▼                                  │   ║   │
+│  ║                     │         ┌─────────────────┐                         │   ║   │
+│  ║                     │         │  OG Extraction  │  httpx.Client           │   ║   │
+│  ║                     │         │  95/110 = 86.4% │  (14.53s) ⚠️ bottleneck │   ║   │
+│  ║                     │         └────────┬────────┘                         │   ║   │
+│  ║                     │                  ▼                                  │   ║   │
+│  ║                     │  ┌─────────────────────────────────────────────┐    │   ║   │
+│  ║                     │  │  PostgreSQL UPSERT (0.20s)                  │    │   ║   │
+│  ║                     │  │  psycopg2 + ThreadedConnectionPool          │    │   ║   │
+│  ║                     │  └────────────────────┬────────────────────────┘    │   ║   │
+│  ║                     │                       ▼                             │   ║   │
+│  ║                     │  ┌─────────────────────────────────────────────┐    │   ║   │
+│  ║                     │  │  Redis Write-Through (0.04s)                │    │   ║   │
+│  ║                     │  │  TTL: lists 3600s / articles 86400s         │    │   ║   │
+│  ║                     │  └─────────────────────────────────────────────┘    │   ║   │
+│  ║                     └─────────────────────────────────────────────────────┘   ║   │
+│  ║                                                                                ║   │
+│  ║  Total: 110 articles fetched → 110 cached → 16.95s/task                       ║   │
+│  ╚═══════════════════════════════════════════════════════════════════════════════╝   │
+│                                                                                       │
+│  ╔═══════════════════════════════════════════════════════════════════════════════╗   │
+│  ║                        READ PATH (info API - Cache Aside)                      ║   │
+│  ╠═══════════════════════════════════════════════════════════════════════════════╣   │
+│  ║                                                                                ║   │
+│  ║  ┌──────────┐     ┌─────────────┐     ┌─────────────┐                         ║   │
+│  ║  │  Client  │────▶│  Info API   │────▶│    Redis    │──── HIT ────▶ Response  ║   │
+│  ║  │ (React)  │     │  (FastAPI)  │     │  (Primary)  │     source: "redis"     ║   │
+│  ║  └──────────┘     │             │     └──────┬──────┘                         ║   │
+│  ║                   │  asyncpg    │            │ MISS                           ║   │
+│  ║                   │  redis.aio  │            ▼                                ║   │
+│  ║                   └─────────────┘     ┌─────────────┐                         ║   │
+│  ║                                       │ PostgreSQL  │──── Fallback ──▶ Resp   ║   │
+│  ║                                       │ (Emergency) │     source: "postgres"  ║   │
+│  ║                                       └─────────────┘                         ║   │
+│  ║                                                                                ║   │
+│  ║  Zero-downtime: Redis 장애 시에도 PostgreSQL Fallback으로 서비스 유지           ║   │
+│  ╚═══════════════════════════════════════════════════════════════════════════════╝   │
+│                                                                                       │
+└──────────────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;">
+                <div style="background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #10b981;">110</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">Articles/Task</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05)); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #3b82f6;">86.4%</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">OG Success</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(168,85,247,0.05)); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #a855f7;">16.95s</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">Task Duration</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(245,158,11,0.3);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #f59e0b;">100</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">gevent Pool</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.05)); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(239,68,68,0.3);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #ef4444;">14.53s</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">OG Bottleneck</div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Tech Stack Decisions</h4>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
-                        <h5 style="color: #ef4444; margin-bottom: 0.75rem;">✏️ Command Side (Write)</h5>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div><strong>Info Worker</strong></div>
-                            <div>• Naver News API 수집 (30분)</div>
-                            <div>• NewsData.io 수집 (60분)</div>
-                            <div>• 중복 제거 + 카테고리 분류</div>
-                            <div>• PostgreSQL 배치 저장</div>
+                        <h5 style="color: #ef4444; margin-bottom: 0.75rem;">✏️ Worker (Sync)</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>• <strong>psycopg2</strong> - gevent greenlet 호환</div>
+                            <div>• <strong>redis-py</strong> - 단순 연산, 비동기 불필요</div>
+                            <div>• <strong>httpx.Client</strong> - OG 추출 connection pool</div>
+                            <div>• <strong>gevent -c 100</strong> - 고동시성 I/O</div>
                         </div>
                     </div>
                     <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
-                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">📖 Query Side (Read)</h5>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div><strong>Info API</strong></div>
-                            <div>• GET /articles (뉴스 목록)</div>
-                            <div>• GET /articles/search (검색)</div>
-                            <div>• Cache-Aside (Redis, 5분 TTL)</div>
-                            <div>• React Query useInfiniteQuery</div>
+                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">📖 API (Async)</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>• <strong>asyncpg</strong> - FastAPI async 모델 일치</div>
+                            <div>• <strong>redis.asyncio</strong> - 비동기 네이티브</div>
+                            <div>• <strong>source 메타데이터</strong> - "redis"/"postgres"</div>
+                            <div>• <strong>useInfiniteQuery</strong> - 무한스크롤</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- News Categories -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">News Categories</h4>
-                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🌍 환경</div>
+            <!-- RabbitMQ + Categories -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🐰 RabbitMQ Queue (Topology CR)</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); font-family: monospace;">
+                        <div>Queue: info.collect_news</div>
+                        <div>Type: classic</div>
+                        <div>TTL: 10min</div>
+                        <div>DLX: dlx → dlq.info.collect_news</div>
                     </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>♻️ 재활용</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>⚡ 에너지</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🤖 AI</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>📜 정책</div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📂 News Categories</h5>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.75rem;">
+                        <div style="text-align: center;">🌍 환경</div>
+                        <div style="text-align: center;">♻️ 재활용</div>
+                        <div style="text-align: center;">⚡ 에너지</div>
+                        <div style="text-align: center;">🤖 AI</div>
+                        <div style="text-align: center;">📜 정책</div>
+                        <div style="text-align: center;">🌐 글로벌</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Worker Architecture -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Worker Architecture</h4>
-                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
-┌───────────────────────────────────────────────────────────────┐
-│                    Info Worker Pod                             │
-├───────────────────────────────────────────────────────────────┤
-│                                                                │
-│   ┌─────────────────────────┐   ┌─────────────────────────┐   │
-│   │     Celery Worker       │   │     Beat Sidecar        │   │
-│   │     (Main Container)    │   │     (Scheduler)         │   │
-│   │                         │   │                         │   │
-│   │   • fetch_naver (30m)   │   │   • crontab schedules   │   │
-│   │   • fetch_newsdata (1h) │   │   • task dispatching    │   │
-│   │   • cleanup (03:00)     │   │                         │   │
-│   └─────────────────────────┘   └─────────────────────────┘   │
-│                                                                │
-└───────────────────────────────────────────────────────────────┘</div>
-            </div>
-
-            <!-- Technical Details -->
-            <div class="domain-details">
-                <div class="domain-detail-grid">
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Cache-Aside</div>
-                        <div class="domain-detail-value">Redis 조회 → Miss 시 PostgreSQL → Redis 저장 (TTL 5분)</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">OG Image</div>
-                        <div class="domain-detail-value">OpenGraph 썸네일 추출, 86.4% 성공률, ~153ms/article</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Frontend</div>
-                        <div class="domain-detail-value">useInfiniteQuery + IntersectionObserver 무한스크롤</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Data Sources</div>
-                        <div class="domain-detail-value">Naver News API (한국), NewsData.io (글로벌)</div>
-                    </div>
+            <!-- Blog Reference -->
+            <div style="padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    📊 상세 구현: <a href="https://rooftopsnow.tistory.com/208" target="_blank" rel="noopener" style="color: #6366f1;">Info 서비스 CQRS + Cache Aside 패턴</a>
                 </div>
             </div>
         </div>
