@@ -2559,8 +2559,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko"><strong>LangGraph Send API</strong> 기반 동적 병렬 라우팅을 구현했습니다. <strong>9분류 Intent(waste/character/location/bulk_waste/recyclable_price/collection_point/web_search/image_generation/general)</strong>와 <strong>Multi-Intent Fanout</strong>으로 "종이 버리고 수거함도 알려줘" 같은 복합 질문을 병렬 처리합니다. <strong>3-Tier Memory(Redis + PostgreSQL)</strong>와 <strong>Token v2 복구 가능 스트리밍</strong>으로 재연결 시 토큰 catch-up을 지원합니다.</span>
-                        <span class="lang-en">Implemented dynamic parallel routing based on <strong>LangGraph Send API</strong>. <strong>9-class Intent (waste/character/location/bulk_waste/recyclable_price/collection_point/web_search/image_generation/general)</strong> with <strong>Multi-Intent Fanout</strong> handles compound queries like "How to dispose paper and show collection points" in parallel. <strong>3-Tier Memory (Redis + PostgreSQL)</strong> and <strong>Token v2 recoverable streaming</strong> enable token catch-up on reconnection.</span>
+                        <span class="lang-ko"><strong>LangGraph Send API</strong> 기반 동적 병렬 라우팅을 구현했습니다. <strong>9분류 Intent</strong>와 <strong>Multi-Intent Fanout</strong>으로 "종이 버리고 수거함도 알려줘" 같은 복합 질문을 병렬 처리합니다. <strong>3-Tier Memory(Redis + PostgreSQL)</strong>와 <strong>Token v2 복구 가능 스트리밍</strong>으로 재연결 시 토큰 catch-up을 지원합니다.</span>
+                        <span class="lang-en">Implemented dynamic parallel routing based on <strong>LangGraph Send API</strong>. <strong>9-class Intent</strong> with <strong>Multi-Intent Fanout</strong> handles compound queries like "How to dispose paper and show collection points" in parallel. <strong>3-Tier Memory (Redis + PostgreSQL)</strong> and <strong>Token v2 recoverable streaming</strong> enable token catch-up on reconnection.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement clickable" onclick="openModal('modal-intent-pipeline')" style="cursor: pointer;">
@@ -2603,6 +2603,13 @@
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Feedback + Fallback Chain</strong> RAG → web_search → general_llm, Clarification 메시지 생성 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>Feedback + Fallback Chain</strong> RAG → web_search → general_llm, Clarification message generation <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                            </div>
+                        </div>
+                        <div class="achievement clickable" onclick="openModal('modal-chat-observability')" style="cursor: pointer;">
+                            <span class="achievement-icon">🔭</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>LangSmith + OTEL</strong> TelemetryConfigPort 추상화, Feature 단위 Run 추적, OTEL Span 통합 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>LangSmith + OTEL</strong> TelemetryConfigPort abstraction, Feature-level Run tracking, OTEL Span integration <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                     </div>
@@ -3576,10 +3583,6 @@
                     <div class="spec-item">
                         <span class="spec-label">Checkpointer</span>
                         <span class="spec-value">RedisSaver</span>
-                    </div>
-                    <div class="spec-item clickable" data-modal="modal-chat-observability" style="cursor: pointer;">
-                        <span class="spec-label">📊 Observability</span>
-                        <span class="spec-value" style="color: var(--primary);">LangSmith + OTEL</span>
                     </div>
                 </div>
             </div>
