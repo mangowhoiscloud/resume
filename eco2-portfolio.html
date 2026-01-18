@@ -4236,51 +4236,80 @@
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+                    <span class="lang-ko">🏗️ Dual-Path 아키텍처</span>
+                    <span class="lang-en">🏗️ Dual-Path Architecture</span>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Chat API (TaskIQ)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">RabbitMQ (Direct)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Chat Worker</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">LangGraph (Send API)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Streams</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">SSE Gateway</span>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Path 1: Job Execution (RabbitMQ)</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">Chat API</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">TaskIQ Broker</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">RabbitMQ (DIRECT)</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Chat Worker</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">LangGraph astream_events</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Path 2: Event Streaming (Redis)</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">Redis Streams</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Event Router (XREADGROUP)</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Pub/Sub</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">SSE Gateway</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Client</span>
+                    </div>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">파이프라인</span>
-                                <span class="lang-en">Pipeline</span>
+                                <span class="lang-ko">네이티브 스트리밍</span>
+                                <span class="lang-en">Native Streaming</span>
                             </div>
-                            <div class="domain-detail-value">LangGraph Send API + 9분류 Intent + Multi-Intent Fanout 병렬 처리</div>
+                            <div class="domain-detail-value">LangGraph astream_events v2 + DynamicProgressTracker (Phase 기반 병렬 서브에이전트 진행률)</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
-                                <span class="lang-ko">메모리 계층</span>
-                                <span class="lang-en">Memory Hierarchy</span>
+                                <span class="lang-ko">Event-First</span>
+                                <span class="lang-en">Event-First</span>
                             </div>
-                            <div class="domain-detail-value">3-Tier: Token Stream (1h) + Checkpoint Cache (24h) + PostgreSQL</div>
+                            <div class="domain-detail-value">Single Write Path: done 이벤트에 persistence 포함 → Consumer Group으로 SSE + PostgreSQL 분기</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">토큰 스트리밍</span>
                                 <span class="lang-en">Token Streaming</span>
                             </div>
-                            <div class="domain-detail-value">Token v2: 재연결 시 seq 기반 catch-up, 10토큰마다 State 스냅샷</div>
+                            <div class="domain-detail-value">Token v2: chat:tokens:{job_id} + 10토큰마다 State 스냅샷 → 재연결 시 seq 기반 catch-up</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">Resilience</span>
                                 <span class="lang-en">Resilience</span>
                             </div>
-                            <div class="domain-detail-value">NodePolicy (fail_open/close/fallback) + Circuit Breaker + Intent별 Timeout</div>
+                            <div class="domain-detail-value">NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker + NodeExecutor 통합 실행</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">컨텍스트 압축</span>
+                                <span class="lang-en">Context Compression</span>
+                            </div>
+                            <div class="domain-detail-value">OpenCode 스타일 동적 압축: PRUNE_PROTECT 40K, 모델별 272K 트리거, 구조화 5섹션 요약</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
+                                <span class="lang-ko">Channel Separation</span>
+                                <span class="lang-en">Channel Separation</span>
+                            </div>
+                            <div class="domain-detail-value">ChatState 타입화 + Annotated Reducer로 병렬 노드 Race Condition 방지</div>
                         </div>
                     </div>
                 </div>
