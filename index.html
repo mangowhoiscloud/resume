@@ -582,7 +582,7 @@
             <span class="item-title">Eco2 - Multi-LLM Vision Recycling Assistant</span>
             <span class="item-subtitle"> | Backend & Infrastructure</span>
         </div>
-        <span class="item-period">Oct 31, 2025 - Present (69 days)</span>
+        <span class="item-period" id="eco2-days">Oct 31, 2025 - Present</span>
     </div>
     <p class="item-description lang-ko">GPT/Gemini Vision + Rule-based Retrieval 기반 AI 분리수거 도우미 | K8s 기반 24-Node 마이크로서비스 클러스터</p>
     <p class="item-description lang-en">AI recycling assistant based on GPT/Gemini Vision + Rule-based Retrieval | K8s-based 24-Node microservices cluster</p>
@@ -690,6 +690,12 @@
                 setLang('en');
             }
         }
+
+        // Calculate days since Eco2 project start
+        const start = new Date('2025-10-31');
+        const now = new Date();
+        const days = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
+        document.getElementById('eco2-days').textContent = `Oct 31, 2025 - Present (${days} days)`;
     });
 </script>
 
