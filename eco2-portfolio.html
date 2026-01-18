@@ -5210,6 +5210,40 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                         </div>
                     </div>
                 </div>
+
+                <!-- Event Bus Architecture (moved up) -->
+                <div class="domain-architecture" style="margin: 1rem 0;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">🏗️ Event Bus 아키텍처</h4>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">4-Stage Celery Pipeline (scan.direct Exchange)</div>
+                        <div class="domain-flow">
+                            <span class="domain-flow-item">Scan API</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">scan.vision</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">scan.rule</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">scan.answer</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">scan.reward</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Event Bus: Redis Streams + Pub/Sub</div>
+                        <div class="domain-flow">
+                            <span class="domain-flow-item">Worker XADD</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">scan:events:{shard}</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">Event Router</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">Pub/Sub</span>
+                            <span class="domain-flow-arrow">→</span>
+                            <span class="domain-flow-item">SSE Gateway</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Performance Metrics Table -->
                 <div style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-subtle); overflow: hidden;">
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
@@ -5254,39 +5288,6 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                             <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: #22c55e; font-weight: 600;">SLA</a></td>
                         </tr>
                     </table>
-                </div>
-            </div>
-
-            <!-- Event Bus Architecture -->
-            <div class="domain-architecture" style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">🏗️ Event Bus 아키텍처</h4>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">4-Stage Celery Pipeline (scan.direct Exchange)</div>
-                    <div class="domain-flow">
-                        <span class="domain-flow-item">Scan API</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan.vision</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan.rule</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan.answer</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan.reward</span>
-                    </div>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Event Bus: Redis Streams + Pub/Sub</div>
-                    <div class="domain-flow">
-                        <span class="domain-flow-item">Worker XADD</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">scan:events:{shard}</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Event Router</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Pub/Sub</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">SSE Gateway</span>
-                    </div>
                 </div>
             </div>
 
