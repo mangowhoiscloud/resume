@@ -2180,9 +2180,9 @@
                     </div>
                 </div>
 
-                <!-- Developer Node (Top) -->
-                <div class="cycle-node developer">
-                    <div class="node-card">
+                <!-- Developer Node (Top) - Clickable -->
+                <div class="cycle-node developer clickable" data-modal="modal-developer-profile">
+                    <div class="node-card" style="cursor: pointer;">
                         <div class="node-icon">🧑‍💻</div>
                         <div class="node-title">Developer</div>
                         <div class="node-subtitle">
@@ -2190,8 +2190,8 @@
                             <span class="lang-en">Design & Review</span>
                         </div>
                         <div class="node-tooltip">
-                            <span class="lang-ko">의사결정과 설계 주도<br>코드 리뷰 & 품질 관리<br>아키텍처 방향 설정</span>
-                            <span class="lang-en">Decision-making & design lead<br>Code review & quality control<br>Architecture direction</span>
+                            <span class="lang-ko">💡 클릭하여 프로필 보기<br>류지환 | Backend Engineer<br>Go, Python, K8s, Istio</span>
+                            <span class="lang-en">💡 Click for profile<br>Jihwan Ryu | Backend Engineer<br>Go, Python, K8s, Istio</span>
                         </div>
                     </div>
                 </div>
@@ -5362,6 +5362,88 @@ needs_fallback = len(missing_required) > 0
                     <strong>L1</strong>: name + description (~100 words) → 항상 로드<br>
                     <strong>L2</strong>: SKILL.md body (&lt;5K words) → 스킬 트리거 시 로드<br>
                     <strong>L3</strong>: references/, scripts/ → 필요 시 선택적 로드
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Developer Profile -->
+    <div class="modal-overlay" id="modal-developer-profile">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="modal-close" onclick="closeModal('modal-developer-profile')">×</button>
+            <h3 class="modal-title">🧑‍💻 Developer Profile</h3>
+
+            <!-- Profile Header -->
+            <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1.5rem;">
+                <img src="assets/images/profile_jihwan.png" alt="Jihwan Ryu" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary);">
+                <div>
+                    <h4 style="color: var(--text-primary); font-size: 1.5rem; margin-bottom: 0.25rem;">류지환 (Jihwan Ryu)</h4>
+                    <div style="color: var(--primary); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">Backend Engineer</div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <a href="https://mangowhoiscloud.github.io/resume/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.6rem; background: rgba(0,255,136,0.1); border: 1px solid var(--primary); border-radius: 15px; font-size: 0.75rem; color: var(--primary); text-decoration: none;">
+                            📄 Resume
+                        </a>
+                        <a href="https://github.com/mangowhoiscloud" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.6rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; font-size: 0.75rem; color: var(--text-secondary); text-decoration: none;">
+                            GitHub
+                        </a>
+                        <a href="https://rooftopsnow.tistory.com" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.6rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; font-size: 0.75rem; color: var(--text-secondary); text-decoration: none;">
+                            Blog
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div style="margin-bottom: 1.5rem;">
+                <h5 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Tech Stack</h5>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; font-size: 0.85rem;">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem;">Languages</div>
+                        <div style="color: var(--text-secondary);">Go, Python, C++17, Java</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem;">Backend</div>
+                        <div style="color: var(--text-secondary);">FastAPI, gRPC, Spring</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem;">Infrastructure</div>
+                        <div style="color: var(--text-secondary);">Kubernetes, Istio, Terraform</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem;">DevOps</div>
+                        <div style="color: var(--text-secondary);">ArgoCD, Helm, GitHub Actions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div style="margin-bottom: 1.5rem;">
+                <h5 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Education</h5>
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>부산대학교</strong> 컴퓨터공학과 학사 (2017–2023)
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>카카오테크 부트캠프</strong> Backend 과정 (2024)
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <span style="background: rgba(139,92,246,0.2); padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.75rem;">정보처리기사 (2024)</span>
+                        <span style="background: rgba(59,130,246,0.2); padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.75rem;">OPIc IH (2024)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Highlight -->
+            <div style="padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">Experience Highlights</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>Rakuten Symphony Korea</strong> (2024–2025) — CNP 분산 스토리지 운영, 20M 글로벌 사용자
+                    </div>
+                    <div>
+                        <strong>Eco² Project Lead</strong> (2024–Present) — 24노드 K8s 마이크로서비스 클러스터 설계,
+                        Event Relay 아키텍처로 동시 부하 처리량 <strong style="color: var(--primary);">600% 개선</strong>
+                    </div>
                 </div>
             </div>
         </div>
