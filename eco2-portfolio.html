@@ -4085,33 +4085,99 @@
                 </div>
             </div>
 
+            <!-- 2-Tier Cache Architecture -->
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 1rem; font-size: 1.1rem;">
+                <span class="lang-ko">🗄️ 2-Tier Cache Architecture</span>
+                <span class="lang-en">🗄️ 2-Tier Cache Architecture</span>
+            </h4>
+            <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    2-Tier Local Cache Strategy                            │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   ┌───────────────────────────────────────────────────────────────────┐  │
+│   │  Tier 1: Local In-Memory Cache (Primary)                          │  │
+│   │  ─────────────────────────────────────────                        │  │
+│   │  • Thread-safe Singleton (Double-Checked Locking)                 │  │
+│   │  • ~50KB (13 character records)                                   │  │
+│   │  • Zero-latency access (~0.01ms)                                  │  │
+│   │  • No Fixed TTL → Event-driven refresh                            │  │
+│   └───────────────────────────────────────────────────────────────────┘  │
+│                              │ miss                                       │
+│                              ▼                                            │
+│   ┌───────────────────────────────────────────────────────────────────┐  │
+│   │  Tier 2: Database Fallback (Secondary)                            │  │
+│   │  ─────────────────────────────────────────                        │  │
+│   │  • PostgreSQL via SQLAlchemy                                      │  │
+│   │  • Graceful degradation                                           │  │
+│   └───────────────────────────────────────────────────────────────────┘  │
+│                                                                           │
+│   Initialization & Sync                                                   │
+│   ─────────────────────────────────────────                              │
+│   ┌─────────────┐     Eager Loading      ┌─────────────────────────┐    │
+│   │  FastAPI    │ ──────────────────────▶│  CharacterLocalCache    │    │
+│   │  Lifespan   │     (서버 시작 전)      │  (Singleton)            │    │
+│   └─────────────┘                        └─────────────────────────┘    │
+│                                                    ▲                     │
+│   ┌─────────────┐     Event-Based Sync   ┌────────┴────────────────┐    │
+│   │  RabbitMQ   │ ──────────────────────▶│  MQ Consumer (goroutine)│    │
+│   │  Fanout     │     (Eventual Consist) │  → All Pods Broadcast   │    │
+│   └─────────────┘                        └─────────────────────────┘    │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+
             <!-- Performance -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
                 <div style="background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">~100ns</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">~0.01ms</div>
                     <div style="font-size: 0.75rem; color: var(--text-secondary);">Local Cache Lookup</div>
                 </div>
                 <div style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">~5ms</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary);">gRPC Cold Call</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">~50KB</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">13 Records Cached</div>
                 </div>
                 <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(168,85,247,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #a855f7;">Long TTL</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Character Category</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #a855f7;">No TTL</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Event-driven Refresh</div>
                 </div>
             </div>
 
+            <!-- Implementation Patterns -->
+            <h4 style="color: var(--accent-purple); margin: 1.5rem 0 1rem; font-size: 1.1rem;">
+                <span class="lang-ko">🏗️ Implementation Patterns</span>
+                <span class="lang-en">🏗️ Implementation Patterns</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">패턴</span><span class="lang-en">Pattern</span></th>
+                    <th><span class="lang-ko">구현</span><span class="lang-en">Implementation</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td>Decorator</td>
+                    <td><code>LocalCachedCatalogReader</code></td>
+                    <td><span class="lang-ko">Cache 래핑 → SqlaCharacterReader delegate</span><span class="lang-en">Cache wrapper → SqlaCharacterReader delegate</span></td>
+                </tr>
+                <tr>
+                    <td>Singleton</td>
+                    <td><code>CharacterLocalCache</code></td>
+                    <td><span class="lang-ko">Double-Checked Locking으로 thread-safe</span><span class="lang-en">Thread-safe via Double-Checked Locking</span></td>
+                </tr>
+                <tr>
+                    <td>Eager Loading</td>
+                    <td>FastAPI Lifespan</td>
+                    <td><span class="lang-ko">서버 시작 전 DB에서 캐시 워밍업</span><span class="lang-en">Cache warmup from DB before server start</span></td>
+                </tr>
+                <tr>
+                    <td>Eventual Consistency</td>
+                    <td>RabbitMQ Fanout</td>
+                    <td><span class="lang-ko">수 초 지연 허용, Redis 의존성 제거</span><span class="lang-en">Accept seconds latency, Redis-independent</span></td>
+                </tr>
+            </table>
+
             <!-- Technical Details -->
-            <div class="domain-details">
+            <div class="domain-details" style="margin-top: 1.5rem;">
                 <div class="domain-detail-grid">
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Local Cache Broadcast</div>
-                        <div class="domain-detail-value">RabbitMQ Fanout → 모든 Pod의 sync.Map 동기화</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Local Cache 이유</div>
-                        <div class="domain-detail-value">전체 캐릭터 목록 변경 주기가 길어 로컬 캐싱으로 성능 최적화</div>
-                    </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Chat Integration</div>
                         <div class="domain-detail-value">character_node에서 gRPC 호출 → 캐릭터 이미지 기반 스타일 유지</div>
@@ -4120,6 +4186,16 @@
                         <div class="domain-detail-label">Ownership</div>
                         <div class="domain-detail-value">스캔 분류 결과의 middle_category 기반 캐릭터 자동 매칭</div>
                     </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem;">
+                    <a href="https://rooftopsnow.tistory.com/135" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">Character Local Cache 아키텍처 →</span>
+                        <span class="lang-en">Character Local Cache Architecture →</span>
+                    </a>
                 </div>
             </div>
         </div>
