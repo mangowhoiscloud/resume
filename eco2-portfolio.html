@@ -5433,6 +5433,22 @@ needs_fallback = len(missing_required) > 0
                 </div>
             </div>
 
+            <!-- Awards -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(245,158,11,0.1); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                <strong style="color: #f59e0b;">🏆 Awards</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>2025 AI 새싹톤 우수상</strong>
+                            <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem;">
+                                서울특별시 주최 · DACON 운영 | 본선 4위/32팀 (예선 181팀)
+                            </div>
+                        </div>
+                        <span style="background: rgba(245,158,11,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem; color: #f59e0b;">2025.12</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Professional Experience -->
             <div style="margin-bottom: 1.5rem;">
                 <h5 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Professional Experience</h5>
@@ -5461,22 +5477,6 @@ needs_fallback = len(missing_required) > 0
                         </td>
                     </tr>
                 </table>
-            </div>
-
-            <!-- Awards -->
-            <div style="padding: 1rem; background: rgba(245,158,11,0.1); border-radius: 8px; border-left: 3px solid #f59e0b;">
-                <strong style="color: #f59e0b;">🏆 Awards</strong>
-                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.85rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <strong>2025 SeSACTHON 우수상</strong>
-                            <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem;">
-                                서울특별시 주최 · DACON 운영 | 본선 4위/32팀 (예선 181팀)
-                            </div>
-                        </div>
-                        <span style="background: rgba(245,158,11,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem; color: #f59e0b;">2025.12</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -5910,9 +5910,9 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div style="background: rgba(34,197,94,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
                         <div style="font-weight: 600; color: #22c55e; margin-bottom: 0.5rem; font-size: 0.85rem;">✅ Phase 3: Event Bus</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary);">
-                            <div>300 VU: <strong>99.9%</strong> 완료율</div>
-                            <div>O(n×m) → O(n) 연결</div>
-                            <div style="color: #22c55e; margin-top: 0.25rem;">무제한 수평 확장</div>
+                            <div>500 VU: <strong>94%</strong> (단일 노드 한계)</div>
+                            <div>SLA: 300 VU <strong>99.9%</strong></div>
+                            <div style="color: #22c55e; margin-top: 0.25rem;">O(n×m) → O(n) 연결</div>
                         </div>
                     </div>
                 </div>
@@ -5988,10 +5988,26 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                         <tr style="background: rgba(34,197,94,0.15);">
                             <td style="padding: 0.4rem; text-align: center; font-weight: 600;">300</td>
                             <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.9%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">404 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">48.6s</td>
+                            <td style="padding: 0.4rem; text-align: center;">402 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">48.5s</td>
                             <td style="padding: 0.4rem; text-align: center;">83ms</td>
-                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: #22c55e; font-weight: 600;">SLA</a></td>
+                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: #22c55e; font-weight: 600;">⭐ SLA</a></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.4rem; text-align: center;">400</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #f59e0b;"><strong>98.9%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">422 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">62.2s</td>
+                            <td style="padding: 0.4rem; text-align: center;">207ms</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #f59e0b;">⚠️ 한계 근접</td>
+                        </tr>
+                        <tr style="background: rgba(239,68,68,0.1);">
+                            <td style="padding: 0.4rem; text-align: center; font-weight: 600;">500</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #ef4444;"><strong>94.0%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">438 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">76.4s</td>
+                            <td style="padding: 0.4rem; text-align: center;">154ms</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #ef4444;">❌ 단일 노드 한계</td>
                         </tr>
                     </table>
                 </div>
