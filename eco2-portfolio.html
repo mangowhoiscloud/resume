@@ -5136,6 +5136,40 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </a>
             </div>
 
+            <!-- 4-Stage Pipeline with Latency (Moved to top) -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">4-Stage Celery Pipeline</h4>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(139,92,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👁️</div>
+                        <div style="font-weight: 600; color: #8b5cf6;">Vision</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">OpenAI Vision API</div>
+                        <div style="font-size: 0.7rem; color: #8b5cf6; margin-top: 0.25rem; font-weight: 600;">~4.5s (40%)</div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📋</div>
+                        <div style="font-weight: 600; color: #f59e0b;">Rule</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">JSON 규정 검색</div>
+                        <div style="font-size: 0.7rem; color: #f59e0b; margin-top: 0.25rem; font-weight: 600;">~0.3s (5%)</div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💬</div>
+                        <div style="font-weight: 600; color: #10b981;">Answer</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">LLM 응답 생성</div>
+                        <div style="font-size: 0.7rem; color: #10b981; margin-top: 0.25rem; font-weight: 600;">~4.8s (45%)</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎁</div>
+                        <div style="font-weight: 600; color: #3b82f6;">Reward</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">캐릭터 매칭</div>
+                        <div style="font-size: 0.7rem; color: #3b82f6; margin-top: 0.25rem; font-weight: 600;">~1.7s (10%)</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">
+                    Total: ~11.3s (LLM I/O-bound 85%)
+                </div>
+            </div>
+
             <!-- Architecture Evolution -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
@@ -5220,40 +5254,6 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                             <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: #22c55e; font-weight: 600;">SLA</a></td>
                         </tr>
                     </table>
-                </div>
-            </div>
-
-            <!-- 4-Stage Pipeline with Latency -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">4-Stage Celery Pipeline</h4>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
-                    <div style="background: rgba(139,92,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.4); text-align: center;">
-                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👁️</div>
-                        <div style="font-weight: 600; color: #8b5cf6;">Vision</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">OpenAI Vision API</div>
-                        <div style="font-size: 0.7rem; color: #8b5cf6; margin-top: 0.25rem; font-weight: 600;">~4.5s (40%)</div>
-                    </div>
-                    <div style="background: rgba(245,158,11,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.4); text-align: center;">
-                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📋</div>
-                        <div style="font-weight: 600; color: #f59e0b;">Rule</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">PostgreSQL 규칙</div>
-                        <div style="font-size: 0.7rem; color: #f59e0b; margin-top: 0.25rem; font-weight: 600;">~0.3s (5%)</div>
-                    </div>
-                    <div style="background: rgba(16,185,129,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.4); text-align: center;">
-                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💬</div>
-                        <div style="font-weight: 600; color: #10b981;">Answer</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">LLM 응답 생성</div>
-                        <div style="font-size: 0.7rem; color: #10b981; margin-top: 0.25rem; font-weight: 600;">~4.8s (45%)</div>
-                    </div>
-                    <div style="background: rgba(59,130,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.4); text-align: center;">
-                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎁</div>
-                        <div style="font-weight: 600; color: #3b82f6;">Reward</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">캐릭터 매칭</div>
-                        <div style="font-size: 0.7rem; color: #3b82f6; margin-top: 0.25rem; font-weight: 600;">~1.7s (10%)</div>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">
-                    Total: ~11.3s (LLM I/O-bound 85%)
                 </div>
             </div>
 
@@ -9339,6 +9339,189 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
                     <span class="lang-ko">Vision 4.5s + Rule 0.3s + Answer 4.8s + Reward 1.7s = <strong>~11.3s</strong> (저부하 평균). OpenAI API가 전체 파이프라인의 <strong>82%</strong> (9.3s/11.3s) 차지.</span>
                     <span class="lang-en">Vision 4.5s + Rule 0.3s + Answer 4.8s + Reward 1.7s = <strong>~11.3s</strong> (low load avg). OpenAI API accounts for <strong>82%</strong> (9.3s/11.3s) of total pipeline.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Scan Pipeline Details -->
+    <div class="modal-overlay" id="modal-scan-pipeline">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-scan-pipeline')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">⚙️ Scan Pipeline Details - Celery Chain & Retry</span>
+                <span class="lang-en">⚙️ Scan Pipeline Details - Celery Chain & Retry</span>
+            </h3>
+
+            <!-- Pipeline Overview Diagram -->
+            <div class="modal-diagram">
+<pre style="font-size: 0.75rem; line-height: 1.4;">
+┌────────────────────────────────────────────────────────────────────────────────────┐
+│                        4-Stage Celery Chain Pipeline                                │
+├────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                    │
+│   ┌────────────┐    ┌────────────┐    ┌────────────┐    ┌────────────┐             │
+│   │  👁️ Vision │───▶│  📋 Rule   │───▶│  💬 Answer │───▶│  🎁 Reward │             │
+│   │  ~4.5s     │    │  ~0.3s     │    │  ~4.8s     │    │  ~1.7s     │             │
+│   │  (40%)     │    │  (5%)      │    │  (45%)     │    │  (10%)     │             │
+│   └─────┬──────┘    └─────┬──────┘    └─────┬──────┘    └─────┬──────┘             │
+│         │ seq:10-11       │ seq:20-21       │ seq:30-31       │ seq:40-41          │
+│         ▼                 ▼                 ▼                 ▼                    │
+│   ┌───────────────────────────────────────────────────────────────────┐            │
+│   │                    Redis Event Bus (XADD)                          │            │
+│   │                scan:events:{shard} (4 shards)                      │            │
+│   └───────────────────────────────────────────────────────────────────┘            │
+│                                                                                    │
+│   Total: ~11.3s (LLM I/O-bound 85%)                                                │
+└────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <!-- Stage Details Table -->
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">📊 Stage별 상세</span>
+                <span class="lang-en">📊 Stage Details</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th>Stage</th>
+                    <th>Queue</th>
+                    <th><span class="lang-ko">처리 내용</span><span class="lang-en">Processing</span></th>
+                    <th><span class="lang-ko">외부 의존성</span><span class="lang-en">External Dependency</span></th>
+                    <th>Latency</th>
+                </tr>
+                <tr>
+                    <td><strong>👁️ Vision</strong></td>
+                    <td><code>scan.vision</code></td>
+                    <td><span class="lang-ko">이미지 분류 (GPT Vision)</span><span class="lang-en">Image Classification (GPT Vision)</span></td>
+                    <td>OpenAI API (gpt-5.2)</td>
+                    <td><strong>~4.5s</strong> (40%)</td>
+                </tr>
+                <tr>
+                    <td><strong>📋 Rule</strong></td>
+                    <td><code>scan.rule</code></td>
+                    <td><span class="lang-ko">규정 검색 (Lite RAG)</span><span class="lang-en">Regulation Search (Lite RAG)</span></td>
+                    <td>JSON File (In-Memory)</td>
+                    <td><strong>~0.3s</strong> (5%)</td>
+                </tr>
+                <tr>
+                    <td><strong>💬 Answer</strong></td>
+                    <td><code>scan.answer</code></td>
+                    <td><span class="lang-ko">응답 생성 (Structured Output)</span><span class="lang-en">Response Generation (Structured Output)</span></td>
+                    <td>OpenAI API (gpt-5.2)</td>
+                    <td><strong>~4.8s</strong> (45%)</td>
+                </tr>
+                <tr>
+                    <td><strong>🎁 Reward</strong></td>
+                    <td><code>scan.reward</code></td>
+                    <td><span class="lang-ko">캐릭터 매칭 + 포인트 지급</span><span class="lang-en">Character Matching + Points</span></td>
+                    <td>Character gRPC Service</td>
+                    <td><strong>~1.7s</strong> (10%)</td>
+                </tr>
+            </table>
+
+            <!-- Celery Chain Configuration -->
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">🔗 Celery Chain 설정</span>
+                <span class="lang-en">🔗 Celery Chain Configuration</span>
+            </h4>
+            <div style="background: var(--bg-code); padding: 1rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; overflow-x: auto;">
+<pre style="margin: 0; color: var(--text-secondary);">
+<span style="color: #7c3aed;"># Celery Chain: 순차 실행 보장</span>
+chain = (
+    vision_task.s(task_id, image_url, model)
+    | rule_task.s()      <span style="color: #7c3aed;"># vision 결과 자동 전달</span>
+    | answer_task.s()    <span style="color: #7c3aed;"># rule 결과 자동 전달</span>
+    | reward_task.s()    <span style="color: #7c3aed;"># answer 결과 자동 전달</span>
+)
+
+<span style="color: #7c3aed;"># 실행: apply_async로 비동기 발행</span>
+chain.apply_async(task_id=task_id)
+
+<span style="color: #7c3aed;"># Gevent Pool: 100 coroutines per worker</span>
+celery -A scan_worker worker --pool=gevent --concurrency=100
+</pre>
+            </div>
+
+            <!-- Retry Strategy -->
+            <h4 style="color: var(--warning); margin: 1.5rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">🔄 Retry 전략</span>
+                <span class="lang-en">🔄 Retry Strategy</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">설정</span><span class="lang-en">Setting</span></th>
+                    <th><span class="lang-ko">값</span><span class="lang-en">Value</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td><code>max_retries</code></td>
+                    <td>3</td>
+                    <td><span class="lang-ko">최대 재시도 횟수</span><span class="lang-en">Maximum retry attempts</span></td>
+                </tr>
+                <tr>
+                    <td><code>default_retry_delay</code></td>
+                    <td>5s</td>
+                    <td><span class="lang-ko">재시도 간격 (exponential backoff)</span><span class="lang-en">Retry interval (exponential backoff)</span></td>
+                </tr>
+                <tr>
+                    <td><code>acks_late</code></td>
+                    <td>true</td>
+                    <td><span class="lang-ko">작업 완료 후 ACK (재시도 보장)</span><span class="lang-en">ACK after completion (retry guarantee)</span></td>
+                </tr>
+                <tr>
+                    <td><code>reject_on_worker_lost</code></td>
+                    <td>true</td>
+                    <td><span class="lang-ko">워커 실패 시 큐 재전달</span><span class="lang-en">Requeue on worker failure</span></td>
+                </tr>
+                <tr>
+                    <td><code>task_time_limit</code></td>
+                    <td>300s</td>
+                    <td><span class="lang-ko">하드 타임아웃 (강제 종료)</span><span class="lang-en">Hard timeout (force kill)</span></td>
+                </tr>
+                <tr>
+                    <td><code>task_soft_time_limit</code></td>
+                    <td>240s</td>
+                    <td><span class="lang-ko">소프트 타임아웃 (SoftTimeLimitExceeded)</span><span class="lang-en">Soft timeout (SoftTimeLimitExceeded)</span></td>
+                </tr>
+            </table>
+
+            <!-- Event Sequence -->
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">📡 Event Sequence (SSE 전송)</span>
+                <span class="lang-en">📡 Event Sequence (SSE Delivery)</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; text-align: center; font-size: 0.75rem;">
+                <div style="background: rgba(139,92,246,0.15); padding: 0.5rem; border-radius: 6px;">
+                    <div style="font-weight: 600; color: #8b5cf6;">seq: 10-11</div>
+                    <div style="color: var(--text-secondary);">vision.start/done</div>
+                </div>
+                <div style="background: rgba(245,158,11,0.15); padding: 0.5rem; border-radius: 6px;">
+                    <div style="font-weight: 600; color: #f59e0b;">seq: 20-21</div>
+                    <div style="color: var(--text-secondary);">rule.start/done</div>
+                </div>
+                <div style="background: rgba(16,185,129,0.15); padding: 0.5rem; border-radius: 6px;">
+                    <div style="font-weight: 600; color: #10b981;">seq: 30-31</div>
+                    <div style="color: var(--text-secondary);">answer.start/done</div>
+                </div>
+                <div style="background: rgba(59,130,246,0.15); padding: 0.5rem; border-radius: 6px;">
+                    <div style="font-weight: 600; color: #3b82f6;">seq: 40-41</div>
+                    <div style="color: var(--text-secondary);">reward.start/done</div>
+                </div>
+                <div style="background: rgba(34,197,94,0.15); padding: 0.5rem; border-radius: 6px;">
+                    <div style="font-weight: 600; color: #22c55e;">seq: 51</div>
+                    <div style="color: var(--text-secondary);">complete</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">
+                    <span class="lang-ko">💡 Idempotent Event 처리</span>
+                    <span class="lang-en">💡 Idempotent Event Processing</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">Event Router가 seq 번호로 중복 검사 → Lua Script로 원자적 업데이트 → published marker로 재전송 방지</span>
+                    <span class="lang-en">Event Router checks seq for duplicates → Atomic update via Lua Script → published marker prevents re-delivery</span>
                 </div>
             </div>
         </div>
