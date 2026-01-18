@@ -2208,8 +2208,8 @@
                             <span class="lang-en">World Model</span>
                         </div>
                         <div class="node-tooltip">
-                            <span class="lang-ko">24-Node K8s Runtime<br>GitOps 기반 상태 관리<br>실제 실행 환경 제공</span>
-                            <span class="lang-en">24-Node K8s Runtime<br>GitOps-based state management<br>Real execution environment</span>
+                            <span class="lang-ko">25-Node K8s Runtime<br>GitOps 기반 상태 관리<br>실제 실행 환경 제공</span>
+                            <span class="lang-en">25-Node K8s Runtime<br>GitOps-based state management<br>Real execution environment</span>
                         </div>
                     </div>
                 </div>
@@ -2691,6 +2691,13 @@
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>CI Quality Gate</strong> black/ruff/pytest/coverage로 품질 기준 강제</span>
                                 <span class="lang-en"><strong>CI Quality Gate</strong> enforce quality via black/ruff/pytest/coverage</span>
+                            </div>
+                        </div>
+                        <div class="achievement clickable" data-modal="modal-istio-mesh">
+                            <span class="achievement-icon">🕸️</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Istio Service Mesh</strong> Sidecar Injection + VirtualService 라우팅</span>
+                                <span class="lang-en"><strong>Istio Service Mesh</strong> Sidecar Injection + VirtualService routing</span>
                             </div>
                         </div>
                     </div>
@@ -3198,8 +3205,8 @@
                 <span class="lang-en">System Architecture</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">PWA 기반 프론트엔드와 연동되는 24-Node 분산 클러스터 아키텍처입니다.</span>
-                <span class="lang-en">24-Node distributed cluster architecture integrated with PWA-based frontend.</span>
+                <span class="lang-ko">PWA 기반 프론트엔드와 연동되는 25-Node 분산 클러스터 아키텍처입니다.</span>
+                <span class="lang-en">25-Node distributed cluster architecture integrated with PWA-based frontend.</span>
             </p>
         </div>
 
@@ -3349,6 +3356,14 @@
                         <div style="text-align: center; color: var(--text-muted); font-size: 0.7rem; margin-top: 0.5rem;">
                             <span class="lang-ko">💡 각 모듈 클릭 시 상세 보기</span>
                             <span class="lang-en">💡 Click each module for details</span>
+                        </div>
+                        <!-- AI Pipeline Diagram -->
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.8rem;">
+                                <span class="lang-ko">🗺️ AI Scan + Chat Pipeline 전체 아키텍처</span>
+                                <span class="lang-en">🗺️ AI Scan + Chat Pipeline Architecture</span>
+                            </div>
+                            <img src="assets/images/image_classification_pipeline.png" alt="AI Classification Pipeline" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
                         </div>
                     </div>
                 </div>
@@ -3825,7 +3840,7 @@
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-date">2026.01 - Present</div>
+                <div class="timeline-date">2025.12.31 - 2026.01.09</div>
                 <div class="timeline-title">
                     <span class="lang-ko">🏛️ Clean Architecture 마이그레이션</span>
                     <span class="lang-en">🏛️ Clean Architecture Migration</span>
@@ -5516,10 +5531,10 @@
                 </div>
             </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                <strong style="color: var(--primary);">🖥️ 24-Node Cluster Topology</strong>
+                <strong style="color: var(--primary);">🖥️ 25-Node Cluster Topology</strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
                     <strong>Master:</strong> 1 node (control-plane)<br>
-                    <strong>API Nodes:</strong> 8 nodes (auth, users, scan, chat, character, location, image)<br>
+                    <strong>API Nodes:</strong> 8 nodes (auth, users, scan, chat, character, location, image, info)<br>
                     <strong>Worker Nodes:</strong> 4 nodes (storage×2, ai×2) — 8종 워커 배포<br>
                     <strong>Data Nodes:</strong> 5 nodes (PostgreSQL, Redis×4)<br>
                     <strong>Platform Nodes:</strong> 6 nodes (RabbitMQ, Monitoring, Logging, Ingress, SSE, Event Router)
@@ -5532,18 +5547,19 @@
     <div class="modal-overlay" id="modal-node-specs">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-node-specs')">×</button>
-            <h3 class="modal-title">📊 24-Node Cluster Specifications</h3>
+            <h3 class="modal-title">📊 25-Node Cluster Specifications</h3>
             <div style="overflow-x: auto;">
                 <table class="modal-table" style="font-size: 0.8rem;">
                     <tr><th>Category</th><th>Node Name</th><th>Instance</th><th>vCPU</th><th>RAM</th><th>Storage</th><th>Purpose</th></tr>
                     <tr style="background: rgba(255,215,0,0.1);"><td rowspan="1"><strong>Control Plane</strong></td><td>k8s-master</td><td>t3.xlarge</td><td>4</td><td>16GB</td><td>80GB</td><td>API Server, etcd, Scheduler, Controller</td></tr>
-                    <tr style="background: rgba(0,255,136,0.05);"><td rowspan="7"><strong>API Nodes</strong></td><td>k8s-api-auth</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>JWT 인증/인가, OAuth</td></tr>
+                    <tr style="background: rgba(0,255,136,0.05);"><td rowspan="8"><strong>API Nodes</strong></td><td>k8s-api-auth</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>JWT 인증/인가, OAuth</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-users</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>사용자/마이페이지</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-scan</td><td>t3.medium</td><td>2</td><td>4GB</td><td>30GB</td><td>폐기물 스캔 (AI)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-chat</td><td>t3.medium</td><td>2</td><td>4GB</td><td>30GB</td><td>챗봇 (LangGraph Agent 🔄)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-character</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>캐릭터 카탈로그</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-location</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>위치/수거함 (PostGIS)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-image</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>이미지 업로드 (S3)</td></tr>
+                    <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-info</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>뉴스 피드 (CQRS + Cache Aside)</td></tr>
                     <tr style="background: rgba(255,165,0,0.1);"><td rowspan="4"><strong>Worker Nodes</strong></td><td>k8s-worker-storage</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>auth/users/character Worker</td></tr>
                     <tr style="background: rgba(255,165,0,0.1);"><td>k8s-worker-storage-2</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>Storage Worker HA</td></tr>
                     <tr style="background: rgba(255,165,0,0.1);"><td>k8s-worker-ai</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>scan/chat Worker (GPT)</td></tr>
@@ -5565,9 +5581,9 @@
                 <div style="flex: 1; min-width: 200px; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px;">
                     <strong style="color: var(--primary);">💰 Total Resources</strong>
                     <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
-                        vCPU: <strong>52 cores</strong><br>
-                        RAM: <strong>112 GB</strong><br>
-                        Storage: <strong>860 GB</strong>
+                        vCPU: <strong>54 cores</strong><br>
+                        RAM: <strong>114 GB</strong><br>
+                        Storage: <strong>880 GB</strong>
                     </div>
                 </div>
                 <div style="flex: 1; min-width: 200px; padding: 1rem; background: rgba(255,165,0,0.1); border-radius: 8px;">
@@ -5576,7 +5592,7 @@
                         t3.xlarge × 2 (16GB)<br>
                         t3.large × 2 (8GB)<br>
                         t3.medium × 9 (4GB)<br>
-                        t3.small × 11 (2GB)
+                        t3.small × 12 (2GB)
                     </div>
                 </div>
                 <div style="flex: 1; min-width: 200px; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px;">
@@ -6093,6 +6109,176 @@ Wave    Resources
         </div>
     </div>
 
+    <!-- Modal: Istio Service Mesh -->
+    <div class="modal-overlay" id="modal-istio-mesh">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-istio-mesh')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🕸️ Istio Service Mesh Architecture</span>
+                <span class="lang-en">🕸️ Istio Service Mesh Architecture</span>
+            </h3>
+
+            <h4 style="color: var(--primary); margin: 1rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🎯 Sidecar vs Ambient Mesh 선택</span>
+                <span class="lang-en">🎯 Sidecar vs Ambient Mesh Decision</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">고려 사항</span><span class="lang-en">Consideration</span></th>
+                    <th>Sidecar</th>
+                    <th>Ambient</th>
+                    <th><span class="lang-ko">선택</span><span class="lang-en">Choice</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">네임스페이스 격리</span><span class="lang-en">Namespace Isolation</span></td>
+                    <td><span class="lang-ko">도메인별 Pod 단위</span><span class="lang-en">Per-pod per domain</span></td>
+                    <td>Waypoint per NS</td>
+                    <td>✅ Sidecar</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">노드 밀도</span><span class="lang-en">Node Density</span></td>
+                    <td><span class="lang-ko">노드당 적은 Pod</span><span class="lang-en">Few pods/node</span></td>
+                    <td>ztunnel <span class="lang-ko">효율 낮음</span><span class="lang-en">inefficient</span></td>
+                    <td>✅ Sidecar</td>
+                </tr>
+                <tr>
+                    <td>Calico CNI</td>
+                    <td><span class="lang-ko">충돌 없음</span><span class="lang-en">No conflict</span></td>
+                    <td><span class="lang-ko">CNI 레벨 충돌 위험</span><span class="lang-en">CNI-level overlap risk</span></td>
+                    <td>✅ Sidecar</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">운영 성숙도</span><span class="lang-en">Operational Maturity</span></td>
+                    <td><span class="lang-ko">검증됨</span><span class="lang-en">Proven</span></td>
+                    <td>Beta (v1.24)</td>
+                    <td>✅ Sidecar</td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔀 트래픽 플로우</span>
+                <span class="lang-en">🔀 Traffic Flow</span>
+            </h4>
+            <div class="modal-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Istio Service Mesh Traffic Flow                               │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   [User/Client]                                                                 │
+│        │                                                                        │
+│        │ HTTPS Request                                                          │
+│        ▼                                                                        │
+│   ┌─────────────────┐     CNAME/A Record     ┌─────────────────┐               │
+│   │  Route53 DNS    │◀──────────────────────▶│ ExternalDNS     │               │
+│   │  (Global)       │                         │ Controller      │               │
+│   └────────┬────────┘                         └─────────────────┘               │
+│            │                                                                    │
+│            ▼                                                                    │
+│   ┌─────────────────┐     Target Group       ┌─────────────────┐               │
+│   │  AWS ALB        │◀──────────────────────▶│ ALB Controller  │               │
+│   │  (HTTPS :443)   │     Instance Mode       │ (IRSA)          │               │
+│   └────────┬────────┘                         └─────────────────┘               │
+│            │                                                                    │
+│            │ Forward to NodePort (30xxx)                                        │
+│            ▼                                                                    │
+│   ┌─────────────────────────────────────────────────────────────────────┐       │
+│   │  Ingress Gateway Node (k8s-ingress-gateway)                          │       │
+│   │  ┌─────────────────────────────────────────────────────────────┐    │       │
+│   │  │  Istio Ingress Gateway Pod (:80)                             │    │       │
+│   │  │  ├── Gateway CR (hosts, port binding)                        │    │       │
+│   │  │  └── VirtualService (path-based routing)                     │    │       │
+│   │  └─────────────────────────────────────────────────────────────┘    │       │
+│   └────────┬────────────────────────────────────────────────────────────┘       │
+│            │                                                                    │
+│            │ xDS Config (Istiod Control Plane)                                  │
+│            ▼                                                                    │
+│   ┌─────────────────────────────────────────────────────────────────────┐       │
+│   │  Worker Node                                                         │       │
+│   │  ┌───────────────────────────────────────────────────────────────┐  │       │
+│   │  │  ┌─────────────┐         ┌─────────────────────────────────┐  │  │       │
+│   │  │  │ Envoy       │ mTLS    │  Application Container          │  │  │       │
+│   │  │  │ Sidecar     │────────▶│  (scan-api, chat-api, etc)      │  │  │       │
+│   │  │  │ (:15001)    │ localhost│                                 │  │  │       │
+│   │  │  └─────────────┘         └─────────────────────────────────┘  │  │       │
+│   │  └───────────────────────────────────────────────────────────────┘  │       │
+│   └─────────────────────────────────────────────────────────────────────┘       │
+│                                                                                 │
+│   Before: AWS ALB → K8s Ingress → NodePort → Pod                               │
+│   After:  AWS ALB → Istio Gateway → VirtualService → Envoy Sidecar → App       │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h4 style="color: var(--accent-purple); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🗺️ 네트워크 토폴로지 다이어그램</span>
+                <span class="lang-en">🗺️ Network Topology Diagram</span>
+            </h4>
+            <div style="text-align: center; margin: 1rem 0;">
+                <img src="assets/images/istio_network_topology.png" alt="Istio Network Topology" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            </div>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚙️ GitOps 배포 순서 (Sync Wave)</span>
+                <span class="lang-en">⚙️ GitOps Deployment Order (Sync Wave)</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th>Wave</th>
+                    <th><span class="lang-ko">컴포넌트</span><span class="lang-en">Component</span></th>
+                    <th><span class="lang-ko">노드</span><span class="lang-en">Node</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td>04</td>
+                    <td>istio-base, istiod</td>
+                    <td>k8s-master</td>
+                    <td><span class="lang-ko">CRD + Control Plane</span><span class="lang-en">CRDs + Control Plane</span></td>
+                </tr>
+                <tr>
+                    <td>05</td>
+                    <td>Istio Ingress Gateway</td>
+                    <td>k8s-ingress-gateway</td>
+                    <td><span class="lang-ko">단일 진입점 (t3.medium)</span><span class="lang-en">Single entry point (t3.medium)</span></td>
+                </tr>
+                <tr>
+                    <td>50</td>
+                    <td>VirtualService, DestinationRule</td>
+                    <td>-</td>
+                    <td><span class="lang-ko">앱 배포 후 라우팅 규칙</span><span class="lang-en">Routing rules after app deployment</span></td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px;">
+                    <strong style="color: var(--primary);">✅ <span class="lang-ko">장점</span><span class="lang-en">Benefits</span></strong>
+                    <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span class="lang-ko">• Zero-trust mTLS 보안<br>• 애플리케이션 코드에서 인증 제거<br>• 정밀한 트래픽 제어<br>• Observability 분리 (Kiali, Jaeger)</span>
+                        <span class="lang-en">• Zero-trust mTLS security<br>• Auth removed from app code<br>• Precise traffic control<br>• Observability decoupling (Kiali, Jaeger)</span>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 250px; padding: 1rem; background: rgba(255,165,0,0.1); border-radius: 8px;">
+                    <strong style="color: #ffa500;">⚠️ <span class="lang-ko">비용</span><span class="lang-en">Trade-offs</span></strong>
+                    <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span class="lang-ko">• Sidecar당 100MB+ 메모리<br>• 추가 네트워크 홉<br>• VirtualService/DestinationRule 관리<br>• 운영 복잡도 증가</span>
+                        <span class="lang-en">• 100MB+ memory per sidecar<br>• Additional network hops<br>• VirtualService/DestinationRule mgmt<br>• Increased operational complexity</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem;">
+                    <a href="https://rooftopsnow.tistory.com/19" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">Istio Service Mesh 아키텍처 선택 →</span>
+                        <span class="lang-en">Istio Service Mesh Architecture Decision →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Auth Cache Consistency -->
     <div class="modal-overlay" id="modal-auth-cache">
         <div class="modal-content">
@@ -6163,6 +6349,14 @@ Wave    Resources
                     <strong>TO-BE:</strong> ext-authz → Local Cache (sync.Map, <0.01ms/req)<br>
                     → <strong>Redis 병목 제거, RPS 42 → 1,200+ 달성</strong>
                 </div>
+            </div>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🗺️ 아키텍처 다이어그램</span>
+                <span class="lang-en">🗺️ Architecture Diagram</span>
+            </h4>
+            <div style="text-align: center; margin: 1rem 0;">
+                <img src="assets/images/blacklist_fanout.png" alt="Blacklist Fanout Architecture" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
             </div>
         </div>
     </div>
@@ -6264,7 +6458,7 @@ Wave    Resources
     <div class="modal-overlay" id="modal-obs-efk">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('modal-obs-efk')">×</button>
-            <h3 class="modal-title">📝 24-Nodes Log Centralization (EFK Stack)</h3>
+            <h3 class="modal-title">📝 25-Nodes Log Centralization (EFK Stack)</h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      EFK Stack Architecture (ECK Operator)                      │
@@ -8570,18 +8764,32 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 │   │  -Q scan.vision,scan.rule,scan.answer,scan.reward                       │    │
 │   └────────────────────────────────────────────────────────────────────────┘    │
 │                                                                                 │
-│   4-Stage Chain (순차 의존성)                                                   │
+│   4-Stage Chain + Sequence Events (순차 의존성)                                 │
 │   ────────────────────────────────────────────────────────────────────────      │
-│   vision (4.5s) → rule (0.3s) → answer (4.8s) → reward (1.7s)                  │
-│      ↓ Avg         ↓ Avg         ↓ Avg          ↓ Avg                          │
-│   OpenAI API    PostgreSQL    OpenAI API    Character gRPC                     │
+│   vision (5.16s) → rule (0.05s) → answer (3.69s) → reward (0.22s) → done       │
+│     seq:10-11      seq:20-21      seq:30-31        seq:40-41       seq:51      │
+│        ↓              ↓              ↓                ↓                         │
+│   OpenAI Vision   Lite RAG      OpenAI Chat     Character gRPC                 │
+│                  (PostgreSQL)                 (완벽 분류 시에만 지급)            │
 │                                                                                 │
-│   Event Relay (3-Tier Redis)                                                    │
+│   2-Redis Event Bus Layer (Idempotent Fan-out)                                  │
 │   ────────────────────────────────────────────────────────────────────────      │
-│   Worker → XADD → Streams (4 shards) → Event Router → PUBLISH → Pub/Sub        │
-│                                                           │                     │
-│                                                           ▼                     │
-│                                                    SSE Gateway → Client         │
+│                                                                                 │
+│   Worker ──XADD──▶ Streams Redis ──────────────▶ Event Router ──PUBLISH──▶     │
+│                    (4 shards: scan:events:0~3)       │                          │
+│                    (Durable Buffer)                  │   ┌──────────────────┐   │
+│                                                      ├──▶│ State KV Update  │   │
+│   ┌──────────────────────────────────────────────────┘   │ (Lua Atomic)     │   │
+│   │                                                      └──────────────────┘   │
+│   │   StreamConsumer          EventProcessor        PendingReclaimer            │
+│   │   ───────────────         ──────────────        ────────────────            │
+│   │   XREADGROUP              Lua Script            XAUTOCLAIM                  │
+│   │   eventrouter             seq 중복 검사          5min idle 재처리            │
+│   │   batch count             published marker      (idempotent safe)           │
+│   │                           TTL 2h                                            │
+│   │                                                                             │
+│   └──────────▶ Pub/Sub Redis ──────────────────────▶ SSE Gateway ──▶ Client    │
+│                (Volatile Broadcast)                   (5s timeout → catch-up)   │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
 </pre>
@@ -8654,11 +8862,11 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <th><span class="lang-ko">비율</span><span class="lang-en">Ratio</span></th>
                     <th><span class="lang-ko">병목 원인</span><span class="lang-en">Bottleneck</span></th>
                 </tr>
-                <tr><td>vision</td><td>4.5s</td><td>40%</td><td>OpenAI Vision API (gpt-5.2)</td></tr>
-                <tr><td>answer</td><td>4.8s</td><td>42%</td><td>OpenAI Chat API (gpt-5.2)</td></tr>
-                <tr><td>reward</td><td>1.7s</td><td>15%</td><td>Character Match gRPC</td></tr>
-                <tr><td>rule</td><td>0.3s</td><td>3%</td><td>PostgreSQL 쿼리</td></tr>
-                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~11.3s</strong></td><td>100%</td><td>🎯 SLA 300 VU E2E p95 48.5s</td></tr>
+                <tr><td>vision (seq:10-11)</td><td>5.16s</td><td>57%</td><td>OpenAI Vision API (gpt-4o)</td></tr>
+                <tr><td>answer (seq:30-31)</td><td>3.69s</td><td>40%</td><td>OpenAI Chat API (gpt-4o)</td></tr>
+                <tr><td>reward (seq:40-41)</td><td>0.22s</td><td>2%</td><td><span class="lang-ko">Character gRPC (완벽 분류 시에만)</span><span class="lang-en">Character gRPC (perfect only)</span></td></tr>
+                <tr><td>rule (seq:20-21)</td><td>0.05s</td><td>1%</td><td>Lite RAG (PostgreSQL)</td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~9.12s</strong></td><td>100%</td><td>🎯 SLA 300 VU E2E p95 48.5s</td></tr>
             </table>
 
             <h4 style="color: var(--accent-purple); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
@@ -8692,7 +8900,57 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <td><span class="lang-ko">RabbitMQ 큐 길이 기반</span><span class="lang-en">RabbitMQ queue length based</span></td>
                 </tr>
             </table>
-            
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔄 2-Redis Event Bus Layer</span>
+                <span class="lang-en">🔄 2-Redis Event Bus Layer</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">컴포넌트</span><span class="lang-en">Component</span></th>
+                    <th><span class="lang-ko">역할</span><span class="lang-en">Role</span></th>
+                    <th><span class="lang-ko">상세</span><span class="lang-en">Details</span></th>
+                </tr>
+                <tr>
+                    <td>Streams Redis</td>
+                    <td><span class="lang-ko">내구성 버퍼</span><span class="lang-en">Durable Buffer</span></td>
+                    <td><code>scan:events:0~3</code> <span class="lang-ko">4 샤드, State KV 저장</span><span class="lang-en">4 shards, State KV storage</span></td>
+                </tr>
+                <tr>
+                    <td>Pub/Sub Redis</td>
+                    <td><span class="lang-ko">실시간 브로드캐스트</span><span class="lang-en">Realtime Broadcast</span></td>
+                    <td><span class="lang-ko">Volatile, 장애 격리 (State 복구 가능)</span><span class="lang-en">Volatile, fault-isolated (State recoverable)</span></td>
+                </tr>
+                <tr>
+                    <td>StreamConsumer</td>
+                    <td><code>XREADGROUP</code></td>
+                    <td><span class="lang-ko">Consumer Group: eventrouter, batch 소비</span><span class="lang-en">Consumer Group: eventrouter, batch consume</span></td>
+                </tr>
+                <tr>
+                    <td>EventProcessor</td>
+                    <td>Lua Script</td>
+                    <td><span class="lang-ko">seq 중복 검사 + State + published marker 원자적</span><span class="lang-en">seq dedup + State + published marker atomic</span></td>
+                </tr>
+                <tr>
+                    <td>PendingReclaimer</td>
+                    <td><code>XAUTOCLAIM</code></td>
+                    <td><span class="lang-ko">5분 idle 메시지 재처리 (idempotent safe)</span><span class="lang-en">5min idle reclaim (idempotent safe)</span></td>
+                </tr>
+                <tr>
+                    <td>Published Marker</td>
+                    <td><code>router:published:{job_id}:{seq}</code></td>
+                    <td>TTL 2h <span class="lang-ko">(중복 발행 방지)</span><span class="lang-en">(prevent duplicate publish)</span></td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(138,43,226,0.1); border-radius: 8px;">
+                <strong style="color: var(--accent-purple);">🎁 <span class="lang-ko">Reward 조건</span><span class="lang-en">Reward Condition</span></strong>
+                <div style="margin-top: 0.3rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <span class="lang-ko">완벽한 분리배출 시에만 캐릭터 리워드 지급 (insufficiencies가 비어있을 때)</span>
+                    <span class="lang-en">Character reward only for perfect disposal (when insufficiencies is empty)</span>
+                </div>
+            </div>
+
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📈 <span class="lang-ko">스냅샷 링크</span><span class="lang-en">Snapshot Links</span></strong>
                 <div style="margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
