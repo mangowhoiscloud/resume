@@ -6017,7 +6017,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 
     <!-- Modal: Sync-Wave -->
     <div class="modal-overlay" id="modal-syncwave">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-syncwave')">×</button>
             <h3 class="modal-title">🔄 ArgoCD Sync-Wave Timeline</h3>
             <div class="modal-diagram">
@@ -6069,6 +6069,31 @@ Wave    Resources
                 <tr><td>50</td><td>Routing</td><td>Istio VirtualService</td></tr>
                 <tr><td>60-63</td><td>Observability</td><td>Kiali, Jaeger, ECK</td></tr>
             </table>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔀 GitOps + CI/CD 파이프라인</span>
+                <span class="lang-en">🔀 GitOps + CI/CD Pipeline</span>
+            </h4>
+            <div style="text-align: center; margin: 1rem 0;">
+                <img src="assets/images/gitops_pipeline.jpeg" alt="GitOps Pipeline" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+                <div style="background: rgba(138,43,226,0.1); padding: 1rem; border-radius: 8px;">
+                    <strong style="color: var(--accent-purple);">📦 <span class="lang-ko">CD (ArgoCD)</span><span class="lang-en">CD (ArgoCD)</span></strong>
+                    <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span class="lang-ko">• Terraform → ArgoCD root-app 배포<br>• Develop 브랜치 Watch → Sync-Wave 순서 배포<br>• 하위 → 상위 의존성 순으로 자동 배포</span>
+                        <span class="lang-en">• Terraform → ArgoCD root-app deploy<br>• Develop branch Watch → Sync-Wave order deploy<br>• Auto-deploy in dependency order (low → high)</span>
+                    </div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px;">
+                    <strong style="color: #3b82f6;">🔧 <span class="lang-ko">CI (GitHub Actions)</span><span class="lang-en">CI (GitHub Actions)</span></strong>
+                    <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <span class="lang-ko">• FastAPI Lint Test → Docker Build/Push<br>• Kustomize Render Test + K3s Test<br>• Operator + CR Manifest 렌더링 검증</span>
+                        <span class="lang-en">• FastAPI Lint Test → Docker Build/Push<br>• Kustomize Render Test + K3s Test<br>• Operator + CR Manifest render validation</span>
+                    </div>
+                </div>
+            </div>
+
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">💡 <span class="lang-ko">설계 원칙</span><span class="lang-en">Design Principle</span></strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
