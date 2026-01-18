@@ -5706,7 +5706,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <!-- Event Types Grid -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Domain Event Types</h4>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
                         <div style="font-weight: 600; color: #8b5cf6; margin-bottom: 0.5rem;">🔐 auth</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">blacklist:add, blacklist:remove</div>
@@ -5718,6 +5718,14 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
                         <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">📷 scan</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">queued, vision, rule, answer, reward, done</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #ec4899; margin-bottom: 0.5rem;">👤 users</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">default_character_grant</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #14b8a6; margin-bottom: 0.5rem;">🐾 character</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">full_refresh, upsert, delete</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
                         <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">📰 info</div>
