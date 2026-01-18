@@ -5121,7 +5121,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 
     <!-- Modal: Domain - Scan -->
     <div class="modal-overlay" id="modal-domain-scan">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content" style="max-width: 1000px;">
             <button class="modal-close" onclick="closeModal('modal-domain-scan')">×</button>
             <h3 class="modal-title">📷 Scan Domain - 4-Stage Vision Pipeline</h3>
             <div class="domain-demo-section">
@@ -5136,76 +5136,116 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </a>
             </div>
 
-            <!-- 4-Stage Pipeline -->
+            <!-- Architecture Evolution -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">📈 아키텍처 진화 과정</span>
+                    <span class="lang-en">📈 Architecture Evolution</span>
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <div style="font-weight: 600; color: #ef4444; margin-bottom: 0.5rem;">❌ Phase 1: Celery Events</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>SSE : RabbitMQ = <strong>1:21</strong></div>
+                            <div>50 VU → 341 connections</div>
+                            <div style="color: #ef4444; margin-top: 0.25rem;">503 Error, 메모리 초과</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">⚠️ Phase 2: KEDA Scaling</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>50 VU: 35% → <strong>86.3%</strong></div>
+                            <div>CPU 85%, Context Switch</div>
+                            <div style="color: #f59e0b; margin-top: 0.25rem;">고부하 시 30%로 하락</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
+                        <div style="font-weight: 600; color: #22c55e; margin-bottom: 0.5rem;">✅ Phase 3: Event Bus</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>300 VU: <strong>99.9%</strong> 완료율</div>
+                            <div>O(n×m) → O(n) 연결</div>
+                            <div style="color: #22c55e; margin-top: 0.25rem;">무제한 수평 확장</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Performance Metrics Table -->
+                <div style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-subtle); overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                        <tr style="background: rgba(139,92,246,0.1);">
+                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">VU</th>
+                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">완료율</th>
+                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">처리량</th>
+                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">E2E p95</th>
+                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">API p95</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.4rem; text-align: center;">50</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.7%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">198 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">17.7s</td>
+                            <td style="padding: 0.4rem; text-align: center;">93ms</td>
+                        </tr>
+                        <tr style="background: rgba(0,0,0,0.1);">
+                            <td style="padding: 0.4rem; text-align: center;">200</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.8%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">370 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">33.2s</td>
+                            <td style="padding: 0.4rem; text-align: center;">83ms</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.4rem; text-align: center;">250</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.9%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">418 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">40.5s</td>
+                            <td style="padding: 0.4rem; text-align: center;">78ms</td>
+                        </tr>
+                        <tr style="background: rgba(0,0,0,0.1);">
+                            <td style="padding: 0.4rem; text-align: center; font-weight: 600;">300</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.9%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">404 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">48.6s</td>
+                            <td style="padding: 0.4rem; text-align: center;">83ms</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4-Stage Pipeline with Latency -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">4-Stage Celery Pipeline</h4>
                 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
                     <div style="background: rgba(139,92,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.4); text-align: center;">
                         <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👁️</div>
-                        <div style="font-weight: 600; color: #8b5cf6;">Stage 1</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Vision Analysis</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">GPT-5.2</div>
+                        <div style="font-weight: 600; color: #8b5cf6;">Vision</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">OpenAI Vision API</div>
+                        <div style="font-size: 0.7rem; color: #8b5cf6; margin-top: 0.25rem; font-weight: 600;">~4.5s (40%)</div>
                     </div>
                     <div style="background: rgba(245,158,11,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.4); text-align: center;">
                         <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📋</div>
-                        <div style="font-weight: 600; color: #f59e0b;">Stage 2</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Rule Engine</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">분리배출 규칙</div>
+                        <div style="font-weight: 600; color: #f59e0b;">Rule</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">PostgreSQL 규칙</div>
+                        <div style="font-size: 0.7rem; color: #f59e0b; margin-top: 0.25rem; font-weight: 600;">~0.3s (5%)</div>
                     </div>
                     <div style="background: rgba(16,185,129,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.4); text-align: center;">
                         <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💬</div>
-                        <div style="font-weight: 600; color: #10b981;">Stage 3</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Answer Gen</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">LLM 응답 생성</div>
+                        <div style="font-weight: 600; color: #10b981;">Answer</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">LLM 응답 생성</div>
+                        <div style="font-size: 0.7rem; color: #10b981; margin-top: 0.25rem; font-weight: 600;">~4.8s (45%)</div>
                     </div>
                     <div style="background: rgba(59,130,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.4); text-align: center;">
                         <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎁</div>
-                        <div style="font-weight: 600; color: #3b82f6;">Stage 4</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Reward</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">캐릭터 매칭</div>
+                        <div style="font-weight: 600; color: #3b82f6;">Reward</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">캐릭터 매칭</div>
+                        <div style="font-size: 0.7rem; color: #3b82f6; margin-top: 0.25rem; font-weight: 600;">~1.7s (10%)</div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Waste Categories -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Waste Categories (10분류)</h4>
-                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🗑️ 일반</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>♻️ 플라스틱</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>📄 종이류</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🥫 캔류</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🫙 유리병</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🛍️ 비닐류</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>📦 스티로폼</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🍽️ 음식물</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🛋️ 대형</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>☢️ 유해</div>
-                    </div>
+                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">
+                    Total: ~11.3s (LLM I/O-bound 85%)
                 </div>
             </div>
 
             <!-- Event Bus Architecture -->
-            <div style="margin-bottom: 1.5rem;">
+            <div class="domain-architecture" style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">🏗️ Event Bus 아키텍처</h4>
                 <div style="margin-bottom: 1rem;">
                     <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">4-Stage Celery Pipeline (scan.direct Exchange)</div>
@@ -5219,18 +5259,6 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                         <span class="domain-flow-item">scan.answer</span>
                         <span class="domain-flow-arrow">→</span>
                         <span class="domain-flow-item">scan.reward</span>
-                    </div>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Cross-Domain Dispatch (reward.events Fanout Exchange)</div>
-                    <div class="domain-flow">
-                        <span class="domain-flow-item">scan.reward</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">character.match (동기 10s)</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">reward.events</span>
-                        <span class="domain-flow-arrow">⇉</span>
-                        <span class="domain-flow-item">character.save_ownership + users.save_character</span>
                     </div>
                 </div>
                 <div style="margin-bottom: 1rem;">
@@ -5249,6 +5277,43 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- Deep Dive Section -->
+            <div style="margin-bottom: 1.5rem;">
+                <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">
+                    <span class="lang-ko">📚 상세 문서</span>
+                    <span class="lang-en">📚 Deep Dive</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+                    <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="openModal('modal-scan-pipeline')">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">⚙️</span>
+                            <div>
+                                <div style="color: #8b5cf6; font-weight: 600; font-size: 0.85rem;">Pipeline Details</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Celery Chain, Retry</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); cursor: pointer;" onclick="openModal('modal-event-bus-layer')">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🚌</span>
+                            <div>
+                                <div style="color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Event Bus</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Streams, Pub/Sub</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 0.75rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="openModal('modal-stream-metrics')">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">📊</span>
+                            <div>
+                                <div style="color: #10b981; font-weight: 600; font-size: 0.85rem;">SSE Metrics</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Load Test Results</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Technical Details -->
             <div class="domain-details">
                 <div class="domain-detail-grid">
@@ -5258,23 +5323,11 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Vision API</div>
-                        <div class="domain-detail-value">GPT-5.2, detail: high, Structured Output</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Rule Engine</div>
-                        <div class="domain-detail-value">재질 기반 분류, 오염도 체크, 분리 필요 부품 식별</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Retry Policy</div>
-                        <div class="domain-detail-value">Stage별 max_retries, exponential backoff (5s, 10s)</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">Event Bus 분리</div>
-                        <div class="domain-detail-value">Streams(영속) + Pub/Sub(실시간) + State KV(복구) — 연결 복잡도 O(n×m) → O(n)</div>
+                        <div class="domain-detail-value">GPT-4.1 mini, detail: high, Structured Output</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Cross-Domain Fanout</div>
-                        <div class="domain-detail-value">reward.events Exchange (Fanout) → character-worker + users-worker 동시 발행, Fire & Forget</div>
+                        <div class="domain-detail-value">reward.events Exchange (Fanout) → character-worker + users-worker 동시 발행</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Image Storage</div>
