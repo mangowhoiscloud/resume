@@ -5307,40 +5307,6 @@
 └──────────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
-            <!-- Persistence Layers -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">3-Layer Persistence Offloading</h4>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
-                        <div style="font-weight: 600; color: #ef4444; margin-bottom: 0.5rem;">🔥 Hot Layer</div>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <strong>Redis Pub/Sub</strong><br>
-                            • 실시간 토큰 전송<br>
-                            • No persistence<br>
-                            • 연결된 클라이언트만
-                        </div>
-                    </div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
-                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">🌡️ Warm Layer</div>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <strong>Redis Streams</strong><br>
-                            • XRANGE catch-up<br>
-                            • maxlen: 1000<br>
-                            • TTL: 1시간
-                        </div>
-                    </div>
-                    <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
-                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">❄️ Cold Layer</div>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <strong>PostgreSQL</strong><br>
-                            • 완료된 대화 저장<br>
-                            • 전체 응답 텍스트<br>
-                            • 영구 저장
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Event Types -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">SSE Event Types</h4>
@@ -5394,7 +5360,7 @@
             <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
                 <div style="font-size: 0.85rem; color: var(--text-secondary);">
                     📊 구현 상세: <a href="https://rooftopsnow.tistory.com/23" target="_blank" rel="noopener" style="color: #6366f1;">SSE Gateway 아키텍처</a> |
-                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Persistence Offloading 패턴</a>
+                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Token v2 Recoverable Streaming</a>
                 </div>
             </div>
         </div>
