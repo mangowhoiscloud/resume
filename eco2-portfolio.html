@@ -5886,7 +5886,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-location</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>위치/수거함 (PostGIS)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-image</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>이미지 업로드 (S3)</td></tr>
                     <tr style="background: rgba(0,255,136,0.05);"><td>k8s-api-info</td><td>t3.small</td><td>2</td><td>2GB</td><td>20GB</td><td>뉴스 피드 (CQRS + Cache Aside)</td></tr>
-                    <tr style="background: rgba(255,165,0,0.1);"><td rowspan="4"><strong>Worker Nodes</strong></td><td>k8s-worker-storage</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>auth/users/character Worker</td></tr>
+                    <tr style="background: rgba(255,165,0,0.1);"><td rowspan="4"><strong>Worker Nodes</strong></td><td>k8s-worker-storage</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>auth/users/character/info Worker</td></tr>
                     <tr style="background: rgba(255,165,0,0.1);"><td>k8s-worker-storage-2</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>Storage Worker HA</td></tr>
                     <tr style="background: rgba(255,165,0,0.1);"><td>k8s-worker-ai</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>scan/chat Worker (GPT)</td></tr>
                     <tr style="background: rgba(255,165,0,0.1);"><td>k8s-worker-ai-2</td><td>t3.medium</td><td>2</td><td>4GB</td><td>40GB</td><td>AI Worker HA</td></tr>
@@ -5991,7 +5991,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <tr><th>Taint</th><th>Effect</th><th>스케줄되는 Pod</th></tr>
                 <tr><td>domain=auth:NoSchedule</td><td>auth 노드 격리</td><td>auth-api, ext-authz만 배치</td></tr>
                 <tr><td>domain=scan:NoSchedule</td><td>scan 노드 격리</td><td>scan-api만 배치</td></tr>
-                <tr><td>domain=worker-storage:NoSchedule</td><td>Storage Worker 격리</td><td>auth/users/character Worker</td></tr>
+                <tr><td>domain=worker-storage:NoSchedule</td><td>Storage Worker 격리</td><td>auth/users/character/info Worker</td></tr>
                 <tr><td>domain=worker-ai:NoSchedule</td><td>AI Worker 격리</td><td>scan-worker, chat-worker (GPT)</td></tr>
                 <tr><td>domain=data:NoSchedule</td><td>Data 노드 격리</td><td>PostgreSQL, Redis StatefulSet</td></tr>
                 <tr><td>domain=observability:NoSchedule</td><td>Monitoring 격리</td><td>Prometheus, Grafana, EFK</td></tr>
