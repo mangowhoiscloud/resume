@@ -2997,6 +2997,13 @@
                         <span class="lang-en">When initially deploying the LLM pipeline as synchronous requests, <strong>10+s API latency occupied scan-api threads</strong>, limiting concurrent processing. After SSE transition, Celery Events structure (21 RabbitMQ connections per SSE) exploded to 341 connections at 50 VU, causing 503 errors. Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery), achieving <strong>300 VU SLA</strong>.</span>
                     </p>
                     <div class="achievements">
+                        <div class="achievement clickable" data-modal="modal-event-bus-layer">
+                            <span class="achievement-icon">🚌</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Event Bus Layer</strong> O(n×m) → O(n) 연결 복잡도, Streams + Pub/Sub + State KV 분리</span>
+                                <span class="lang-en"><strong>Event Bus Layer</strong> O(n×m) → O(n) connection complexity, Streams + Pub/Sub + State KV separation</span>
+                            </div>
+                        </div>
                         <div class="achievement clickable" data-modal="modal-stream-metrics">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
@@ -4314,23 +4321,76 @@
                     </div>
                 </div>
             </div>
-            <!-- Intent & Send API Links -->
-            <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div style="padding: 1rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="openModal('modal-intent-classification')">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <span style="font-size: 1.25rem;">🎯</span>
+
+            <!-- Intent Classification Grid (Inline) -->
+            <div style="margin-top: 1.5rem;">
+                <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">🎯 9-Class Intent Classification</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #8b5cf6; font-size: 0.85rem;">🗑️ waste</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">폐기물 분리배출 (RAG)</div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #f59e0b; font-size: 0.85rem;">🌍 character</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">캐릭터 질문 (gRPC)</div>
+                    </div>
+                    <div style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #ef4444; font-size: 0.85rem;">📍 location</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">위치 기반 검색 (gRPC)</div>
+                    </div>
+                    <div style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #ec4899; font-size: 0.85rem;">🛋️ bulk_waste</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">대형폐기물 (MOIS API)</div>
+                    </div>
+                    <div style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #22c55e; font-size: 0.85rem;">💰 recyclable_price</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">재활용 시세 (KECO API)</div>
+                    </div>
+                    <div style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #0ea5e9; font-size: 0.85rem;">📦 collection_point</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">수거함 위치 (KECO API)</div>
+                    </div>
+                    <div style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #a855f7; font-size: 0.85rem;">🔍 web_search</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">웹 검색 (DuckDuckGo)</div>
+                    </div>
+                    <div style="background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #fb923c; font-size: 0.85rem;">🎨 image_generation</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">이미지 생성 (Responses API)</div>
+                    </div>
+                    <div style="background: rgba(107,114,128,0.15); border: 1px solid rgba(107,114,128,0.4); border-radius: 6px; padding: 0.5rem;">
+                        <div style="font-weight: 600; color: #6b7280; font-size: 0.85rem;">💬 general</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">일반 대화 (Fallback)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intent Details, Send API, Event Bus Links -->
+            <div style="margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+                <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="openModal('modal-intent-classification')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🎯</span>
                         <div>
-                            <div style="color: #8b5cf6; font-weight: 600;">9분류 Intent Classification</div>
-                            <div style="color: var(--text-secondary); font-size: 0.8rem;">Confidence Scoring, Chain-of-Intent</div>
+                            <div style="color: #8b5cf6; font-weight: 600; font-size: 0.85rem;">Intent Details</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Confidence, Chain-of-Intent</div>
                         </div>
                     </div>
                 </div>
-                <div style="padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="openModal('modal-send-api')">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <span style="font-size: 1.25rem;">⚡</span>
+                <div style="padding: 0.75rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="openModal('modal-send-api')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">⚡</span>
                         <div>
-                            <div style="color: #10b981; font-weight: 600;">Send API Dynamic Router</div>
-                            <div style="color: var(--text-secondary); font-size: 0.8rem;">Multi-Intent Fanout, Enrichment Rules</div>
+                            <div style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Send API Router</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Intent Fanout</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); cursor: pointer;" onclick="openModal('modal-chat-event-bus')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🚌</span>
+                        <div>
+                            <div style="color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Event Bus</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Streams, Token v2</div>
                         </div>
                     </div>
                 </div>
@@ -4577,6 +4637,128 @@ def dynamic_router(state: ChatState) -> list[Send]:
                                 3개 노드 동시 실행<br>
                                 merge_node에서 수집
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat Event Bus -->
+    <div class="modal-overlay" id="modal-chat-event-bus">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-event-bus')">×</button>
+            <h3 class="modal-title">🚌 Chat Event Bus Architecture</h3>
+
+            <!-- Event Bus Flow Diagram -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Event Bus: Redis Streams + Pub/Sub</h4>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                          Chat Event Bus Architecture                          │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│   ┌─────────────┐      ┌──────────────────┐      ┌─────────────────────┐     │
+│   │ Chat Worker │─────▶│ Redis Streams    │─────▶│   Event Router      │     │
+│   │ (LangGraph) │ XADD │ chat:events:{id} │ XREAD│   (Consumer Group)  │     │
+│   └─────────────┘      └──────────────────┘      └─────────────────────┘     │
+│         │                                                   │                 │
+│         │                                                   │ PUBLISH         │
+│         │                                                   ▼                 │
+│         │              ┌──────────────────┐      ┌─────────────────────┐     │
+│         └─────────────▶│ Token Stream v2  │      │    Pub/Sub          │     │
+│           Progress     │ chat:tokens:{id} │      │ chat:pubsub:{job_id}│     │
+│                        └──────────────────┘      └─────────────────────┘     │
+│                                                             │                 │
+│                                                             │ SUBSCRIBE       │
+│                                                             ▼                 │
+│                        ┌──────────────────┐      ┌─────────────────────┐     │
+│                        │  PostgreSQL      │◀─────│   SSE Gateway       │────▶│
+│                        │  (Persistence)   │ CDC  │   (Streaming)       │ SSE │
+│                        └──────────────────┘      └─────────────────────┘     │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Token Streaming v2 -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Token Streaming v2: Recoverable Stream</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">📝 Stream Key Structure</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">chat:tokens:{job_id}</code>
+                            <div style="margin-top: 0.5rem;">
+                                <div>• TTL: 3600s (1시간)</div>
+                                <div>• Max Length: 10,000 entries</div>
+                                <div>• Seq-based ID: 자동 증가</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #22c55e; margin-bottom: 0.75rem;">📸 State Snapshot</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>• 10토큰마다 State 스냅샷 저장</div>
+                            <div>• Key: <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">chat:state:{job_id}</code></div>
+                            <div style="margin-top: 0.5rem;">
+                                <div>• 재연결 시 catch-up 지원</div>
+                                <div>• Last-Event-ID 헤더 활용</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">🔄 Catch-up Mechanism</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>1. 클라이언트 재연결</div>
+                            <div>2. Last-Event-ID 전송</div>
+                            <div>3. XREAD STREAMS ... {last_id}</div>
+                            <div>4. 누락 이벤트 순차 전송</div>
+                            <div>5. 실시간 스트림 재개</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #ec4899; margin-bottom: 0.75rem;">📊 Event Types</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>• <span style="color: #3b82f6;">progress</span>: 진행 단계</div>
+                            <div>• <span style="color: #22c55e;">token</span>: LLM 토큰</div>
+                            <div>• <span style="color: #f59e0b;">agent_state</span>: 에이전트 상태</div>
+                            <div>• <span style="color: #ec4899;">metadata</span>: 메타데이터</div>
+                            <div>• <span style="color: #8b5cf6;">complete</span>: 완료</div>
+                            <div>• <span style="color: #ef4444;">error</span>: 오류</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEDA Autoscaling -->
+            <div style="margin-bottom: 1rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">KEDA Autoscaling Configuration</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: rgba(139,92,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3);">
+                        <h5 style="color: #8b5cf6; margin-bottom: 0.5rem;">Chat Worker</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>Trigger: RabbitMQ Queue Length</div>
+                            <div>Queue: chat.process</div>
+                            <div>Threshold: 5 messages</div>
+                            <div>Replicas: 1 → 4</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <h5 style="color: #10b981; margin-bottom: 0.5rem;">SSE Gateway</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>Trigger: Prometheus</div>
+                            <div>Metric: sse_active_connections</div>
+                            <div>Threshold: 100/pod</div>
+                            <div>Replicas: 1 → 3</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <h5 style="color: #3b82f6; margin-bottom: 0.5rem;">Event Router</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>Trigger: Prometheus</div>
+                            <div>Metric: pending_events</div>
+                            <div>Threshold: 100</div>
+                            <div>Replicas: 1 → 2</div>
                         </div>
                     </div>
                 </div>
@@ -7394,6 +7576,178 @@ Wave    Resources
                 <tr><td>Idempotency Key</td><td>user_id + scan_id 기반</td><td>중복 처리 방지</td></tr>
                 <tr><td>DLQ</td><td>최종 실패 메시지 보관</td><td>celery-beat 재처리</td></tr>
             </table>
+        </div>
+    </div>
+
+    <!-- Modal: Event Bus Layer -->
+    <div class="modal-overlay" id="modal-event-bus-layer">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-event-bus-layer')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🚌 Event Bus Layer: O(n×m) → O(n) 연결 복잡도 개선</span>
+                <span class="lang-en">🚌 Event Bus Layer: O(n×m) → O(n) Connection Complexity</span>
+            </h3>
+
+            <!-- Architecture Evolution -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">아키텍처 진화 과정</span>
+                    <span class="lang-en">Architecture Evolution</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                         Event Bus Layer Architecture Evolution                       │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                      │
+│  ❌ Phase 0: Celery Events             │  ❌ Phase 1-3: Connection-per-XREAD        │
+│  ─────────────────────────             │  ──────────────────────────────────        │
+│  SSE → RabbitMQ (21 conn/client)       │  SSE Pod ↔ Redis XREAD (N coroutines)      │
+│  50 VU = 341 connections → 503 error   │  CPU 85%, Context switching overhead       │
+│                                         │  StatefulSet hash mismatch                 │
+│                                         │                                            │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                      │
+│  ✅ Phase 4: Event Bus Layer (Current Solution)                                      │
+│  ───────────────────────────────────────────────                                     │
+│                                                                                      │
+│   ┌─────────────┐      ┌──────────────────┐      ┌─────────────────────┐            │
+│   │   Worker    │─────▶│  Redis Streams   │─────▶│   Event Router      │            │
+│   │ (Scan/Chat) │ XADD │ {domain}:events  │XREAD │  (Consumer Group)   │            │
+│   └─────────────┘      │   :{shard 0-3}   │ GROUP└─────────────────────┘            │
+│                        └──────────────────┘              │                           │
+│                                                          │ PUBLISH                   │
+│                                                          ▼                           │
+│   ┌─────────────┐      ┌──────────────────┐      ┌─────────────────────┐            │
+│   │   Client    │◀─────│   SSE Gateway    │◀─────│     Pub/Sub         │            │
+│   │  (Browser)  │ SSE  │   (Stateless)    │ SUB  │ sse:events:{job_id} │            │
+│   └─────────────┘      └──────────────────┘      └─────────────────────┘            │
+│                                ▲                                                     │
+│                                │ State Recovery                                      │
+│                        ┌──────────────────┐                                          │
+│                        │     State KV     │                                          │
+│                        │  {domain}:state  │                                          │
+│                        │    :{job_id}     │                                          │
+│                        └──────────────────┘                                          │
+│                                                                                      │
+│   Key Benefit: Pod count ⟂ Shard count (독립적 스케일링 가능)                        │
+│                                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- 3-Component Separation -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">저장 + 전달 + 복구 책임 분리</span>
+                    <span class="lang-en">Storage + Delivery + Recovery Separation</span>
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">💾 Redis Streams (영속)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div><strong>Key:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">{domain}:events:{shard}</code></div>
+                            <div style="margin-top: 0.5rem;">• 4 shards (0-3)</div>
+                            <div>• XREADGROUP Consumer Group</div>
+                            <div>• AOF + Replication</div>
+                            <div>• rfr-streams-redis 클러스터</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">📡 Pub/Sub (실시간)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div><strong>Channel:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">sse:events:{job_id}</code></div>
+                            <div style="margin-top: 0.5rem;">• Topic-based routing</div>
+                            <div>• Stateless fan-out</div>
+                            <div>• No durability (ephemeral)</div>
+                            <div>• rfr-pubsub-redis 클러스터</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">🔄 State KV (복구)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div><strong>Key:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">{domain}:state:{job_id}</code></div>
+                            <div style="margin-top: 0.5rem;">• 마지막 상태 스냅샷</div>
+                            <div>• SSE 재연결 시 catch-up</div>
+                            <div>• seq 기반 중복 방지</div>
+                            <div>• TTL 1h (자동 정리)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Router Components -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">Event Router 핵심 컴포넌트</span>
+                    <span class="lang-en">Event Router Core Components</span>
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #8b5cf6; margin-bottom: 0.5rem;">StreamConsumer</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>• XREADGROUP GROUP eventrouter</div>
+                            <div>• COUNT 100 BLOCK 5000ms</div>
+                            <div>• 4 shards 병렬 소비</div>
+                            <div>• 처리 후 XACK</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #ec4899; margin-bottom: 0.5rem;">EventProcessor</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>• Atomic Lua Script</div>
+                            <div>• Idempotency: <code>router:published:{job_id}:{seq}</code></div>
+                            <div>• Sequence 검증</div>
+                            <div>• State 업데이트 → PUBLISH</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: #f59e0b; margin-bottom: 0.5rem;">PendingReclaimer</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>• XAUTOCLAIM 주기: 60s</div>
+                            <div>• Idle threshold: 5분</div>
+                            <div>• 미처리 메시지 복구</div>
+                            <div>• Idempotency 보장</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connection Complexity Comparison -->
+            <div style="margin-bottom: 1rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">연결 복잡도 비교</span>
+                    <span class="lang-en">Connection Complexity Comparison</span>
+                </h4>
+                <table class="modal-table">
+                    <tr>
+                        <th><span class="lang-ko">구분</span><span class="lang-en">Phase</span></th>
+                        <th><span class="lang-ko">연결 구조</span><span class="lang-en">Connection Structure</span></th>
+                        <th><span class="lang-ko">50 VU 연결 수</span><span class="lang-en">50 VU Connections</span></th>
+                        <th><span class="lang-ko">스케일링</span><span class="lang-en">Scaling</span></th>
+                        <th><span class="lang-ko">결과</span><span class="lang-en">Result</span></th>
+                    </tr>
+                    <tr>
+                        <td style="color: #ef4444;">Celery Events</td>
+                        <td>SSE × RabbitMQ = O(n×m)</td>
+                        <td style="color: #ef4444;"><strong>341개</strong> (1:21 비율)</td>
+                        <td>❌ 불가</td>
+                        <td style="color: #ef4444;">503 Error</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #f59e0b;">Connection-per-XREAD</td>
+                        <td>SSE × Coroutine = O(n)</td>
+                        <td>50개</td>
+                        <td>⚠️ CPU 85%</td>
+                        <td style="color: #f59e0b;">62% 완료율</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #22c55e;">Event Bus Layer</td>
+                        <td>Router(1) + SSE(SUB) = O(n)</td>
+                        <td style="color: #22c55e;"><strong>≈20개</strong></td>
+                        <td>✅ HPA/KEDA</td>
+                        <td style="color: #22c55e;">99.9% @ 300VU</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
