@@ -5142,26 +5142,34 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <span class="lang-ko">📈 아키텍처 진화 과정</span>
                     <span class="lang-en">📈 Architecture Evolution</span>
                 </h4>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
-                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
-                        <div style="font-weight: 600; color: #ef4444; margin-bottom: 0.5rem;">❌ Phase 1: Celery Events</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                    <div style="background: rgba(107,114,128,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(107,114,128,0.3);">
+                        <div style="font-weight: 600; color: #6b7280; margin-bottom: 0.5rem; font-size: 0.85rem;">💀 Phase 0: Sync</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                            <div>Thread Pool: 6 concurrent</div>
+                            <div>100 VU: <strong>0%</strong> (150s+ timeout)</div>
+                            <div style="color: #6b7280; margin-top: 0.25rem;">GIL 병목, 스레드 점유</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(239,68,68,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <div style="font-weight: 600; color: #ef4444; margin-bottom: 0.5rem; font-size: 0.85rem;">❌ Phase 1: Celery Events</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
                             <div>SSE : RabbitMQ = <strong>1:21</strong></div>
                             <div>50 VU → 341 connections</div>
                             <div style="color: #ef4444; margin-top: 0.25rem;">503 Error, 메모리 초과</div>
                         </div>
                     </div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
-                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">⚠️ Phase 2: KEDA Scaling</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem; font-size: 0.85rem;">⚠️ Phase 2: KEDA</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
                             <div>50 VU: 35% → <strong>86.3%</strong></div>
                             <div>CPU 85%, Context Switch</div>
                             <div style="color: #f59e0b; margin-top: 0.25rem;">고부하 시 30%로 하락</div>
                         </div>
                     </div>
-                    <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
-                        <div style="font-weight: 600; color: #22c55e; margin-bottom: 0.5rem;">✅ Phase 3: Event Bus</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    <div style="background: rgba(34,197,94,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
+                        <div style="font-weight: 600; color: #22c55e; margin-bottom: 0.5rem; font-size: 0.85rem;">✅ Phase 3: Event Bus</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
                             <div>300 VU: <strong>99.9%</strong> 완료율</div>
                             <div>O(n×m) → O(n) 연결</div>
                             <div style="color: #22c55e; margin-top: 0.25rem;">무제한 수평 확장</div>
