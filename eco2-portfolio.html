@@ -4081,8 +4081,8 @@
                     <div style="font-size: 0.75rem; color: var(--text-secondary);">gRPC Cold Call</div>
                 </div>
                 <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(168,85,247,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #a855f7;">>95%</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Cache Hit Rate</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #a855f7;">Long TTL</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Character Category</div>
                 </div>
             </div>
 
@@ -4094,12 +4094,12 @@
                         <div class="domain-detail-value">RabbitMQ Fanout → 모든 Pod의 sync.Map 동기화</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">Character Persona</div>
-                        <div class="domain-detail-value">personality, speaking_style, emoji_usage, system_prompt</div>
+                        <div class="domain-detail-label">Local Cache 이유</div>
+                        <div class="domain-detail-value">전체 캐릭터 목록 변경 주기가 길어 로컬 캐싱으로 성능 최적화</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Chat Integration</div>
-                        <div class="domain-detail-value">character_node에서 gRPC 호출 → 페르소나 기반 응답 생성</div>
+                        <div class="domain-detail-value">character_node에서 gRPC 호출 → 캐릭터 이미지 기반 스타일 유지</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Ownership</div>
