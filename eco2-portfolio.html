@@ -5605,27 +5605,34 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <!-- Event Types -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">SSE Event Types</h4>
-                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
                         <div style="font-size: 0.9rem;">📝 token</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">LLM 토큰</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">LLM 토큰 스트리밍</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-size: 0.9rem;">🤔 thinking</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">처리 상태</div>
+                        <div style="font-size: 0.9rem;">🔄 token_recovery</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">재연결 시 토큰 복구</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-size: 0.9rem;">📚 context</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">검색 소스</div>
+                        <div style="font-size: 0.9rem;">🎯 stage</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">19개 파이프라인 스테이지</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-size: 0.9rem;">✅ complete</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">응답 완료</div>
+                        <div style="font-size: 0.9rem;">💓 keepalive</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">15초 연결 유지</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-size: 0.9rem;">🖐️ needs_input</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">HITL 사용자 입력 대기</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
                         <div style="font-size: 0.9rem;">❌ error</div>
                         <div style="font-size: 0.7rem; color: var(--text-muted);">에러 발생</div>
                     </div>
+                </div>
+                <div style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-muted);">
+                    <strong>Stages:</strong> queued → intent → vision → waste_rag → character → location → kakao_place → bulk_waste → weather → recyclable_price → collection_point → web_search → image_generation → general → aggregator → feedback → answer → done
                 </div>
             </div>
 
