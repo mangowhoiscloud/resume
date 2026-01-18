@@ -4388,7 +4388,16 @@
                     <span class="lang-ko">📚 상세 문서</span>
                     <span class="lang-en">📚 Deep Dive</span>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 0.75rem;">
+                <div style="padding: 0.75rem; background: rgba(236,72,153,0.1); border-radius: 8px; border: 1px solid rgba(236,72,153,0.3); cursor: pointer;" onclick="openModal('modal-chat-langgraph')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🔀</span>
+                        <div>
+                            <div style="color: #ec4899; font-weight: 600; font-size: 0.85rem;">LangGraph Workflow</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Agent StateGraph</div>
+                        </div>
+                    </div>
+                </div>
                 <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="openModal('modal-intent-classification')">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 1rem;">🎯</span>
@@ -4404,6 +4413,26 @@
                         <div>
                             <div style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Send API Router</div>
                             <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Intent Fanout</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                <div style="padding: 0.75rem; background: rgba(34,197,94,0.1); border-radius: 8px; border: 1px solid rgba(34,197,94,0.3); cursor: pointer;" onclick="openModal('modal-chat-aggregator')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">📦</span>
+                        <div>
+                            <div style="color: #22c55e; font-weight: 600; font-size: 0.85rem;">Aggregator</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Result Collection, Fallback</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0.75rem; background: rgba(245,158,11,0.1); border-radius: 8px; border: 1px solid rgba(245,158,11,0.3); cursor: pointer;" onclick="openModal('modal-chat-summarize')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">📝</span>
+                        <div>
+                            <div style="color: #f59e0b; font-weight: 600; font-size: 0.85rem;">Summarize</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Context Compression</div>
                         </div>
                     </div>
                 </div>
@@ -4456,13 +4485,6 @@
                             <span class="lang-en">Resilience</span>
                         </div>
                         <div class="domain-detail-value">NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker + NodeExecutor</div>
-                    </div>
-                    <div class="domain-detail-item">
-                        <div class="domain-detail-label">
-                            <span class="lang-ko">컨텍스트 압축</span>
-                            <span class="lang-en">Context Compression</span>
-                        </div>
-                        <div class="domain-detail-value">OpenCode 스타일: PRUNE_PROTECT 40K, 모델별 272K 트리거, 5섹션 구조화 요약</div>
                     </div>
                 </div>
             </div>
@@ -4832,6 +4854,353 @@ def dynamic_router(state: ChatState) -> list[Send]:
                             <div>Replicas: 1 → 2</div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat LangGraph Workflow -->
+    <div class="modal-overlay" id="modal-chat-langgraph">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-langgraph')">×</button>
+            <h3 class="modal-title">🔀 Multi-Agent Chat LangGraph Workflow</h3>
+
+            <!-- LangGraph Visualization -->
+            <div style="margin-bottom: 1.5rem; text-align: center;">
+                <img src="assets/images/langgraph_chat_worker.png" alt="LangGraph Chat Worker Workflow" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border-subtle);">
+            </div>
+
+            <!-- Workflow Overview -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Workflow Overview</h4>
+                <div class="modal-diagram" style="font-size: 0.72rem; line-height: 1.4;">
+START → intent → [vision?] → dynamic_router
+                                   │
+                   ╔═══════════════╪═══════════════╗
+                   ║   Send API (병렬 실행)          ║
+                   ║   ┌─────┬─────┼─────┬─────┐    ║
+                   ║   ▼     ▼     ▼     ▼     ▼    ║
+                   ║ waste char  loc  bulk  web    ║
+                   ║ (RAG) (gRPC)(Kakao)(MOIS)(DDG)║
+                   ║   │     │     │     │     │    ║
+                   ║   ▼     ▼     ▼     ▼     ▼    ║
+                   ║  [feedback]  │     │     │    ║
+                   ╚═══════╪══════╧═════╧═════╧════╝
+                           │
+                           ▼
+                      aggregator ← 결과 수집
+                           │
+                           ▼
+                    [summarize?] ← Context Compression
+                           │
+                           ▼
+                        answer → END</div>
+            </div>
+
+            <!-- Node Details Grid -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <!-- Intent Node -->
+                <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #8b5cf6; margin-bottom: 0.75rem;">🎯 Intent Node</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>Multi-Intent ICL</strong> (arxiv:2304.11384)</div>
+                        <div><strong>Chain-of-Intent</strong> (CIKM '25 논문)</div>
+                        <div>IntentSignals = llm_confidence + keyword_boost + transition_boost</div>
+                        <div>전이 부스트 상한: MAX_TRANSITION_BOOST = 0.15</div>
+                        <div>신뢰도 &lt; 0.6 → general fallback</div>
+                        <div style="color: var(--text-muted); margin-top: 0.5rem;">Cache: SHA256 해싱, TTL 1h</div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Router -->
+                <div style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🔀 Dynamic Router (Send API)</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>Multi-intent fanout</strong>: additional_intents → 병렬 Send</div>
+                        <div><strong>Intent enrichment</strong>: waste/bulk_waste → weather 자동</div>
+                        <div><strong>Conditional</strong>: user_location → weather 조건부</div>
+                        <div style="margin-top: 0.5rem; padding: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: monospace; font-size: 0.7rem;">
+                            "종이 어떻게 버려? 수거함도"<br>
+                            → Send(waste_rag) + Send(collection_point) + Send(weather)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aggregator -->
+                <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #22c55e; margin-bottom: 0.75rem;">📦 Aggregator</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>병렬 결과 수집</strong>: 9개 context 필드 병합</div>
+                        <div><strong>Required/Optional</strong>: contracts.py SSOT</div>
+                        <div><strong>필수 누락</strong>: needs_fallback=True 트리거</div>
+                        <div style="color: var(--text-muted); margin-top: 0.5rem;">
+                            Context Fields: disposal_rules, character_context, location_context,
+                            web_search_results, bulk_waste_context, recyclable_price_context,
+                            weather_context, collection_point_context, image_generation_context
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summarize -->
+                <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">📝 Summarize (Context Compression)</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>OpenCode 스타일</strong>: context_window - max_output 초과 시</div>
+                        <div><strong>GPT-5.2</strong>: 400K context, 트리거 272K, 요약 60K</div>
+                        <div><strong>구조화된 5섹션</strong>:</div>
+                        <div style="padding-left: 1rem; font-size: 0.75rem;">
+                            1. 사용자 요청 (원문)<br>
+                            2. 목표 및 기대 결과<br>
+                            3. 완료된 작업<br>
+                            4. 진행 중/남은 작업<br>
+                            5. 중요 컨텍스트
+                        </div>
+                        <div style="color: var(--text-muted); margin-top: 0.25rem;">PRUNE_PROTECT: 40K 토큰 보호</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subagents Table -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">11 Subagent Nodes</h4>
+                <table class="modal-table" style="font-size: 0.8rem;">
+                    <tr>
+                        <th>Node</th>
+                        <th>Intent</th>
+                        <th>Data Source</th>
+                        <th>Protocol</th>
+                    </tr>
+                    <tr><td>waste_rag</td><td>waste</td><td>JSON 규정 + Feedback Loop</td><td>In-Memory</td></tr>
+                    <tr><td>character</td><td>character</td><td>Character Service</td><td>gRPC</td></tr>
+                    <tr><td>location</td><td>location</td><td>Kakao Local API</td><td>HTTP</td></tr>
+                    <tr><td>bulk_waste</td><td>bulk_waste</td><td>행정안전부 MOIS API</td><td>HTTP</td></tr>
+                    <tr><td>recyclable_price</td><td>recyclable_price</td><td>한국환경공단 KECO</td><td>HTTP</td></tr>
+                    <tr><td>collection_point</td><td>collection_point</td><td>한국환경공단 KECO</td><td>HTTP</td></tr>
+                    <tr><td>weather</td><td>weather / enrichment</td><td>기상청 KMA API</td><td>HTTP</td></tr>
+                    <tr><td>web_search</td><td>web_search</td><td>DuckDuckGo/Tavily</td><td>HTTP</td></tr>
+                    <tr><td>image_generation</td><td>image_generation</td><td>OpenAI Responses API</td><td>HTTP</td></tr>
+                    <tr><td>feedback</td><td>(after waste_rag)</td><td>LLM Evaluator + Fallback</td><td>Internal</td></tr>
+                    <tr><td>general</td><td>general</td><td>Passthrough (LLM Only)</td><td>-</td></tr>
+                </table>
+            </div>
+
+            <!-- Why gRPC vs Celery -->
+            <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">왜 gRPC (동기) vs Celery (비동기)?</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    LangGraph는 asyncio 기반 오케스트레이션. gRPC는 grpc.aio로 asyncio 네이티브 지원 (~1-100ms).
+                    Celery는 Fire & Forget에 적합하나, 결과 대기(await)에는 부적합.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat Aggregator -->
+    <div class="modal-overlay" id="modal-chat-aggregator">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-aggregator')">×</button>
+            <h3 class="modal-title">📦 Aggregator Node - Result Collection & Validation</h3>
+
+            <!-- Aggregator Flow -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Aggregator Architecture</h4>
+                <div class="modal-diagram" style="font-size: 0.72rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                          Aggregator Node                                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐           │
+│   │waste_rag│ │character│ │location │ │bulk_... │ │ weather │  ...      │
+│   └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘           │
+│        │           │           │           │           │                 │
+│        ▼           ▼           ▼           ▼           ▼                 │
+│   ┌─────────────────────────────────────────────────────────────┐       │
+│   │              LangGraph State Auto-Merge                       │       │
+│   │   disposal_rules | character_ctx | location_ctx | ...        │       │
+│   └─────────────────────────────────────────────────────────────┘       │
+│                                    │                                     │
+│                                    ▼                                     │
+│   ┌─────────────────────────────────────────────────────────────┐       │
+│   │                   Aggregator Node                             │       │
+│   │   1. 수집된 context 필드 확인 (9개)                            │       │
+│   │   2. Required vs Optional 검증 (contracts.py SSOT)            │       │
+│   │   3. 필수 누락 시 needs_fallback=True                          │       │
+│   │   4. Progress: 60% → 65%                                      │       │
+│   └─────────────────────────────────────────────────────────────┘       │
+│                                    │                                     │
+│                                    ▼                                     │
+│                           [summarize?] → answer                          │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Context Fields -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">9 Context Fields</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(139,92,246,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>disposal_rules</strong><br><span style="color: var(--text-muted);">RAG 검색 결과</span>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>character_context</strong><br><span style="color: var(--text-muted);">캐릭터 정보</span>
+                    </div>
+                    <div style="background: rgba(239,68,68,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>location_context</strong><br><span style="color: var(--text-muted);">장소 정보</span>
+                    </div>
+                    <div style="background: rgba(168,85,247,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>web_search_results</strong><br><span style="color: var(--text-muted);">웹 검색 결과</span>
+                    </div>
+                    <div style="background: rgba(236,72,153,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>bulk_waste_context</strong><br><span style="color: var(--text-muted);">대형폐기물 정보</span>
+                    </div>
+                    <div style="background: rgba(34,197,94,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>recyclable_price_context</strong><br><span style="color: var(--text-muted);">재활용 시세</span>
+                    </div>
+                    <div style="background: rgba(14,165,233,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>weather_context</strong><br><span style="color: var(--text-muted);">날씨 정보</span>
+                    </div>
+                    <div style="background: rgba(251,146,60,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>collection_point_context</strong><br><span style="color: var(--text-muted);">수거함 위치</span>
+                    </div>
+                    <div style="background: rgba(107,114,128,0.15); padding: 0.5rem; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>image_generation_context</strong><br><span style="color: var(--text-muted);">이미지 생성</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation Logic -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Required/Optional Validation</h4>
+                <div style="background: var(--bg-code); padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.75rem;">
+<pre style="margin: 0; color: var(--text-secondary);">
+<span style="color: #7c3aed;"># contracts.py - Single Source of Truth</span>
+INTENT_REQUIRED_FIELDS = {
+    "waste": {"disposal_rules"},
+    "character": {"character_context"},
+    "location": {"location_context"},
+    "bulk_waste": {"bulk_waste_context"},
+    ...
+}
+
+<span style="color: #7c3aed;"># Aggregator 검증 로직</span>
+missing_required, missing_optional = validate_missing_fields(
+    intent=intent,
+    collected_fields=collected_fields,
+)
+needs_fallback = len(missing_required) > 0
+</pre>
+                </div>
+            </div>
+
+            <!-- Fallback Trigger -->
+            <div style="padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 8px; border-left: 3px solid #ef4444;">
+                <strong style="color: #ef4444;">Fallback Trigger</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    필수 컨텍스트(Required)가 누락되면 <code>needs_fallback=True</code>를 설정하여
+                    Answer Node에서 Fallback Chain(Web Search → General LLM)을 실행합니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat Summarize -->
+    <div class="modal-overlay" id="modal-chat-summarize">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-summarize')">×</button>
+            <h3 class="modal-title">📝 Summarize Node - Context Compression</h3>
+
+            <!-- OpenCode Style -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">OpenCode Style Compaction</h4>
+                <div class="modal-diagram" style="font-size: 0.72rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    Context Compression Strategy                          │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   Current Tokens                                                         │
+│   ══════════════════════════════════════════════════════════ 400K       │
+│   ████████████████████████████████████████░░░░░░░░░░░░░░░░░░            │
+│                    ↑                       ↑                             │
+│              272K (trigger)           128K (max_output)                  │
+│                                                                          │
+│   if tokens > (context_window - max_output):   # OpenCode isOverflow    │
+│       trigger_summarization()                                            │
+│                                                                          │
+│   ┌─────────────────────────────────────────────────────────────┐       │
+│   │  After Compression                                           │       │
+│   │  ══════════════════════════════════════════════════════════  │       │
+│   │  [Summary 60K] + [PRUNE_PROTECT 40K Recent] + [New Context]  │       │
+│   └─────────────────────────────────────────────────────────────┘       │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Model Context Registry -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Model Context Window Registry</h4>
+                <table class="modal-table" style="font-size: 0.8rem;">
+                    <tr>
+                        <th>Model</th>
+                        <th>Context Window</th>
+                        <th>Max Output</th>
+                        <th>Trigger Threshold</th>
+                        <th>Summary Tokens</th>
+                    </tr>
+                    <tr>
+                        <td><strong>gpt-5.2</strong></td>
+                        <td>400,000</td>
+                        <td>128,000</td>
+                        <td>272,000</td>
+                        <td>60,000 (15%)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>gemini-3-flash-preview</strong></td>
+                        <td>1,000,000</td>
+                        <td>64,000</td>
+                        <td>936,000</td>
+                        <td>65,536 (cap)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 5-Section Summary -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">구조화된 5섹션 요약</h4>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(139,92,246,0.15); padding: 0.75rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">📝</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">1. 사용자 요청</div>
+                        <div style="font-size: 0.65rem; color: var(--text-muted);">원문 그대로</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.15); padding: 0.75rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">🎯</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">2. 목표</div>
+                        <div style="font-size: 0.65rem; color: var(--text-muted);">기대 결과</div>
+                    </div>
+                    <div style="background: rgba(34,197,94,0.15); padding: 0.75rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">✅</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">3. 완료</div>
+                        <div style="font-size: 0.65rem; color: var(--text-muted);">수행 완료</div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); padding: 0.75rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">🔄</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">4. 진행 중</div>
+                        <div style="font-size: 0.65rem; color: var(--text-muted);">남은 작업</div>
+                    </div>
+                    <div style="background: rgba(239,68,68,0.15); padding: 0.75rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">⚠️</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">5. 컨텍스트</div>
+                        <div style="font-size: 0.65rem; color: var(--text-muted);">제약/실패</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRUNE_PROTECT -->
+            <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                <strong style="color: #f59e0b;">PRUNE_PROTECT: 40K 토큰</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    OpenCode 기준 상수. 최근 도구 출력과 메시지를 보호하여 작업 연속성을 유지합니다.
+                    요약 시 최근 ~80개 메시지는 원문 유지됩니다.
                 </div>
             </div>
         </div>
