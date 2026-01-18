@@ -3908,9 +3908,9 @@
 
     <!-- Modal: Domain - Auth -->
     <div class="modal-overlay" id="modal-domain-auth">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-auth')">×</button>
-            <h3 class="modal-title">🔐 Auth Domain</h3>
+            <h3 class="modal-title">🔐 Auth Domain - OAuth 2.0 + PKCE</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -3922,52 +3922,75 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- Auth Relay Outbox Pattern -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Auth Relay Outbox Pattern</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      Auth Domain Architecture                             │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   ┌──────────┐   ┌─────────────┐   ┌─────────────┐   ┌───────────────┐   │
+│   │  Client  │──▶│  Auth API   │──▶│   OAuth     │   │  Users gRPC   │   │
+│   └──────────┘   └──────┬──────┘   │ Google/Kakao│   │GetOrCreateUser│   │
+│                         │          └─────────────┘   └───────────────┘   │
+│                         │                                                 │
+│                  ┌──────▼──────┐                                         │
+│                  │ JWT 발급    │  Access 15분 / Refresh 7일               │
+│                  │ (HS256)     │  JTI 기반 무효화                         │
+│                  └──────┬──────┘                                         │
+│                         │                                                 │
+│   ┌─────────────────────┼─────────────────────────────────────────────┐  │
+│   │                     ▼                     Async Layer              │  │
+│   │  ┌─────────────┐   ┌─────────────┐   ┌─────────────────────────┐  │  │
+│   │  │ Auth Relay  │──▶│  RabbitMQ   │──▶│ ext-authz (All Pods)    │  │  │
+│   │  │ (Redis Out- │   │  Fanout     │   │ Local Cache Update      │  │  │
+│   │  │  box Pattern)│   │ (blacklist) │   └─────────────────────────┘  │  │
+│   │  └─────────────┘   └─────────────┘                                │  │
+│   └───────────────────────────────────────────────────────────────────┘  │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- OAuth Providers -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(234,67,53,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(234,67,53,0.3);">
+                    <h5 style="color: #ea4335; margin-bottom: 0.75rem;">🔴 Google OAuth</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• Authorization Code + PKCE</div>
+                        <div>• code_challenge_method: S256</div>
+                        <div>• scope: email, profile, openid</div>
+                    </div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Client</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Auth API</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">OAuth (Google/Kakao)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">JWT (HS256)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Blacklist</span>
+                <div style="background: rgba(254,229,0,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(254,229,0,0.3);">
+                    <h5 style="color: #fee500; margin-bottom: 0.75rem;">🟡 Kakao OAuth</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• Authorization Code + PKCE</div>
+                        <div>• code_challenge_method: S256</div>
+                        <div>• scope: profile_nickname, account_email</div>
+                    </div>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">OAuth 2.0</span>
-                                <span class="lang-en">OAuth 2.0</span>
-                            </div>
-                            <div class="domain-detail-value">Google, Kakao 소셜 로그인, PKCE (S256) 지원</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">JWT 설정</span>
-                                <span class="lang-en">JWT Config</span>
-                            </div>
-                            <div class="domain-detail-value">HS256, Access 15분 / Refresh 7일, JTI 기반 무효화</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Auth Relay</span>
-                                <span class="lang-en">Auth Relay</span>
-                            </div>
-                            <div class="domain-detail-value">Redis Outbox → RabbitMQ Fanout (blacklist.events), aio_pika 비동기</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Auth Worker</span>
-                                <span class="lang-en">Auth Worker</span>
-                            </div>
-                            <div class="domain-detail-value">Celery 비동기 블랙리스트 동기화, At-Least-Once 보장</div>
-                        </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">PKCE Flow</div>
+                        <div class="domain-detail-value">code_verifier (64byte) → SHA256 → base64url = code_challenge</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">gRPC Integration</div>
+                        <div class="domain-detail-value">Users.GetOrCreateUser() 호출 → 신규 시 초기 포인트 100</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Auth Relay</div>
+                        <div class="domain-detail-value">Redis Outbox → RabbitMQ Fanout, aio_pika 비동기</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">JWT Blacklist</div>
+                        <div class="domain-detail-value">JTI 기반, TTL = token 만료시간, Fanout 즉시 동기화</div>
                     </div>
                 </div>
             </div>
@@ -3976,9 +3999,9 @@
 
     <!-- Modal: Domain - Character -->
     <div class="modal-overlay" id="modal-domain-character">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-character')">×</button>
-            <h3 class="modal-title">🌍 Character Domain</h3>
+            <h3 class="modal-title">🌍 Character Domain - Dual Interface + Local Cache</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -3990,52 +4013,97 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- Dual Interface Architecture -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Dual Interface Architecture (HTTP + gRPC)</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      Character Domain                                     │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   ┌──────────────────┐                ┌──────────────────┐               │
+│   │    HTTP API      │                │    gRPC API      │               │
+│   │   (External)     │                │   (Internal)     │               │
+│   │  GET /characters │                │ GetCharacter()   │               │
+│   │  Admin CRUD      │                │ ValidateChar()   │               │
+│   └────────┬─────────┘                └────────┬─────────┘               │
+│            │                                   │                          │
+│            └───────────────┬───────────────────┘                          │
+│                            │                                              │
+│                            ▼                                              │
+│            ┌─────────────────────────────────┐                           │
+│            │      Character Service          │                           │
+│            │  ┌───────────────────────────┐  │                           │
+│            │  │   Local Cache (sync.Map)  │  │  ~100ns lookup            │
+│            │  │   RabbitMQ Fanout 동기화   │  │                           │
+│            │  └───────────────────────────┘  │                           │
+│            └───────────────┬─────────────────┘                           │
+│                            │                                              │
+│                            ▼                                              │
+│                     ┌─────────────┐                                      │
+│                     │ PostgreSQL  │                                      │
+│                     └─────────────┘                                      │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Interface Comparison -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• GET /characters - 목록 조회</div>
+                        <div>• GET /characters/{id} - 상세 조회</div>
+                        <div>• POST/PUT/DELETE - Admin CRUD</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Frontend, Admin Panel에서 사용</div>
+                    </div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Scan Worker</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Character API (gRPC)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">RabbitMQ (Fanout)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Character Worker</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostgreSQL</span>
+                <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                    <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (Internal)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• GetCharacter() - 페르소나 조회</div>
+                        <div>• ListCharacters() - 목록 조회</div>
+                        <div>• ValidateCharacter() - 존재 확인</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Chat Worker LangGraph에서 호출</div>
+                    </div>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">캐릭터 수집</span>
-                                <span class="lang-en">Character Collection</span>
-                            </div>
-                            <div class="domain-detail-value">분리배출 분류 결과에 따라 캐릭터 보상 획득</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">API 엔드포인트</span>
-                                <span class="lang-en">API Endpoints</span>
-                            </div>
-                            <div class="domain-detail-value">GET /catalog (목록), POST /internal/rewards (보상 평가)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">캐릭터 매칭</span>
-                                <span class="lang-en">Character Matching</span>
-                            </div>
-                            <div class="domain-detail-value">middle_category → 캐릭터 매핑, In-Memory Cache</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Character Worker</span>
-                                <span class="lang-en">Character Worker</span>
-                            </div>
-                            <div class="domain-detail-value">캐릭터 소유권 배치 저장, RabbitMQ 이벤트 소비</div>
-                        </div>
+            </div>
+
+            <!-- Performance -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">~100ns</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Local Cache Lookup</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">~5ms</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">gRPC Cold Call</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(168,85,247,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #a855f7;">>95%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Cache Hit Rate</div>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Local Cache Broadcast</div>
+                        <div class="domain-detail-value">RabbitMQ Fanout → 모든 Pod의 sync.Map 동기화</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Character Persona</div>
+                        <div class="domain-detail-value">personality, speaking_style, emoji_usage, system_prompt</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Chat Integration</div>
+                        <div class="domain-detail-value">character_node에서 gRPC 호출 → 페르소나 기반 응답 생성</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Ownership</div>
+                        <div class="domain-detail-value">Users 서비스에서 캐릭터 소유권 관리, 포인트로 해금</div>
                     </div>
                 </div>
             </div>
@@ -4440,9 +4508,9 @@
 
     <!-- Modal: Domain - Scan -->
     <div class="modal-overlay" id="modal-domain-scan">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-scan')">×</button>
-            <h3 class="modal-title">📷 Scan Domain</h3>
+            <h3 class="modal-title">📷 Scan Domain - 4-Stage Vision Pipeline</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4454,52 +4522,93 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- 4-Stage Pipeline -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">4-Stage Celery Pipeline</h4>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(139,92,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👁️</div>
+                        <div style="font-weight: 600; color: #8b5cf6;">Stage 1</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Vision Analysis</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">GPT-4 Vision</div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📋</div>
+                        <div style="font-weight: 600; color: #f59e0b;">Stage 2</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Rule Engine</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">분리배출 규칙</div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💬</div>
+                        <div style="font-weight: 600; color: #10b981;">Stage 3</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Answer Gen</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">LLM 응답 생성</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.4); text-align: center;">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎁</div>
+                        <div style="font-weight: 600; color: #3b82f6;">Stage 4</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Reward</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">포인트 + 히스토리</div>
+                    </div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">POST /scan (image_url)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">TaskIQ (RabbitMQ)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Scan Worker</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">GPT-5.1/5.2 Vision</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">SSE (Redis Streams)</span>
+            </div>
+
+            <!-- Waste Categories -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Waste Categories (10분류)</h4>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🗑️ 일반</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>♻️ 플라스틱</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>📄 종이류</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🥫 캔류</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🫙 유리병</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🛍️ 비닐류</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>📦 스티로폼</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🍽️ 음식물</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🛋️ 대형</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>☢️ 유해</div>
+                    </div>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Vision API</span>
-                                <span class="lang-en">Vision API</span>
-                            </div>
-                            <div class="domain-detail-value">OpenAI GPT-5.1/5.2 Vision, Structured Output (Pydantic)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">파이프라인</span>
-                                <span class="lang-en">Pipeline</span>
-                            </div>
-                            <div class="domain-detail-value">queued → vision → rule → answer → reward → done</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">이미지 최적화</span>
-                                <span class="lang-en">Image Optimization</span>
-                            </div>
-                            <div class="domain-detail-value">detail: low (85 tokens, 89% 절약), 상황 태그 추출</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">결과 폴링</span>
-                                <span class="lang-en">Result Polling</span>
-                            </div>
-                            <div class="domain-detail-value">GET /scan/{job_id}/result, 202 (진행중) / 200 (완료)</div>
-                        </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Vision API</div>
+                        <div class="domain-detail-value">GPT-4 Vision, detail: low (85 tokens), Structured Output</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Rule Engine</div>
+                        <div class="domain-detail-value">재질 기반 분류, 오염도 체크, 분리 필요 부품 식별</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Retry Policy</div>
+                        <div class="domain-detail-value">Stage별 max_retries, exponential backoff (5s, 10s)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Image Storage</div>
+                        <div class="domain-detail-value">S3 Presigned URL → CloudFront CDN, TTL 30일</div>
                     </div>
                 </div>
             </div>
@@ -4508,9 +4617,9 @@
 
     <!-- Modal: Domain - Location -->
     <div class="modal-overlay" id="modal-domain-location">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-location')">×</button>
-            <h3 class="modal-title">📍 Location Domain</h3>
+            <h3 class="modal-title">📍 Location Domain - PostGIS + Zoom Policy</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4522,52 +4631,97 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- Dual Interface -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• GET /collection-points/nearby</div>
+                        <div>• GET /service-areas</div>
+                        <div>• POST /geocode, /reverse-geocode</div>
+                    </div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">User GPS (lat/lon)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Location API</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostGIS (earth_distance)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">반경 필터</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">거리순 정렬</span>
+                <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                    <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (Internal)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• GetNearbyCollectionPoints()</div>
+                        <div>• CheckServiceArea()</div>
+                        <div>• GetBulkWasteZone()</div>
+                    </div>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">지리 데이터베이스</span>
-                                <span class="lang-en">Geo Database</span>
-                            </div>
-                            <div class="domain-detail-value">PostgreSQL + PostGIS, earth_distance 확장</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">검색 파라미터</span>
-                                <span class="lang-en">Search Params</span>
-                            </div>
-                            <div class="domain-detail-value">lat/lon, radius (100-50000m), zoom, store/pickup_category</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">검색 대상</span>
-                                <span class="lang-en">Search Targets</span>
-                            </div>
-                            <div class="domain-detail-value">재활용센터, 수거함 위치 (정부 공공데이터 정규화)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">거리 계산</span>
-                                <span class="lang-en">Distance Calc</span>
-                            </div>
-                            <div class="domain-detail-value">PostGIS 우선, Haversine 공식 Fallback</div>
-                        </div>
+            </div>
+
+            <!-- Zoom Policy -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Zoom Policy Service</h4>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #8b5cf6;">Zoom 0-5</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">국가 레벨</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">50개, 클러스터링</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #f59e0b;">Zoom 6-10</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">시/도 레벨</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">200개, 중요도필터</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #10b981;">Zoom 11-14</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">구/군 레벨</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">500개, 상세</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #3b82f6;">Zoom 15-20</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">동/리 레벨</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">1000개, 전체</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collection Point Types -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Collection Point Types</h4>
+                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;">
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>♻️ 분리수거</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>👕 의류</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🔋 폐건전지</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>💊 폐의약품</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>💡 폐형광등</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🍽️ 음식물</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">PostGIS Query</div>
+                        <div class="domain-detail-value">ST_DWithin + ST_Distance, GIST 인덱스, geography 타입</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">공간 쿼리</div>
+                        <div class="domain-detail-value">ST_Contains (영역 포함), ST_MakePoint (좌표 생성)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">데이터 소스</div>
+                        <div class="domain-detail-value">정부 공공데이터 (재활용센터, 수거함), KECO API</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Chat Integration</div>
+                        <div class="domain-detail-value">location_node gRPC 호출, 반경 1km 내 수거함 5개</div>
                     </div>
                 </div>
             </div>
@@ -4576,9 +4730,9 @@
 
     <!-- Modal: Domain - Users -->
     <div class="modal-overlay" id="modal-domain-users">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-users')">×</button>
-            <h3 class="modal-title">👤 Users Domain</h3>
+            <h3 class="modal-title">👤 Users Domain - Character Ownership + Points</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4590,52 +4744,84 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- Dual Interface -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• GET /users/me - 프로필 조회</div>
+                        <div>• GET /users/me/characters - 소유 캐릭터</div>
+                        <div>• GET /users/me/points - 포인트 조회</div>
+                    </div>
                 </div>
+                <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                    <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (for Auth)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• GetOrCreateUser() - OAuth 로그인</div>
+                        <div>• GetUserById() - 사용자 조회</div>
+                        <div>• ValidateUser() - 존재 확인</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points System -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Points System</h4>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(16,185,129,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-weight: 600; color: #10b981;">+10</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">스캔 완료</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-weight: 600; color: #3b82f6;">+5</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">일일 로그인</div>
+                    </div>
+                    <div style="background: rgba(168,85,247,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
+                        <div style="font-weight: 600; color: #a855f7;">+20</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">7일 연속 보너스</div>
+                    </div>
+                    <div style="background: rgba(239,68,68,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(239,68,68,0.3);">
+                        <div style="font-weight: 600; color: #ef4444;">-100</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">캐릭터 해금</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Character Ownership -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Character Ownership Flow</h4>
                 <div class="domain-flow">
-                    <span class="domain-flow-item">Users API</span>
+                    <span class="domain-flow-item">스캔 완료</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">PostgreSQL (Profile)</span>
+                    <span class="domain-flow-item">포인트 적립</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Users Worker</span>
+                    <span class="domain-flow-item">캐릭터 해금</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">RabbitMQ (Fanout)</span>
+                    <span class="domain-flow-item">UserCharacter 저장</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Character Worker (gRPC)</span>
+                    <span class="domain-flow-item">기본 캐릭터 설정</span>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">프로필 관리</span>
-                                <span class="lang-en">Profile Management</span>
-                            </div>
-                            <div class="domain-detail-value">닉네임, 프로필 이미지 URL, 선호 캐릭터 설정</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">캐릭터 소유</span>
-                                <span class="lang-en">Character Ownership</span>
-                            </div>
-                            <div class="domain-detail-value">User-Character 다대다 관계, 분리배출 완료 시 캐릭터 획득</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Worker 연동</span>
-                                <span class="lang-en">Worker Integration</span>
-                            </div>
-                            <div class="domain-detail-value">users_worker → Character Worker RPC, 비동기 캐릭터 할당</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">데이터 모델</span>
-                                <span class="lang-en">Data Model</span>
-                            </div>
-                            <div class="domain-detail-value">UserProfile, UserCharacter 엔티티, SQLAlchemy ORM</div>
-                        </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">gRPC Auth Integration</div>
+                        <div class="domain-detail-value">OAuth 로그인 시 GetOrCreateUser() 호출, 신규 시 초기 포인트 100</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Character Ownership</div>
+                        <div class="domain-detail-value">user_characters 다대다 테이블, acquired_at 기록</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Users Worker</div>
+                        <div class="domain-detail-value">일일 로그인 보상, 연속 로그인 체크, 포인트 동기화</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Default Character</div>
+                        <div class="domain-detail-value">기본 캐릭터 자동 부여, Chat 세션에서 페르소나 적용</div>
                     </div>
                 </div>
             </div>
@@ -4644,9 +4830,9 @@
 
     <!-- Modal: Domain - Image -->
     <div class="modal-overlay" id="modal-domain-image">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-image')">×</button>
-            <h3 class="modal-title">🖼️ Images Domain</h3>
+            <h3 class="modal-title">🖼️ Images Domain - S3 Presigned URL + CDN</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4658,52 +4844,86 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- Upload Flow Diagram -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Presigned URL Upload Flow</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    S3 Presigned URL Upload Flow                           │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  Client              Images API            S3              CloudFront     │
+│    │                      │                │                    │         │
+│    │ 1. Request URL       │                │                    │         │
+│    ├─────────────────────▶│                │                    │         │
+│    │                      │                │                    │         │
+│    │ 2. Presigned URL     │                │                    │         │
+│    │    + CDN URL         │                │                    │         │
+│    │◀─────────────────────┤                │                    │         │
+│    │                      │                │                    │         │
+│    │ 3. Direct Upload (PUT)                │                    │         │
+│    ├───────────────────────────────────────▶│                    │         │
+│    │    (5분 만료)         │                │                    │         │
+│    │                      │                │                    │         │
+│    │ 4. Upload OK         │                │                    │         │
+│    │◀───────────────────────────────────────┤                    │         │
+│    │                      │                │                    │         │
+│    │ 5. Access via CDN    │                │                    │         │
+│    ├─────────────────────────────────────────────────────────────▶│         │
+│    │                      │                │                    │         │
+│    │ 6. Cached Image      │                │                    │         │
+│    │◀─────────────────────────────────────────────────────────────┤         │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Image Purpose Types -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Image Purpose Types</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">📷 SCAN</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>scans/{date}/{user}/{id}</div>
+                            <div style="color: var(--text-muted);">TTL: 30일</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">👤 PROFILE</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>profiles/{user}/{id}</div>
+                            <div style="color: var(--text-muted);">TTL: 영구</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">💬 CHAT</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div>chat/{date}/{user}/{id}</div>
+                            <div style="color: var(--text-muted);">TTL: 7일</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Client</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Images API</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Presigned URL (IRSA)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">S3 Direct Upload</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">CloudFront CDN</span>
-                </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">업로드 플로우</span>
-                                <span class="lang-en">Upload Flow</span>
-                            </div>
-                            <div class="domain-detail-value">Presigned URL 발급 → 클라이언트 S3 Direct Upload → Callback 확인</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">CDN 구성</span>
-                                <span class="lang-en">CDN Configuration</span>
-                            </div>
-                            <div class="domain-detail-value">CloudFront + S3 Origin + images.*.growbin.app 도메인</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">보안</span>
-                                <span class="lang-en">Security</span>
-                            </div>
-                            <div class="domain-detail-value">IRSA (IAM Roles for Service Accounts) + S3 버킷 정책</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">설계 원칙</span>
-                                <span class="lang-en">Design Principle</span>
-                            </div>
-                            <div class="domain-detail-value">서버 무부하 업로드, 이미지 처리 없음 (원본 저장 only)</div>
-                        </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Presigned URL</div>
+                        <div class="domain-detail-value">PUT only, 5분 만료, Content-Type 제한 (image/*)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">CloudFront CDN</div>
+                        <div class="domain-detail-value">images.dev.growbin.app, OAI (Origin Access Identity)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">S3 Lifecycle</div>
+                        <div class="domain-detail-value">purpose별 자동 만료, scans/ 30일, chat/ 7일</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Security</div>
+                        <div class="domain-detail-value">IRSA + Bucket Policy (CloudFront OAI only), 최대 10MB</div>
                     </div>
                 </div>
             </div>
@@ -4712,9 +4932,9 @@
 
     <!-- Modal: Domain - Info -->
     <div class="modal-overlay" id="modal-domain-info">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-info')">×</button>
-            <h3 class="modal-title">📰 Info Domain</h3>
+            <h3 class="modal-title">📰 Info Domain - CQRS Pattern</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4726,52 +4946,94 @@
                     </div>
                 </a>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- CQRS Architecture -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">CQRS (Command Query Responsibility Segregation)</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <h5 style="color: #ef4444; margin-bottom: 0.75rem;">✏️ Command Side (Write)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div><strong>Info Worker</strong></div>
+                            <div>• Naver News API 수집 (30분)</div>
+                            <div>• NewsData.io 수집 (60분)</div>
+                            <div>• 중복 제거 + 카테고리 분류</div>
+                            <div>• PostgreSQL 배치 저장</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">📖 Query Side (Read)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div><strong>Info API</strong></div>
+                            <div>• GET /articles (뉴스 목록)</div>
+                            <div>• GET /articles/search (검색)</div>
+                            <div>• Cache-Aside (Redis, 5분 TTL)</div>
+                            <div>• React Query useInfiniteQuery</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Info Worker (Beat)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Naver / NewsData.io</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis (Write-Through)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Info API (Read)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">React Query</span>
+            </div>
+
+            <!-- News Categories -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">News Categories</h4>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🌍 환경</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>♻️ 재활용</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>⚡ 에너지</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>🤖 AI</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
+                        <div>📜 정책</div>
+                    </div>
                 </div>
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">CQRS 패턴</span>
-                                <span class="lang-en">CQRS Pattern</span>
-                            </div>
-                            <div class="domain-detail-value">Worker: Write (수집) / API: Read (조회), Cache-Aside Fallback</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Info Worker</span>
-                                <span class="lang-en">Info Worker</span>
-                            </div>
-                            <div class="domain-detail-value">Celery gevent (100 동시성) + Beat Sidecar, 5분/30분 주기 수집</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">OG 이미지</span>
-                                <span class="lang-en">OG Image</span>
-                            </div>
-                            <div class="domain-detail-value">OpenGraph 썸네일 추출 86.4% 성공률 (~153ms/article)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Frontend</span>
-                                <span class="lang-en">Frontend</span>
-                            </div>
-                            <div class="domain-detail-value">React Query useInfiniteQuery + IntersectionObserver 무한스크롤</div>
-                        </div>
+            </div>
+
+            <!-- Worker Architecture -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Worker Architecture</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌───────────────────────────────────────────────────────────────┐
+│                    Info Worker Pod                             │
+├───────────────────────────────────────────────────────────────┤
+│                                                                │
+│   ┌─────────────────────────┐   ┌─────────────────────────┐   │
+│   │     Celery Worker       │   │     Beat Sidecar        │   │
+│   │     (Main Container)    │   │     (Scheduler)         │   │
+│   │                         │   │                         │   │
+│   │   • fetch_naver (30m)   │   │   • crontab schedules   │   │
+│   │   • fetch_newsdata (1h) │   │   • task dispatching    │   │
+│   │   • cleanup (03:00)     │   │                         │   │
+│   └─────────────────────────┘   └─────────────────────────┘   │
+│                                                                │
+└───────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Cache-Aside</div>
+                        <div class="domain-detail-value">Redis 조회 → Miss 시 PostgreSQL → Redis 저장 (TTL 5분)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">OG Image</div>
+                        <div class="domain-detail-value">OpenGraph 썸네일 추출, 86.4% 성공률, ~153ms/article</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Frontend</div>
+                        <div class="domain-detail-value">useInfiniteQuery + IntersectionObserver 무한스크롤</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Data Sources</div>
+                        <div class="domain-detail-value">Naver News API (한국), NewsData.io (글로벌)</div>
                     </div>
                 </div>
             </div>
@@ -4780,58 +5042,117 @@
 
     <!-- Modal: Infrastructure - ext-authz -->
     <div class="modal-overlay" id="modal-infra-extauthz">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 950px;">
             <button class="modal-close" onclick="closeModal('modal-infra-extauthz')">×</button>
             <h3 class="modal-title">🛡️ ext-authz (External Authorization)</h3>
-            <div class="domain-demo-section">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
+
+            <!-- Performance Highlight -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">87%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">P50 지연시간 감소</div>
                 </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Client Request</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Istio Sidecar</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">ext-authz (Go)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Blacklist</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Allow/Deny</span>
+                <div style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">72%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">P99 지연시간 감소</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(168,85,247,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #a855f7;">28x</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">RPS 처리량 향상</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid rgba(245,158,11,0.3);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #f59e0b;">>99%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Cache Hit Rate</div>
                 </div>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">구현 언어</span>
-                                <span class="lang-en">Language</span>
-                            </div>
-                            <div class="domain-detail-value">Go (Envoy ext_authz gRPC 프로토콜), 평균 응답 ~2ms</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">JWT 검증</span>
-                                <span class="lang-en">JWT Validation</span>
-                            </div>
-                            <div class="domain-detail-value">RS256 서명 검증 + 만료 체크 + Redis Blacklist 확인</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Istio 연동</span>
-                                <span class="lang-en">Istio Integration</span>
-                            </div>
-                            <div class="domain-detail-value">AuthorizationPolicy + EnvoyFilter, Sidecar 레벨 인가</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Auth Offloading</span>
-                                <span class="lang-en">Auth Offloading</span>
-                            </div>
-                            <div class="domain-detail-value">각 API 서버에서 인증 로직 제거, 중앙화된 인가 처리</div>
+
+            <!-- Local Cache Broadcast Architecture -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Local Cache Broadcast Pattern</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     ext-authz Local Cache Broadcast                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐                   │
+│   │   Pod A     │     │   Pod B     │     │   Pod C     │                   │
+│   │ ┌─────────┐ │     │ ┌─────────┐ │     │ ┌─────────┐ │                   │
+│   │ │sync.Map │ │     │ │sync.Map │ │     │ │sync.Map │ │  ~100ns lookup    │
+│   │ │(Local)  │ │     │ │(Local)  │ │     │ │(Local)  │ │                   │
+│   │ └────┬────┘ │     │ └────┬────┘ │     │ └────┬────┘ │                   │
+│   └──────┼──────┘     └──────┼──────┘     └──────┼──────┘                   │
+│          │                   │                   │                          │
+│          └───────────────────┼───────────────────┘                          │
+│                              │                                              │
+│                       ┌──────▼──────┐                                       │
+│                       │  RabbitMQ   │  Fanout Exchange                      │
+│                       │ (blacklist  │  (blacklist.events)                   │
+│                       │  .events)   │                                       │
+│                       └──────┬──────┘                                       │
+│                              │                                              │
+│                       ┌──────▼──────┐                                       │
+│                       │ Auth Relay  │  Redis Outbox → Fanout Broadcast      │
+│                       │  (Outbox)   │                                       │
+│                       └─────────────┘                                       │
+│                                                                              │
+│  Flow: User Logout → Auth Relay (Outbox) → RabbitMQ Fanout → All Pods      │
+│        → sync.Map Update → Next Request: ~100ns (No Redis!)                 │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Performance Comparison -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Performance Evolution</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <h5 style="color: #ef4444; margin-bottom: 0.75rem;">Before (v1) - Every Request → Redis</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>• P50 Latency: <strong>57ms</strong></div>
+                            <div>• P99 Latency: <strong>80ms</strong></div>
+                            <div>• Max RPS: <strong>~500</strong></div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">모든 요청이 Redis 조회 필요</div>
                         </div>
                     </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">After (v2) - Local Cache First</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>• P50 Latency: <strong>7.5ms</strong></div>
+                            <div>• P99 Latency: <strong>30ms</strong></div>
+                            <div>• Max RPS: <strong>~14,000</strong></div>
+                            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Cache Hit 시 Redis 조회 불필요</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Go Implementation</div>
+                        <div class="domain-detail-value">Envoy ext_authz gRPC, sync.Map (lock-free), goroutine consumer</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">JWT Validation</div>
+                        <div class="domain-detail-value">HS256 서명 검증 → JTI Blacklist 체크 (Local → Redis fallback)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Istio Integration</div>
+                        <div class="domain-detail-value">AuthorizationPolicy CUSTOM provider, EnvoyFilter ext-authz-grpc</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Fanout Broadcast</div>
+                        <div class="domain-detail-value">RabbitMQ Fanout Exchange, 각 Pod 고유 큐 자동 생성</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Reference -->
+            <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    📊 상세 성능 분석: <a href="https://rooftopsnow.tistory.com/24" target="_blank" rel="noopener" style="color: #6366f1;">ext-authz 성능 최적화</a> |
+                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Local Cache Broadcast 패턴</a>
                 </div>
             </div>
         </div>
@@ -4839,56 +5160,138 @@
 
     <!-- Modal: Infrastructure - SSE Gateway -->
     <div class="modal-overlay" id="modal-infra-sse">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 950px;">
             <button class="modal-close" onclick="closeModal('modal-infra-sse')">×</button>
-            <h3 class="modal-title">📡 SSE Gateway</h3>
-            <div class="domain-demo-section">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
-                </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Browser</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">SSE Gateway</span>
-                    <span class="domain-flow-arrow">←</span>
-                    <span class="domain-flow-item">Redis Pub/Sub</span>
-                    <span class="domain-flow-arrow">←</span>
-                    <span class="domain-flow-item">Event Router</span>
-                </div>
+            <h3 class="modal-title">📡 SSE Gateway - Token v2 Recoverable Streaming</h3>
+
+            <!-- Token v2 Recovery Diagram -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Token v2 Recoverable Streaming (XRANGE catch-up)</h4>
+                <div class="modal-diagram" style="font-size: 0.68rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    Token v2 Recoverable Streaming                             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Client              SSE Gateway           Redis Streams     Chat Worker      │
+│    │                      │                      │                │           │
+│    │  1. SSE Connect      │                      │                │           │
+│    ├─────────────────────▶│                      │                │           │
+│    │                      │  2. XREAD BLOCK      │                │           │
+│    │                      ├─────────────────────▶│                │           │
+│    │                      │                      │◀───────────────┤ XADD      │
+│    │  id:1001 "Hello"     │◀─────────────────────┤                │           │
+│    │◀─────────────────────┤                      │                │           │
+│    │                      │                      │◀───────────────┤ XADD      │
+│    │  id:1002 "World"     │◀─────────────────────┤                │           │
+│    │◀─────────────────────┤                      │                │           │
+│    │                      │                      │                │           │
+│    │  [Connection Lost]   │                      │◀───────────────┤ XADD      │
+│    │         X            │                      │  id:1003 "!"   │           │
+│    │                      │                      │  (stored)      │           │
+│    │                      │                      │                │           │
+│    │  3. Reconnect        │                      │                │           │
+│    │  Last-Event-ID:1002  │                      │                │           │
+│    ├─────────────────────▶│                      │                │           │
+│    │                      │  4. XRANGE 1002 +    │                │           │
+│    │                      ├─────────────────────▶│                │           │
+│    │                      │                      │                │           │
+│    │  5. Missed: id:1003  │  (catch-up)          │                │           │
+│    │◀─────────────────────┤◀─────────────────────┤                │           │
+│    │                      │                      │                │           │
+│    │  Continue streaming  │  XREAD BLOCK         │                │           │
+│    │◀─────────────────────┤◀─────────────────────┤                │           │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">SSE 프로토콜</span>
-                                <span class="lang-en">SSE Protocol</span>
-                            </div>
-                            <div class="domain-detail-value">Server-Sent Events, job_id별 독립 채널, 단방향 스트리밍</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">구독 관리</span>
-                                <span class="lang-en">Subscription Management</span>
-                            </div>
-                            <div class="domain-detail-value">Redis Pub/Sub sse:events:{job_id} 채널 구독</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">재연결 복구</span>
-                                <span class="lang-en">Reconnection Recovery</span>
-                            </div>
-                            <div class="domain-detail-value">Last-Event-ID + Token State 스냅샷으로 catch-up</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">스케일링</span>
-                                <span class="lang-en">Scaling</span>
-                            </div>
-                            <div class="domain-detail-value">Stateless 수평 확장, Pub/Sub으로 모든 인스턴스 동기화</div>
+
+            <!-- Persistence Layers -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">3-Layer Persistence Offloading</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <div style="font-weight: 600; color: #ef4444; margin-bottom: 0.5rem;">🔥 Hot Layer</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <strong>Redis Pub/Sub</strong><br>
+                            • 실시간 토큰 전송<br>
+                            • No persistence<br>
+                            • 연결된 클라이언트만
                         </div>
                     </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">🌡️ Warm Layer</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <strong>Redis Streams</strong><br>
+                            • XRANGE catch-up<br>
+                            • maxlen: 1000<br>
+                            • TTL: 1시간
+                        </div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">❄️ Cold Layer</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <strong>PostgreSQL</strong><br>
+                            • 완료된 대화 저장<br>
+                            • 전체 응답 텍스트<br>
+                            • 영구 저장
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Types -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">SSE Event Types</h4>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-size: 0.9rem;">📝 token</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">LLM 토큰</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-size: 0.9rem;">🤔 thinking</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">처리 상태</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-size: 0.9rem;">📚 context</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">검색 소스</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-size: 0.9rem;">✅ complete</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">응답 완료</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-size: 0.9rem;">❌ error</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">에러 발생</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Dual Publishing</div>
+                        <div class="domain-detail-value">Worker: XADD (Streams) + PUBLISH (Pub/Sub) 동시 발행</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Recovery Flow</div>
+                        <div class="domain-detail-value">Last-Event-ID 헤더 → XRANGE catch-up → XREAD BLOCK 재개</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Nginx Config</div>
+                        <div class="domain-detail-value">X-Accel-Buffering: no, proxy_buffering off, chunked transfer</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Scaling</div>
+                        <div class="domain-detail-value">Stateless HPA, Pub/Sub 기반 모든 인스턴스 동기화</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Reference -->
+            <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    📊 구현 상세: <a href="https://rooftopsnow.tistory.com/23" target="_blank" rel="noopener" style="color: #6366f1;">SSE Gateway 아키텍처</a> |
+                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Persistence Offloading 패턴</a>
                 </div>
             </div>
         </div>
@@ -4896,57 +5299,120 @@
 
     <!-- Modal: Infrastructure - Event Router -->
     <div class="modal-overlay" id="modal-infra-eventrouter">
-        <div class="modal-content domain-modal-content">
+        <div class="modal-content" style="max-width: 950px;">
             <button class="modal-close" onclick="closeModal('modal-infra-eventrouter')">×</button>
-            <h3 class="modal-title">🔀 Event Router</h3>
-            <div class="domain-demo-section">
-                <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ 시스템 아키텍처</span>
-                    <span class="lang-en">🏗️ System Architecture</span>
-                </div>
-                <div class="domain-flow">
-                    <span class="domain-flow-item">Workers</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Redis Streams (4 shards)</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Event Router</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Lua Script</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">Pub/Sub</span>
+            <h3 class="modal-title">🔀 Event Router - Redis Streams Consumer Group</h3>
+
+            <!-- Architecture Diagram -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Event Flow Architecture</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         Event Router Architecture                             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  ┌─────────────────────────────────────────────────────────────────────────┐ │
+│  │                        Event Producers                                   │ │
+│  │  ┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐        │ │
+│  │  │  Auth  │   │  Chat  │   │  Scan  │   │  Info  │   │ Users  │        │ │
+│  │  │ Events │   │ Events │   │ Events │   │ Events │   │ Events │        │ │
+│  │  └───┬────┘   └───┬────┘   └───┬────┘   └───┬────┘   └───┬────┘        │ │
+│  └──────┼────────────┼───────────┼────────────┼────────────┼──────────────┘ │
+│         │            │           │            │            │                 │
+│         └────────────┴───────────┴────────────┴────────────┘                 │
+│                                  │                                           │
+│                           ┌──────▼──────┐                                    │
+│                           │   XADD      │  events:{domain}                   │
+│                           └──────┬──────┘                                    │
+│                                  │                                           │
+│  ┌───────────────────────────────▼───────────────────────────────────────┐  │
+│  │                      Redis Streams                                     │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  events:auth  │  events:chat  │  events:scan  │  events:info    │  │  │
+│  │  └───────────────┴───────────────┴───────────────┴─────────────────┘  │  │
+│  └───────────────────────────────┬───────────────────────────────────────┘  │
+│                                  │                                           │
+│                    ┌─────────────▼─────────────┐                            │
+│                    │  Consumer Group            │                            │
+│                    │  (event-router-group)      │                            │
+│                    └─────────────┬─────────────┘                            │
+│           ┌──────────────────────┼──────────────────────┐                   │
+│           ▼                      ▼                      ▼                   │
+│    ┌─────────────┐        ┌─────────────┐        ┌─────────────┐           │
+│    │ consumer-1  │        │ consumer-2  │        │ consumer-3  │           │
+│    │   (Pod A)   │        │   (Pod B)   │        │   (Pod C)   │           │
+│    └──────┬──────┘        └──────┬──────┘        └──────┬──────┘           │
+│           │                      │                      │                   │
+│           └──────────────────────┴──────────────────────┘                   │
+│                                  │                                           │
+│                           ┌──────▼──────┐                                    │
+│                           │ State KV    │  state:{entity}:{id}               │
+│                           │ (Redis Hash)│                                    │
+│                           └─────────────┘                                    │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Event Types Grid -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Domain Event Types</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #8b5cf6; margin-bottom: 0.5rem;">🔐 auth</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">login, logout, token_refresh</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">💬 chat</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">message_sent, message_complete, feedback</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">📷 scan</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">scan_start, scan_complete, reward_granted</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">📰 info</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">article_fetched, cache_invalidated</div>
+                    </div>
                 </div>
             </div>
-            <div class="domain-architecture">
-                <div class="domain-details">
-                    <div class="domain-detail-grid">
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Redis Streams</span>
-                                <span class="lang-en">Redis Streams</span>
-                            </div>
-                            <div class="domain-detail-value">4개 Shard (hash(job_id) % 4), Consumer Group, MAXLEN 10,000</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Lua Script</span>
-                                <span class="lang-en">Lua Script</span>
-                            </div>
-                            <div class="domain-detail-value">원자적 처리: State 업데이트 + Pub/Sub 발행 + Idempotency 마커</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">이벤트 타입</span>
-                                <span class="lang-en">Event Types</span>
-                            </div>
-                            <div class="domain-detail-value">progress, token, done, error, needs_input (Human-in-the-Loop)</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">분산 처리</span>
-                                <span class="lang-en">Distributed Processing</span>
-                            </div>
-                            <div class="domain-detail-value">XREADGROUP BLOCK, 다중 라우터 인스턴스 병렬 소비</div>
-                        </div>
+
+            <!-- Consumer Group Features -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Consumer Group 특징</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">At-Least-Once</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">XACK 전 crash → 자동 재처리, 메시지 손실 없음</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">Load Balancing</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Consumer Group이 메시지 자동 분배, Pod 증가 시 자동 밸런싱</div>
+                    </div>
+                    <div style="background: rgba(168,85,247,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(168,85,247,0.3);">
+                        <div style="font-weight: 600; color: #a855f7; margin-bottom: 0.5rem;">Pending Recovery</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">XCLAIM으로 장시간 미처리 메시지 재할당 (60s idle)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="domain-details">
+                <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">XREADGROUP</div>
+                        <div class="domain-detail-value">BLOCK 5000ms, COUNT 10, 다중 스트림 동시 소비</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">State KV</div>
+                        <div class="domain-detail-value">Redis Hash, state:{entity}:{id}, HINCRBY 카운터, HSET 상태</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Handler Pattern</div>
+                        <div class="domain-detail-value">event_type별 핸들러 등록, 비동기 처리 후 XACK</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Monitoring</div>
+                        <div class="domain-detail-value">XPENDING으로 lag 추적, consumer별 처리량 메트릭</div>
                     </div>
                 </div>
             </div>
