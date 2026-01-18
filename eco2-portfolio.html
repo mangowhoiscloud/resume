@@ -2563,46 +2563,46 @@
                         <span class="lang-en">Implemented dynamic parallel routing based on <strong>LangGraph Send API</strong>. <strong>9-class Intent</strong> with <strong>Multi-Intent Fanout</strong> handles compound queries like "How to dispose paper and show collection points" in parallel. <strong>3-Tier Memory (Redis + PostgreSQL)</strong> and <strong>Token v2 recoverable streaming</strong> enable token catch-up on reconnection.</span>
                     </p>
                     <div class="achievements">
-                        <div class="achievement clickable" onclick="openModal('modal-intent-pipeline')" style="cursor: pointer;">
+                        <div class="achievement clickable" onclick="openModal('modal-intent-classification')" style="cursor: pointer;">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>9분류 Intent + Multi-Intent</strong> 키워드 맵 신뢰도 보정, Chain-of-Intent로 연속 질문 문맥 유지 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>9-class Intent + Multi-Intent</strong> Keyword map confidence calibration, Chain-of-Intent for continuous query context <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement clickable" onclick="openModal('modal-intent-pipeline')" style="cursor: pointer;">
+                        <div class="achievement clickable" onclick="openModal('modal-send-api')" style="cursor: pointer;">
                             <span class="achievement-icon">⚡</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Send API 병렬 라우팅</strong> Dynamic Router + Enrichment Rules로 waste → weather 자동 추가, Aggregator에서 결과 수집 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>Send API Parallel Routing</strong> Dynamic Router + Enrichment Rules auto-add weather for waste, results collected at Aggregator <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement clickable" onclick="openModal('modal-memory-streaming')" style="cursor: pointer;">
+                        <div class="achievement clickable" onclick="openModal('modal-3tier-memory')" style="cursor: pointer;">
                             <span class="achievement-icon">💾</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>3-Tier Memory</strong> Redis Hot(~1ms) + PostgreSQL Persistent + ChatState, CachedPostgresSaver 패턴 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>3-Tier Memory</strong> Redis Hot (~1ms) + PostgreSQL Persistent + ChatState, CachedPostgresSaver pattern <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement clickable" onclick="openModal('modal-memory-streaming')" style="cursor: pointer;">
+                        <div class="achievement clickable" onclick="openModal('modal-token-streaming')" style="cursor: pointer;">
                             <span class="achievement-icon">🔄</span>
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Token v2 + Context 압축</strong> XRANGE 복구, 동적 Summarization (272K trigger, 5-Tier 구조) <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>Token v2 + Context Compression</strong> XRANGE recovery, dynamic Summarization (272K trigger, 5-Tier structure) <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement clickable" onclick="openModal('modal-resilience')" style="cursor: pointer;">
+                        <div class="achievement clickable" onclick="openModal('modal-node-resilience')" style="cursor: pointer;">
                             <span class="achievement-icon">🛡️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Production Resilience</strong> NodePolicy (FAIL_OPEN/CLOSE), Circuit Breaker, 4-dim RAG 품질 평가 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
-                                <span class="lang-en"><strong>Production Resilience</strong> NodePolicy (FAIL_OPEN/CLOSE), Circuit Breaker, 4-dim RAG quality eval <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                                <span class="lang-ko"><strong>Production Resilience</strong> NodePolicy (FAIL_OPEN/CLOSE/FALLBACK), Circuit Breaker 5회 → 60s <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Production Resilience</strong> NodePolicy (FAIL_OPEN/CLOSE/FALLBACK), Circuit Breaker 5 fails → 60s <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
-                        <div class="achievement clickable" onclick="openModal('modal-resilience')" style="cursor: pointer;">
+                        <div class="achievement clickable" onclick="openModal('modal-fallback-chain')" style="cursor: pointer;">
                             <span class="achievement-icon">📊</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Feedback + Fallback Chain</strong> RAG → web_search → general_llm, Clarification 메시지 생성 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
-                                <span class="lang-en"><strong>Feedback + Fallback Chain</strong> RAG → web_search → general_llm, Clarification message generation <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                                <span class="lang-ko"><strong>Feedback + Fallback Chain</strong> 4-dim RAG 평가, rag → web_search → general_llm 체인 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Feedback + Fallback Chain</strong> 4-dim RAG eval, rag → web_search → general_llm chain <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                         <div class="achievement clickable" onclick="openModal('modal-chat-observability')" style="cursor: pointer;">
@@ -4271,25 +4271,35 @@
                     </div>
                 </div>
             </div>
-            <!-- Intent Pipeline Link -->
-            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="openModal('modal-intent-pipeline')">
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <span style="font-size: 1.5rem;">🎯</span>
-                    <div>
-                        <div style="color: var(--primary); font-weight: 600;">9분류 Intent + LangGraph Pipeline 상세 보기</div>
-                        <div style="color: var(--text-secondary); font-size: 0.85rem;">클릭하여 Intent 분류 시스템 및 Send API 라우팅 시각화</div>
+            <!-- Intent & Send API Links -->
+            <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="padding: 1rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="openModal('modal-intent-classification')">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.25rem;">🎯</span>
+                        <div>
+                            <div style="color: #8b5cf6; font-weight: 600;">9분류 Intent Classification</div>
+                            <div style="color: var(--text-secondary); font-size: 0.8rem;">Confidence Scoring, Chain-of-Intent</div>
+                        </div>
                     </div>
-                    <span style="margin-left: auto; color: var(--primary);">→</span>
+                </div>
+                <div style="padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="openModal('modal-send-api')">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.25rem;">⚡</span>
+                        <div>
+                            <div style="color: #10b981; font-weight: 600;">Send API Dynamic Router</div>
+                            <div style="color: var(--text-secondary); font-size: 0.8rem;">Multi-Intent Fanout, Enrichment Rules</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Intent Pipeline Visualization -->
-    <div class="modal-overlay" id="modal-intent-pipeline">
+    <!-- Modal: Intent Classification -->
+    <div class="modal-overlay" id="modal-intent-classification">
         <div class="modal-content" style="max-width: 900px;">
-            <button class="modal-close" onclick="closeModal('modal-intent-pipeline')">×</button>
-            <h3 class="modal-title">🎯 9-Class Intent + LangGraph Pipeline</h3>
+            <button class="modal-close" onclick="closeModal('modal-intent-classification')">×</button>
+            <h3 class="modal-title">🎯 9-Class Intent Classification</h3>
 
             <!-- Intent Classification Grid -->
             <div style="margin-bottom: 2rem;">
@@ -4305,15 +4315,15 @@
                     </div>
                     <div class="intent-card" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 8px; padding: 0.75rem;">
                         <div style="font-weight: 600; color: #ef4444;">📍 location</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">위치 기반 검색 (PostGIS)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">위치 기반 검색 (gRPC)</div>
                     </div>
                     <div class="intent-card" style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 8px; padding: 0.75rem;">
                         <div style="font-weight: 600; color: #ec4899;">🛋️ bulk_waste</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">대형폐기물 (행안부 API)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">대형폐기물 (MOIS API)</div>
                     </div>
                     <div class="intent-card" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; padding: 0.75rem;">
                         <div style="font-weight: 600; color: #22c55e;">💰 recyclable_price</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">재활용 시세 (환경공단)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">재활용 시세 (KECO API)</div>
                     </div>
                     <div class="intent-card" style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 8px; padding: 0.75rem;">
                         <div style="font-weight: 600; color: #0ea5e9;">📦 collection_point</div>
@@ -4334,98 +4344,212 @@
                 </div>
             </div>
 
-            <!-- LangGraph Pipeline ASCII -->
+            <!-- Confidence Scoring -->
             <div style="margin-bottom: 2rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">LangGraph Send API Pipeline (17 Nodes)</h4>
-                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Confidence Scoring Formula</h4>
+                <div class="modal-diagram" style="font-size: 0.8rem; line-height: 1.5;">
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                     LangGraph Pipeline (Send API + Summarization)            │
+│                        Confidence Scoring System                              │
 ├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  START → intent_node(2s) → [vision_node?(3s)] → router_node(Dynamic Router) │
-│                                                        │                     │
-│           ╔════════════════════════════════════════════╧════════════════════╗│
-│           ║              Send API (Multi-Intent Fanout)                     ║│
-│           ║  ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┐      ║│
-│           ║  ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼      ║│
-│           ║ waste  char   loc   bulk  price collect  web  image weather    ║│
-│           ║ (RAG) (gRPC)(Kakao)(MOIS)(KECO)(KECO) (DDG)(API)(KMA)          ║│
-│           ║  │      │      │      │      │      │      │     │     │       ║│
-│           ╚══╧══════╧══════╧══════╧══════╧══════╧══════╧═════╧═════╧═══════╝│
-│                                       │                                      │
-│                              aggregator_node (결과 수집 + 검증)              │
-│                                       │                                      │
-│                       [feedback_node] ← RAG 품질 평가 (4-dim scoring)        │
-│                              │        └→ Fallback: web_search → general_llm │
-│                              ▼                                               │
-│              ┌────────────────────────────────────────┐                      │
-│              │  [summarize_node?] 동적 컨텍스트 압축  │                      │
-│              │  ├─ Trigger: context > 272K tokens    │                      │
-│              │  ├─ 5-Tier Summary Structure          │                      │
-│              │  └─ PRUNE_PROTECT: 40K recent tokens  │                      │
-│              └────────────────────────────────────────┘                      │
-│                                       │                                      │
-│                         answer_node(5s) (토큰 스트리밍)                      │
-│                                       │                                      │
-│                                      END                                     │
-│                                                                              │
+│                                                                               │
+│   final_confidence = llm_confidence + keyword_boost + transition_boost       │
+│                      + length_penalty                                         │
+│                                                                               │
+│   ┌─────────────────────────────────────────────────────────────────────────┐│
+│   │  Component           │  Range       │  Description                      ││
+│   ├─────────────────────────────────────────────────────────────────────────┤│
+│   │  llm_confidence      │  0.0 ~ 1.0   │  LLM 분류 결과 신뢰도              ││
+│   │  keyword_boost       │  0.0 ~ 0.2   │  키워드 맵 매칭 보정                ││
+│   │  transition_boost    │  0.0 ~ 0.15  │  Chain-of-Intent 전이 보너스       ││
+│   │  length_penalty      │ -0.1 ~ 0.0   │  짧은 질문 페널티                   ││
+│   └─────────────────────────────────────────────────────────────────────────┘│
+│                                                                               │
+│   CONFIDENCE_THRESHOLD = 0.6  (미만 시 → general Intent로 분류)              │
+│                                                                               │
 └──────────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
-            <!-- Technical Details -->
+            <!-- Chain-of-Intent -->
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
-                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🧠 Confidence Scoring</h5>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
-                        final = llm_conf + keyword_boost<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + transition_boost + length_penalty<br><br>
-                        • keyword_boost: 0.0 ~ 0.2<br>
-                        • transition_boost: 0.0 ~ 0.15 (Chain-of-Intent)<br>
-                        • Threshold: 0.6 (미만 시 general)
-                    </div>
-                </div>
                 <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
                     <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🔗 Chain-of-Intent Transitions</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div style="display: flex; justify-content: space-between;"><span>waste → location</span><span style="color: #22c55e;">+0.15</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span>waste → collection_point</span><span style="color: #22c55e;">+0.10</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span>location → waste</span><span style="color: #22c55e;">+0.10</span></div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">※ last_confidence ≥ 0.7일 때만 적용</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>waste → location</span><span style="color: #22c55e;">+0.15</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>waste → collection_point</span><span style="color: #22c55e;">+0.10</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>location → waste</span><span style="color: #22c55e;">+0.10</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>bulk_waste → location</span><span style="color: #22c55e;">+0.10</span></div>
+                        <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted);">※ last_confidence ≥ 0.7일 때만 적용</div>
                     </div>
                 </div>
                 <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🌤️ Enrichment Rules</h5>
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🧠 Multi-Intent Detection</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• waste → <span style="color: #0ea5e9;">+weather</span> (분리배출 팁)</div>
-                        <div>• bulk_waste → <span style="color: #0ea5e9;">+weather</span> (배출일 날씨)</div>
-                        <div>• user_location 존재 → <span style="color: #0ea5e9;">+weather</span></div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">※ Dynamic Router에서 자동 추가</div>
+                        <div style="margin-bottom: 0.5rem;"><strong>Candidate Keywords:</strong></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                            "그리고", "또", "같이", "함께", "도", "추가로"
+                        </div>
+                        <div style="margin-top: 0.75rem;"><strong>Query Decomposition:</strong></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">
+                            LLM이 복합 질문을 개별 Intent로 분해
+                        </div>
                     </div>
                 </div>
                 <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 Multi-Intent Example</h5>
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">⚡ Intent Cache</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>Key: <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">intent:{query_hash}</code></div>
+                        <div>TTL: 3600s (1시간)</div>
+                        <div style="margin-top: 0.5rem;">동일 질문 재분류 방지</div>
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 Classification Example</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
                         <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5rem;">
-                            "종이 어떻게 버려? 수거함도 알려줘"
+                            "플라스틱 어떻게 버려?"
                         </div>
-                        <div>→ Send(<span style="color: #8b5cf6;">waste_rag</span>)</div>
-                        <div>→ Send(<span style="color: #0ea5e9;">collection_point</span>)</div>
-                        <div>→ Send(<span style="color: #22c55e;">weather</span>) <span style="color: var(--text-muted)">(enrichment)</span></div>
+                        <div style="font-size: 0.8rem;">
+                            → llm: 0.75, keyword: +0.15<br>
+                            → final: <span style="color: #22c55e;">0.90</span> → waste
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Memory & Streaming -->
-    <div class="modal-overlay" id="modal-memory-streaming">
+    <!-- Modal: Send API Dynamic Router -->
+    <div class="modal-overlay" id="modal-send-api">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-send-api')">×</button>
+            <h3 class="modal-title">⚡ Send API Dynamic Router</h3>
+
+            <!-- LangGraph Pipeline ASCII -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">LangGraph Send API Pipeline</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 LangGraph Pipeline - Send API Multi-Intent Fanout            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  START → intent_node → [vision_node?] → dynamic_router                      │
+│                                              │                               │
+│           ╔══════════════════════════════════╧══════════════════════════════╗│
+│           ║           Send API (Parallel Execution)                         ║│
+│           ║                                                                 ║│
+│           ║  Primary Intent        Additional Intents       Enrichments     ║│
+│           ║  ┌─────────────┐       ┌─────────────┐         ┌─────────┐     ║│
+│           ║  │  waste_rag  │       │ collection  │         │ weather │     ║│
+│           ║  │   (RAG)     │       │   _point    │         │  (KMA)  │     ║│
+│           ║  └──────┬──────┘       └──────┬──────┘         └────┬────┘     ║│
+│           ║         │                     │                     │          ║│
+│           ╚═════════╧═════════════════════╧═════════════════════╧══════════╝│
+│                                   │                                          │
+│                          merge_node (결과 병합)                              │
+│                                   │                                          │
+│                          response_node (In-Context Learning 응답 생성)       │
+│                                   │                                          │
+│                                  END                                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Dynamic Router Implementation -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Dynamic Router 구현</h4>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+def dynamic_router(state: ChatState) -> list[Send]:
+    sends = []
+    activated_nodes = set()
+
+    # 1. Primary Intent → 해당 노드
+    primary_node = INTENT_TO_NODE[state["intent"]]
+    sends.append(Send(primary_node, state))
+    activated_nodes.add(primary_node)
+
+    # 2. Multi-Intent Fanout
+    for intent in state.get("additional_intents", []):
+        node = INTENT_TO_NODE.get(intent)
+        if node not in activated_nodes:
+            sends.append(Send(node, state))
+            activated_nodes.add(node)
+
+    # 3. Enrichment Rules 적용
+    if state["intent"] in ENRICHMENT_RULES:
+        for enrichment_node in ENRICHMENT_RULES[state["intent"]].enrichments:
+            if enrichment_node not in activated_nodes:
+                sends.append(Send(enrichment_node, state))
+
+    return sends  # 병렬 실행!</div>
+            </div>
+
+            <!-- Enrichment Rules & Examples -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🌤️ ENRICHMENT_RULES</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div style="margin-bottom: 0.5rem;"><strong>Intent-based:</strong></div>
+                        <div>• waste → <span style="color: #0ea5e9;">+weather</span> (분리배출 팁)</div>
+                        <div>• bulk_waste → <span style="color: #0ea5e9;">+weather</span> (배출일 날씨)</div>
+                        <div style="margin-top: 0.75rem;"><strong>Conditional:</strong></div>
+                        <div>• user_location 존재 시 → <span style="color: #0ea5e9;">+weather</span></div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">※ exclude_intents: weather, image_generation</div>
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🗺️ INTENT_TO_NODE</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem;">
+                        <span>waste → waste_rag</span>
+                        <span>character → character</span>
+                        <span>location → location</span>
+                        <span>bulk_waste → bulk_waste</span>
+                        <span>recyclable_price → recyclable_price</span>
+                        <span>collection_point → collection_point</span>
+                        <span>web_search → web_search</span>
+                        <span>image_generation → image_generation</span>
+                        <span>general → general</span>
+                        <span>weather → weather</span>
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); grid-column: span 2;">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 Multi-Intent Example</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 4px; margin-bottom: 0.75rem;">
+                            User: "종이 어떻게 버려? 수거함도 알려줘"
+                        </div>
+                        <div style="display: flex; gap: 2rem;">
+                            <div>
+                                <strong>Intent Detection:</strong><br>
+                                primary: waste<br>
+                                additional: [collection_point]
+                            </div>
+                            <div>
+                                <strong>Send API Calls:</strong><br>
+                                → Send(<span style="color: #8b5cf6;">waste_rag</span>, state)<br>
+                                → Send(<span style="color: #0ea5e9;">collection_point</span>, state)<br>
+                                → Send(<span style="color: #22c55e;">weather</span>, state) <span style="color: var(--text-muted);">(enrichment)</span>
+                            </div>
+                            <div>
+                                <strong>Parallel Execution:</strong><br>
+                                3개 노드 동시 실행<br>
+                                merge_node에서 수집
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: 3-Tier Memory Architecture -->
+    <div class="modal-overlay" id="modal-3tier-memory">
         <div class="modal-content" style="max-width: 900px;">
-            <button class="modal-close" onclick="closeModal('modal-memory-streaming')">×</button>
-            <h3 class="modal-title">💾 3-Tier Memory + Token v2 Streaming</h3>
+            <button class="modal-close" onclick="closeModal('modal-3tier-memory')">×</button>
+            <h3 class="modal-title">💾 3-Tier Memory Architecture</h3>
 
             <!-- Memory Architecture -->
             <div style="margin-bottom: 2rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">3-Tier Memory Architecture</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Memory Layer Structure</h4>
                 <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                         3-Tier Memory System                             │
@@ -4456,41 +4580,131 @@
 └──────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
+            <!-- CachedPostgresSaver Pattern -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">CachedPostgresSaver Pattern</h4>
+                <div class="modal-diagram" style="font-size: 0.8rem; line-height: 1.4;">
+# LangGraph Checkpointer with Redis Cache Layer
+checkpointer = CachedPostgresSaver(
+    redis_client=redis_sentinel,      # L1: Redis Sentinel 3-node
+    postgres_pool=async_pg_pool,       # L2: AsyncPG Connection Pool
+    cache_ttl=3600,                    # 1시간 캐시
+)
+
+# Read Flow: Redis → PostgreSQL → ChatState
+# Write Flow: ChatState → PostgreSQL → Redis (Write-Through)</div>
+            </div>
+
+            <!-- Layer Details -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                    <h5 style="color: #ef4444; margin-bottom: 0.75rem;">🔥 L1: Redis</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div><strong>Latency:</strong> ~1ms</div>
+                        <div><strong>Sentinel:</strong> 3-node HA</div>
+                        <div><strong>TTL:</strong> 3600s (Intent), 86400s (Checkpoint)</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">세션 상태, 캐시</div>
+                    </div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🗄️ L2: PostgreSQL</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div><strong>Latency:</strong> 10-50ms</div>
+                        <div><strong>Driver:</strong> asyncpg</div>
+                        <div><strong>Retention:</strong> Permanent</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">대화 이력, Checkpoint</div>
+                    </div>
+                </div>
+                <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
+                    <h5 style="color: #22c55e; margin-bottom: 0.75rem;">⚡ L3: ChatState</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div><strong>Latency:</strong> ~100μs</div>
+                        <div><strong>Scope:</strong> Request</div>
+                        <div><strong>Type:</strong> TypedDict</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">현재 턴 컨텍스트</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Token v2 Streaming + Context Compression -->
+    <div class="modal-overlay" id="modal-token-streaming">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-token-streaming')">×</button>
+            <h3 class="modal-title">🔄 Token v2 + Context Compression</h3>
+
             <!-- Token Streaming v2 -->
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Token v2 Recoverable Streaming</h4>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
-                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                        <h5 style="color: #22c55e; margin-bottom: 0.75rem;">📤 Write Path</h5>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div>1. LLM → astream chunks</div>
-                            <div>2. Redis Streams XADD (seq)</div>
-                            <div>3. State snapshot (10토큰마다)</div>
-                            <div>4. SSE Gateway broadcast</div>
-                        </div>
+                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    Token v2 Recoverable Streaming Flow                        │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│   Client              SSE Gateway           Redis Streams      Worker         │
+│     │                      │                      │               │           │
+│     │  1. SSE Connect      │                      │               │           │
+│     ├─────────────────────▶│                      │               │           │
+│     │                      │  2. Subscribe        │               │           │
+│     │                      ├─────────────────────▶│               │           │
+│     │                      │                      │               │           │
+│     │                      │                      │  3. XADD token│           │
+│     │                      │                      │◀──────────────┤           │
+│     │  4. SSE: id:1001     │                      │               │           │
+│     │◀─────────────────────┤◀─────────────────────┤               │           │
+│     │                      │                      │               │           │
+│     │   [Connection Lost]  │                      │  5. XADD more │           │
+│     │         X            │                      │◀──────────────┤           │
+│     │                      │                      │               │           │
+│     │  6. Reconnect        │                      │               │           │
+│     │     (last_id=1001)   │                      │               │           │
+│     ├─────────────────────▶│                      │               │           │
+│     │                      │  7. XRANGE 1001 +    │               │           │
+│     │                      ├─────────────────────▶│               │           │
+│     │  8. Missed tokens    │                      │               │           │
+│     │◀─────────────────────┤◀─────────────────────┤               │           │
+│     │                      │                      │               │           │
+│     │  9. Continue stream  │                      │               │           │
+│     │◀─────────────────────┤                      │               │           │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Write/Read Path -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: #22c55e; margin-bottom: 0.75rem;">📤 Write Path (Worker)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>1. LLM → astream chunks</div>
+                        <div>2. Redis Streams <code>XADD</code> (seq-based)</div>
+                        <div>3. Redis Pub/Sub <code>PUBLISH</code> (실시간)</div>
+                        <div>4. State snapshot (10토큰마다)</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">maxlen: 1000, TTL: 1시간</div>
                     </div>
-                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                        <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">📥 Reconnect Path</h5>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div>1. Client reconnect (last_seq)</div>
-                            <div>2. XRANGE catch-up query</div>
-                            <div>3. Missing tokens replay</div>
-                            <div>4. Resume streaming</div>
-                        </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">📥 Reconnect Path (Client)</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>1. <code>Last-Event-ID</code> 헤더 전송</div>
+                        <div>2. SSE Gateway <code>XRANGE</code> catch-up</div>
+                        <div>3. Missing tokens replay</div>
+                        <div>4. <code>XREAD BLOCK</code> 재개</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Zero data loss guarantee</div>
                     </div>
                 </div>
             </div>
 
             <!-- Context Compression -->
             <div>
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Dynamic Context Compression (OpenCode-style)</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Dynamic Context Compression</h4>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
                     <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
                         <h5 style="color: var(--primary); margin-bottom: 0.75rem;">⚙️ Trigger Conditions</h5>
                         <div style="font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
                             threshold = context_window - max_output<br><br>
-                            GPT-5.2: 400K - 128K = 272K<br>
-                            Gemini-3: 1M - 64K = 936K<br><br>
+                            GPT-5.2: 400K - 128K = <span style="color: #22c55e;">272K</span><br>
+                            Gemini-3: 1M - 64K = <span style="color: #22c55e;">936K</span><br><br>
                             Summary size: 15% (min 20K, max 65K)
                         </div>
                     </div>
@@ -4510,11 +4724,11 @@
         </div>
     </div>
 
-    <!-- Modal: Resilience & Feedback -->
-    <div class="modal-overlay" id="modal-resilience">
-        <div class="modal-content" style="max-width: 900px;">
-            <button class="modal-close" onclick="closeModal('modal-resilience')">×</button>
-            <h3 class="modal-title">🛡️ Production Resilience + Feedback Loop</h3>
+    <!-- Modal: Node Resilience (NodePolicy + Circuit Breaker) -->
+    <div class="modal-overlay" id="modal-node-resilience">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-node-resilience')">×</button>
+            <h3 class="modal-title">🛡️ NodePolicy + Circuit Breaker</h3>
 
             <!-- Node Executor Pattern -->
             <div style="margin-bottom: 2rem;">
@@ -4526,23 +4740,23 @@
 │                                                                          │
 │   execute(node_name, node_func, state)                                   │
 │     │                                                                    │
-│     ├→ 1. Get NodePolicy (timeout, retry, fail_mode)                     │
+│     ├→ 1. Get NodePolicy (timeout, retry, cb_threshold, fail_mode)       │
 │     ├→ 2. Check CircuitBreaker state                                     │
-│     │      └→ OPEN? → fail immediately                                   │
-│     ├→ 3. asyncio.wait_for(timeout) wrapper                              │
+│     │      └→ OPEN? → fail immediately (retry_after seconds)             │
+│     ├→ 3. asyncio.wait_for(timeout_seconds) wrapper                      │
 │     ├→ 4. Retry loop (max_retries attempts)                              │
-│     ├→ 5. Record success/failure metrics                                 │
+│     ├→ 5. Record success → cb.record_success() / failure → cb.record_failure()
 │     └→ 6. Handle failure per FailMode:                                   │
-│            ├→ FAIL_OPEN: Continue with error (optional nodes)            │
-│            ├→ FAIL_CLOSE: Stop pipeline (critical nodes)                 │
-│            └→ FAIL_FALLBACK: Execute fallback function                   │
+│            ├→ FAIL_OPEN: Continue with error (선택적 노드)                │
+│            ├→ FAIL_CLOSE: Stop pipeline (필수 노드)                      │
+│            └→ FAIL_FALLBACK: Execute fallback function (대체 가능)       │
 │                                                                          │
 └──────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
-            <!-- Node Policies Table -->
+            <!-- NODE_POLICIES Table (from codebase) -->
             <div style="margin-bottom: 2rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Node Policy Configuration</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">NODE_POLICIES Configuration (코드베이스 기반)</h4>
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
                         <thead>
@@ -4550,49 +4764,120 @@
                                 <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--border-subtle);">Node</th>
                                 <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">Timeout</th>
                                 <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">Retry</th>
+                                <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">CB Threshold</th>
                                 <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">FailMode</th>
+                                <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--border-subtle);">Rationale</th>
                             </tr>
                         </thead>
                         <tbody style="color: var(--text-secondary);">
-                            <tr><td style="padding: 0.4rem;">intent</td><td style="text-align: center;">2000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #ef4444;">CLOSE</td></tr>
-                            <tr><td style="padding: 0.4rem;">waste_rag</td><td style="text-align: center;">1000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #ef4444;">CLOSE</td></tr>
-                            <tr><td style="padding: 0.4rem;">answer</td><td style="text-align: center;">5000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #ef4444;">CLOSE</td></tr>
-                            <tr><td style="padding: 0.4rem;">character (gRPC)</td><td style="text-align: center;">3000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
-                            <tr><td style="padding: 0.4rem;">location (Kakao)</td><td style="text-align: center;">2000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
-                            <tr><td style="padding: 0.4rem;">web_search</td><td style="text-align: center;">3000ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
-                            <tr><td style="padding: 0.4rem;">weather</td><td style="text-align: center;">1500ms</td><td style="text-align: center;">1</td><td style="text-align: center; color: #22c55e;">OPEN</td></tr>
+                            <tr><td style="padding: 0.4rem;">waste_rag</td><td style="text-align: center;">1000ms</td><td style="text-align: center;">1</td><td style="text-align: center;">5</td><td style="text-align: center; color: #f59e0b;">FALLBACK</td><td style="font-size: 0.75rem;">로컬 파일 검색 1초 이내</td></tr>
+                            <tr><td style="padding: 0.4rem;">bulk_waste</td><td style="text-align: center;">10000ms</td><td style="text-align: center;">2</td><td style="text-align: center;">5</td><td style="text-align: center; color: #f59e0b;">FALLBACK</td><td style="font-size: 0.75rem;">MOIS API DEFAULT_TIMEOUT=15s</td></tr>
+                            <tr><td style="padding: 0.4rem;">location</td><td style="text-align: center;">3000ms</td><td style="text-align: center;">2</td><td style="text-align: center;">5</td><td style="text-align: center; color: #f59e0b;">FALLBACK</td><td style="font-size: 0.75rem;">gRPC PostGIS ~100ms</td></tr>
+                            <tr><td style="padding: 0.4rem;">general</td><td style="text-align: center;">30000ms</td><td style="text-align: center;">2</td><td style="text-align: center;">3</td><td style="text-align: center; color: #ef4444;">CLOSE</td><td style="font-size: 0.75rem;">LLM HTTP_TIMEOUT.read=60s</td></tr>
+                            <tr><td style="padding: 0.4rem;">character</td><td style="text-align: center;">3000ms</td><td style="text-align: center;">1</td><td style="text-align: center;">3</td><td style="text-align: center; color: #22c55e;">OPEN</td><td style="font-size: 0.75rem;">gRPC LocalCache ~1-3ms</td></tr>
+                            <tr><td style="padding: 0.4rem;">collection_point</td><td style="text-align: center;">10000ms</td><td style="text-align: center;">2</td><td style="text-align: center;">5</td><td style="text-align: center; color: #f59e0b;">FALLBACK</td><td style="font-size: 0.75rem;">KECO API DEFAULT_TIMEOUT=15s</td></tr>
+                            <tr><td style="padding: 0.4rem;">weather</td><td style="text-align: center;">5000ms</td><td style="text-align: center;">1</td><td style="text-align: center;">3</td><td style="text-align: center; color: #22c55e;">OPEN</td><td style="font-size: 0.75rem;">KMA API, 보조 정보</td></tr>
+                            <tr><td style="padding: 0.4rem;">web_search</td><td style="text-align: center;">10000ms</td><td style="text-align: center;">2</td><td style="text-align: center;">5</td><td style="text-align: center; color: #f59e0b;">FALLBACK</td><td style="font-size: 0.75rem;">DuckDuckGo timeout=10s</td></tr>
+                            <tr><td style="padding: 0.4rem;">recyclable_price</td><td style="text-align: center;">10000ms</td><td style="text-align: center;">2</td><td style="text-align: center;">5</td><td style="text-align: center; color: #f59e0b;">FALLBACK</td><td style="font-size: 0.75rem;">KECO API, 시세 정보</td></tr>
+                            <tr><td style="padding: 0.4rem;">image_generation</td><td style="text-align: center;">30000ms</td><td style="text-align: center;">1</td><td style="text-align: center;">3</td><td style="text-align: center; color: #22c55e;">OPEN</td><td style="font-size: 0.75rem;">DALL-E 10-30초 소요</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Feedback & Fallback -->
-            <div>
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">RAG Quality Evaluation + Fallback Chain</h4>
+            <!-- FailMode & Circuit Breaker Details -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🎚️ FailMode Enum</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div style="margin-bottom: 0.5rem;"><span style="color: #22c55e;">FAIL_OPEN</span>: 실패해도 진행 (선택적 노드)</div>
+                        <div style="margin-bottom: 0.5rem;"><span style="color: #ef4444;">FAIL_CLOSE</span>: 실패하면 전체 실패 (필수 노드)</div>
+                        <div><span style="color: #f59e0b;">FAIL_FALLBACK</span>: 실패하면 대체 로직 실행</div>
+                    </div>
+                </div>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <h5 style="color: var(--primary); margin-bottom: 0.75rem;">⚡ Circuit Breaker</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div><strong>States:</strong> CLOSED → OPEN → HALF_OPEN</div>
+                        <div><strong>Threshold:</strong> cb_threshold 연속 실패</div>
+                        <div><strong>Recovery:</strong> 60초 후 HALF_OPEN</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">allow_request(), record_success(), record_failure()</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Fallback Chain + Feedback Evaluation -->
+    <div class="modal-overlay" id="modal-fallback-chain">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('modal-fallback-chain')">×</button>
+            <h3 class="modal-title">📊 Feedback + Fallback Chain</h3>
+
+            <!-- Fallback Chain Diagram -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">FALLBACK_CHAIN Configuration</h4>
+                <div class="modal-diagram" style="font-size: 0.8rem; line-height: 1.4;">
+# fallback_orchestrator.py
+FALLBACK_CHAIN: dict[str, list[str]] = {
+    "rag": ["web_search", "general_llm"],
+    "web_search": ["general_llm"],
+    "character": ["retry", "skip"],
+    "location": ["retry", "skip"],
+    "intent": ["clarify", "general"],
+}
+
+┌────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────┐
+│    RAG     │────▶│ Web Search  │────▶│ General LLM │────▶│ Clarify │
+│   (Fail)   │     │   (Fail)    │     │   (Fail)    │     │  (End)  │
+└────────────┘     └─────────────┘     └─────────────┘     └─────────┘</div>
+            </div>
+
+            <!-- 4-Dimension Scoring -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Rule-based Quality Evaluation (4-Dimension)</h4>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
                     <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 4-Dimension Scoring</h5>
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📊 Scoring Weights</h5>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div style="display: flex; justify-content: space-between;"><span>Result existence</span><span>0.3</span></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Category matching</span><span>0.2</span></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Info richness</span><span>0.2</span></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Keyword matching</span><span>0.3</span></div>
-                            <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--border-subtle);">
-                                <span style="color: #22c55e;">EXCELLENT ≥0.9</span> |
-                                <span style="color: #f59e0b;">GOOD 0.7-0.9</span> |
-                                <span style="color: #ef4444;">POOR &lt;0.4</span>
-                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>1. 결과 존재 여부</span><span style="color: #22c55e;">0.3</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>2. 카테고리 매칭</span><span style="color: #22c55e;">0.2</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>3. 정보 풍부도 (disposal_info)</span><span style="color: #22c55e;">0.2</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>4. 키워드 매칭률</span><span style="color: #22c55e;">0.3</span></div>
                         </div>
                     </div>
                     <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🔄 Fallback Chain</h5>
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🏷️ FeedbackQuality Enum</h5>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div><span style="color: #8b5cf6;">rag</span> → web_search → general_llm</div>
-                            <div><span style="color: #a855f7;">web_search</span> → general_llm</div>
-                            <div><span style="color: #f59e0b;">character</span> → retry → skip</div>
-                            <div><span style="color: #ef4444;">location</span> → retry → skip</div>
-                            <div><span style="color: #6b7280;">intent</span> → clarify → general</div>
-                            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Circuit Breaker: 5회 실패 → 60s 차단</div>
+                            <div style="margin-bottom: 0.3rem;"><span style="color: #22c55e;">EXCELLENT</span>: score ≥ 0.9</div>
+                            <div style="margin-bottom: 0.3rem;"><span style="color: #22c55e;">GOOD</span>: 0.7 ≤ score < 0.9</div>
+                            <div style="margin-bottom: 0.3rem;"><span style="color: #f59e0b;">FAIR</span>: 0.4 ≤ score < 0.7</div>
+                            <div><span style="color: #ef4444;">POOR</span>: score < 0.4 → Fallback 트리거</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clarification Messages -->
+            <div>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Clarification Messages</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">💬 Intent별 메시지</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div style="margin-bottom: 0.5rem;"><strong>waste:</strong> "어떤 물건의 분리수거 방법이 궁금하신가요? 🤔"</div>
+                            <div style="margin-bottom: 0.5rem;"><strong>location:</strong> "어떤 위치 정보가 필요하신가요? 📍"</div>
+                            <div style="margin-bottom: 0.5rem;"><strong>character:</strong> "이코에 대해 더 알고 싶으신 점이 있으신가요? 🌱"</div>
+                            <div><strong>general:</strong> "질문을 정확히 이해하지 못했어요. 🙏"</div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <h5 style="color: var(--primary); margin-bottom: 0.75rem;">🔄 FallbackReason Enum</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div style="margin-bottom: 0.3rem;">RAG_NO_RESULT → web_search</div>
+                            <div style="margin-bottom: 0.3rem;">RAG_LOW_QUALITY → web_search</div>
+                            <div style="margin-bottom: 0.3rem;">INTENT_LOW_CONFIDENCE → clarify</div>
+                            <div>SUBAGENT_FAILURE → retry/skip</div>
                         </div>
                     </div>
                 </div>
