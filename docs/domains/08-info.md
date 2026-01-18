@@ -278,11 +278,9 @@ async def warm_cache(articles: list[Article]):
 
 | Category | Keywords | Description |
 |----------|----------|-------------|
-| `environment` | 환경, 기후변화, 탄소중립 | 환경 일반 |
-| `recycling` | 재활용, 분리배출, 폐기물 | 재활용 관련 |
-| `energy` | 에너지, 신재생, 태양광 | 에너지 정책 |
-| `ai` | AI, 인공지능, 환경AI | AI 기술 |
-| `policy` | 환경부, 정책, 규제 | 정책/규제 |
+| `environment` | 환경, 분리배출, 재활용, 쓰레기, 폐기물, 기후변화 | 환경 일반 |
+| `energy` | 에너지, 신재생, 태양광, 풍력, 전기차, 탄소중립 | 에너지 |
+| `ai` | AI, 인공지능, 머신러닝, GPT, LLM, 자동화 | AI 기술 |
 
 ---
 

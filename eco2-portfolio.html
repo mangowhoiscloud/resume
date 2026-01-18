@@ -3982,7 +3982,7 @@
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">gRPC Integration</div>
-                        <div class="domain-detail-value">Users.GetOrCreateUser() 호출 → 신규 시 초기 포인트 100</div>
+                        <div class="domain-detail-value">Users.GetOrCreateUser() 호출 → 신규 시 기본 캐릭터 자동 부여</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Auth Relay</div>
@@ -4103,7 +4103,7 @@
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Ownership</div>
-                        <div class="domain-detail-value">Users 서비스에서 캐릭터 소유권 관리, 포인트로 해금</div>
+                        <div class="domain-detail-value">스캔 분류 결과의 middle_category 기반 캐릭터 자동 매칭</div>
                     </div>
                 </div>
             </div>
@@ -4549,7 +4549,7 @@
                         <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎁</div>
                         <div style="font-weight: 600; color: #3b82f6;">Stage 4</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">Reward</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">포인트 + 히스토리</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">캐릭터 매칭</div>
                     </div>
                 </div>
             </div>
@@ -4679,31 +4679,6 @@
                 </div>
             </div>
 
-            <!-- Collection Point Types -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Collection Point Types</h4>
-                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;">
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>♻️ 분리수거</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>👕 의류</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🔋 폐건전지</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>💊 폐의약품</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>💡 폐형광등</div>
-                    </div>
-                    <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 6px; text-align: center; font-size: 0.75rem; border: 1px solid var(--border-subtle);">
-                        <div>🍽️ 음식물</div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Technical Details -->
             <div class="domain-details">
                 <div class="domain-detail-grid">
@@ -4732,7 +4707,7 @@
     <div class="modal-overlay" id="modal-domain-users">
         <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-users')">×</button>
-            <h3 class="modal-title">👤 Users Domain - Character Ownership + Points</h3>
+            <h3 class="modal-title">👤 Users Domain - Profile + Character Ownership</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -4751,8 +4726,9 @@
                     <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
                         <div>• GET /users/me - 프로필 조회</div>
+                        <div>• PATCH /users/me - 프로필 수정</div>
+                        <div>• DELETE /users/me - 계정 삭제</div>
                         <div>• GET /users/me/characters - 소유 캐릭터</div>
-                        <div>• GET /users/me/points - 포인트 조회</div>
                     </div>
                 </div>
                 <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
@@ -4765,42 +4741,25 @@
                 </div>
             </div>
 
-            <!-- Points System -->
+            <!-- Character Reward Flow (Scan-based) -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Points System</h4>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
-                    <div style="background: rgba(16,185,129,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
-                        <div style="font-weight: 600; color: #10b981;">+10</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">스캔 완료</div>
-                    </div>
-                    <div style="background: rgba(59,130,246,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
-                        <div style="font-weight: 600; color: #3b82f6;">+5</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">일일 로그인</div>
-                    </div>
-                    <div style="background: rgba(168,85,247,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
-                        <div style="font-weight: 600; color: #a855f7;">+20</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">7일 연속 보너스</div>
-                    </div>
-                    <div style="background: rgba(239,68,68,0.15); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px solid rgba(239,68,68,0.3);">
-                        <div style="font-weight: 600; color: #ef4444;">-100</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">캐릭터 해금</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Character Ownership -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Character Ownership Flow</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Character Reward Flow (스캔 기반 자동 매칭)</h4>
                 <div class="domain-flow">
                     <span class="domain-flow-item">스캔 완료</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">포인트 적립</span>
+                    <span class="domain-flow-item">분류 결과 (middle_category)</span>
                     <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">캐릭터 해금</span>
+                    <span class="domain-flow-item">캐릭터 매칭</span>
+                    <span class="domain-flow-arrow">→</span>
+                    <span class="domain-flow-item">소유권 확인</span>
                     <span class="domain-flow-arrow">→</span>
                     <span class="domain-flow-item">UserCharacter 저장</span>
-                    <span class="domain-flow-arrow">→</span>
-                    <span class="domain-flow-item">기본 캐릭터 설정</span>
+                </div>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: rgba(168,85,247,0.1); border-radius: 8px; border: 1px solid rgba(168,85,247,0.3);">
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong style="color: #a855f7;">매칭 로직:</strong> 분류 결과의 중분류(middle_category)로 캐릭터 자동 매칭<br>
+                        예: "플라스틱" → 플라스틱 캐릭터, "종이류" → 종이 캐릭터
+                    </div>
                 </div>
             </div>
 
@@ -4809,19 +4768,19 @@
                 <div class="domain-detail-grid">
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">gRPC Auth Integration</div>
-                        <div class="domain-detail-value">OAuth 로그인 시 GetOrCreateUser() 호출, 신규 시 초기 포인트 100</div>
+                        <div class="domain-detail-value">OAuth 로그인 시 GetOrCreateUser() 호출, 신규 사용자 생성</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Character Ownership</div>
                         <div class="domain-detail-value">user_characters 다대다 테이블, acquired_at 기록</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">Users Worker</div>
-                        <div class="domain-detail-value">일일 로그인 보상, 연속 로그인 체크, 포인트 동기화</div>
+                        <div class="domain-detail-label">Reward Trigger</div>
+                        <div class="domain-detail-value">Scan 완료 → Character 도메인 EvaluateRewardCommand 호출</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Default Character</div>
-                        <div class="domain-detail-value">기본 캐릭터 자동 부여, Chat 세션에서 페르소나 적용</div>
+                        <div class="domain-detail-value">첫 로그인 시 기본 캐릭터 자동 부여</div>
                     </div>
                 </div>
             </div>
@@ -5074,12 +5033,9 @@
                 <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
                     <h5 style="color: var(--primary); margin-bottom: 0.75rem;">📂 News Categories</h5>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.75rem;">
-                        <div style="text-align: center;">🌍 환경</div>
-                        <div style="text-align: center;">♻️ 재활용</div>
-                        <div style="text-align: center;">⚡ 에너지</div>
-                        <div style="text-align: center;">🤖 AI</div>
-                        <div style="text-align: center;">📜 정책</div>
-                        <div style="text-align: center;">🌐 글로벌</div>
+                        <div style="text-align: center;">🌍 environment</div>
+                        <div style="text-align: center;">⚡ energy</div>
+                        <div style="text-align: center;">🤖 ai</div>
                     </div>
                 </div>
             </div>
