@@ -2196,9 +2196,9 @@
                     </div>
                 </div>
 
-                <!-- Agent Node (Right) -->
-                <div class="cycle-node agent">
-                    <div class="node-card">
+                <!-- Agent Node (Right) - Clickable -->
+                <div class="cycle-node agent clickable" data-modal="modal-ai-agent">
+                    <div class="node-card" style="cursor: pointer;">
                         <div class="node-icon">🤖</div>
                         <div class="node-title">AI Agent</div>
                         <div class="node-subtitle">
@@ -2206,8 +2206,8 @@
                             <span class="lang-en">Implement & Debug</span>
                         </div>
                         <div class="node-tooltip">
-                            <span class="lang-ko">코드 생성 & 리팩토링<br>디버깅 & 문서화 자동화<br>Self-RAG 기반 학습</span>
-                            <span class="lang-en">Code generation & refactoring<br>Debugging & documentation<br>Self-RAG based learning</span>
+                            <span class="lang-ko">💡 클릭하여 상세 보기<br>Cursor + Claude Code<br>17개 Skills 기반</span>
+                            <span class="lang-en">💡 Click for details<br>Cursor + Claude Code<br>17 Skills based</span>
                         </div>
                     </div>
                 </div>
@@ -2376,6 +2376,25 @@
                             <strong>Selected articles are published as blog posts</strong>, combining technical sharing with documentation.
                         </span>
                     </p>
+                    <!-- Skills 상세 설명 -->
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                            <span class="lang-ko">
+                                <strong style="color: #8b5cf6;">🛠️ Skills</strong>는 AI Agent에게 <strong>도메인 전문성</strong>을 부여하는 모듈입니다.
+                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">SKILL.md</code> (워크플로우) +
+                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">references/</code> (참조 문서) +
+                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">scripts/</code> (실행 스크립트) 구조로 구성되며,
+                                <strong>Progressive Disclosure</strong> 패턴으로 필요할 때만 로드됩니다.
+                            </span>
+                            <span class="lang-en">
+                                <strong style="color: #8b5cf6;">🛠️ Skills</strong> are modules that grant <strong>domain expertise</strong> to AI Agents.
+                                Structured as <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">SKILL.md</code> (workflow) +
+                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">references/</code> (docs) +
+                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">scripts/</code> (executables),
+                                loaded on-demand via <strong>Progressive Disclosure</strong> pattern.
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -2577,6 +2596,13 @@
                         <span class="lang-en">Implemented dynamic parallel routing based on <strong>LangGraph Send API</strong>. <strong>9-class Intent</strong> with <strong>Multi-Intent Fanout</strong> handles compound queries like "How to dispose paper and show collection points" in parallel. <strong>3-Tier Memory (Redis + PostgreSQL)</strong> and <strong>Token v2 recoverable streaming</strong> enable token catch-up on reconnection.</span>
                     </p>
                     <div class="achievements">
+                        <div class="achievement clickable" onclick="openModal('modal-chat-langgraph')" style="cursor: pointer;">
+                            <span class="achievement-icon">🔀</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>LangGraph Workflow</strong> 11개 서브에이전트 StateGraph, Send API 병렬 실행, Aggregator 결과 수집 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>LangGraph Workflow</strong> 11 subagent StateGraph, Send API parallel execution, Aggregator result collection <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                            </div>
+                        </div>
                         <div class="achievement clickable" onclick="openModal('modal-intent-classification')" style="cursor: pointer;">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
@@ -5201,6 +5227,157 @@ needs_fallback = len(missing_required) > 0
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
                     OpenCode 기준 상수. 최근 도구 출력과 메시지를 보호하여 작업 연속성을 유지합니다.
                     요약 시 최근 ~80개 메시지는 원문 유지됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: AI Agent (Cursor + Claude Code) -->
+    <div class="modal-overlay" id="modal-ai-agent">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-ai-agent')">×</button>
+            <h3 class="modal-title">🤖 AI Agent - Development Workflow</h3>
+
+            <!-- Agent Tools -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Development Tools</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <!-- Cursor -->
+                    <div style="background: rgba(59, 130, 246, 0.1); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.3);">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">⌨️</div>
+                            <div>
+                                <div style="font-weight: 700; font-size: 1.1rem;">Cursor IDE</div>
+                                <div style="color: var(--text-muted); font-size: 0.8rem;">AI-First Code Editor</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; font-size: 0.85rem;">
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #3b82f6;">76일</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">사용 기간</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #3b82f6;">10.66B</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">토큰 사용량</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #3b82f6;">$7,473</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">총 비용 (추정)</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #3b82f6;">Pro Plan</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">$20/월</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Claude Code -->
+                    <div style="background: rgba(139, 92, 246, 0.1); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">🧠</div>
+                            <div>
+                                <div style="font-weight: 700; font-size: 1.1rem;">Claude Code</div>
+                                <div style="color: var(--text-muted); font-size: 0.8rem;">Anthropic CLI Agent</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; font-size: 0.85rem;">
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #8b5cf6;">5일</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">사용 기간</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #8b5cf6;">872M</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">토큰 사용량</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #8b5cf6;">14</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">세션 수</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #8b5cf6;">Opus 4.5</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">모델</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Workflow Visualization -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Agent Workflow</h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          🤖 AI Agent Workflow                                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│   ┌───────────────────┐         ┌───────────────────────────────────────┐       │
+│   │  🧑‍💻 Developer      │────────▶│           📋 Task Input               │       │
+│   │  (Direction)      │         │  "chat-worker 리팩토링" / "K8s 디버깅" │       │
+│   └───────────────────┘         └──────────────────┬────────────────────┘       │
+│                                                    ↓                            │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                      🛠️ Skills (17개 모듈)                               │   │
+│   │   ┌────────────┬────────────┬────────────┬─────────────┬────────────┐   │   │
+│   │   │langgraph-  │clean-      │k8s-        │prompt-      │event-      │   │   │
+│   │   │pipeline    │architecture│debugging   │engineering  │driven      │   │   │
+│   │   ├────────────┼────────────┼────────────┼─────────────┼────────────┤   │   │
+│   │   │redis-      │grpc-       │git-        │code-        │celery-     │   │   │
+│   │   │patterns    │service     │workflow    │review       │rabbitmq    │   │   │
+│   │   └────────────┴────────────┴────────────┴─────────────┴────────────┘   │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                          ↓                                      │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                        📁 Context Sources                                │   │
+│   │                                                                          │   │
+│   │   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐         │   │
+│   │   │  📚 docs/        │  │  💻 Codebase     │  │  📊 Cluster      │         │   │
+│   │   │  - foundations/  │  │  - Backend      │  │  - kubectl       │         │   │
+│   │   │  - reports/      │  │  - Frontend     │  │  - stern logs    │         │   │
+│   │   │  - blogs/        │  │  - Infra YAML   │  │  - ArgoCD        │         │   │
+│   │   └─────────────────┘  └─────────────────┘  └─────────────────┘         │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                          ↓                                      │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                        📤 Outputs                                        │   │
+│   │                                                                          │   │
+│   │   ✅ Code Generation      ✅ Refactoring       ✅ Documentation          │   │
+│   │   ✅ Bug Fix              ✅ Portfolio Update  ✅ K8s Troubleshooting    │   │
+│   │   ✅ Test Writing         ✅ PR Creation       ✅ Architecture Docs      │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            </div>
+
+            <!-- Skills Grid -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">📦 17개 Custom Skills</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                    <span style="background: rgba(139,92,246,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">langgraph-pipeline</span>
+                    <span style="background: rgba(59,130,246,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">clean-architecture</span>
+                    <span style="background: rgba(245,158,11,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">k8s-debugging</span>
+                    <span style="background: rgba(34,197,94,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">prompt-engineering</span>
+                    <span style="background: rgba(239,68,68,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">event-driven</span>
+                    <span style="background: rgba(236,72,153,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">redis-patterns</span>
+                    <span style="background: rgba(99,102,241,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">grpc-service</span>
+                    <span style="background: rgba(20,184,166,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">git-workflow</span>
+                    <span style="background: rgba(251,146,60,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">code-review</span>
+                    <span style="background: rgba(168,85,247,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">celery-rabbitmq</span>
+                    <span style="background: rgba(74,222,128,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">chat-agent-flow</span>
+                    <span style="background: rgba(56,189,248,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">rag-pipeline</span>
+                    <span style="background: rgba(244,114,182,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">postgres-schema</span>
+                    <span style="background: rgba(129,140,248,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">mcp-builder</span>
+                    <span style="background: rgba(253,224,71,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem; color: #333;">skill-creator</span>
+                    <span style="background: rgba(248,113,113,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">doc-coauthoring</span>
+                    <span style="background: rgba(52,211,153,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">character-service</span>
+                </div>
+            </div>
+
+            <!-- Progressive Disclosure -->
+            <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <strong style="color: #8b5cf6;">Progressive Disclosure Pattern</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <strong>L1</strong>: name + description (~100 words) → 항상 로드<br>
+                    <strong>L2</strong>: SKILL.md body (&lt;5K words) → 스킬 트리거 시 로드<br>
+                    <strong>L3</strong>: references/, scripts/ → 필요 시 선택적 로드
                 </div>
             </div>
         </div>
