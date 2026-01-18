@@ -3645,8 +3645,8 @@
                     </tr>
                     <tr>
                         <td>🔔 <strong>Auth Relay</strong></td>
-                        <td>Auth API → Redis Outbox → <strong>auth-relay</strong> → RabbitMQ Fanout → <strong>auth-worker</strong> → Redis Blacklist</td>
-                        <td>Outbox Pattern</td>
+                        <td>Auth API → Redis Fallback Outbox → <strong>auth-relay</strong> → RabbitMQ Fanout → <strong>auth-worker</strong> → Redis Blacklist</td>
+                        <td>Fallback Outbox</td>
                     </tr>
                     <tr>
                         <td>🔄 <strong>Cache Broadcast</strong></td>
@@ -3941,9 +3941,9 @@
                 </a>
             </div>
 
-            <!-- Auth Relay Outbox Pattern -->
+            <!-- Auth Relay Fallback Outbox -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Auth Relay Outbox Pattern</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Auth Relay Fallback Outbox</h4>
                 <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                      Auth Domain Architecture                             │
@@ -4004,7 +4004,7 @@
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Auth Relay</div>
-                        <div class="domain-detail-value">Redis Outbox → RabbitMQ Fanout, aio_pika 비동기</div>
+                        <div class="domain-detail-value">Redis Fallback Outbox → RabbitMQ Fanout, aio_pika 비동기</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">JWT Blacklist</div>
@@ -5475,11 +5475,11 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                       └──────┬──────┘                                       │
 │                              │                                              │
 │                       ┌──────▼──────┐                                       │
-│                       │ Auth Relay  │  Redis Outbox → Fanout Broadcast      │
-│                       │  (Outbox)   │                                       │
+│                       │ Auth Relay  │  Redis Fallback Outbox → Fanout Broadcast      │
+│                       │  (Fallback Outbox)   │                                       │
 │                       └─────────────┘                                       │
 │                                                                              │
-│  Flow: User Logout → Auth Relay (Outbox) → RabbitMQ Fanout → All Pods      │
+│  Flow: User Logout → Auth Relay (Fallback Outbox) → RabbitMQ Fanout → All Pods      │
 │        → sync.Map Update → Next Request: ~100ns (No Redis!)                 │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘</div>
@@ -5826,7 +5826,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                 │  ┌─────────────────────────────────────┐                    │
 │                 │  │  Workers (8종)                      │                    │
 │                 │  │  scan_worker │ chat_worker (AI)     │                    │
-│                 │  │  auth_worker │ auth_relay (Outbox)  │◄──gRPC─────────────┘
+│                 │  │  auth_worker │ auth_relay (Fallback Outbox)  │◄──gRPC─────────────┘
 │                 │  │  character_worker │ char_match_worker│                   │
 │                 │  │  users_worker │ celery_beat (DLQ)   │                    │
 │                 │  └─────────────────┬───────────────────┘                    │
@@ -6299,7 +6299,7 @@ Wave    Resources
                     <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.5" target="_blank" rel="noopener">v1.0.5</a>
                     <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/102" target="_blank" rel="noopener">#102 ext-authz Go</a>
                     <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/236" target="_blank" rel="noopener">#236 Local Cache</a>
-                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/243" target="_blank" rel="noopener">#243 Outbox</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/243" target="_blank" rel="noopener">#243 Fallback Outbox</a>
                 </div>
             </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
@@ -6670,9 +6670,9 @@ Wave    Resources
 │   │   [User Logout]                                                          │  │
 │   │        │                                                                 │  │
 │   │        ▼                                                                 │  │
-│   │   ┌─────────────┐     Redis Outbox      ┌───────────────┐                │  │
+│   │   ┌─────────────┐     Redis Fallback Outbox      ┌───────────────┐                │  │
 │   │   │  auth-api   │ ────────────────────► │  auth_relay   │                │  │
-│   │   │  (FastAPI)  │    LPUSH outbox:      │  (Outbox 폴링) │                │  │
+│   │   │  (FastAPI)  │    LPUSH outbox:      │  (Fallback Outbox 폴링) │                │  │
 │   │   └─────────────┘    blacklist          └───────┬───────┘                │  │
 │   │                                                 │                        │  │
 │   │                                                 │ AMQP Publish           │  │
@@ -6712,7 +6712,7 @@ Wave    Resources
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
                 <tr><th>컴포넌트</th><th>역할</th><th>구현</th></tr>
-                <tr><td><strong>auth_relay</strong></td><td>Outbox → MQ 재발행</td><td>Redis List 폴링 → RabbitMQ Publish</td></tr>
+                <tr><td><strong>auth_relay</strong></td><td>Fallback Outbox → MQ 재발행</td><td>Redis List 폴링 → RabbitMQ Publish</td></tr>
                 <tr><td><strong>Fanout Exchange</strong></td><td>브로드캐스트</td><td>blacklist.events, type=fanout</td></tr>
                 <tr><td><strong>Local Cache</strong></td><td>O(1) 조회</td><td>Go sync.Map, cleanupInterval 60s</td></tr>
                 <tr><td><strong>auth_worker</strong></td><td>Redis 영속화</td><td>blacklist:{jti}, TTL = exp - now</td></tr>
