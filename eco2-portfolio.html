@@ -4896,33 +4896,6 @@ def dynamic_router(state: ChatState) -> list[Send]:
                 <img src="assets/images/langgraph_chat_worker.png" alt="LangGraph Chat Worker Workflow" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border-subtle);">
             </div>
 
-            <!-- Workflow Overview -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Workflow Overview</h4>
-                <div class="modal-diagram" style="font-size: 0.72rem; line-height: 1.4;">
-START → intent → [vision?] → dynamic_router
-                                   │
-                   ╔═══════════════╪═══════════════╗
-                   ║   Send API (병렬 실행)          ║
-                   ║   ┌─────┬─────┼─────┬─────┐    ║
-                   ║   ▼     ▼     ▼     ▼     ▼    ║
-                   ║ waste char  loc  bulk  web    ║
-                   ║ (RAG) (gRPC)(Kakao)(MOIS)(DDG)║
-                   ║   │     │     │     │     │    ║
-                   ║   ▼     ▼     ▼     ▼     ▼    ║
-                   ║  [feedback]  │     │     │    ║
-                   ╚═══════╪══════╧═════╧═════╧════╝
-                           │
-                           ▼
-                      aggregator ← 결과 수집
-                           │
-                           ▼
-                    [summarize?] ← Context Compression
-                           │
-                           ▼
-                        answer → END</div>
-            </div>
-
             <!-- Node Details Grid -->
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
                 <!-- Intent Node -->
@@ -5304,8 +5277,8 @@ needs_fallback = len(missing_required) > 0
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">세션 수</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">Opus 4.5</div>
-                                <div style="color: var(--text-muted); font-size: 0.7rem;">모델</div>
+                                <div style="font-weight: 600; color: #8b5cf6;">Max X20</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">Opus 4.5</div>
                             </div>
                         </div>
                     </div>
