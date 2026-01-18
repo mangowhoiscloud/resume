@@ -3021,8 +3021,8 @@
                         <div class="achievement clickable" data-modal="modal-stream-keda">
                             <span class="achievement-icon">⚖️</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>KEDA 트리거</strong> RabbitMQ 큐 길이 기반 Worker 1→3 자동 스케일</span>
-                                <span class="lang-en"><strong>KEDA trigger</strong> RabbitMQ queue length based Worker 1→3 auto-scale</span>
+                                <span class="lang-ko"><strong>KEDA 트리거</strong> RabbitMQ 큐 길이 (10-20msg) Worker 2→4, SSE 연결 수 (100/pod) 1→3</span>
+                                <span class="lang-en"><strong>KEDA trigger</strong> RabbitMQ queue (10-20msg) Worker 2→4, SSE connections (100/pod) 1→3</span>
                             </div>
                         </div>
                     </div>
@@ -4236,80 +4236,80 @@
             </div>
             <div class="domain-architecture">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">🏗️ Dual-Path 아키텍처</span>
-                    <span class="lang-en">🏗️ Dual-Path Architecture</span>
+                    <span class="lang-ko">🏗️ Event Bus 아키텍처</span>
+                    <span class="lang-en">🏗️ Event Bus Architecture</span>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Path 1: Job Execution (RabbitMQ)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Job Dispatch: RabbitMQ (DIRECT)</div>
                     <div class="domain-flow">
                         <span class="domain-flow-item">Chat API</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">TaskIQ Broker</span>
+                        <span class="domain-flow-item">TaskIQ</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">RabbitMQ (DIRECT)</span>
+                        <span class="domain-flow-item">chat.process 큐</span>
                         <span class="domain-flow-arrow">→</span>
                         <span class="domain-flow-item">Chat Worker</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">LangGraph astream_events</span>
+                        <span class="domain-flow-item">LangGraph</span>
                     </div>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Path 2: Event Streaming (Redis)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Event Bus: Redis Streams + Pub/Sub</div>
                     <div class="domain-flow">
-                        <span class="domain-flow-item">Redis Streams</span>
+                        <span class="domain-flow-item">Worker XADD</span>
                         <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Event Router (XREADGROUP)</span>
+                        <span class="domain-flow-item">chat:events:{shard}</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Event Router</span>
                         <span class="domain-flow-arrow">→</span>
                         <span class="domain-flow-item">Pub/Sub</span>
                         <span class="domain-flow-arrow">→</span>
                         <span class="domain-flow-item">SSE Gateway</span>
-                        <span class="domain-flow-arrow">→</span>
-                        <span class="domain-flow-item">Client</span>
                     </div>
                 </div>
                 <div class="domain-details">
                     <div class="domain-detail-grid">
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
+                                <span class="lang-ko">KEDA 오토스케일링</span>
+                                <span class="lang-en">KEDA Autoscaling</span>
+                            </div>
+                            <div class="domain-detail-value">Worker: RabbitMQ 큐 길이 (5msg, 1-4 pods) | SSE: 연결 수 (100/pod, 1-3) | Router: Pending (100, 1-2)</div>
+                        </div>
+                        <div class="domain-detail-item">
+                            <div class="domain-detail-label">
                                 <span class="lang-ko">네이티브 스트리밍</span>
                                 <span class="lang-en">Native Streaming</span>
                             </div>
-                            <div class="domain-detail-value">LangGraph astream_events v2 + DynamicProgressTracker (Phase 기반 병렬 서브에이전트 진행률)</div>
+                            <div class="domain-detail-value">astream_events v2 + DynamicProgressTracker (Phase 기반 병렬 서브에이전트 진행률)</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">Event-First</span>
                                 <span class="lang-en">Event-First</span>
                             </div>
-                            <div class="domain-detail-value">Single Write Path: done 이벤트에 persistence 포함 → Consumer Group으로 SSE + PostgreSQL 분기</div>
+                            <div class="domain-detail-value">Single Write Path → Consumer Group으로 SSE + PostgreSQL 분기</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">토큰 스트리밍</span>
                                 <span class="lang-en">Token Streaming</span>
                             </div>
-                            <div class="domain-detail-value">Token v2: chat:tokens:{job_id} + 10토큰마다 State 스냅샷 → 재연결 시 seq 기반 catch-up</div>
+                            <div class="domain-detail-value">Token v2: chat:tokens:{job_id} + 10토큰마다 State 스냅샷 → 재연결 시 catch-up</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">Resilience</span>
                                 <span class="lang-en">Resilience</span>
                             </div>
-                            <div class="domain-detail-value">NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker + NodeExecutor 통합 실행</div>
+                            <div class="domain-detail-value">NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker + NodeExecutor</div>
                         </div>
                         <div class="domain-detail-item">
                             <div class="domain-detail-label">
                                 <span class="lang-ko">컨텍스트 압축</span>
                                 <span class="lang-en">Context Compression</span>
                             </div>
-                            <div class="domain-detail-value">OpenCode 스타일 동적 압축: PRUNE_PROTECT 40K, 모델별 272K 트리거, 구조화 5섹션 요약</div>
-                        </div>
-                        <div class="domain-detail-item">
-                            <div class="domain-detail-label">
-                                <span class="lang-ko">Channel Separation</span>
-                                <span class="lang-en">Channel Separation</span>
-                            </div>
-                            <div class="domain-detail-value">ChatState 타입화 + Annotated Reducer로 병렬 노드 Race Condition 방지</div>
+                            <div class="domain-detail-value">OpenCode 스타일: PRUNE_PROTECT 40K, 모델별 272K 트리거, 5섹션 구조화 요약</div>
                         </div>
                     </div>
                 </div>
@@ -5013,9 +5013,44 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- Event Bus Architecture -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">🏗️ Event Bus 아키텍처</h4>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Job Dispatch: RabbitMQ (Celery)</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">Scan API</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">scan.vision 큐</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Scan Worker</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">scan.answer/rule 큐</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Event Bus: Redis Streams + Pub/Sub</div>
+                    <div class="domain-flow">
+                        <span class="domain-flow-item">Worker XADD</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">scan:events:{shard}</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Event Router</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">Pub/Sub</span>
+                        <span class="domain-flow-arrow">→</span>
+                        <span class="domain-flow-item">SSE Gateway</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Technical Details -->
             <div class="domain-details">
                 <div class="domain-detail-grid">
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">KEDA 오토스케일링</div>
+                        <div class="domain-detail-value">Worker: RabbitMQ 큐 길이 (10-20msg, 2-4 pods) | SSE: 연결 수 (100/pod) | Router: Pending (100)</div>
+                    </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Vision API</div>
                         <div class="domain-detail-value">GPT-5.2, detail: high, Structured Output</div>
@@ -5027,6 +5062,10 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Retry Policy</div>
                         <div class="domain-detail-value">Stage별 max_retries, exponential backoff (5s, 10s)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Event Bus 분리</div>
+                        <div class="domain-detail-value">Streams(영속) + Pub/Sub(실시간) + State KV(복구) — 연결 복잡도 O(n×m) → O(n)</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Image Storage</div>
