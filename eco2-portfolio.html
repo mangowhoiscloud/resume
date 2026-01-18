@@ -2640,8 +2640,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko"><strong>8개 도메인 API(Auth, Character, Chat, Scan, Location, Users, Image, Info)</strong>를 개발하고, 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Istio VirtualService + 헤더 기반 Canary</strong>로 단일 클러스터 내 dev/prod 환경을 병행하여 별도 클러스터 운영 비용 없이 프로덕션 동일 조건에서 검증합니다. ArgoCD App-of-Apps + Sync Wave로 Git을 SSOT로 삼아 클러스터 상태를 선언적으로 관리하고, 코드베이스만으로 전체 인프라 재현이 가능합니다.</span>
-                        <span class="lang-en">Developed <strong>8 domain APIs (Auth, Character, Chat, Scan, Location, Users, Image, Info)</strong> and designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling. <strong>Istio VirtualService + header-based Canary</strong> enables dev/prod environments in parallel within a single cluster, allowing production-identical validation without separate cluster costs. ArgoCD App-of-Apps + Sync Wave treats Git as SSOT for declarative cluster state management, enabling full infrastructure reproduction from codebase alone.</span>
+                        <span class="lang-ko"><strong>8개 도메인 API(Auth, Character, Chat, Scan, Location, Users, Image, Info)</strong>를 개발하고, 장애 격리와 독립 스케일링을 위해 <strong>DOMA 원칙</strong> 기반 노드 분리를 설계했습니다. <strong>Bridge Ingress 단일 진입점</strong>으로 ALB → Istio Gateway → VirtualService 토폴로지를 구성하고, <strong>North-South(NodePort)</strong>와 <strong>East-West(ClusterIP/Calico VXLAN)</strong> 트래픽을 분리합니다. ArgoCD App-of-Apps + Sync Wave(00~63)로 <strong>CRD → Operator → Instance</strong> 순서의 선언적 배포를 자동화하고, <strong>Helm Chart + Kustomize Overlay</strong>로 환경별 오버레이를 관리합니다.</span>
+                        <span class="lang-en">Developed <strong>8 domain APIs (Auth, Character, Chat, Scan, Location, Users, Image, Info)</strong> and designed <strong>DOMA-based</strong> node separation for fault isolation and independent scaling. Configured <strong>Bridge Ingress single entry point</strong> with ALB → Istio Gateway → VirtualService topology, separating <strong>North-South (NodePort)</strong> and <strong>East-West (ClusterIP/Calico VXLAN)</strong> traffic. Automated declarative deployment with ArgoCD App-of-Apps + Sync Wave (00~63) following <strong>CRD → Operator → Instance</strong> order, managing environment overlays with <strong>Helm Chart + Kustomize Overlay</strong>.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement clickable" data-modal="modal-platform">
@@ -6069,6 +6069,22 @@ Wave    Resources
                 <tr><td>50</td><td>Routing</td><td>Istio VirtualService</td></tr>
                 <tr><td>60-63</td><td>Observability</td><td>Kiali, Jaeger, ECK</td></tr>
             </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">💡 <span class="lang-ko">설계 원칙</span><span class="lang-en">Design Principle</span></strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    <span class="lang-ko"><strong>CRD → Operator → Instance</strong> 순서로 분리하여 의존성 충돌 방지. Operator 없이 <strong>Helm Chart + Kustomize Overlay</strong>로 관리하는 스택(PostgreSQL 등)은 운영 복잡도를 낮추기 위해 선택.</span>
+                    <span class="lang-en">Separated in <strong>CRD → Operator → Instance</strong> order to prevent dependency conflicts. Stacks managed with <strong>Helm Chart + Kustomize Overlay</strong> (e.g., PostgreSQL) chosen to reduce operational complexity.</span>
+                </div>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem;">
+                    <a href="https://rooftopsnow.tistory.com/12" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">GitOps #04: ALB Controller, ExternalDNS, ESO 구성 →</span>
+                        <span class="lang-en">GitOps #04: ALB Controller, ExternalDNS, ESO Setup →</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -6598,6 +6614,33 @@ Wave    Resources
                     </div>
                 </div>
             </div>
+
+            <h4 style="color: #ef4444; margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔧 트러블슈팅</span>
+                <span class="lang-en">🔧 Troubleshooting</span>
+            </h4>
+            <table class="modal-table" style="font-size: 0.85rem;">
+                <tr>
+                    <th><span class="lang-ko">문제</span><span class="lang-en">Issue</span></th>
+                    <th><span class="lang-ko">원인</span><span class="lang-en">Cause</span></th>
+                    <th><span class="lang-ko">해결</span><span class="lang-en">Solution</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">ExternalDNS가 Bridge Ingress 감지 못함</span><span class="lang-en">ExternalDNS not detecting Bridge Ingress</span></td>
+                    <td><span class="lang-ko">Istio Gateway 기반 Ingress 미인식</span><span class="lang-en">Istio Gateway-based Ingress not recognized</span></td>
+                    <td><code>external-dns.alpha.kubernetes.io/managed</code> <span class="lang-ko">라벨 추가</span><span class="lang-en">label added</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">ALB Health Check 실패</span><span class="lang-en">ALB Health Check failing</span></td>
+                    <td><span class="lang-ko">Gateway hosts에 ALB 헬스체크 경로 없음</span><span class="lang-en">Gateway hosts missing ALB healthcheck path</span></td>
+                    <td><span class="lang-ko">Gateway에 와일드카드 호스트 추가</span><span class="lang-en">Added wildcard host to Gateway</span></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">Envoy-istiod 통신 차단</span><span class="lang-en">Envoy-istiod communication blocked</span></td>
+                    <td><span class="lang-ko">Calico NetworkPolicy가 xDS 연결 차단</span><span class="lang-en">Calico NetworkPolicy blocking xDS</span></td>
+                    <td><span class="lang-ko">istio-system egress 명시적 허용</span><span class="lang-en">Explicit egress allow to istio-system</span></td>
+                </tr>
+            </table>
 
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
                 <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
