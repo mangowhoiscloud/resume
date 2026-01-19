@@ -8535,22 +8535,16 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                          └─────────────────────────┘                            │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
-            <div style="background: rgba(138,43,226,0.08); padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 1rem; text-align: center;">
-                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-                    <span class="lang-ko">
-                        <strong style="color: #8b5cf6;">GitOps</strong>: 코드베이스가 클러스터의 <strong>Desired State</strong>로 작용<br>
-                        ArgoCD가 develop 브랜치를 Single Source of Truth로 삼아 선언적 동기화<br>
-                        → IaC/Helm/manifests로 인프라까지 코드 범위가 확장되어<br>
-                        <strong>Agent가 클러스터 전반을 생성 · 검토 · 개발</strong>할 수 있는 환경
-                    </span>
-                    <span class="lang-en">
-                        <strong style="color: #8b5cf6;">GitOps</strong>: Codebase acts as the cluster's <strong>Desired State</strong><br>
-                        ArgoCD treats develop branch as Single Source of Truth, declaratively syncing<br>
-                        → IaC/Helm/manifests extend code scope to infrastructure<br>
-                        <strong>Agent can create · review · develop the entire cluster</strong>
-                    </span>
-                </div>
-            </div>
+            <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 1rem; line-height: 1.6;">
+                <span class="lang-ko">
+                    <strong>Self-RAG Context</strong>가 Agent의 판단 근거를 형성하고, <strong>Skills</strong>가 반복 작업을 자동화하며<br>
+                    <strong>Runtime Environment</strong>에서 Deploy → Observe → Report 사이클이 순환
+                </span>
+                <span class="lang-en">
+                    <strong>Self-RAG Context</strong> forms Agent's decision basis, <strong>Skills</strong> automate repetitive tasks<br>
+                    Deploy → Observe → Report cycle loops in <strong>Runtime Environment</strong>
+                </span>
+            </p>
 
             <!-- Key Insights from Claude Code -->
             <h4 style="color: #f59e0b; margin: 1.5rem 0 0.75rem; font-size: 0.95rem;">
@@ -8580,12 +8574,12 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
                 <div style="background: rgba(0,255,136,0.1); padding: 0.9rem; border-radius: 8px; border-top: 3px solid var(--primary);">
                     <div style="font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem;">
-                        <span class="lang-ko">☸️ GitOps 환경</span>
-                        <span class="lang-en">☸️ GitOps Environment</span>
+                        <span class="lang-ko">☸️ GitOps</span>
+                        <span class="lang-en">☸️ GitOps</span>
                     </div>
                     <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
-                        <span class="lang-ko">코드 = 클러스터 상태. Agent가 인프라까지 생성 · 검토 · 개발</span>
-                        <span class="lang-en">Code = Cluster state. Agent creates · reviews · develops infra</span>
+                        <span class="lang-ko">코드 = Desired State. IaC/Helm으로 Agent가 클러스터 전반을 생성 · 검토 · 개발</span>
+                        <span class="lang-en">Code = Desired State. Agent creates · reviews · develops cluster via IaC/Helm</span>
                     </div>
                 </div>
             </div>
@@ -8595,8 +8589,8 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                     <span style="font-size: 1.2rem;">🔁</span>
                     <strong style="color: var(--primary); font-size: 0.95rem;">
-                        <span class="lang-ko">핵심: 재귀적 자기개선 루프</span>
-                        <span class="lang-en">Core: Recursive Self-Improvement Loop</span>
+                        <span class="lang-ko">재귀적 자기개선 루프</span>
+                        <span class="lang-en">Recursive Self-Improvement Loop</span>
                     </strong>
                 </div>
                 <div style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7;">
