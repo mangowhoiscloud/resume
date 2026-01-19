@@ -5465,7 +5465,7 @@ needs_fallback = len(missing_required) > 0
                         <td><strong>Cloud Engineer</strong><br><span style="color: var(--text-muted); font-size: 0.7rem;">Jr. Storage Developer (Server)</span></td>
                         <td>
                             <div style="margin-bottom: 0.4rem;"><strong>Rakuten CNP v5.5.0</strong> — CNP 분산 스토리지 서버 개발, Rakuten Mobile(JP) + 1&1(DE) 20M 글로벌 사용자</div>
-                            <div><strong>Rakuten OStore v1.0.0</strong> — Object Storage 분산 게이트웨이 개발, MinIO/S3 대체 엔터프라이즈 솔루션</div>
+                            <div><strong>Rakuten OStore v1.0.0</strong> — Object Storage 분산 게이트웨이 개발, MinIO/S3 대체 엔터프라이즈 프로덕션</div>
                         </td>
                     </tr>
                     <tr>
@@ -7223,58 +7223,10 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
     <div class="modal-overlay" id="modal-syncwave">
         <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-syncwave')">×</button>
-            <h3 class="modal-title">🔄 ArgoCD Sync-Wave Timeline</h3>
-            <div class="modal-diagram">
-Wave    Resources
-═══════════════════════════════════════════════════════════════════════════════
-  0     CRDs
-  │
- 4-6    Istio (base → istiod → gateway), ArgoCD Image Updater
-  │
-  7     Network Policies
-  │
-  8     Cert-Manager
-  │
-10-11   External Secrets Operator → CRs
-  │
-20-23   kube-prometheus-stack → Grafana → Dashboards → Alerting
-  │
-24-25   PostgreSQL → Prometheus Adapter
-  │
-27-28   Redis Operator → RedisFailover CRs
-  │
-29-32   RabbitMQ Operator → Topology Operator → Cluster → CRs
-  │
-35-36   KEDA → ScaledObjects, HPA
-  │
-40-43   APIs (AppSet) → Workers (AppSet) → SSE Gateway → Event Router
-  │
- 50     Istio Routes (VirtualService, Gateway)
-  │
-60-61   Kiali → Jaeger
-  │
-62-63   ECK Operator → Elasticsearch CRs
-  │
-  ▼
-═══════════════════════════════════════════════════════════════════════════════
-                         DEPLOYMENT COMPLETE</div>
-            <table class="modal-table">
-                <tr><th>Wave</th><th>Category</th><th>Resources</th></tr>
-                <tr><td>0</td><td>Foundation</td><td>CRDs</td></tr>
-                <tr><td>4-6</td><td>Service Mesh</td><td>Istio, ArgoCD Image Updater</td></tr>
-                <tr><td>7-8</td><td>Network/Cert</td><td>NetworkPolicy, Cert-Manager</td></tr>
-                <tr><td>10-11</td><td>Secrets</td><td>External Secrets Operator → CRs</td></tr>
-                <tr><td>20-23</td><td>Monitoring</td><td>Prometheus, Grafana, Alerting</td></tr>
-                <tr><td>24-25</td><td>Database</td><td>PostgreSQL, Prometheus Adapter</td></tr>
-                <tr><td>27-28</td><td>Cache</td><td>Redis Operator → CRs</td></tr>
-                <tr><td>29-32</td><td>Message Queue</td><td>RabbitMQ Operator → Topology → CRs</td></tr>
-                <tr><td>35-36</td><td>Autoscaling</td><td>KEDA, ScaledObjects</td></tr>
-                <tr><td>40-43</td><td>Application</td><td>APIs, Workers, SSE Gateway, Event Router</td></tr>
-                <tr><td>50</td><td>Routing</td><td>Istio VirtualService</td></tr>
-                <tr><td>60-63</td><td>Observability</td><td>Kiali, Jaeger, ECK</td></tr>
-            </table>
+            <h3 class="modal-title">🔄 GitOps (ArgoCD + Sync-Wave)</h3>
 
-            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+            <!-- GitOps Pipeline Image (Top) -->
+            <h4 style="color: var(--accent-teal); margin: 1rem 0 0.8rem; font-size: 1.1rem;">
                 <span class="lang-ko">🔀 GitOps + CI/CD 파이프라인</span>
                 <span class="lang-en">🔀 GitOps + CI/CD Pipeline</span>
             </h4>
@@ -7297,6 +7249,27 @@ Wave    Resources
                     </div>
                 </div>
             </div>
+
+            <!-- Sync-Wave Timeline -->
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">📋 Sync-Wave Timeline</span>
+                <span class="lang-en">📋 Sync-Wave Timeline</span>
+            </h4>
+            <table class="modal-table">
+                <tr><th>Wave</th><th>Category</th><th>Resources</th></tr>
+                <tr><td>0</td><td>Foundation</td><td>CRDs</td></tr>
+                <tr><td>4-6</td><td>Service Mesh</td><td>Istio, ArgoCD Image Updater</td></tr>
+                <tr><td>7-8</td><td>Network/Cert</td><td>NetworkPolicy, Cert-Manager</td></tr>
+                <tr><td>10-11</td><td>Secrets</td><td>External Secrets Operator → CRs</td></tr>
+                <tr><td>20-23</td><td>Monitoring</td><td>Prometheus, Grafana, Alerting</td></tr>
+                <tr><td>24-25</td><td>Database</td><td>PostgreSQL, Prometheus Adapter</td></tr>
+                <tr><td>27-28</td><td>Cache</td><td>Redis Operator → CRs</td></tr>
+                <tr><td>29-32</td><td>Message Queue</td><td>RabbitMQ Operator → Topology → CRs</td></tr>
+                <tr><td>35-36</td><td>Autoscaling</td><td>KEDA, ScaledObjects</td></tr>
+                <tr><td>40-43</td><td>Application</td><td>APIs, Workers, SSE Gateway, Event Router</td></tr>
+                <tr><td>50</td><td>Routing</td><td>Istio VirtualService</td></tr>
+                <tr><td>60-63</td><td>Observability</td><td>Kiali, Jaeger, ECK</td></tr>
+            </table>
 
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">💡 <span class="lang-ko">설계 원칙</span><span class="lang-en">Design Principle</span></strong>
