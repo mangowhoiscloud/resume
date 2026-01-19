@@ -2229,7 +2229,7 @@
                 </div>
 
                 <!-- Observability Node (Left) -->
-                <div class="cycle-node observability">
+                <div class="cycle-node observability clickable" data-modal="modal-obs-cycle">
                     <div class="node-card">
                         <div class="node-icon">📊</div>
                         <div class="node-title">Observability</div>
@@ -2238,8 +2238,8 @@
                             <span class="lang-en">Feedback</span>
                         </div>
                         <div class="node-tooltip">
-                            <span class="lang-ko">로그 & 메트릭 수집<br>분산 트레이싱<br>에러 감지 → Agent 피드백</span>
-                            <span class="lang-en">Logs & metrics collection<br>Distributed tracing<br>Error detection → Agent feedback</span>
+                            <span class="lang-ko">EFK + Jaeger + Prometheus<br>trace.id 연동 (7.16% coverage)<br>에러 감지 → Agent 피드백</span>
+                            <span class="lang-en">EFK + Jaeger + Prometheus<br>trace.id correlation (7.16% coverage)<br>Error detection → Agent feedback</span>
                         </div>
                     </div>
                 </div>
@@ -8045,6 +8045,108 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <code>apps/ext_authz/internal/cache/blacklist.go</code> - Local Cache 구현<br>
                     <code>apps/ext_authz/internal/config/config.go</code> - Pool 설정<br>
                     <code>apps/auth_worker/infrastructure/persistence_redis/blacklist_store_redis.py</code> - TTL 계산
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Observability Cycle Node (Agent-Driven Development) -->
+    <div class="modal-overlay" id="modal-obs-cycle">
+        <div class="modal-content" style="max-width: 1150px;">
+            <button class="modal-close" onclick="closeModal('modal-obs-cycle')">×</button>
+            <h3 class="modal-title">📊 Observability: Recursive Self-Improvement Feedback Loop</h3>
+
+            <!-- Three Pillars Overview -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(138,43,226,0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">📝 Logs</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                        <strong>EFK Stack</strong> (ECK v2.11.0)<br>
+                        • Fluent Bit → ES v8.11.0<br>
+                        • 500K-1.1M docs/day<br>
+                        • ECS Schema + trace.id
+                    </div>
+                </div>
+                <div style="background: rgba(0,255,136,0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">🔗 Traces</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                        <strong>Jaeger + OTEL</strong><br>
+                        • Zipkin 9411 (Istio)<br>
+                        • OTLP 4317 (App)<br>
+                        • 7.16% coverage (125K/1.75M)
+                    </div>
+                </div>
+                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                    <div style="font-size: 1.2rem; font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">📈 Metrics</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                        <strong>Prometheus + Grafana</strong><br>
+                        • ServiceMonitor CRDs<br>
+                        • Golden Signals (p99, RPS)<br>
+                        • Alertmanager → Slack
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Loop Diagram -->
+            <div class="modal-diagram" style="font-size: 0.8rem;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│              Observability → Agent Feedback Loop (Recursive Self-Improvement)   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
+│   │   Cluster   │────►│    Logs     │────►│   Kibana    │────►│  Developer  │  │
+│   │ (25 Nodes)  │     │  (EFK)      │     │  Dashboard  │     │  Analysis   │  │
+│   └─────────────┘     └─────────────┘     └─────────────┘     └──────┬──────┘  │
+│         │                                                            │         │
+│         │             ┌─────────────┐     ┌─────────────┐            │         │
+│         ├────────────►│   Traces    │────►│   Jaeger    │────────────┤         │
+│         │             │  (OTEL/B3)  │     │     UI      │            │         │
+│         │             └─────────────┘     └─────────────┘            │         │
+│         │                                                            ▼         │
+│         │             ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
+│         └────────────►│   Metrics   │────►│  Grafana    │────►│  AI Agent   │  │
+│                       │ (Prometheus)│     │  Dashboard  │     │  Debugging  │  │
+│                       └─────────────┘     └─────────────┘     └──────┬──────┘  │
+│                                                                      │         │
+│   ┌──────────────────────────────────────────────────────────────────▼──────┐  │
+│   │                     Agent Feedback Integration                          │  │
+│   │  • trace.id 기반 에러 로그 추적 → 근본 원인 분석                        │  │
+│   │  • Grafana Exemplars → 메트릭 이상치에서 샘플 트레이스 추출             │  │
+│   │  • Alertmanager → Slack → Agent 컨텍스트 주입                           │  │
+│   └─────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <!-- Key Integration Points -->
+            <table class="modal-table">
+                <tr><th>Integration</th><th>Source</th><th>Target</th><th>Agent Feedback 활용</th></tr>
+                <tr><td>trace.id Correlation</td><td>Kibana logs</td><td>Jaeger spans</td><td>분산 트랜잭션 에러 추적</td></tr>
+                <tr><td>Grafana Exemplars</td><td>Prometheus metrics</td><td>Jaeger traces</td><td>p99 이상치 원인 분석</td></tr>
+                <tr><td>Alertmanager</td><td>PrometheusRule</td><td>Slack #eco_sre</td><td>실시간 장애 컨텍스트</td></tr>
+                <tr><td>Kiali Service Graph</td><td>Istio Telemetry</td><td>Traffic visualization</td><td>서비스 의존성 분석</td></tr>
+            </table>
+
+            <!-- Why Observability for Agent-Driven Development -->
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <strong style="color: #8b5cf6;">왜 Observability가 Agent-Driven Development의 핵심인가?</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                    • <strong>Recursive Self-Improvement</strong> — Agent가 클러스터 상태를 실시간으로 관찰하고 디버깅 컨텍스트 확보<br>
+                    • <strong>trace.id 기반 추적</strong> — 1 요청 → 10~30개 로그를 단일 트레이스로 연결 (EDA Phase 2 대비)<br>
+                    • <strong>메트릭 컨텍스트 주입</strong> — p99 지연, 에러율, 리소스 사용량을 Agent 프롬프트에 자동 주입
+                </div>
+            </div>
+
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 Blog</span>
+                    <span class="lang-en">Related Blog</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/32" target="_blank" rel="noopener">Observability 설계</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/33" target="_blank" rel="noopener">EFK 구축</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/37" target="_blank" rel="noopener">Jaeger 트레이싱</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/41" target="_blank" rel="noopener">trace.id 연동</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/42" target="_blank" rel="noopener">전체 정리</a>
                 </div>
             </div>
         </div>
