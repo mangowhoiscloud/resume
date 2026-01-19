@@ -6541,6 +6541,48 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- Architecture Evolution -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">📈 아키텍처 진화 과정</span>
+                    <span class="lang-en">📈 Architecture Evolution</span>
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                    <div style="background: rgba(107,114,128,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(107,114,128,0.3);">
+                        <div style="font-weight: 600; color: #6b7280; margin-bottom: 0.5rem; font-size: 0.85rem;">💀 Phase 0: Shared Module</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                            <div>각 도메인 JWT 파싱</div>
+                            <div>독립 배포 <strong>불가</strong></div>
+                            <div style="color: #6b7280; margin-top: 0.25rem;">분산 모놀리스</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(239,68,68,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <div style="font-weight: 600; color: #ef4444; margin-bottom: 0.5rem; font-size: 0.85rem;">❌ Phase 1: Redis Every Req</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                            <div>P50: 57ms, P99: 80ms</div>
+                            <div>RPS: <strong>~42</strong></div>
+                            <div style="color: #ef4444; margin-top: 0.25rem;">Redis 병목</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem; font-size: 0.85rem;">⚠️ Phase 2: Pool + HPA</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                            <div>Pool 20→100, HPA 2-5</div>
+                            <div>RPS: <strong>~1,200</strong> (28×)</div>
+                            <div style="color: #f59e0b; margin-top: 0.25rem;">P99 Redis 250-350ms</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(34,197,94,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
+                        <div style="font-weight: 600; color: #22c55e; margin-bottom: 0.5rem; font-size: 0.85rem;">✅ Phase 3: Local Cache</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                            <div>sync.Map + MQ Fanout</div>
+                            <div>RPS: <strong>~1,500</strong>, Lookup <strong>2.3µs</strong></div>
+                            <div style="color: #22c55e; margin-top: 0.25rem;">Redis 호출 0 (870×)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Local Cache Broadcast Architecture -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Local Cache Broadcast Pattern</h4>
@@ -6626,8 +6668,10 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <!-- Blog Reference -->
             <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
                 <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                    📊 상세 성능 분석: <a href="https://rooftopsnow.tistory.com/24" target="_blank" rel="noopener" style="color: #6366f1;">ext-authz 성능 최적화</a> |
-                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Local Cache Broadcast 패턴</a>
+                    📚 <a href="https://rooftopsnow.tistory.com/22" target="_blank" rel="noopener" style="color: #6366f1;">Auth Offloading 설계</a> |
+                    <a href="https://rooftopsnow.tistory.com/24" target="_blank" rel="noopener" style="color: #6366f1;">성능 최적화</a> |
+                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Local Cache Broadcast</a> |
+                    <a href="https://rooftopsnow.tistory.com/114" target="_blank" rel="noopener" style="color: #6366f1;">부하 테스트 결과</a>
                 </div>
             </div>
         </div>
@@ -7589,42 +7633,13 @@ Wave    Resources
                 <span class="lang-en">🕸️ Istio Service Mesh Architecture</span>
             </h3>
 
-            <h4 style="color: var(--primary); margin: 1rem 0 0.8rem; font-size: 1.1rem;">
-                <span class="lang-ko">🎯 Sidecar vs Ambient Mesh 선택</span>
-                <span class="lang-en">🎯 Sidecar vs Ambient Mesh Decision</span>
+            <h4 style="color: var(--accent-purple); margin: 1rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🗺️ 네트워크 토폴로지 다이어그램</span>
+                <span class="lang-en">🗺️ Network Topology Diagram</span>
             </h4>
-            <table class="modal-table">
-                <tr>
-                    <th><span class="lang-ko">고려 사항</span><span class="lang-en">Consideration</span></th>
-                    <th>Sidecar</th>
-                    <th>Ambient</th>
-                    <th><span class="lang-ko">선택</span><span class="lang-en">Choice</span></th>
-                </tr>
-                <tr>
-                    <td><span class="lang-ko">네임스페이스 격리</span><span class="lang-en">Namespace Isolation</span></td>
-                    <td><span class="lang-ko">도메인별 Pod 단위</span><span class="lang-en">Per-pod per domain</span></td>
-                    <td>Waypoint per NS</td>
-                    <td>✅ Sidecar</td>
-                </tr>
-                <tr>
-                    <td><span class="lang-ko">노드 밀도</span><span class="lang-en">Node Density</span></td>
-                    <td><span class="lang-ko">노드당 적은 Pod</span><span class="lang-en">Few pods/node</span></td>
-                    <td>ztunnel <span class="lang-ko">효율 낮음</span><span class="lang-en">inefficient</span></td>
-                    <td>✅ Sidecar</td>
-                </tr>
-                <tr>
-                    <td>Calico CNI</td>
-                    <td><span class="lang-ko">충돌 없음</span><span class="lang-en">No conflict</span></td>
-                    <td><span class="lang-ko">CNI 레벨 충돌 위험</span><span class="lang-en">CNI-level overlap risk</span></td>
-                    <td>✅ Sidecar</td>
-                </tr>
-                <tr>
-                    <td><span class="lang-ko">운영 성숙도</span><span class="lang-en">Operational Maturity</span></td>
-                    <td><span class="lang-ko">검증됨</span><span class="lang-en">Proven</span></td>
-                    <td>Beta (v1.24)</td>
-                    <td>✅ Sidecar</td>
-                </tr>
-            </table>
+            <div style="text-align: center; margin: 1rem 0;">
+                <img src="assets/images/istio_network_topology.png" alt="Istio Network Topology" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            </div>
 
             <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
                 <span class="lang-ko">🔀 트래픽 플로우</span>
@@ -7682,13 +7697,42 @@ Wave    Resources
 </pre>
             </div>
 
-            <h4 style="color: var(--accent-purple); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
-                <span class="lang-ko">🗺️ 네트워크 토폴로지 다이어그램</span>
-                <span class="lang-en">🗺️ Network Topology Diagram</span>
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🎯 Sidecar vs Ambient Mesh 선택</span>
+                <span class="lang-en">🎯 Sidecar vs Ambient Mesh Decision</span>
             </h4>
-            <div style="text-align: center; margin: 1rem 0;">
-                <img src="assets/images/istio_network_topology.png" alt="Istio Network Topology" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
-            </div>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">고려 사항</span><span class="lang-en">Consideration</span></th>
+                    <th>Sidecar</th>
+                    <th>Ambient</th>
+                    <th><span class="lang-ko">선택</span><span class="lang-en">Choice</span></th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">네임스페이스 격리</span><span class="lang-en">Namespace Isolation</span></td>
+                    <td><span class="lang-ko">도메인별 Pod 단위</span><span class="lang-en">Per-pod per domain</span></td>
+                    <td>Waypoint per NS</td>
+                    <td>✅ Sidecar</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">노드 밀도</span><span class="lang-en">Node Density</span></td>
+                    <td><span class="lang-ko">노드당 적은 Pod</span><span class="lang-en">Few pods/node</span></td>
+                    <td>ztunnel <span class="lang-ko">효율 낮음</span><span class="lang-en">inefficient</span></td>
+                    <td>✅ Sidecar</td>
+                </tr>
+                <tr>
+                    <td>Calico CNI</td>
+                    <td><span class="lang-ko">충돌 없음</span><span class="lang-en">No conflict</span></td>
+                    <td><span class="lang-ko">CNI 레벨 충돌 위험</span><span class="lang-en">CNI-level overlap risk</span></td>
+                    <td>✅ Sidecar</td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">운영 성숙도</span><span class="lang-en">Operational Maturity</span></td>
+                    <td><span class="lang-ko">검증됨</span><span class="lang-en">Proven</span></td>
+                    <td>Beta (v1.24)</td>
+                    <td>✅ Sidecar</td>
+                </tr>
+            </table>
 
             <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
                 <span class="lang-ko">⚙️ GitOps 배포 순서 (Sync Wave)</span>
