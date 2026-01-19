@@ -8159,6 +8159,58 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <button class="modal-close" onclick="closeModal('modal-cluster-world')">×</button>
             <h3 class="modal-title">☸️ Context-First Development: Self-RAG + 25-Node Runtime</h3>
 
+            <!-- 25-Node Cluster Architecture Overview -->
+            <div style="background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;">
+                    <span class="lang-ko">🏗️ 25-Node 분산 클러스터 아키텍처</span>
+                    <span class="lang-en">🏗️ 25-Node Distributed Cluster Architecture</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+                    <span class="lang-ko">Self-managed Kubernetes 클러스터에 7개 도메인 서비스, 8개 워커, 4종 Redis 클러스터를 배치한 마이크로서비스 아키텍처입니다.</span>
+                    <span class="lang-en">Microservices architecture with 7 domain services, 8 workers, and 4 Redis clusters deployed on a self-managed Kubernetes cluster.</span>
+                </div>
+                <!-- Core Architecture Values -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(0,255,136,0.15); padding: 0.8rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: var(--primary);">DOMA</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            <span class="lang-ko">도메인별 독립 서비스</span>
+                            <span class="lang-en">Domain-Oriented MSA</span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.15); padding: 0.8rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #3b82f6;">Clean Architecture</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            <span class="lang-ko">Port/Adapter 패턴</span>
+                            <span class="lang-en">Port/Adapter Pattern</span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(138,43,226,0.15); padding: 0.8rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #8b5cf6;">4-Tier Layer</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            <span class="lang-ko">Presentation → Infra</span>
+                            <span class="lang-en">Presentation → Infra</span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); padding: 0.8rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #f59e0b;">EDA</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            <span class="lang-ko">MQ + Event Bus</span>
+                            <span class="lang-en">MQ + Event Bus</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Node Breakdown -->
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted); flex-wrap: wrap;">
+                    <span><strong style="color: #dc2626;">Master:</strong> 1</span>
+                    <span><strong style="color: #3b82f6;">API:</strong> 8</span>
+                    <span><strong style="color: #f59e0b;">Worker:</strong> 4</span>
+                    <span><strong style="color: var(--primary);">Data:</strong> 5</span>
+                    <span><strong style="color: #8b5cf6;">Platform:</strong> 6</span>
+                    <span>= <strong>24 Nodes</strong> + 1 Master</span>
+                </div>
+            </div>
+
             <!-- Core Concept: Anthropic's Approach -->
             <div style="background: rgba(138,43,226,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #8b5cf6; margin-bottom: 1.5rem;">
                 <div style="font-size: 1rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">
