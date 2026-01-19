@@ -6541,6 +6541,68 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- Why Global Choke Point -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--accent-teal); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">🔀 Global Choke Point — 왜 ext-authz가 병목인가?</span>
+                    <span class="lang-en">🔀 Global Choke Point — Why ext-authz is the bottleneck?</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                     ext-authz Global Choke Point                              │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│   [Client]                                                                    │
+│      │                                                                        │
+│      │ 1. HTTPS Request (Cookie: s_access=JWT)                               │
+│      ▼                                                                        │
+│   ┌─────────────────────────────────────────────────────────────────────┐    │
+│   │                     Istio Ingress Gateway                            │    │
+│   │  ┌───────────────────────────────────────────────────────────────┐  │    │
+│   │  │  EnvoyFilter: Cookie → Header 변환                             │  │    │
+│   │  │  Authorization: Bearer {JWT}                                   │  │    │
+│   │  └───────────────────────────────────────────────────────────────┘  │    │
+│   └────────────────────────────┬────────────────────────────────────────┘    │
+│                                │                                              │
+│                                │ 2. gRPC Check (every request)               │
+│                                ▼                                              │
+│   ┌─────────────────────────────────────────────────────────────────────┐    │
+│   │                    ext-authz (Go gRPC Server)                        │    │
+│   │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────────┐  │    │
+│   │  │ JWT Parse   │→ │ JTI Extract │→ │ Blacklist Check (Local/Redis)│  │    │
+│   │  │ (HS256)     │  │             │  │ IsBlacklisted(jti) → O(1)   │  │    │
+│   │  └─────────────┘  └─────────────┘  └─────────────────────────────┘  │    │
+│   └────────────────────────────┬────────────────────────────────────────┘    │
+│                                │                                              │
+│              ┌─────────────────┴─────────────────┐                            │
+│              │                                   │                            │
+│              ▼                                   ▼                            │
+│   ┌──────────────────┐                ┌──────────────────┐                   │
+│   │  3a. OK (200)    │                │  3b. DENY (401)  │                   │
+│   │  + x-user-id     │                │  Unauthorized    │                   │
+│   │  + x-auth-provider│               └──────────────────┘                   │
+│   └────────┬─────────┘                                                        │
+│            │                                                                  │
+│            │ 4. Forward to Backend (with injected headers)                   │
+│            ▼                                                                  │
+│   ┌─────────────────────────────────────────────────────────────────────┐    │
+│   │  Backend Services (scan-api, chat-api, character-api, ...)          │    │
+│   │  • JWT 파싱 불필요 — 헤더에서 user_id 추출만                         │    │
+│   │  • 도메인 독립성 확보 — 인증 로직 분리                               │    │
+│   └─────────────────────────────────────────────────────────────────────┘    │
+│                                                                               │
+│   ⚠️ 모든 인증 요청이 ext-authz 통과 필수 → 시스템 처리량 = ext-authz 용량   │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘</div>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: rgba(245,158,11,0.1); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong style="color: #f59e0b;">⚠️ Global Choke Point:</strong>
+                        모든 인증 트래픽이 ext-authz를 경유하므로, 시스템 전체 처리량이 ext-authz 성능에 종속됩니다.
+                        이를 해결하기 위해 <strong>Local Cache + Fanout Broadcast</strong> 패턴으로 Redis 의존성을 제거했습니다.
+                    </div>
+                </div>
+            </div>
+
             <!-- Architecture Evolution -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
