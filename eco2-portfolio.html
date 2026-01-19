@@ -8539,13 +8539,15 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
                     <span class="lang-ko">
                         <strong style="color: #8b5cf6;">GitOps</strong>: 코드베이스가 클러스터의 <strong>Desired State</strong>로 작용<br>
-                        ArgoCD가 develop 브랜치를 Single Source of Truth로 삼아 클러스터에 선언적 동기화<br>
-                        → Agent가 코드를 읽는 것만으로 운영 환경의 구성을 정확히 파악
+                        ArgoCD가 develop 브랜치를 Single Source of Truth로 삼아 선언적 동기화<br>
+                        → IaC/Helm/manifests로 인프라까지 코드 범위가 확장되어<br>
+                        <strong>Agent가 클러스터 전반을 생성 · 검토 · 개발</strong>할 수 있는 환경
                     </span>
                     <span class="lang-en">
                         <strong style="color: #8b5cf6;">GitOps</strong>: Codebase acts as the cluster's <strong>Desired State</strong><br>
-                        ArgoCD treats develop branch as Single Source of Truth, declaratively syncing to cluster<br>
-                        → Agent reads code alone to accurately understand production configuration
+                        ArgoCD treats develop branch as Single Source of Truth, declaratively syncing<br>
+                        → IaC/Helm/manifests extend code scope to infrastructure<br>
+                        <strong>Agent can create · review · develop the entire cluster</strong>
                     </span>
                 </div>
             </div>
