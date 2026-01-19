@@ -8580,12 +8580,12 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
                 <div style="background: rgba(0,255,136,0.1); padding: 0.9rem; border-radius: 8px; border-top: 3px solid var(--primary);">
                     <div style="font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem;">
-                        <span class="lang-ko">🔄 세션 후 정제</span>
-                        <span class="lang-en">🔄 Post-Session Refinement</span>
+                        <span class="lang-ko">☸️ GitOps 환경</span>
+                        <span class="lang-en">☸️ GitOps Environment</span>
                     </div>
                     <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
-                        <span class="lang-ko">완료 후 요약 → CLAUDE.md 개선 제안 → 다음 세션에 반영</span>
-                        <span class="lang-en">Summarize → CLAUDE.md improvement → Apply to next session</span>
+                        <span class="lang-ko">코드 = 클러스터 상태. Agent가 인프라까지 생성 · 검토 · 개발</span>
+                        <span class="lang-en">Code = Cluster state. Agent creates · reviews · develops infra</span>
                     </div>
                 </div>
             </div>
@@ -8601,14 +8601,14 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
                 <div style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7;">
                     <span class="lang-ko">
-                        세션 결과 → <code style="color: #f59e0b;">reports/</code>에 기록 → 다음 세션에서 <code style="color: #3b82f6;">foundations/</code>로 참조<br>
-                        → Agent가 이전 컨텍스트를 학습하여 <strong style="color: var(--primary);">점진적으로 정밀도 향상</strong><br>
-                        → 반복할수록 프로젝트 특화된 의사결정 품질 상승
+                        매 세션의 산출물이 <code style="color: #f59e0b;">reports/</code>에 축적되고, 이는 다음 세션의 <code style="color: #3b82f6;">foundations/</code>가 되어 Agent의 판단 근거로 작용<br>
+                        반복 작업은 <code style="color: #8b5cf6;">skills/</code>로 정제되어 온보딩 비용 없이 즉시 재사용<br>
+                        → <strong style="color: var(--primary);">루프를 거듭할수록 프로젝트 특화된 의사결정 정밀도가 누적 상승</strong>
                     </span>
                     <span class="lang-en">
-                        Session results → Recorded in <code style="color: #f59e0b;">reports/</code> → Referenced as <code style="color: #3b82f6;">foundations/</code> in next session<br>
-                        → Agent learns from prior context, <strong style="color: var(--primary);">precision improves progressively</strong><br>
-                        → More iterations = Higher quality project-specific decisions
+                        Each session's outputs accumulate in <code style="color: #f59e0b;">reports/</code>, becoming <code style="color: #3b82f6;">foundations/</code> for next session as Agent's decision basis<br>
+                        Repetitive tasks are refined into <code style="color: #8b5cf6;">skills/</code>, instantly reusable without onboarding cost<br>
+                        → <strong style="color: var(--primary);">Each loop iteration compounds project-specific decision precision</strong>
                     </span>
                 </div>
             </div>
