@@ -8101,6 +8101,37 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <tr><td>Elasticsearch</td><td>v8.11.0</td><td>로그 저장/검색 (CR)</td><td>elasticsearch.k8s.elastic.co/v1, 50GB gp3</td></tr>
                 <tr><td>Kibana</td><td>v8.11.0</td><td>로그 시각화 (CR)</td><td>kibana.k8s.elastic.co/v1, elasticsearchRef</td></tr>
             </table>
+
+            <!-- Daily Volume Metrics -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 1.5rem 0;">
+                <div style="background: rgba(138,43,226,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.3rem; font-weight: 700; color: #8b5cf6;">500K-1.1M</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Daily Documents</div>
+                </div>
+                <div style="background: rgba(0,255,136,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.3rem; font-weight: 700; color: var(--primary);">260-420MB</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Daily Index Size</div>
+                </div>
+                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.3rem; font-weight: 700; color: #f59e0b;">7-13/s</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Log Rate</div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.3rem; font-weight: 700; color: #3b82f6;">23M+</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Total Documents</div>
+                </div>
+            </div>
+
+            <!-- Index Strategy -->
+            <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                <strong style="color: #3b82f6;">Index Strategy: Single Pattern + ECS Field Filtering</strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                    • <strong>Pattern</strong> — <code style="background: rgba(59,130,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">logs-YYYY.MM.DD</code> (Logstash format, 1 shard, 0 replica)<br>
+                    • <strong>Index Template</strong> — <code style="background: rgba(59,130,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">eco2-logs-ecs</code> with <code>subobjects: false</code> (dot notation 보존: trace.id, span.id)<br>
+                    • <strong>Service Filtering</strong> — 인덱스 분리 대신 <code>service.name</code> 필드로 8개 도메인 구분 (cross-service trace.id 추적 용이)
+                </div>
+            </div>
+
             <div style="margin-top: 1rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
                 <strong style="color: #8b5cf6;">왜 Elastic Operator (ECK)인가?</strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
@@ -8118,6 +8149,9 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.6" target="_blank" rel="noopener">v1.0.6</a>
                     <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/146" target="_blank" rel="noopener">#146 ECK</a>
                     <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/194" target="_blank" rel="noopener">#194 Elasticsearch bootstrap</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/32" target="_blank" rel="noopener">Observability 설계</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/33" target="_blank" rel="noopener">EFK 구축</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/40" target="_blank" rel="noopener">Index 전략</a>
                 </div>
             </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
@@ -8133,42 +8167,85 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 
     <!-- Modal: Observability - trace_id -->
     <div class="modal-overlay" id="modal-obs-trace">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-obs-trace')">×</button>
             <h3 class="modal-title">🔗 ECS Log Format + trace_id Correlation</h3>
-            <div class="modal-diagram">
+
+            <!-- Trace Coverage Metrics -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(138,43,226,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #8b5cf6;">1.75M</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Total Logs</div>
+                </div>
+                <div style="background: rgba(0,255,136,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">125K</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">with trace.id</div>
+                </div>
+                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #f59e0b;">7.16%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Coverage Rate</div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">99.8%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">from istio-proxy</div>
+                </div>
+            </div>
+
+            <!-- Trace Propagation Flow -->
+            <div class="modal-diagram" style="font-size: 0.8rem;">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                    ECS (Elastic Common Schema) Log Format                       │
+│              Trace Propagation: Source of Truth = Istio Ingress Gateway         │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│   // Python API Services (FastAPI) - ECSJsonFormatter                           │
+│   Client ───► Istio Ingress ───► ext-authz ───► App Sidecar ───► Python App    │
+│                    │                  │              │               │          │
+│               generates          propagates      propagates      reads         │
+│               trace.id           B3 headers      B3 headers      OTEL SDK      │
+│                    │                  │              │               │          │
+│               ┌────▼────┐       ┌────▼────┐    ┌────▼────┐    ┌────▼────┐      │
+│               │ x-b3-   │       │ gRPC    │    │ x-b3-   │    │ trace.  │      │
+│               │ traceid │       │ metadata│    │ traceid │    │ get_    │      │
+│               │ header  │       │ extract │    │ inject  │    │ current │      │
+│               └─────────┘       └─────────┘    └─────────┘    │ _span() │      │
+│                                                               └─────────┘      │
+│                                                                                 │
+│   B3 Propagator Config: OTEL_PROPAGATORS="b3,tracecontext,baggage"             │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    ECS (Elastic Common Schema) v8.11.0 Log Format               │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   // Python API Services (FastAPI) - ECSJsonFormatter + OTEL auto-inject       │
 │   {                                                                             │
 │     "@timestamp": "2026-01-12T08:59:59.876Z",                                   │
 │     "message": "Request processed successfully",                                │
 │     "log.level": "info",                                                        │
-│     "log.logger": "app.api.scan",                                               │
 │     "ecs.version": "8.11.0",                                                    │
 │     "service.name": "scan-api",                                                 │
 │     "service.version": "1.0.7",                                                 │
-│     "service.environment": "dev",                                               │
-│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",  ← OpenTelemetry 자동 주입  │
+│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",  ← OTEL trace.get_span()   │
 │     "span.id": "1979d304b9",                                                    │
-│     "labels": { "user_id": "***", "scan_id": "uuid" }                           │
+│     "labels": { "user_id": "***REDACTED***", "scan_id": "uuid" }  ← PII 마스킹  │
 │   }                                                                             │
 │                                                                                 │
-│   // Go ext-authz Service - zerolog ECS                                         │
+│   // Go ext-authz Service - slog (Go 1.21+) ECS                                 │
 │   {                                                                             │
 │     "@timestamp": "2026-01-12T08:59:59.876Z",                                   │
-│     "message": "JWT validated",                                                 │
-│     "log.level": "info",                                                        │
+│     "message": "Authorization allowed",                                         │
+│     "log.level": "INFO",                                                        │
 │     "service.name": "ext-authz",                                                │
-│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",  ← gRPC context 전파       │
+│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",  ← gRPC metadata B3 추출   │
+│     "event.action": "authorization",                                            │
+│     "event.outcome": "success"                                                  │
 │   }                                                                             │
 │                                                                                 │
-│   // Istio Envoy Sidecar - EnvoyFilter Access Log                               │
+│   // Istio Envoy Sidecar - EnvoyFilter Access Log (%TRACE_ID% 자동 생성)        │
 │   {                                                                             │
-│     "trace.id": "%TRACE_ID%",           ← Envoy 자동 생성                       │
-│     "span.id": "%REQ(X-B3-SPANID)%",                                            │
+│     "trace.id": "a5f2c1804ac4397448149b63a67f6cfd",                             │
+│     "span.id": "1979d304b9",                                                    │
 │     "http.request.method": "GET",                                               │
 │     "http.response.status_code": 200,                                           │
 │     "duration_ms": 18                                                           │
@@ -8176,25 +8253,27 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                                                                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │   Kibana → trace.id 클릭 → Jaeger UI (분산 트레이싱 시각화)                     │
-│   App (OTel SDK) → OTLP/gRPC (4317) → Jaeger Collector → Elasticsearch          │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
                 <tr><th>Service</th><th>Language</th><th>Tracing SDK</th><th>trace_id 주입 방식</th></tr>
                 <tr><td>auth-api, scan-api, chat-api...</td><td>Python</td><td>OpenTelemetry</td><td>ECSJsonFormatter + trace.get_current_span()</td></tr>
-                <tr><td>ext-authz</td><td>Go</td><td>OpenTelemetry</td><td>zerolog + gRPC context propagation</td></tr>
-                <tr><td>Istio Sidecar</td><td>Envoy</td><td>Built-in</td><td>EnvoyFilter %TRACE_ID%</td></tr>
-                <tr><td>Jaeger Collector</td><td>-</td><td>OTLP</td><td>gRPC 4317 → ES storage</td></tr>
+                <tr><td>ext-authz</td><td>Go 1.21+</td><td>OpenTelemetry</td><td>slog + gRPC B3 metadata extraction</td></tr>
+                <tr><td>Istio Sidecar</td><td>Envoy</td><td>Built-in</td><td>EnvoyFilter %TRACE_ID% (99.8%)</td></tr>
+                <tr><td>Jaeger Collector</td><td>-</td><td>OTLP</td><td>gRPC 4317 → Memory (dev)</td></tr>
             </table>
 
             <div class="modal-refs">
                 <div class="modal-refs-title">
-                    <span class="lang-ko">관련 PR / Release</span>
-                    <span class="lang-en">Related PRs / Releases</span>
+                    <span class="lang-ko">관련 PR / Blog</span>
+                    <span class="lang-en">Related PRs / Blog</span>
                 </div>
                 <div class="modal-refs-links">
                     <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.6" target="_blank" rel="noopener">v1.0.6</a>
                     <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/150" target="_blank" rel="noopener">#150 ECS Logging</a>
                     <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/284" target="_blank" rel="noopener">#284 OTel B3</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/34" target="_blank" rel="noopener">ECS 로깅 가이드</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/37" target="_blank" rel="noopener">Jaeger 트레이싱</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/41" target="_blank" rel="noopener">trace.id 연동</a>
                 </div>
             </div>
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
@@ -8261,9 +8340,36 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 
     <!-- Modal: Observability - Kiali + Jaeger -->
     <div class="modal-overlay" id="modal-obs-mesh">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-obs-mesh')">×</button>
             <h3 class="modal-title">🗺️ Kiali + Jaeger Service Mesh Visualization</h3>
+
+            <!-- Dual Protocol Architecture -->
+            <div class="modal-diagram" style="font-size: 0.8rem;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│          Dual-Protocol Tracing: Zipkin (Istio) + OTLP (Application)            │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                         Istio Sidecar (Envoy)                           │   │
+│   │   ┌─────────────┐                                   ┌─────────────┐     │   │
+│   │   │ App Sidecar │────── Zipkin Protocol ──────────►│   Jaeger    │     │   │
+│   │   │ (istio-proxy)│       Port 9411                  │ All-in-One  │     │   │
+│   │   └─────────────┘                                   │  (512MB)    │     │   │
+│   └─────────────────────────────────────────────────────┴──────┬──────┴─────┘   │
+│                                                                │                │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                         Application Layer                               │   │
+│   │   ┌─────────────┐                                   ┌──────▼──────┐     │   │
+│   │   │ Python API  │────── OTLP/gRPC ─────────────────►│   Jaeger    │     │   │
+│   │   │ (OTEL SDK)  │       Port 4317                   │  Collector  │     │   │
+│   │   └─────────────┘                                   └─────────────┘     │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│   ⚠️ NetworkPolicy: Port 9411 필수 (미개방 시 "No service dependencies found")  │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                    Service Mesh Observability (Istio v1.24.1)                   │
@@ -8278,10 +8384,10 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │   │                                              │                          │   │
 │   │     ┌──────────┐      ┌──────────┐      ┌────▼─────┐                   │   │
 │   │     │ scan-api │─────►│ RabbitMQ │─────►│ Workers  │                   │   │
-│   │     │          │      │          │      │ (Celery) │                   │   │
+│   │     │          │      │          │      │ (TaskIQ) │                   │   │
 │   │     └──────────┘      └──────────┘      └──────────┘                   │   │
 │   │                                                                         │   │
-│   │   Traffic Flow: ━━━ HTTP/gRPC    ─── AMQP    ··· Redis                 │   │
+│   │   Traffic: ━━━ HTTP/gRPC    ─── AMQP    ··· Redis                      │   │
 │   │   Health: 🟢 Healthy  🟡 Degraded  🔴 Failure                          │   │
 │   └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
@@ -8301,12 +8407,44 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
-                <tr><th>Tool</th><th>URL</th><th>기능</th></tr>
-                <tr><td>Kiali</td><td>kiali.dev.growbin.app</td><td>Service Graph, Traffic Flow, Health Status</td></tr>
-                <tr><td>Jaeger</td><td>jaeger.dev.growbin.app</td><td>Distributed Tracing, Span Analysis, Latency</td></tr>
-                <tr><td>Grafana</td><td>grafana.dev.growbin.app</td><td>Metrics Dashboard, Alerting</td></tr>
+                <tr><th>Tool</th><th>URL</th><th>Protocol</th><th>기능</th></tr>
+                <tr><td>Kiali</td><td>kiali.dev.growbin.app</td><td>-</td><td>Service Graph, Traffic Flow, Health Status</td></tr>
+                <tr><td>Jaeger</td><td>jaeger.dev.growbin.app</td><td>Zipkin 9411, OTLP 4317</td><td>Distributed Tracing, Span Analysis</td></tr>
+                <tr><td>Grafana</td><td>grafana.dev.growbin.app</td><td>-</td><td>Metrics Dashboard, Alerting</td></tr>
             </table>
-            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+
+            <!-- ServiceEntry External Dependencies -->
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <strong style="color: #8b5cf6;">ServiceEntry: External Dependencies (Mesh 외부 가시화)</strong>
+                <div style="margin-top: 0.75rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.8rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
+                        <strong style="color: var(--text-primary);">Google OAuth</strong><br>
+                        <span style="color: var(--text-muted);">accounts.google.com<br>www.googleapis.com</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
+                        <strong style="color: var(--text-primary);">Kakao OAuth</strong><br>
+                        <span style="color: var(--text-muted);">kauth.kakao.com<br>kapi.kakao.com</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
+                        <strong style="color: var(--text-primary);">Naver OAuth</strong><br>
+                        <span style="color: var(--text-muted);">nid.naver.com<br>openapi.naver.com</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
+                        <strong style="color: var(--text-primary);">OpenAI API</strong><br>
+                        <span style="color: var(--text-muted);">api.openai.com</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
+                        <strong style="color: var(--text-primary);">AWS S3</strong><br>
+                        <span style="color: var(--text-muted);">s3.ap-northeast-2</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px;">
+                        <strong style="color: var(--text-primary);">CloudFront CDN</strong><br>
+                        <span style="color: var(--text-muted);">cdn.growbin.app</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">🔗 Service Mesh Tools</strong>
                 <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
                     <a href="https://kiali.dev.growbin.app" target="_blank" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
