@@ -8535,10 +8535,20 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                          └─────────────────────────┘                            │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
-            <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 1rem;">
-                <span class="lang-ko"><strong style="color: #8b5cf6;">develop 브랜치 코드베이스 = 클러스터 상태</strong> → Agent가 코드를 읽으면 배포 환경을 이해</span>
-                <span class="lang-en"><strong style="color: #8b5cf6;">develop branch codebase = cluster state</strong> → Agent reads code, understands deployment env</span>
-            </p>
+            <div style="background: rgba(138,43,226,0.08); padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 1rem; text-align: center;">
+                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                    <span class="lang-ko">
+                        <strong style="color: #8b5cf6;">GitOps 동기화</strong>: ArgoCD가 develop 브랜치를 클러스터에 자동 반영<br>
+                        → <strong>코드베이스(IaC/Helm/manifests) = 클러스터의 실제 상태</strong><br>
+                        → Agent가 코드를 읽으면 배포 환경의 구성을 정확히 파악
+                    </span>
+                    <span class="lang-en">
+                        <strong style="color: #8b5cf6;">GitOps Sync</strong>: ArgoCD auto-syncs develop branch to cluster<br>
+                        → <strong>Codebase (IaC/Helm/manifests) = Actual cluster state</strong><br>
+                        → Agent reads code, accurately understands deployment configuration
+                    </span>
+                </div>
+            </div>
 
             <!-- Key Insights from Claude Code -->
             <h4 style="color: #f59e0b; margin: 1.5rem 0 0.75rem; font-size: 0.95rem;">
@@ -8578,6 +8588,29 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- Core Recursive Loop -->
+            <div style="padding: 1rem; background: rgba(0,255,136,0.12); border-radius: 8px; border: 1px solid rgba(0,255,136,0.4); margin-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 1.2rem;">🔁</span>
+                    <strong style="color: var(--primary); font-size: 0.95rem;">
+                        <span class="lang-ko">핵심: 재귀적 자기개선 루프</span>
+                        <span class="lang-en">Core: Recursive Self-Improvement Loop</span>
+                    </strong>
+                </div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7;">
+                    <span class="lang-ko">
+                        세션 결과 → <code style="color: #f59e0b;">reports/</code>에 기록 → 다음 세션에서 <code style="color: #3b82f6;">foundations/</code>로 참조<br>
+                        → Agent가 이전 컨텍스트를 학습하여 <strong style="color: var(--primary);">점진적으로 정밀도 향상</strong><br>
+                        → 반복할수록 프로젝트 특화된 의사결정 품질 상승
+                    </span>
+                    <span class="lang-en">
+                        Session results → Recorded in <code style="color: #f59e0b;">reports/</code> → Referenced as <code style="color: #3b82f6;">foundations/</code> in next session<br>
+                        → Agent learns from prior context, <strong style="color: var(--primary);">precision improves progressively</strong><br>
+                        → More iterations = Higher quality project-specific decisions
+                    </span>
+                </div>
+            </div>
+
             <!-- Why Context-First -->
             <div style="padding: 1rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
                 <strong style="color: #3b82f6;">
@@ -8588,14 +8621,12 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <span class="lang-ko">
                         • <strong>히스토리 축적</strong> — foundations/plans/reports가 프로젝트 결정 사항과 근거를 보존<br>
                         • <strong>일관성 유지</strong> — Agent가 이전 설계 패턴과 코딩 스타일을 이해하고 따름<br>
-                        • <strong>토큰 효율</strong> — Bash + Skills의 Progressive Disclosure로 MCP 대비 85% 토큰 절감<br>
-                        • <strong>재귀적 개선</strong> — 각 세션의 결과가 다음 세션의 컨텍스트로 축적되어 정밀도 향상
+                        • <strong>토큰 효율</strong> — Bash + Skills의 Progressive Disclosure로 MCP 대비 85% 토큰 절감
                     </span>
                     <span class="lang-en">
                         • <strong>History Accumulation</strong> — foundations/plans/reports preserve project decisions and rationale<br>
                         • <strong>Consistency</strong> — Agent understands and follows previous design patterns and coding style<br>
-                        • <strong>Token Efficiency</strong> — Bash + Skills Progressive Disclosure saves 85% tokens vs MCP<br>
-                        • <strong>Recursive Improvement</strong> — Each session's results accumulate as next session's context
+                        • <strong>Token Efficiency</strong> — Bash + Skills Progressive Disclosure saves 85% tokens vs MCP
                     </span>
                 </div>
             </div>
