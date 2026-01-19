@@ -2218,12 +2218,12 @@
                         <div class="node-icon">☸️</div>
                         <div class="node-title">Cluster</div>
                         <div class="node-subtitle">
-                            <span class="lang-ko">World Model</span>
-                            <span class="lang-en">World Model</span>
+                            <span class="lang-ko">Runtime Environment</span>
+                            <span class="lang-en">Runtime Environment</span>
                         </div>
                         <div class="node-tooltip">
-                            <span class="lang-ko">💡 클릭하여 상세 보기<br>25-Node K8s Runtime<br>GitOps 기반 상태 관리</span>
-                            <span class="lang-en">💡 Click for details<br>25-Node K8s Runtime<br>GitOps-based state management</span>
+                            <span class="lang-ko">💡 클릭하여 상세 보기<br>25-Node K8s + Self-RAG<br>Context-First Development</span>
+                            <span class="lang-en">💡 Click for details<br>25-Node K8s + Self-RAG<br>Context-First Development</span>
                         </div>
                     </div>
                 </div>
@@ -8152,200 +8152,214 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
         </div>
     </div>
 
-    <!-- Modal: Cluster as World Model -->
+    <!-- Modal: Context-First Development with Self-RAG -->
     <div class="modal-overlay" id="modal-cluster-world">
-        <div class="modal-content" style="max-width: 1150px;">
+        <div class="modal-content" style="max-width: 1200px;">
             <button class="modal-close" onclick="closeModal('modal-cluster-world')">×</button>
-            <h3 class="modal-title">☸️ Cluster as World Model</h3>
+            <h3 class="modal-title">☸️ Context-First Development: Self-RAG + 25-Node Runtime</h3>
 
-            <!-- World Model Concept -->
+            <!-- Core Concept: Anthropic's Approach -->
+            <div style="background: rgba(138,43,226,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #8b5cf6; margin-bottom: 1.5rem;">
+                <div style="font-size: 1rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">
+                    <span class="lang-ko">🔄 Anthropic의 Recursive Self-Improvement 적용</span>
+                    <span class="lang-en">🔄 Applying Anthropic's Recursive Self-Improvement</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7;">
+                    <span class="lang-ko">
+                        Anthropic은 Claude Code로 Claude를 개발하며 <strong>90% 이상의 코드를 AI가 작성</strong>합니다. 핵심은 <strong>CLAUDE.md</strong>를 통한 컨텍스트 자동 주입과 <strong>Skills</strong>의 Progressive Disclosure입니다.<br>
+                        Eco² 프로젝트는 이 방식을 적용하여 <code>/docs/foundations/</code>, <code>/docs/plans/</code>, <code>/docs/reports/</code>, <code>/.claude/skills/</code>를 Agent의 Self-RAG 컨텍스트로 축적합니다.
+                    </span>
+                    <span class="lang-en">
+                        Anthropic develops Claude using Claude Code, with <strong>over 90% of code written by AI</strong>. The key is automatic context injection via <strong>CLAUDE.md</strong> and <strong>Skills</strong>' Progressive Disclosure.<br>
+                        Eco² project applies this approach, accumulating <code>/docs/foundations/</code>, <code>/docs/plans/</code>, <code>/docs/reports/</code>, <code>/.claude/skills/</code> as Agent's Self-RAG context.
+                    </span>
+                </div>
+            </div>
+
+            <!-- Two Column: Context Structure + Continuous Loop -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                <div style="background: rgba(138,43,226,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #8b5cf6;">
-                    <div style="font-size: 1.1rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.75rem;">
-                        <span class="lang-ko">🧠 Google DeepMind World Model</span>
-                        <span class="lang-en">🧠 Google DeepMind World Model</span>
+                <!-- Left: Document Structure -->
+                <div style="background: rgba(0,255,136,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <div style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;">
+                        <span class="lang-ko">📁 Self-RAG 컨텍스트 구조</span>
+                        <span class="lang-en">📁 Self-RAG Context Structure</span>
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
-                        <span class="lang-ko">
-                            Agent가 환경(World)과 상호작용하며 내부 모델을 구축하고, 이를 통해 미래 상태를 예측하고 행동을 결정하는 아키텍처.<br><br>
-                            <strong>핵심 요소:</strong><br>
-                            • World = 상호작용 가능한 환경<br>
-                            • Agent = 환경을 관찰하고 행동하는 주체<br>
-                            • Feedback = 행동 결과 관측
-                        </span>
-                        <span class="lang-en">
-                            Architecture where Agent builds internal model through environment (World) interaction, predicting future states and determining actions.<br><br>
-                            <strong>Core Elements:</strong><br>
-                            • World = Interactive environment<br>
-                            • Agent = Observer and actor<br>
-                            • Feedback = Action result observation
-                        </span>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; font-family: 'Fira Code', monospace;">
+                        <code style="color: #f59e0b;">/docs/foundations/</code> — <span class="lang-ko">리서치, 설계 근거</span><span class="lang-en">Research, design rationale</span><br>
+                        <code style="color: #3b82f6;">/docs/plans/</code> — <span class="lang-ko">구현 계획, 작업 명세</span><span class="lang-en">Implementation plans, specs</span><br>
+                        <code style="color: #8b5cf6;">/docs/reports/</code> — <span class="lang-ko">결과 분석, 회고</span><span class="lang-en">Analysis, retrospectives</span><br>
+                        <code style="color: var(--primary);">/.claude/skills/</code> — <span class="lang-ko">17개 자동화 스킬</span><span class="lang-en">17 automation skills</span><br>
+                        <code style="color: #dc2626;">CLAUDE.md</code> — <span class="lang-ko">자동 컨텍스트 로드</span><span class="lang-en">Auto context load</span>
                     </div>
                 </div>
-                <div style="background: rgba(0,255,136,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid var(--primary);">
-                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;">
-                        <span class="lang-ko">☸️ Eco² 클러스터 = World</span>
-                        <span class="lang-en">☸️ Eco² Cluster = World</span>
+                <!-- Right: Continuous Improvement Loop -->
+                <div style="background: rgba(59,130,246,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #3b82f6;">
+                    <div style="font-size: 1rem; font-weight: 700; color: #3b82f6; margin-bottom: 0.75rem;">
+                        <span class="lang-ko">🔁 Continuous Improvement Loop</span>
+                        <span class="lang-en">🔁 Continuous Improvement Loop</span>
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7;">
                         <span class="lang-ko">
-                            25-Node K8s 분산 클러스터를 Agent가 탐색하고 상호작용하는 '세계'로 투영. GitOps로 선언적 상태 관리, Observability로 실시간 피드백.<br><br>
-                            <strong>투영 관계:</strong><br>
-                            • World → 25-Node Kubernetes Cluster<br>
-                            • Agent → Claude Code + Cursor<br>
-                            • Feedback → Prometheus/Jaeger/EFK
+                            <strong>1. Research</strong> → Foundations 문서 작성<br>
+                            <strong>2. Design</strong> → Plans 문서 작성<br>
+                            <strong>3. Implement</strong> → Agent + Skills 활용<br>
+                            <strong>4. Deploy</strong> → GitOps (ArgoCD)<br>
+                            <strong>5. Report</strong> → 분석/회고 → <strong>Loop</strong>
                         </span>
                         <span class="lang-en">
-                            Project 25-Node K8s distributed cluster as 'World' that Agent explores and interacts with. Declarative state management via GitOps, real-time feedback via Observability.<br><br>
-                            <strong>Projection:</strong><br>
-                            • World → 25-Node Kubernetes Cluster<br>
-                            • Agent → Claude Code + Cursor<br>
-                            • Feedback → Prometheus/Jaeger/EFK
+                            <strong>1. Research</strong> → Write Foundations docs<br>
+                            <strong>2. Design</strong> → Write Plans docs<br>
+                            <strong>3. Implement</strong> → Agent + Skills<br>
+                            <strong>4. Deploy</strong> → GitOps (ArgoCD)<br>
+                            <strong>5. Report</strong> → Analysis → <strong>Loop</strong>
                         </span>
                     </div>
                 </div>
             </div>
 
-            <!-- Cluster Architecture Diagram -->
-            <div class="modal-diagram" style="font-size: 0.8rem;">
+            <!-- Architecture Diagram -->
+            <div class="modal-diagram" style="font-size: 0.75rem;">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                    Cluster as World Model Architecture                          │
+│              Context-First Development: Self-RAG + Runtime Environment          │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │                        AI Agent (LLM)                                   │   │
-│   │   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐                 │   │
-│   │   │ Claude Code │    │   Cursor    │    │  MCP Tools  │                 │   │
-│   │   │  (Primary)  │    │ (Secondary) │    │ (kubectl)   │                 │   │
-│   │   └──────┬──────┘    └──────┬──────┘    └──────┬──────┘                 │   │
-│   └──────────┼──────────────────┼──────────────────┼────────────────────────┘   │
-│              │                  │                  │                            │
-│              ▼                  ▼                  ▼                            │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │                    Single Source of Truth (GitOps)                      │   │
-│   │   ┌─────────────────────────────────────────────────────────────────┐   │   │
-│   │   │  GitHub Repository ────► ArgoCD ────► Cluster State Sync        │   │   │
-│   │   │  (Codebase + Manifests)   (App-of-Apps)  (Zero-touch Deploy)    │   │   │
-│   │   └─────────────────────────────────────────────────────────────────┘   │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
-│                                      │                                          │
-│   ═══════════════════════════════════▼══════════════════════════════════════    │
-│                         WORLD (25-Node Kubernetes Cluster)                      │
+│   │                    Self-RAG Context (Progressive Disclosure)            │   │
+│   │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐    │   │
+│   │  │ CLAUDE.md    │ │ foundations/ │ │   plans/     │ │  reports/    │    │   │
+│   │  │ (Auto-load)  │ │ (Research)   │ │ (Design)     │ │ (Feedback)   │    │   │
+│   │  └──────┬───────┘ └──────┬───────┘ └──────┬───────┘ └──────┬───────┘    │   │
+│   │         └────────────────┴────────────────┴────────────────┘            │   │
+│   │                                   │                                     │   │
+│   │                      ┌────────────▼────────────┐                        │   │
+│   │                      │   /.claude/skills/ (17) │  ← Bash로 SKILL.md 로드│   │
+│   │                      │   Progressive Disclosure │    (MCP 대비 경량)     │   │
+│   │                      └────────────┬────────────┘                        │   │
+│   └───────────────────────────────────┼─────────────────────────────────────┘   │
+│                                       │                                         │
+│                          ┌────────────▼────────────┐                            │
+│                          │     AI Agent (Claude)   │                            │
+│                          │  Context Window 최적화   │                            │
+│                          │  Bash 선호 (토큰 효율)   │                            │
+│                          └────────────┬────────────┘                            │
+│                                       │                                         │
+│   ════════════════════════════════════▼═════════════════════════════════════    │
+│                    RUNTIME ENVIRONMENT (25-Node K8s Cluster)                    │
 │   ══════════════════════════════════════════════════════════════════════════    │
 │                                                                                 │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │  Edge Layer          │  Service Layer        │  Integration Layer      │   │
-│   │  ┌─────────────────┐ │  ┌─────────────────┐  │  ┌─────────────────┐    │   │
-│   │  │ Istio Ingress   │ │  │ 7 Domain APIs   │  │  │ RabbitMQ Quorum │    │   │
-│   │  │ ext-authz (Go)  │ │  │ 2 SSE Gateways  │  │  │ Redis Streams   │    │   │
-│   │  └─────────────────┘ │  └─────────────────┘  │  │ 8 Workers       │    │   │
-│   │                      │                       │  └─────────────────┘    │   │
-│   ├──────────────────────┼───────────────────────┼─────────────────────────┤   │
-│   │  Persistence Layer   │  Platform Layer       │  Observability         │   │
-│   │  ┌─────────────────┐ │  ┌─────────────────┐  │  ┌─────────────────┐    │   │
-│   │  │ PostgreSQL      │ │  │ ArgoCD          │  │  │ Prometheus      │    │   │
-│   │  │ Redis Cluster×4 │ │  │ KEDA            │  │  │ Jaeger + OTEL   │    │   │
-│   │  └─────────────────┘ │  │ Cert-Manager    │  │  │ EFK Stack       │    │   │
-│   │                      │  └─────────────────┘  │  └─────────────────┘    │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
-│                                      │                                          │
-│                                      ▼                                          │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │                    Feedback Loop (Observability → Agent)                │   │
-│   │   Metrics ────► Grafana Dashboard ────► Developer/Agent Context         │   │
-│   │   Traces  ────► Jaeger UI         ────► Distributed Tracing Analysis    │   │
-│   │   Logs    ────► Kibana            ────► Error Pattern Detection         │   │
-│   │   Alerts  ────► Alertmanager      ────► Slack #eco_sre → Agent Prompt   │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
+│   ┌───────────────────┬───────────────────┬───────────────────────────────┐     │
+│   │  GitOps (ArgoCD)  │  7 Domain APIs    │  Observability               │     │
+│   │  Zero-touch Deploy│  8 Workers        │  (환경 인식 보조)             │     │
+│   │  App-of-Apps      │  RabbitMQ/Redis   │  Prometheus/Jaeger/EFK       │     │
+│   └───────────────────┴───────────────────┴───────────────────────────────┘     │
+│                                       │                                         │
+│                          ┌────────────▼────────────┐                            │
+│                          │   Deploy → Observe →    │                            │
+│                          │   Report → Loop (RAG)   │                            │
+│                          └─────────────────────────┘                            │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
 
-            <!-- 25-Node Topology -->
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin: 1.5rem 0;">
-                <div style="background: rgba(220,38,38,0.1); padding: 0.8rem; border-radius: 8px; text-align: center; border-top: 3px solid #dc2626;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #dc2626;">1</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">Master</div>
-                    <div style="font-size: 0.65rem; color: var(--text-secondary);">Control Plane</div>
+            <!-- Key Insights from Claude Code -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
+                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border-top: 3px solid #f59e0b;">
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">
+                        <span class="lang-ko">⚡ Bash 선호</span>
+                        <span class="lang-en">⚡ Bash Preferred</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                        <span class="lang-ko">MCP는 50K-134K 토큰 소모. Bash는 환경 도구에 직접 접근하여 컨텍스트 효율적</span>
+                        <span class="lang-en">MCP consumes 50K-134K tokens. Bash directly accesses env tools, context efficient</span>
+                    </div>
                 </div>
-                <div style="background: rgba(59,130,246,0.1); padding: 0.8rem; border-radius: 8px; text-align: center; border-top: 3px solid #3b82f6;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">8</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">API Nodes</div>
-                    <div style="font-size: 0.65rem; color: var(--text-secondary);">Domain Services</div>
+                <div style="background: rgba(138,43,226,0.1); padding: 1rem; border-radius: 8px; border-top: 3px solid #8b5cf6;">
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">
+                        <span class="lang-ko">📄 Skills = 파일시스템</span>
+                        <span class="lang-en">📄 Skills = Filesystem</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                        <span class="lang-ko">YAML 메타 → SKILL.md → 링크된 파일. 필요할 때만 점진적 로드</span>
+                        <span class="lang-en">YAML meta → SKILL.md → linked files. Progressive load on-demand</span>
+                    </div>
                 </div>
-                <div style="background: rgba(245,158,11,0.1); padding: 0.8rem; border-radius: 8px; text-align: center; border-top: 3px solid #f59e0b;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #f59e0b;">4</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">Worker Nodes</div>
-                    <div style="font-size: 0.65rem; color: var(--text-secondary);">AI + Storage</div>
-                </div>
-                <div style="background: rgba(0,255,136,0.1); padding: 0.8rem; border-radius: 8px; text-align: center; border-top: 3px solid var(--primary);">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">5</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">Data Nodes</div>
-                    <div style="font-size: 0.65rem; color: var(--text-secondary);">PostgreSQL + Redis</div>
-                </div>
-                <div style="background: rgba(138,43,226,0.1); padding: 0.8rem; border-radius: 8px; text-align: center; border-top: 3px solid #8b5cf6;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #8b5cf6;">6</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">Platform</div>
-                    <div style="font-size: 0.65rem; color: var(--text-secondary);">MQ + Observability</div>
+                <div style="background: rgba(0,255,136,0.1); padding: 1rem; border-radius: 8px; border-top: 3px solid var(--primary);">
+                    <div style="font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
+                        <span class="lang-ko">🔄 세션 후 정제</span>
+                        <span class="lang-en">🔄 Post-Session Refinement</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                        <span class="lang-ko">완료 후 요약 → CLAUDE.md 개선 제안 → 다음 세션에 반영</span>
+                        <span class="lang-en">Summarize → CLAUDE.md improvement → Apply to next session</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Agent-World Interaction Table -->
+            <!-- Eco² Implementation Table -->
             <table class="modal-table">
-                <tr><th>World Model 요소</th><th>Eco² 클러스터 투영</th><th>Agent 상호작용 방식</th></tr>
                 <tr>
-                    <td><strong>State Observation</strong></td>
-                    <td>kubectl, Grafana, Kibana, Jaeger</td>
-                    <td><span class="lang-ko">MCP Tools로 클러스터 상태 실시간 조회</span><span class="lang-en">Real-time cluster state query via MCP Tools</span></td>
+                    <th>Claude Code 개념</th>
+                    <th>Eco² 적용</th>
+                    <th><span class="lang-ko">효과</span><span class="lang-en">Effect</span></th>
                 </tr>
                 <tr>
-                    <td><strong>Action Execution</strong></td>
-                    <td>Git Commit → ArgoCD Sync</td>
-                    <td><span class="lang-ko">코드 변경 → GitOps로 자동 배포</span><span class="lang-en">Code change → Auto-deploy via GitOps</span></td>
+                    <td><strong>CLAUDE.md</strong></td>
+                    <td><code>CLAUDE.md</code> + <code>/docs/</code></td>
+                    <td><span class="lang-ko">세션 시작 시 프로젝트 컨텍스트 자동 주입</span><span class="lang-en">Auto-inject project context at session start</span></td>
                 </tr>
                 <tr>
-                    <td><strong>Reward Signal</strong></td>
-                    <td>p99 Latency, Error Rate, RPS</td>
-                    <td><span class="lang-ko">성능 메트릭으로 행동 결과 평가</span><span class="lang-en">Evaluate action results via performance metrics</span></td>
+                    <td><strong>Skills (17개)</strong></td>
+                    <td><code>/.claude/skills/</code></td>
+                    <td><span class="lang-ko">k8s-debug, load-test, pr-review 등 반복 작업 자동화</span><span class="lang-en">Automate k8s-debug, load-test, pr-review, etc.</span></td>
                 </tr>
                 <tr>
-                    <td><strong>World Dynamics</strong></td>
-                    <td>Traffic Patterns, Load Spikes</td>
-                    <td><span class="lang-ko">실시간 트래픽 변화에 적응</span><span class="lang-en">Adapt to real-time traffic changes</span></td>
+                    <td><strong>Progressive Disclosure</strong></td>
+                    <td>foundations → plans → reports</td>
+                    <td><span class="lang-ko">필요한 문서만 점진적으로 로드하여 토큰 효율화</span><span class="lang-en">Load only needed docs progressively for token efficiency</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Bash 환경 상속</strong></td>
+                    <td>kubectl, terraform, helm</td>
+                    <td><span class="lang-ko">MCP 없이 클러스터 도구 직접 접근</span><span class="lang-en">Direct cluster tool access without MCP</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Observability</strong></td>
+                    <td>Prometheus/Jaeger/EFK</td>
+                    <td><span class="lang-ko">환경 인식 보조 (핵심은 문서 기반 컨텍스트)</span><span class="lang-en">Env awareness assist (core is doc-based context)</span></td>
                 </tr>
             </table>
 
-            <!-- Why Cluster as World Model -->
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                <strong style="color: var(--primary);">
-                    <span class="lang-ko">왜 클러스터를 World Model로 보는가?</span>
-                    <span class="lang-en">Why view the Cluster as a World Model?</span>
+            <!-- Why This Approach -->
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                <strong style="color: #3b82f6;">
+                    <span class="lang-ko">왜 Context-First인가?</span>
+                    <span class="lang-en">Why Context-First?</span>
                 </strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
                     <span class="lang-ko">
-                        • <strong>결정론적 환경</strong> — GitOps로 선언된 상태는 항상 클러스터에 수렴 (Desired State = Actual State)<br>
-                        • <strong>관측 가능성</strong> — 모든 행동(배포)의 결과를 메트릭/트레이스/로그로 즉시 확인 가능<br>
-                        • <strong>피드백 루프</strong> — Observability 데이터가 Agent의 다음 행동 결정에 컨텍스트로 주입<br>
-                        • <strong>반복 학습</strong> — Deploy → Observe → Feedback 사이클을 통해 Agent의 환경 이해도가 점진적으로 향상
+                        • <strong>히스토리 축적</strong> — foundations/plans/reports가 프로젝트 결정 사항과 근거를 보존<br>
+                        • <strong>일관성 유지</strong> — Agent가 이전 설계 패턴과 코딩 스타일을 이해하고 따름<br>
+                        • <strong>토큰 효율</strong> — Bash + Skills의 Progressive Disclosure로 MCP 대비 85% 토큰 절감<br>
+                        • <strong>재귀적 개선</strong> — 각 세션의 결과가 다음 세션의 컨텍스트로 축적되어 정밀도 향상
                     </span>
                     <span class="lang-en">
-                        • <strong>Deterministic Environment</strong> — State declared via GitOps always converges to cluster (Desired = Actual)<br>
-                        • <strong>Observability</strong> — Results of all actions (deployments) immediately visible via metrics/traces/logs<br>
-                        • <strong>Feedback Loop</strong> — Observability data injected as context for Agent's next action decision<br>
-                        • <strong>Iterative Learning</strong> — Agent's environment understanding progressively improves through Deploy → Observe → Feedback cycle
+                        • <strong>History Accumulation</strong> — foundations/plans/reports preserve project decisions and rationale<br>
+                        • <strong>Consistency</strong> — Agent understands and follows previous design patterns and coding style<br>
+                        • <strong>Token Efficiency</strong> — Bash + Skills Progressive Disclosure saves 85% tokens vs MCP<br>
+                        • <strong>Recursive Improvement</strong> — Each session's results accumulate as next session's context, improving precision
                     </span>
                 </div>
             </div>
 
             <div class="modal-refs">
                 <div class="modal-refs-title">
-                    <span class="lang-ko">관련 Blog / Reference</span>
-                    <span class="lang-en">Related Blog / Reference</span>
+                    <span class="lang-ko">Anthropic Engineering Blog</span>
+                    <span class="lang-en">Anthropic Engineering Blog</span>
                 </div>
                 <div class="modal-refs-links">
-                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/48" target="_blank" rel="noopener">Agent-Driven Development</a>
-                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/31" target="_blank" rel="noopener">GitOps 설계</a>
-                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/32" target="_blank" rel="noopener">Observability 설계</a>
-                    <a class="ref-chip" href="https://arxiv.org/abs/2403.00504" target="_blank" rel="noopener">World Models (arXiv)</a>
+                    <a class="ref-chip" href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener">Claude Code Best Practices</a>
+                    <a class="ref-chip" href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" target="_blank" rel="noopener">Agent Skills</a>
+                    <a class="ref-chip" href="https://www.anthropic.com/engineering/claude-code-sandboxing" target="_blank" rel="noopener">Sandboxed Bash</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/48" target="_blank" rel="noopener">Agent-Driven Dev (Blog)</a>
                 </div>
             </div>
         </div>
