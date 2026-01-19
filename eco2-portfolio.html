@@ -8538,14 +8538,14 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <div style="background: rgba(138,43,226,0.08); padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 1rem; text-align: center;">
                 <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
                     <span class="lang-ko">
-                        <strong style="color: #8b5cf6;">GitOps 동기화</strong>: ArgoCD가 develop 브랜치를 클러스터에 자동 반영<br>
-                        → <strong>코드베이스(IaC/Helm/manifests) = 클러스터의 실제 상태</strong><br>
-                        → Agent가 코드를 읽으면 배포 환경의 구성을 정확히 파악
+                        <strong style="color: #8b5cf6;">GitOps</strong>: 코드베이스가 클러스터의 <strong>Desired State</strong>로 작용<br>
+                        ArgoCD가 develop 브랜치를 Single Source of Truth로 삼아 클러스터에 선언적 동기화<br>
+                        → Agent가 코드를 읽는 것만으로 운영 환경의 구성을 정확히 파악
                     </span>
                     <span class="lang-en">
-                        <strong style="color: #8b5cf6;">GitOps Sync</strong>: ArgoCD auto-syncs develop branch to cluster<br>
-                        → <strong>Codebase (IaC/Helm/manifests) = Actual cluster state</strong><br>
-                        → Agent reads code, accurately understands deployment configuration
+                        <strong style="color: #8b5cf6;">GitOps</strong>: Codebase acts as the cluster's <strong>Desired State</strong><br>
+                        ArgoCD treats develop branch as Single Source of Truth, declaratively syncing to cluster<br>
+                        → Agent reads code alone to accurately understand production configuration
                     </span>
                 </div>
             </div>
