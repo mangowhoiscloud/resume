@@ -8409,212 +8409,102 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 
     <!-- Modal: Context-First Development (Recursive Self-Improvement) -->
     <div class="modal-overlay" id="modal-context-first">
-        <div class="modal-content" style="max-width: 1150px;">
+        <div class="modal-content" style="max-width: 950px;">
             <button class="modal-close" onclick="closeModal('modal-context-first')">×</button>
-            <h3 class="modal-title">🔁 Context-First Development: Recursive Self-Improvement</h3>
+            <h3 class="modal-title">🔁 Context-First Development</h3>
 
-            <!-- Core Concept: Anthropic's Approach -->
-            <div style="background: rgba(138,43,226,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #8b5cf6; margin-bottom: 1.5rem;">
-                <div style="font-size: 1rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">
-                    <span class="lang-ko">🔄 Anthropic의 Recursive Self-Improvement 적용</span>
-                    <span class="lang-en">🔄 Applying Anthropic's Recursive Self-Improvement</span>
-                </div>
-                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7;">
-                    <span class="lang-ko">
-                        Anthropic은 Claude Code로 Claude를 개발하며 <strong>90% 이상의 코드를 AI가 작성</strong>합니다. 핵심은 <strong>CLAUDE.md</strong>를 통한 컨텍스트 자동 주입과 <strong>Skills</strong>의 Progressive Disclosure입니다.<br>
-                        Eco² 프로젝트는 이 방식을 적용하여 <code>/docs/foundations/</code>, <code>/docs/plans/</code>, <code>/docs/reports/</code>, <code>/.claude/skills/</code>를 Agent의 Self-RAG 컨텍스트로 축적합니다.
-                    </span>
-                    <span class="lang-en">
-                        Anthropic develops Claude using Claude Code, with <strong>over 90% of code written by AI</strong>. The key is automatic context injection via <strong>CLAUDE.md</strong> and <strong>Skills</strong>' Progressive Disclosure.<br>
-                        Eco² project applies this approach, accumulating <code>/docs/foundations/</code>, <code>/docs/plans/</code>, <code>/docs/reports/</code>, <code>/.claude/skills/</code> as Agent's Self-RAG context.
-                    </span>
-                </div>
-            </div>
+            <!-- Overview -->
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                <span class="lang-ko">
+                    Anthropic은 Claude Code로 Claude를 개발하며 <strong style="color: var(--primary);">90% 이상의 코드를 AI가 작성</strong>합니다.
+                    핵심은 <strong>CLAUDE.md</strong> 자동 주입과 <strong>Skills</strong>의 Progressive Disclosure입니다.
+                    Eco²는 이 방식을 적용하여 문서 기반 Self-RAG 컨텍스트를 축적합니다.
+                </span>
+                <span class="lang-en">
+                    Anthropic develops Claude using Claude Code, with <strong style="color: var(--primary);">over 90% of code written by AI</strong>.
+                    The key is <strong>CLAUDE.md</strong> auto-injection and <strong>Skills</strong>' Progressive Disclosure.
+                    Eco² applies this approach, accumulating document-based Self-RAG context.
+                </span>
+            </p>
 
-            <!-- Two Column: Context Structure + Continuous Loop -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                <!-- Left: Document Structure -->
-                <div style="background: rgba(0,255,136,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid var(--primary);">
-                    <div style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;">
-                        <span class="lang-ko">📁 Self-RAG 컨텍스트 구조</span>
-                        <span class="lang-en">📁 Self-RAG Context Structure</span>
+            <!-- Improvement Loop Diagram -->
+            <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                    <div style="background: rgba(245,158,11,0.15); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #f59e0b;">
+                        <span style="font-weight: 600; color: #f59e0b;">1. Research</span>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">foundations/</div>
                     </div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; font-family: 'Fira Code', monospace;">
-                        <code style="color: #f59e0b;">/docs/foundations/</code> — <span class="lang-ko">리서치, 설계 근거</span><span class="lang-en">Research, design rationale</span><br>
-                        <code style="color: #3b82f6;">/docs/plans/</code> — <span class="lang-ko">구현 계획, 작업 명세</span><span class="lang-en">Implementation plans, specs</span><br>
-                        <code style="color: #8b5cf6;">/docs/reports/</code> — <span class="lang-ko">결과 분석, 회고</span><span class="lang-en">Analysis, retrospectives</span><br>
-                        <code style="color: var(--primary);">/.claude/skills/</code> — <span class="lang-ko">17개 자동화 스킬</span><span class="lang-en">17 automation skills</span><br>
-                        <code style="color: #dc2626;">CLAUDE.md</code> — <span class="lang-ko">자동 컨텍스트 로드</span><span class="lang-en">Auto context load</span>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="background: rgba(59,130,246,0.15); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #3b82f6;">
+                        <span style="font-weight: 600; color: #3b82f6;">2. Design</span>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">plans/</div>
                     </div>
-                </div>
-                <!-- Right: Continuous Improvement Loop -->
-                <div style="background: rgba(59,130,246,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #3b82f6;">
-                    <div style="font-size: 1rem; font-weight: 700; color: #3b82f6; margin-bottom: 0.75rem;">
-                        <span class="lang-ko">🔁 Continuous Improvement Loop</span>
-                        <span class="lang-en">🔁 Continuous Improvement Loop</span>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="background: rgba(138,43,226,0.15); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #8b5cf6;">
+                        <span style="font-weight: 600; color: #8b5cf6;">3. Implement</span>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Agent + Skills</div>
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7;">
-                        <span class="lang-ko">
-                            <strong>1. Research</strong> → Foundations 문서 작성<br>
-                            <strong>2. Design</strong> → Plans 문서 작성<br>
-                            <strong>3. Implement</strong> → Agent + Skills 활용<br>
-                            <strong>4. Deploy</strong> → GitOps (ArgoCD)<br>
-                            <strong>5. Report</strong> → 분석/회고 → <strong>Loop</strong>
-                        </span>
-                        <span class="lang-en">
-                            <strong>1. Research</strong> → Write Foundations docs<br>
-                            <strong>2. Design</strong> → Write Plans docs<br>
-                            <strong>3. Implement</strong> → Agent + Skills<br>
-                            <strong>4. Deploy</strong> → GitOps (ArgoCD)<br>
-                            <strong>5. Report</strong> → Analysis → <strong>Loop</strong>
-                        </span>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="background: rgba(0,255,136,0.15); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid var(--primary);">
+                        <span style="font-weight: 600; color: var(--primary);">4. Deploy</span>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">GitOps</div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Architecture Diagram -->
-            <div class="modal-diagram" style="font-size: 0.75rem;">
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│              Context-First Development: Self-RAG + Runtime Environment          │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │                    Self-RAG Context (Progressive Disclosure)            │   │
-│   │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐    │   │
-│   │  │ CLAUDE.md    │ │ foundations/ │ │   plans/     │ │  reports/    │    │   │
-│   │  │ (Auto-load)  │ │ (Research)   │ │ (Design)     │ │ (Feedback)   │    │   │
-│   │  └──────┬───────┘ └──────┬───────┘ └──────┬───────┘ └──────┬───────┘    │   │
-│   │         └────────────────┴────────────────┴────────────────┘            │   │
-│   │                                   │                                     │   │
-│   │                      ┌────────────▼────────────┐                        │   │
-│   │                      │   /.claude/skills/ (17) │  ← Bash로 SKILL.md 로드│   │
-│   │                      │   Progressive Disclosure │    (MCP 대비 경량)     │   │
-│   │                      └────────────┬────────────┘                        │   │
-│   └───────────────────────────────────┼─────────────────────────────────────┘   │
-│                                       │                                         │
-│                          ┌────────────▼────────────┐                            │
-│                          │     AI Agent (Claude)   │                            │
-│                          │  Context Window 최적화   │                            │
-│                          │  Bash 선호 (토큰 효율)   │                            │
-│                          └────────────┬────────────┘                            │
-│                                       │                                         │
-│   ════════════════════════════════════▼═════════════════════════════════════    │
-│                    RUNTIME ENVIRONMENT (25-Node K8s Cluster)                    │
-│   ══════════════════════════════════════════════════════════════════════════    │
-│                                                                                 │
-│   ┌───────────────────┬───────────────────┬───────────────────────────────┐     │
-│   │  GitOps (ArgoCD)  │  7 Domain APIs    │  Observability               │     │
-│   │  Zero-touch Deploy│  8 Workers        │  (환경 인식 보조)             │     │
-│   │  App-of-Apps      │  RabbitMQ/Redis   │  Prometheus/Jaeger/EFK       │     │
-│   └───────────────────┴───────────────────┴───────────────────────────────┘     │
-│                                       │                                         │
-│                          ┌────────────▼────────────┐                            │
-│                          │   Deploy → Observe →    │                            │
-│                          │   Report → Loop (RAG)   │                            │
-│                          └─────────────────────────┘                            │
-│                                                                                 │
-└─────────────────────────────────────────────────────────────────────────────────┘</div>
-
-            <!-- Key Insights from Claude Code -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
-                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border-top: 3px solid #f59e0b;">
-                    <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">
-                        <span class="lang-ko">⚡ Bash 선호</span>
-                        <span class="lang-en">⚡ Bash Preferred</span>
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
-                        <span class="lang-ko">MCP는 50K-134K 토큰 소모. Bash는 환경 도구에 직접 접근하여 컨텍스트 효율적</span>
-                        <span class="lang-en">MCP consumes 50K-134K tokens. Bash directly accesses env tools, context efficient</span>
-                    </div>
-                </div>
-                <div style="background: rgba(138,43,226,0.1); padding: 1rem; border-radius: 8px; border-top: 3px solid #8b5cf6;">
-                    <div style="font-size: 0.95rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">
-                        <span class="lang-ko">📄 Skills = 파일시스템</span>
-                        <span class="lang-en">📄 Skills = Filesystem</span>
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
-                        <span class="lang-ko">YAML 메타 → SKILL.md → 링크된 파일. 필요할 때만 점진적 로드</span>
-                        <span class="lang-en">YAML meta → SKILL.md → linked files. Progressive load on-demand</span>
-                    </div>
-                </div>
-                <div style="background: rgba(0,255,136,0.1); padding: 1rem; border-radius: 8px; border-top: 3px solid var(--primary);">
-                    <div style="font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
-                        <span class="lang-ko">🔄 세션 후 정제</span>
-                        <span class="lang-en">🔄 Post-Session Refinement</span>
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
-                        <span class="lang-ko">완료 후 요약 → CLAUDE.md 개선 제안 → 다음 세션에 반영</span>
-                        <span class="lang-en">Summarize → CLAUDE.md improvement → Apply to next session</span>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="background: rgba(220,38,38,0.15); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #dc2626;">
+                        <span style="font-weight: 600; color: #dc2626;">5. Report</span>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">reports/ → 🔁</div>
                     </div>
                 </div>
             </div>
 
             <!-- Eco² Implementation Table -->
-            <table class="modal-table">
+            <table class="modal-table" style="font-size: 0.85rem;">
                 <tr>
-                    <th>Claude Code 개념</th>
-                    <th>Eco² 적용</th>
-                    <th><span class="lang-ko">효과</span><span class="lang-en">Effect</span></th>
+                    <th style="width: 25%;"><span class="lang-ko">개념</span><span class="lang-en">Concept</span></th>
+                    <th style="width: 30%;">Eco² <span class="lang-ko">적용</span><span class="lang-en">Implementation</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
                 </tr>
                 <tr>
                     <td><strong>CLAUDE.md</strong></td>
-                    <td><code>CLAUDE.md</code> + <code>/docs/</code></td>
+                    <td><code>CLAUDE.md</code></td>
                     <td><span class="lang-ko">세션 시작 시 프로젝트 컨텍스트 자동 주입</span><span class="lang-en">Auto-inject project context at session start</span></td>
                 </tr>
                 <tr>
-                    <td><strong>Skills (17개)</strong></td>
-                    <td><code>/.claude/skills/</code></td>
+                    <td><strong>Skills</strong></td>
+                    <td><code>/.claude/skills/</code> (17개)</td>
                     <td><span class="lang-ko">k8s-debug, load-test, pr-review 등 반복 작업 자동화</span><span class="lang-en">Automate k8s-debug, load-test, pr-review, etc.</span></td>
                 </tr>
                 <tr>
                     <td><strong>Progressive Disclosure</strong></td>
                     <td>foundations → plans → reports</td>
-                    <td><span class="lang-ko">필요한 문서만 점진적으로 로드하여 토큰 효율화</span><span class="lang-en">Load only needed docs progressively for token efficiency</span></td>
+                    <td><span class="lang-ko">필요한 문서만 점진적 로드 (토큰 효율)</span><span class="lang-en">Load only needed docs progressively (token efficient)</span></td>
                 </tr>
                 <tr>
-                    <td><strong>Bash 환경 상속</strong></td>
+                    <td><strong>Bash 선호</strong></td>
                     <td>kubectl, terraform, helm</td>
-                    <td><span class="lang-ko">MCP 없이 클러스터 도구 직접 접근</span><span class="lang-en">Direct cluster tool access without MCP</span></td>
-                </tr>
-                <tr>
-                    <td><strong>Observability</strong></td>
-                    <td>Prometheus/Jaeger/EFK</td>
-                    <td><span class="lang-ko">환경 인식 보조 (핵심은 문서 기반 컨텍스트)</span><span class="lang-en">Env awareness assist (core is doc-based context)</span></td>
+                    <td><span class="lang-ko">MCP 50K-134K 토큰 vs Bash 직접 접근</span><span class="lang-en">MCP 50K-134K tokens vs Bash direct access</span></td>
                 </tr>
             </table>
 
-            <!-- Why This Approach -->
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
-                <strong style="color: #3b82f6;">
-                    <span class="lang-ko">왜 Context-First인가?</span>
-                    <span class="lang-en">Why Context-First?</span>
+            <!-- Key Point -->
+            <div style="margin-top: 1.25rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">
+                    <span class="lang-ko">핵심: 재귀적 개선</span>
+                    <span class="lang-en">Key: Recursive Improvement</span>
                 </strong>
-                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
-                    <span class="lang-ko">
-                        • <strong>히스토리 축적</strong> — foundations/plans/reports가 프로젝트 결정 사항과 근거를 보존<br>
-                        • <strong>일관성 유지</strong> — Agent가 이전 설계 패턴과 코딩 스타일을 이해하고 따름<br>
-                        • <strong>토큰 효율</strong> — Bash + Skills의 Progressive Disclosure로 MCP 대비 85% 토큰 절감<br>
-                        • <strong>재귀적 개선</strong> — 각 세션의 결과가 다음 세션의 컨텍스트로 축적되어 정밀도 향상
-                    </span>
-                    <span class="lang-en">
-                        • <strong>History Accumulation</strong> — foundations/plans/reports preserve project decisions and rationale<br>
-                        • <strong>Consistency</strong> — Agent understands and follows previous design patterns and coding style<br>
-                        • <strong>Token Efficiency</strong> — Bash + Skills Progressive Disclosure saves 85% tokens vs MCP<br>
-                        • <strong>Recursive Improvement</strong> — Each session's results accumulate as next session's context, improving precision
-                    </span>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    <span class="lang-ko">각 세션의 결과(reports)가 다음 세션의 컨텍스트(foundations)로 축적 → Agent의 정밀도가 점진적으로 향상</span>
+                    <span class="lang-en">Each session's results (reports) accumulate as next session's context (foundations) → Agent precision progressively improves</span>
                 </div>
             </div>
 
-            <div class="modal-refs">
-                <div class="modal-refs-title">
-                    <span class="lang-ko">Anthropic Engineering Blog</span>
-                    <span class="lang-en">Anthropic Engineering Blog</span>
-                </div>
+            <div class="modal-refs" style="margin-top: 1.25rem;">
+                <div class="modal-refs-title">Reference</div>
                 <div class="modal-refs-links">
                     <a class="ref-chip" href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener">Claude Code Best Practices</a>
                     <a class="ref-chip" href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" target="_blank" rel="noopener">Agent Skills</a>
-                    <a class="ref-chip" href="https://www.youtube.com/watch?v=TqC1qOfiVcQ" target="_blank" rel="noopener">Harness & Bash (YouTube)</a>
-                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Event%20Streams%20%26%20Scaling" target="_blank" rel="noopener"><span class="lang-ko">재귀 개선 사례 (Blog)</span><span class="lang-en">Recursive Improvement (Blog)</span></a>
+                    <a class="ref-chip" href="https://www.youtube.com/watch?v=TqC1qOfiVcQ" target="_blank" rel="noopener">Harness & Bash</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Event%20Streams%20%26%20Scaling" target="_blank" rel="noopener"><span class="lang-ko">재귀 개선 사례</span><span class="lang-en">Recursive Improvement</span></a>
                 </div>
             </div>
         </div>
