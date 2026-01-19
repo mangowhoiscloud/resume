@@ -4087,40 +4087,6 @@
                 </a>
             </div>
 
-            <!-- Dual Interface Architecture -->
-            <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Dual Interface Architecture (HTTP + gRPC)</h4>
-                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
-┌──────────────────────────────────────────────────────────────────────────┐
-│                      Character Domain                                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│   ┌──────────────────┐                ┌──────────────────┐               │
-│   │    HTTP API      │                │    gRPC API      │               │
-│   │   (External)     │                │   (Internal)     │               │
-│   │  GET /characters │                │ GetCharacter()   │               │
-│   │  Admin CRUD      │                │ ValidateChar()   │               │
-│   └────────┬─────────┘                └────────┬─────────┘               │
-│            │                                   │                          │
-│            └───────────────┬───────────────────┘                          │
-│                            │                                              │
-│                            ▼                                              │
-│            ┌─────────────────────────────────┐                           │
-│            │      Character Service          │                           │
-│            │  ┌───────────────────────────┐  │                           │
-│            │  │   Local Cache (sync.Map)  │  │  ~100ns lookup            │
-│            │  │   RabbitMQ Fanout 동기화   │  │                           │
-│            │  └───────────────────────────┘  │                           │
-│            └───────────────┬─────────────────┘                           │
-│                            │                                              │
-│                            ▼                                              │
-│                     ┌─────────────┐                                      │
-│                     │ PostgreSQL  │                                      │
-│                     └─────────────┘                                      │
-│                                                                           │
-└──────────────────────────────────────────────────────────────────────────┘</div>
-            </div>
-
             <!-- Interface Comparison -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                 <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
