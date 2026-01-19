@@ -4989,7 +4989,7 @@ def dynamic_router(state: ChatState) -> list[Send]:
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7;">
                     <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">@broker.task("chat.process")</code>는
                     LangGraph StateGraph 전체를 <strong>하나의 Task 단위</strong>로 큐잉합니다.
-                    DAG 절차(Intent → Router → Subagents → Aggregator)를 개별 Task로 분리하지 않은 이유:<br><br>
+                    개별 Task로 분리해 큐잉하지 않은 이유는 아래와 같습니다.<br><br>
                     <strong style="color: #f59e0b;">1. 런타임 동적 라우팅</strong> — Send API는 실행 시점에 <code style="background: rgba(245,158,11,0.2); padding: 0.1rem 0.3rem; border-radius: 3px;">additional_intents</code>와 Enrichment Rules를 평가해 병렬 노드를 결정.
                     큐잉 시점에 어떤 서브에이전트가 실행될지 예측 불가.<br>
                     <strong style="color: #f59e0b;">2. Conditional Edges</strong> — <code style="background: rgba(245,158,11,0.2); padding: 0.1rem 0.3rem; border-radius: 3px;">route_after_feedback</code>처럼
