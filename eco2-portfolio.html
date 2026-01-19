@@ -8126,13 +8126,14 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <tr><td>Kiali Service Graph</td><td>Istio Telemetry</td><td>Traffic visualization</td><td>서비스 의존성 분석</td></tr>
             </table>
 
-            <!-- Why Observability for Agent-Driven Development -->
+            <!-- Observability as Environment Awareness -->
             <div style="margin-top: 1rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
-                <strong style="color: #8b5cf6;">왜 Observability가 Agent-Driven Development의 핵심인가?</strong>
+                <strong style="color: #8b5cf6;">Observability: Agent의 환경 인식 보조</strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
-                    • <strong>Recursive Self-Improvement</strong> — Agent가 클러스터 상태를 실시간으로 관찰하고 디버깅 컨텍스트 확보<br>
-                    • <strong>trace.id 기반 추적</strong> — 1 요청 → 10~30개 로그를 단일 트레이스로 연결 (EDA Phase 2 대비)<br>
-                    • <strong>메트릭 컨텍스트 주입</strong> — p99 지연, 에러율, 리소스 사용량을 Agent 프롬프트에 자동 주입
+                    • <strong>실시간 환경 인식</strong> — Agent가 클러스터 상태를 관찰하고 디버깅 컨텍스트 확보<br>
+                    • <strong>trace.id 기반 추적</strong> — 1 요청 → 10~30개 로그를 단일 트레이스로 연결<br>
+                    • <strong>메트릭 컨텍스트</strong> — p99 지연, 에러율, 리소스 사용량 등 환경 정보 제공<br>
+                    <em style="color: var(--text-muted); font-size: 0.8rem;">※ 핵심은 문서 기반 Self-RAG 컨텍스트, Observability는 환경 인식 보조 역할</em>
                 </div>
             </div>
 
