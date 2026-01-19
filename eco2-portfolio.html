@@ -2170,13 +2170,13 @@
                     </div>
                 </div>
 
-                <!-- Center -->
-                <div class="cycle-center">
+                <!-- Center - Clickable -->
+                <div class="cycle-center clickable" data-modal="modal-context-first" style="cursor: pointer;">
                     <div class="cycle-center-icon">🔁</div>
                     <div class="cycle-center-text">Recursive Self-Improvement</div>
                     <div class="cycle-center-sub">
-                        <span class="lang-ko">재귀적 자기개선</span>
-                        <span class="lang-en">Continuous</span>
+                        <span class="lang-ko">💡 클릭하여 상세 보기</span>
+                        <span class="lang-en">💡 Click for details</span>
                     </div>
                 </div>
 
@@ -8157,7 +8157,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
     <div class="modal-overlay" id="modal-cluster-world">
         <div class="modal-content" style="max-width: 1200px;">
             <button class="modal-close" onclick="closeModal('modal-cluster-world')">×</button>
-            <h3 class="modal-title">☸️ Context-First Development: Self-RAG + 25-Node Runtime</h3>
+            <h3 class="modal-title">☸️ 25-Node Distributed Cluster: System Architecture</h3>
 
             <!-- 25-Node Cluster Architecture Overview -->
             <div style="background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.5rem;">
@@ -8302,6 +8302,108 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │   └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <!-- Layer Description Table -->
+            <h4 style="color: #8b5cf6; margin: 1.5rem 0 0.75rem; font-size: 1rem;">
+                <span class="lang-ko">📋 5-Layer 상세 설명</span>
+                <span class="lang-en">📋 5-Layer Details</span>
+            </h4>
+            <table class="modal-table" style="font-size: 0.85rem;">
+                <tr>
+                    <th>Layer</th>
+                    <th><span class="lang-ko">구성요소</span><span class="lang-en">Components</span></th>
+                    <th><span class="lang-ko">역할</span><span class="lang-en">Role</span></th>
+                    <th><span class="lang-ko">핵심 기술</span><span class="lang-en">Key Tech</span></th>
+                </tr>
+                <tr>
+                    <td style="color: #dc2626;"><strong>L1. Edge</strong></td>
+                    <td>Istio Ingress, ext-authz</td>
+                    <td><span class="lang-ko">트래픽 라우팅, JWT 인증/인가</span><span class="lang-en">Traffic routing, JWT auth</span></td>
+                    <td>Istio 1.24, Go gRPC, Redis Blacklist</td>
+                </tr>
+                <tr>
+                    <td style="color: #3b82f6;"><strong>L2. Service</strong></td>
+                    <td>7 Domain APIs + 2 Gateways</td>
+                    <td><span class="lang-ko">비즈니스 로직, SSE 실시간 통신</span><span class="lang-en">Business logic, SSE realtime</span></td>
+                    <td>FastAPI, Clean Architecture, CQRS</td>
+                </tr>
+                <tr>
+                    <td style="color: #f59e0b;"><strong>L3. Integration</strong></td>
+                    <td>RabbitMQ, Workers (8), Event Router</td>
+                    <td><span class="lang-ko">비동기 처리, 이벤트 스트리밍</span><span class="lang-en">Async processing, event streaming</span></td>
+                    <td>Celery/Taskiq, Redis Streams, Pub/Sub</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--primary);"><strong>L4. Persistence</strong></td>
+                    <td>PostgreSQL, Redis ×4</td>
+                    <td><span class="lang-ko">데이터 영속화, 캐싱, 상태 관리</span><span class="lang-en">Data persistence, caching, state</span></td>
+                    <td>7 schemas, Auth/Cache/Streams/Pub/Sub</td>
+                </tr>
+                <tr>
+                    <td style="color: #8b5cf6;"><strong>L5. Platform</strong></td>
+                    <td>ArgoCD, KEDA, Observability Stack</td>
+                    <td><span class="lang-ko">GitOps 배포, 오토스케일링, 모니터링</span><span class="lang-en">GitOps deploy, autoscaling, monitoring</span></td>
+                    <td>App-of-Apps, Prometheus/Jaeger/EFK</td>
+                </tr>
+            </table>
+
+            <!-- EDA Flow Table -->
+            <h4 style="color: #f59e0b; margin: 1.5rem 0 0.75rem; font-size: 1rem;">
+                <span class="lang-ko">🔀 EDA 이벤트 흐름</span>
+                <span class="lang-en">🔀 EDA Event Flow</span>
+            </h4>
+            <table class="modal-table" style="font-size: 0.85rem;">
+                <tr>
+                    <th><span class="lang-ko">단계</span><span class="lang-en">Phase</span></th>
+                    <th><span class="lang-ko">흐름</span><span class="lang-en">Flow</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td><strong>1. Request</strong></td>
+                    <td>Client → API → RabbitMQ</td>
+                    <td><span class="lang-ko">API가 작업을 MQ에 발행 (Quorum Queue)</span><span class="lang-en">API publishes task to MQ (Quorum Queue)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>2. Process</strong></td>
+                    <td>Worker → Business Logic</td>
+                    <td><span class="lang-ko">Celery/Taskiq 워커가 비동기 처리</span><span class="lang-en">Celery/Taskiq worker async processing</span></td>
+                </tr>
+                <tr>
+                    <td><strong>3. Event</strong></td>
+                    <td>Worker → Redis Streams</td>
+                    <td><span class="lang-ko">처리 완료 이벤트를 스트림에 기록</span><span class="lang-en">Record completion event to stream</span></td>
+                </tr>
+                <tr>
+                    <td><strong>4. Fan-out</strong></td>
+                    <td>Event Router → Redis Pub/Sub</td>
+                    <td><span class="lang-ko">Consumer Group이 이벤트를 Pub/Sub로 전파</span><span class="lang-en">Consumer Group propagates to Pub/Sub</span></td>
+                </tr>
+                <tr>
+                    <td><strong>5. Realtime</strong></td>
+                    <td>SSE Gateway → Client</td>
+                    <td><span class="lang-ko">Pub/Sub 구독 → SSE로 클라이언트에 푸시</span><span class="lang-en">Subscribe Pub/Sub → Push to client via SSE</span></td>
+                </tr>
+            </table>
+
+            <div class="modal-refs">
+                <div class="modal-refs-title">
+                    <span class="lang-ko">관련 PR / Release</span>
+                    <span class="lang-en">Related PRs / Releases</span>
+                </div>
+                <div class="modal-refs-links">
+                    <a class="ref-chip release" href="https://github.com/eco2-team/backend/releases/tag/v1.0.0" target="_blank" rel="noopener">v1.0.0</a>
+                    <a class="ref-chip" href="https://github.com/eco2-team/backend/pull/318" target="_blank" rel="noopener">#318 NetworkPolicy</a>
+                    <a class="ref-chip blog" href="https://rooftopsnow.tistory.com/category/%EC%9D%B4%EC%BD%94%EC%97%90%EC%BD%94%28Eco%C2%B2%29/Event%20Streams%20%26%20Scaling" target="_blank" rel="noopener"><span class="lang-ko">Event Streams (Blog)</span><span class="lang-en">Event Streams (Blog)</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Context-First Development (Recursive Self-Improvement) -->
+    <div class="modal-overlay" id="modal-context-first">
+        <div class="modal-content" style="max-width: 1150px;">
+            <button class="modal-close" onclick="closeModal('modal-context-first')">×</button>
+            <h3 class="modal-title">🔁 Context-First Development: Recursive Self-Improvement</h3>
 
             <!-- Core Concept: Anthropic's Approach -->
             <div style="background: rgba(138,43,226,0.1); padding: 1.2rem; border-radius: 8px; border-left: 3px solid #8b5cf6; margin-bottom: 1.5rem;">
