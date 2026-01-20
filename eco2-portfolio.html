@@ -4512,36 +4512,6 @@
                     </div>
                 </div>
                 </div>
-                <!-- New Row: FE-BE Integration -->
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
-                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-radius: 8px; border: 1px solid rgba(236,72,153,0.4); cursor: pointer;" onclick="openModal('modal-chat-optimistic-update')">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1rem;">⚡</span>
-                        <div>
-                            <div style="color: #ec4899; font-weight: 600; font-size: 0.85rem;">Optimistic Update + Eventual Consistency</div>
-                            <div style="color: var(--text-secondary); font-size: 0.7rem;">FE-BE 실시간 동기화, 30s Retention Window</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(34,197,94,0.15)); border-radius: 8px; border: 1px solid rgba(14,165,233,0.4); cursor: pointer;" onclick="openModal('modal-chat-multiagent')">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1rem;">🤖</span>
-                        <div>
-                            <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">Multi-Agent Chat Session</div>
-                            <div style="color: var(--text-secondary); font-size: 0.7rem;">IndexedDB, Reconcile, State Machine</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(245,158,11,0.15)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer;" onclick="openModal('modal-multi-llm-provider')">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1rem;">🧠</span>
-                        <div>
-                            <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
-                            <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택</div>
-                        </div>
-                    </div>
-                </div>
-                </div>
             </div>
 
             <!-- Domain Details - At the End -->
@@ -12611,14 +12581,15 @@ T9: Pagination     loadMoreMessages()
                 </tr>
             </table>
 
-            <!-- Deep Dive (Chat Domain Style) -->
+            <!-- Deep Dive -->
             <div style="margin-top: 1.5rem;">
                 <div style="font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">
                     <span class="lang-ko">🔍 Deep Dive</span>
                     <span class="lang-en">🔍 Deep Dive</span>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
-                    <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-radius: 8px; border: 1px solid rgba(236,72,153,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-chat-optimistic-update'), 300);">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <!-- Optimistic Update + Eventual Consistency -->
+                    <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-radius: 8px; border: 1px solid rgba(236,72,153,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-optimistic-update'), 300);">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <span style="font-size: 1rem;">⚡</span>
                             <div>
@@ -12627,110 +12598,12 @@ T9: Pagination     loadMoreMessages()
                             </div>
                         </div>
                     </div>
-                    <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(34,197,94,0.15)); border-radius: 8px; border: 1px solid rgba(14,165,233,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-domain-chat'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">🤖</span>
-                            <div>
-                                <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">Multi-Agent Chat Session</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">IndexedDB, Reconcile, State Machine</div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Multi-LLM Provider -->
                     <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(245,158,11,0.15)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-multi-llm-provider'), 300);">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <span style="font-size: 1rem;">🧠</span>
                             <div>
                                 <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Related Modals -->
-            <div style="margin-top: 1.5rem;">
-                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.75rem;">
-                    <span class="lang-ko">🔗 관련 모달</span>
-                    <span class="lang-en">🔗 Related Modals</span>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
-                    <!-- LangGraph Workflow -->
-                    <div style="padding: 0.75rem; background: rgba(236,72,153,0.1); border-radius: 8px; border: 1px solid rgba(236,72,153,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-domain-chat'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">🔀</span>
-                            <div>
-                                <div style="color: #ec4899; font-weight: 600; font-size: 0.85rem;">LangGraph Workflow</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Agent StateGraph</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Intent Details -->
-                    <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-intent-classification'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">🎯</span>
-                            <div>
-                                <div style="color: #8b5cf6; font-weight: 600; font-size: 0.85rem;">Intent Details</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Confidence, Chain-of-Intent</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Send API Router -->
-                    <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-send-api'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">⚡</span>
-                            <div>
-                                <div style="color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Send API Router</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Intent Fanout</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Aggregator -->
-                    <div style="padding: 0.75rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-aggregator'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">📦</span>
-                            <div>
-                                <div style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Aggregator</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Result Collection, Fallback</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Summarize -->
-                    <div style="padding: 0.75rem; background: rgba(245,158,11,0.1); border-radius: 8px; border: 1px solid rgba(245,158,11,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-summarize'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">📝</span>
-                            <div>
-                                <div style="color: #f59e0b; font-weight: 600; font-size: 0.85rem;">Summarize</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Context Compression</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Bus -->
-                    <div style="padding: 0.75rem; background: rgba(14,165,233,0.1); border-radius: 8px; border: 1px solid rgba(14,165,233,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-event-bus-layer'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">🚌</span>
-                            <div>
-                                <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">Event Bus</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Streams, Token v2</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Optimistic Update -->
-                    <div style="padding: 0.75rem; background: rgba(251,146,60,0.1); border-radius: 8px; border: 1px solid rgba(251,146,60,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-optimistic-update'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">⚡</span>
-                            <div>
-                                <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Optimistic Update</div>
-                                <div style="color: var(--text-secondary); font-size: 0.7rem;">FE-BE 동기화, 30s Retention</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Multi-LLM Provider -->
-                    <div style="padding: 0.75rem; background: rgba(168,85,247,0.1); border-radius: 8px; border: 1px solid rgba(168,85,247,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-multi-llm-provider'), 300);">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1rem;">🧠</span>
-                            <div>
-                                <div style="color: #a855f7; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
                                 <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택</div>
                             </div>
                         </div>
@@ -13320,6 +13193,388 @@ else:
                     <strong style="color: #8b5cf6;">📁 Source:</strong>
                     <code style="background: rgba(0,0,0,0.3); padding: 0.2rem 0.5rem; border-radius: 4px; margin-left: 0.5rem;">terraform/main.tf</code>
                     <span style="color: var(--text-muted); margin-left: 0.5rem;">— IaC로 관리되는 AWS EC2 기반 Kubernetes 클러스터</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Production Resilience -->
+    <div class="modal-overlay" id="modal-production-resilience">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-production-resilience')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🛡️ Production Resilience - 장애 대응 전략</span>
+                <span class="lang-en">🛡️ Production Resilience - Fault Tolerance Strategy</span>
+            </h3>
+
+            <!-- NodePolicy Section -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">🔄 NodePolicy - 장애 처리 정책</span>
+                    <span class="lang-en">🔄 NodePolicy - Fault Handling Policies</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         NodePolicy Configuration                            │
+├───────────────┬─────────────────────────────────────────────────────────────┤
+│  FAIL_OPEN    │  LLM 실패 시에도 다음 노드로 진행 (Graceful Degradation)      │
+│               │  예: summarize 실패 → 원본 메시지 그대로 전달                  │
+├───────────────┼─────────────────────────────────────────────────────────────┤
+│  FAIL_CLOSE   │  실패 시 즉시 중단, 에러 응답 반환 (Critical Path)            │
+│               │  예: intent_classification 실패 → 전체 워크플로우 중단        │
+├───────────────┼─────────────────────────────────────────────────────────────┤
+│  FALLBACK     │  실패 시 대체 응답 반환 (Default Response)                   │
+│               │  예: weather_agent 실패 → "날씨 정보를 가져올 수 없습니다"      │
+└───────────────┴─────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- Circuit Breaker Section -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #f59e0b; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">⚡ Circuit Breaker Pattern</span>
+                    <span class="lang-en">⚡ Circuit Breaker Pattern</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        Circuit Breaker State Machine                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│    ┌──────────┐    5회 연속 실패     ┌──────────┐    60초 후    ┌──────────┐│
+│    │  CLOSED  │ ─────────────────→ │   OPEN   │ ───────────→ │HALF_OPEN ││
+│    │ (정상)   │                     │ (차단)   │              │ (시험)   ││
+│    └────┬─────┘                     └────┬─────┘              └────┬─────┘│
+│         │                                │                         │      │
+│         │ ← 성공                         │ 즉시 실패 반환           │      │
+│         │                                ↓                         │      │
+│         │                          ┌──────────┐                    │      │
+│         └────────────── 성공 ←──── │ 1회 시험 │ ── 실패 → OPEN ────┘      │
+│                                    │  요청    │                          │
+│                                    └──────────┘                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  Config: failure_threshold=5, recovery_timeout=60s, half_open_max=1        │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- Agent별 설정 -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #8b5cf6; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">🤖 Agent별 Resilience 설정</span>
+                    <span class="lang-en">🤖 Per-Agent Resilience Config</span>
+                </h4>
+                <table class="modal-table" style="font-size: 0.75rem;">
+                    <thead>
+                        <tr>
+                            <th>Agent</th>
+                            <th>NodePolicy</th>
+                            <th>Circuit Breaker</th>
+                            <th>Timeout</th>
+                            <th>Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>intent_classifier</code></td>
+                            <td style="color: #ef4444;">FAIL_CLOSE</td>
+                            <td>5회/60s</td>
+                            <td>10s</td>
+                            <td>Intent 없이 라우팅 불가</td>
+                        </tr>
+                        <tr>
+                            <td><code>weather_agent</code></td>
+                            <td style="color: #22c55e;">FALLBACK</td>
+                            <td>5회/60s</td>
+                            <td>15s</td>
+                            <td>외부 API 의존, 대체 응답 가능</td>
+                        </tr>
+                        <tr>
+                            <td><code>eco_guide_agent</code></td>
+                            <td style="color: #22c55e;">FALLBACK</td>
+                            <td>5회/60s</td>
+                            <td>20s</td>
+                            <td>RAG + Web Search 체인</td>
+                        </tr>
+                        <tr>
+                            <td><code>summarize</code></td>
+                            <td style="color: #3b82f6;">FAIL_OPEN</td>
+                            <td>3회/30s</td>
+                            <td>10s</td>
+                            <td>선택적 압축, 원본 전달 가능</td>
+                        </tr>
+                        <tr>
+                            <td><code>aggregator</code></td>
+                            <td style="color: #ef4444;">FAIL_CLOSE</td>
+                            <td>-</td>
+                            <td>30s</td>
+                            <td>모든 결과 수집 필수</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Reference -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid var(--accent-teal);">
+                <strong style="color: var(--accent-teal);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    <span class="lang-ko">Production 환경에서 LLM API의 불안정성에 대응하기 위한 전략. Circuit Breaker는 연쇄 장애 방지.</span>
+                    <span class="lang-en">Strategies for handling LLM API instability in production. Circuit Breaker prevents cascading failures.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Feedback + Fallback Chain -->
+    <div class="modal-overlay" id="modal-feedback-fallback">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-feedback-fallback')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📊 Feedback + Fallback Chain - RAG 평가 및 체인</span>
+                <span class="lang-en">📊 Feedback + Fallback Chain - RAG Evaluation & Chain</span>
+            </h3>
+
+            <!-- 4-Dimension RAG Evaluation -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #22c55e; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">📐 4-Dimension RAG 평가 (LangSmith Feedback)</span>
+                    <span class="lang-en">📐 4-Dimension RAG Evaluation (LangSmith Feedback)</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      4-Dimension RAG Quality Metrics                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐    │
+│   │ RELEVANCE   │   │ GROUNDEDNESS│   │ COHERENCE   │   │ HELPFULNESS │    │
+│   │  관련성      │   │  근거성      │   │  일관성      │   │  유용성      │    │
+│   ├─────────────┤   ├─────────────┤   ├─────────────┤   ├─────────────┤    │
+│   │ Query와      │   │ Retrieved   │   │ 답변의      │   │ 사용자      │    │
+│   │ Context     │   │ Context에   │   │ 논리적      │   │ 질문에      │    │
+│   │ 매칭 점수   │   │ 기반한 답변 │   │ 흐름        │   │ 도움 정도   │    │
+│   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘    │
+│          │                 │                 │                 │           │
+│          └────────────────┴─────────┬───────┴─────────────────┘           │
+│                                     ↓                                      │
+│                        ┌──────────────────────┐                            │
+│                        │   Composite Score    │                            │
+│                        │   (0.0 ~ 1.0)        │                            │
+│                        │   threshold: 0.7     │                            │
+│                        └──────────────────────┘                            │
+│                                     │                                      │
+│                    < 0.7 ──────────┴────────── ≥ 0.7                       │
+│                       ↓                          ↓                         │
+│              ┌──────────────┐            ┌──────────────┐                  │
+│              │ Fallback     │            │ Use Response │                  │
+│              │ Chain 실행   │            │ 답변 사용     │                  │
+│              └──────────────┘            └──────────────┘                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- Fallback Chain -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #f59e0b; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">🔗 Fallback Chain 구조</span>
+                    <span class="lang-en">🔗 Fallback Chain Structure</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         RAG → Web Search → General LLM                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌────────────────┐      Score < 0.7      ┌────────────────┐               │
+│  │   1️⃣ RAG        │  ───────────────→    │  2️⃣ Web Search │               │
+│  │  (Vector DB)   │                       │  (Tavily API)  │               │
+│  │                │                       │                │               │
+│  │  eco_guide     │                       │  실시간 정보   │               │
+│  │  docs 검색     │                       │  최신 뉴스     │               │
+│  └────────────────┘                       └───────┬────────┘               │
+│                                                   │                        │
+│                                          Score < 0.7                       │
+│                                                   ↓                        │
+│                                     ┌────────────────────┐                 │
+│                                     │  3️⃣ General LLM     │                 │
+│                                     │  (Fallback 응답)   │                 │
+│                                     │                    │                 │
+│                                     │  "죄송합니다,      │                 │
+│                                     │   정확한 정보를    │                 │
+│                                     │   찾지 못했습니다" │                 │
+│                                     └────────────────────┘                 │
+│                                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  📊 Metrics Tracked:                                                        │
+│  • rag_hit_rate: RAG에서 직접 응답한 비율                                    │
+│  • fallback_rate: Fallback 체인 진입 비율                                   │
+│  • avg_response_quality: 평균 품질 점수                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- 코드 예시 -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">apps/chat_worker/application/agents/eco_guide_agent.py</div>
+                <pre style="font-size: 0.7rem; color: var(--text-secondary); margin: 0; overflow-x: auto;"><code># Fallback Chain Implementation
+async def run_with_fallback(self, query: str) -> AgentResponse:
+    # 1. RAG 시도
+    rag_response = await self.rag_retriever.query(query)
+    if self._evaluate_quality(rag_response) >= 0.7:
+        return rag_response
+    
+    # 2. Web Search 시도
+    web_response = await self.web_search.search(query)
+    if self._evaluate_quality(web_response) >= 0.7:
+        return web_response
+    
+    # 3. General LLM Fallback
+    return await self.general_llm.generate_fallback(query)</code></pre>
+            </div>
+
+            <!-- Reference -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid var(--accent-teal);">
+                <strong style="color: var(--accent-teal);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    <span class="lang-ko">LangSmith의 Feedback 기능을 활용한 RAG 품질 평가. 낮은 품질 시 자동으로 대안 소스 탐색.</span>
+                    <span class="lang-en">RAG quality evaluation using LangSmith Feedback. Automatically explores alternative sources on low quality.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: LangSmith + OTEL -->
+    <div class="modal-overlay" id="modal-langsmith-otel">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-langsmith-otel')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔭 LangSmith + OTEL - 통합 Observability</span>
+                <span class="lang-en">🔭 LangSmith + OTEL - Unified Observability</span>
+            </h3>
+
+            <!-- TelemetryConfigPort -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #06b6d4; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">🔌 TelemetryConfigPort 추상화</span>
+                    <span class="lang-en">🔌 TelemetryConfigPort Abstraction</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       TelemetryConfigPort Interface                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  class TelemetryConfigPort(Protocol):                                       │
+│      """텔레메트리 설정 추상화 - 환경별 구현 교체 가능"""                       │
+│                                                                             │
+│      @property                                                              │
+│      def langsmith_enabled(self) -> bool: ...                               │
+│      @property                                                              │
+│      def otel_enabled(self) -> bool: ...                                    │
+│      @property                                                              │
+│      def project_name(self) -> str: ...                                     │
+│      @property                                                              │
+│      def sampling_rate(self) -> float: ...                                  │
+│                                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  Implementations:                                                           │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐          │
+│  │ DevTelemetryConf │  │ ProdTelemetryConf│  │ TestTelemetryConf│          │
+│  │                  │  │                  │  │                  │          │
+│  │ langsmith: ✅    │  │ langsmith: ✅    │  │ langsmith: ❌    │          │
+│  │ otel: ❌         │  │ otel: ✅         │  │ otel: ❌         │          │
+│  │ sampling: 1.0    │  │ sampling: 0.1    │  │ sampling: 0.0    │          │
+│  └──────────────────┘  └──────────────────┘  └──────────────────┘          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- Feature 단위 Run 추적 -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #8b5cf6; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">📍 Feature 단위 Run 추적 (LangSmith)</span>
+                    <span class="lang-en">📍 Feature-Level Run Tracking (LangSmith)</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      LangSmith Run Hierarchy                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  🏃 Project: eco2-chat-worker                                               │
+│  │                                                                          │
+│  ├── 📁 Session: user_123_session_456                                       │
+│  │   │                                                                      │
+│  │   ├── 🔷 Run: intent_classification                                      │
+│  │   │   ├── input: "오늘 날씨 어때?"                                        │
+│  │   │   ├── output: ["WEATHER"]                                            │
+│  │   │   ├── latency: 234ms                                                 │
+│  │   │   └── tokens: { input: 12, output: 8 }                               │
+│  │   │                                                                      │
+│  │   ├── 🔷 Run: weather_agent                                              │
+│  │   │   ├── input: { query: "오늘 날씨", location: "서울" }                  │
+│  │   │   ├── output: "서울 맑음, 24°C..."                                    │
+│  │   │   ├── latency: 1,234ms                                               │
+│  │   │   └── external_api: weather_api                                      │
+│  │   │                                                                      │
+│  │   └── 🔷 Run: summarize                                                  │
+│  │       ├── input: { messages: [...] }                                     │
+│  │       ├── output: "압축된 컨텍스트..."                                    │
+│  │       └── compression_ratio: 0.65                                        │
+│  │                                                                          │
+│  └── 📊 Metrics:                                                            │
+│      ├── total_runs: 156                                                    │
+│      ├── avg_latency: 892ms                                                 │
+│      └── error_rate: 0.02%                                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- OTEL Span 통합 -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #f59e0b; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">🔗 OTEL Span 통합 (Jaeger)</span>
+                    <span class="lang-en">🔗 OTEL Span Integration (Jaeger)</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    OTEL + LangSmith Correlation                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  Jaeger Trace (Distributed Tracing)                                         │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ trace_id: abc123def456                                               │   │
+│  │                                                                       │   │
+│  │ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │   │
+│  │ │ chat-api     │→│ event-router │→│ chat-worker  │→│ sse-gateway  │ │   │
+│  │ │ 50ms         │ │ 12ms         │ │ 1,200ms      │ │ 8ms          │ │   │
+│  │ └──────────────┘ └──────────────┘ └──────┬───────┘ └──────────────┘ │   │
+│  │                                          │                           │   │
+│  │                                    langsmith_run_id                  │   │
+│  │                                          ↓                           │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  LangSmith Run (LLM Observability)                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ run_id: xyz789                                                       │   │
+│  │ parent_trace_id: abc123def456  ← OTEL 연결                           │   │
+│  │                                                                       │   │
+│  │ • LLM Call Details (prompt, completion, tokens)                      │   │
+│  │ • RAG Retrieval (query, documents, scores)                           │   │
+│  │ • Feedback Evaluation (relevance, groundedness)                      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  📍 Correlation Key: span.attributes["langsmith.run_id"]                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- External Links -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid var(--accent-teal);">
+                <strong style="color: var(--accent-teal);">🔗 <span class="lang-ko">외부 링크</span><span class="lang-en">External Links</span></strong>
+                <div style="margin-top: 0.75rem; display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="https://jaeger.dev.growbin.app" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Jaeger - Distributed Tracing
+                    </a>
+                    <a href="https://smith.langchain.com" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> LangSmith - LLM Observability
+                    </a>
                 </div>
             </div>
         </div>
