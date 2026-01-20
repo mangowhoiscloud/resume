@@ -4447,7 +4447,7 @@
                 </div>
                 </div>
                 <!-- New Row: FE-BE Integration -->
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
                 <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-radius: 8px; border: 1px solid rgba(236,72,153,0.4); cursor: pointer;" onclick="openModal('modal-chat-optimistic-update')">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 1rem;">⚡</span>
@@ -4463,6 +4463,15 @@
                         <div>
                             <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">Multi-Agent Chat Session</div>
                             <div style="color: var(--text-secondary); font-size: 0.7rem;">IndexedDB, Reconcile, State Machine</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(245,158,11,0.15)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer;" onclick="openModal('modal-multi-llm-provider')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🧠</span>
+                        <div>
+                            <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택</div>
                         </div>
                     </div>
                 </div>
@@ -12540,6 +12549,213 @@ T9: Pagination     loadMoreMessages()
                     <a href="https://rooftopsnow.tistory.com/235" target="_blank" rel="noopener" style="color: var(--text-secondary);">
                         <span class="lang-ko">Optimistic Update (FE) & Eventual Consistency (BE) 통합 트러블슈팅 →</span>
                         <span class="lang-en">Optimistic Update (FE) & Eventual Consistency (BE) Integration →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Multi-LLM Provider -->
+    <div class="modal-overlay" id="modal-multi-llm-provider">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-multi-llm-provider')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🧠 Multi-LLM Provider: 동적 모델 선택</span>
+                <span class="lang-en">🧠 Multi-LLM Provider: Dynamic Model Selection</span>
+            </h3>
+
+            <!-- Architecture Overview -->
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                     Multi-LLM Provider Architecture                             │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                         Client Request                                  │   │
+│   │        POST /api/v1/chat/{chat_id}/messages                            │   │
+│   │        {"message": "...", "model": "gemini-3-pro-preview"}             │   │
+│   └────────────────────────────────┬────────────────────────────────────────┘   │
+│                                    │                                            │
+│                                    ▼                                            │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                          Chat API                                       │   │
+│   │                   (chat/presentation/http)                              │   │
+│   │                                                                         │   │
+│   │   • 요청 검증 (Request Validation)                                      │   │
+│   │   • Worker에 작업 제출 (model 파라미터 포함)                            │   │
+│   └────────────────────────────────┬────────────────────────────────────────┘   │
+│                                    │ RabbitMQ                                   │
+│                                    ▼                                            │
+│   ┌─────────────────────────────────────────────────────────────────────────┐   │
+│   │                        Chat Worker                                      │   │
+│   │  ┌───────────────────────────────────────────────────────────────────┐  │   │
+│   │  │                    dependencies.py                                │  │   │
+│   │  │                                                                   │  │   │
+│   │  │   1. model 파라미터 확인                                          │  │   │
+│   │  │   2. model명에서 provider 자동 추론 (Auto-Inference)              │  │   │
+│   │  │      ┌────────────────────────────────────────────────────────┐   │  │   │
+│   │  │      │  gpt-* → openai    │  gemini-* → google                │   │  │   │
+│   │  │      │  o1-*  → openai    │  models/* → google                │   │  │   │
+│   │  │      └────────────────────────────────────────────────────────┘   │  │   │
+│   │  │   3. provider에 따라 LLM 클라이언트 생성                          │  │   │
+│   │  │      • openai → LangChainLLMAdapter (LangChain 래퍼)             │  │   │
+│   │  │      • google → GeminiLLMClient (네이티브 SDK)                   │  │   │
+│   │  └───────────────────────────────────────────────────────────────────┘  │   │
+│   │                                    │                                    │   │
+│   │                                    ▼                                    │   │
+│   │  ┌───────────────────────────────────────────────────────────────────┐  │   │
+│   │  │                   LangGraph Pipeline                              │  │   │
+│   │  │   intent_node → router → subagents → aggregator → answer_node    │  │   │
+│   │  └───────────────────────────────────────────────────────────────────┘  │   │
+│   └─────────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+            </div>
+
+            <!-- Provider Auto-Inference -->
+            <h4 style="color: #fb923c; margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔍 Provider 자동 추론</span>
+                <span class="lang-en">🔍 Provider Auto-Inference</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #10b981; margin-bottom: 0.5rem;"><span class="lang-ko">시나리오 1: 기본</span><span class="lang-en">Scenario 1: Default</span></h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <code style="color: #22c55e;">model: 미지정</code><br>
+                        <span class="lang-ko">→ 환경변수 LLM_MODEL 사용</span>
+                        <span class="lang-en">→ Use env LLM_MODEL</span><br>
+                        <span style="color: var(--text-muted);">Default: gpt-5.2</span>
+                    </div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.5rem;"><span class="lang-ko">시나리오 2: OpenAI</span><span class="lang-en">Scenario 2: OpenAI</span></h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <code style="color: #3b82f6;">model: "gpt-5.2"</code><br>
+                        <span class="lang-ko">→ provider 자동 추론: openai</span>
+                        <span class="lang-en">→ Auto-infer: openai</span><br>
+                        <span style="color: var(--text-muted);">LangChainLLMAdapter</span>
+                    </div>
+                </div>
+                <div style="background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #fb923c; margin-bottom: 0.5rem;"><span class="lang-ko">시나리오 3: Gemini</span><span class="lang-en">Scenario 3: Gemini</span></h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                        <code style="color: #fb923c;">model: "gemini-3-pro-preview"</code><br>
+                        <span class="lang-ko">→ provider 자동 추론: google</span>
+                        <span class="lang-en">→ Auto-infer: google</span><br>
+                        <span style="color: var(--text-muted);">GeminiLLMClient (Native)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LLM Client Architecture -->
+            <h4 style="color: #8b5cf6; margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔧 LLM Client 구조</span>
+                <span class="lang-en">🔧 LLM Client Architecture</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">OpenAI (LangChain Wrapper)</h5>
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><code>LangChainLLMAdapter</code></div>
+                        <div>• <code>get_langchain_llm()</code> <span class="lang-ko">메서드 제공</span><span class="lang-en">method provided</span></div>
+                        <div>• <code>langchain_llm.astream()</code> <span class="lang-ko">스트리밍</span><span class="lang-en">streaming</span></div>
+                        <div>• LangGraph <span class="lang-ko">네이티브 통합</span><span class="lang-en">native integration</span></div>
+                    </div>
+                </div>
+                <div style="background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1rem;">
+                    <h5 style="color: #fb923c; margin-bottom: 0.75rem;">Google Gemini (Native SDK)</h5>
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><code>GeminiLLMClient</code></div>
+                        <div>• <code>generate_stream()</code> <span class="lang-ko">직접 스트리밍</span><span class="lang-en">direct streaming</span></div>
+                        <div>• <code>google-generativeai</code> SDK</div>
+                        <div>• <code>hasattr</code> <span class="lang-ko">분기로 호환성 확보</span><span class="lang-en">branching for compatibility</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Answer Node Compatibility -->
+            <h4 style="color: #22c55e; margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">✅ answer_node 호환성 처리</span>
+                <span class="lang-en">✅ answer_node Compatibility</span>
+            </h4>
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+# answer_node에서 LLM 타입별 분기 처리
+
+if hasattr(llm, "get_langchain_llm"):
+    # LangChain 방식 (OpenAI)
+    langchain_llm = llm.get_langchain_llm()
+    async for chunk in langchain_llm.astream(langchain_messages):
+        yield chunk.content
+else:
+    # 네이티브 LLM 방식 (Gemini 등)
+    async for chunk in llm.generate_stream(prompt, system_prompt):
+        yield chunk
+            </div>
+
+            <!-- E2E Test Results -->
+            <h4 style="color: #ef4444; margin-bottom: 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🧪 E2E 테스트 결과</span>
+                <span class="lang-en">🧪 E2E Test Results</span>
+            </h4>
+            <table class="modal-table" style="margin-bottom: 1.5rem;">
+                <tr>
+                    <th><span class="lang-ko">시나리오</span><span class="lang-en">Scenario</span></th>
+                    <th><span class="lang-ko">요청</span><span class="lang-en">Request</span></th>
+                    <th>Provider</th>
+                    <th>LLM Client</th>
+                    <th><span class="lang-ko">결과</span><span class="lang-en">Result</span></th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><code>model: 미지정</code></td>
+                    <td>openai (env)</td>
+                    <td>LangChainLLMAdapter</td>
+                    <td style="color: #22c55e;">✅</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>model: "gpt-5.2"</code></td>
+                    <td>openai (auto)</td>
+                    <td>LangChainLLMAdapter</td>
+                    <td style="color: #22c55e;">✅</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>model: "gemini-3-pro-preview"</code></td>
+                    <td>google (auto)</td>
+                    <td>GeminiLLMClient</td>
+                    <td style="color: #22c55e;">✅</td>
+                </tr>
+            </table>
+
+            <!-- Key Benefits -->
+            <div style="padding: 1rem; background: rgba(34,197,94,0.1); border-radius: 8px; border-left: 3px solid #22c55e; margin-bottom: 1rem;">
+                <strong style="color: #22c55e;">
+                    <span class="lang-ko">🎯 핵심 이점</span>
+                    <span class="lang-en">🎯 Key Benefits</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                    <span class="lang-ko">
+                        • <strong>확장성</strong> — 새 Provider 추가 시 MODEL_REGISTRY + 클라이언트 구현만 추가<br>
+                        • <strong>호환성</strong> — hasattr 체크로 LangChain 래퍼/네이티브 모두 지원<br>
+                        • <strong>추적성</strong> — 로깅으로 선택된 Provider/Model 명확히 확인<br>
+                        • <strong>유연성</strong> — 클라이언트가 요청별로 LLM 선택 가능
+                    </span>
+                    <span class="lang-en">
+                        • <strong>Extensibility</strong> — Add new Provider via MODEL_REGISTRY + client impl<br>
+                        • <strong>Compatibility</strong> — hasattr check supports both LangChain wrapper/native<br>
+                        • <strong>Traceability</strong> — Logging clearly shows selected Provider/Model<br>
+                        • <strong>Flexibility</strong> — Client can select LLM per request
+                    </span>
+                </div>
+            </div>
+
+            <!-- Reference -->
+            <div style="padding: 1rem; background: rgba(251,146,60,0.1); border-radius: 8px; border-left: 3px solid #fb923c;">
+                <strong style="color: #fb923c;">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem;">
+                    <a href="https://rooftopsnow.tistory.com/231" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">LLM 모델 선택 기능 E2E 검증 완료 →</span>
+                        <span class="lang-en">LLM Model Selection E2E Verification →</span>
                     </a>
                 </div>
             </div>
