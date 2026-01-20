@@ -2347,40 +2347,40 @@
                             <span class="lang-ko">— 프로젝트 의사결정 아카이브</span>
                             <span class="lang-en">— Project decision archive</span>
                         </span>
-                    </div>
-                    <div class="rag-items">
-                        <div class="rag-item foundations">
-                            <span class="rag-icon">📚</span>
-                            <span class="rag-label">Foundations</span>
-                            <span class="rag-desc">
+                </div>
+                <div class="rag-items">
+                    <div class="rag-item foundations">
+                        <span class="rag-icon">📚</span>
+                        <span class="rag-label">Foundations</span>
+                        <span class="rag-desc">
                                 <span class="lang-ko">근원 기술 21편</span>
                                 <span class="lang-en">21 core tech</span>
-                            </span>
-                        </div>
-                        <div class="rag-item applied">
-                            <span class="rag-icon">🔧</span>
-                            <span class="rag-label">Applied</span>
-                            <span class="rag-desc">
+                        </span>
+                    </div>
+                    <div class="rag-item applied">
+                        <span class="rag-icon">🔧</span>
+                        <span class="rag-label">Applied</span>
+                        <span class="rag-desc">
                                 <span class="lang-ko">응용 기술 10편</span>
                                 <span class="lang-en">10 applied</span>
-                            </span>
-                        </div>
-                        <div class="rag-item plans">
-                            <span class="rag-icon">📋</span>
-                            <span class="rag-label">Plans</span>
-                            <span class="rag-desc">
+                        </span>
+                    </div>
+                    <div class="rag-item plans">
+                        <span class="rag-icon">📋</span>
+                        <span class="rag-label">Plans</span>
+                        <span class="rag-desc">
                                 <span class="lang-ko">설계 문서 10편</span>
                                 <span class="lang-en">10 ADRs</span>
-                            </span>
-                        </div>
-                        <div class="rag-item reports">
-                            <span class="rag-icon">📈</span>
-                            <span class="rag-label">Reports</span>
-                            <span class="rag-desc">
+                        </span>
+                    </div>
+                    <div class="rag-item reports">
+                        <span class="rag-icon">📈</span>
+                        <span class="rag-label">Reports</span>
+                        <span class="rag-desc">
                                 <span class="lang-ko">결과 기록 17편</span>
                                 <span class="lang-en">17 reports</span>
-                            </span>
-                        </div>
+                        </span>
+                    </div>
                         <div class="rag-item" style="background: rgba(239,68,68,0.15);">
                             <span class="rag-icon">🔥</span>
                             <span class="rag-label">Troubleshooting</span>
@@ -2388,7 +2388,7 @@
                                 <span class="lang-ko">트러블슈팅 16편</span>
                                 <span class="lang-en">16 issues</span>
                             </span>
-                        </div>
+                </div>
                     </div>
                 </div>
 
@@ -2457,19 +2457,19 @@
                 <!-- 설명 -->
                 <div class="rag-explanation" style="padding: 1rem 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--primary);">
                     <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0;">
-                        <span class="lang-ko">
+                            <span class="lang-ko">
                             <strong style="color: var(--primary);">docs/</strong>는 프로젝트 의사결정과 기술 근거를 담은 <strong>아카이브</strong>이고,
                             <strong style="color: #8b5cf6;">.claude/skills/</strong>는 AI Agent에게 <strong>도메인 전문성</strong>을 부여하는 모듈입니다.
                             모두 <strong>.gitignore</strong>로 관리되는 로컬 저장소이며, <strong>Progressive Disclosure</strong> 패턴으로 필요할 때만 로드됩니다.
                             선별된 글은 <a href="https://rooftopsnow.tistory.com/" target="_blank" rel="noopener" style="color: var(--primary);">블로그</a>로 포스팅되어 기술 공유와 기록을 병행합니다.
-                        </span>
-                        <span class="lang-en">
+                            </span>
+                            <span class="lang-en">
                             <strong style="color: var(--primary);">docs/</strong> is an <strong>archive</strong> of project decisions and technical rationale,
                             while <strong style="color: #8b5cf6;">.claude/skills/</strong> are modules that grant <strong>domain expertise</strong> to AI Agents.
                             Both are local stores managed via <strong>.gitignore</strong>, loaded on-demand via <strong>Progressive Disclosure</strong> pattern.
                             Selected articles are published to <a href="https://rooftopsnow.tistory.com/" target="_blank" rel="noopener" style="color: var(--primary);">blog</a> for sharing and documentation.
-                        </span>
-                    </p>
+                            </span>
+                        </p>
                 </div>
             </div>
 
@@ -3486,13 +3486,12 @@
                             <span class="lang-ko">💡 각 모듈 클릭 시 상세 보기</span>
                             <span class="lang-en">💡 Click each module for details</span>
                         </div>
-                        <!-- AI Pipeline Diagram -->
+                        <!-- AI Pipeline Diagram Button -->
                         <div style="margin-top: 1.5rem; text-align: center;">
-                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.8rem;">
-                                <span class="lang-ko">🗺️ LLM Image Classification 파이프라인 상세</span>
-                                <span class="lang-en">🗺️ LLM Image Classification Pipeline Details</span>
-                            </div>
-                            <img src="assets/images/image_classification_pipeline.png" alt="AI Classification Pipeline" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                            <button onclick="openModal('modal-scan-pipeline')" style="background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(139,92,246,0.4); color: var(--text-secondary); padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">
+                                <span class="lang-ko">🗺️ LLM Image Classification 파이프라인 상세 보기 →</span>
+                                <span class="lang-en">🗺️ View LLM Image Classification Pipeline →</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -12343,7 +12342,7 @@ Gap: T1~T5 사이에 프론트엔드는 메시지를 가지고 있지만, 백엔
                 <tr>
                     <td><code>chat-persistence</code></td>
                     <td><code>chat-consumer</code></td>
-                    <td><span class="lang-ko">PostgreSQL 저장</span><span class="lang-en">PostgreSQL Write</span></td>
+                    <td><span class="lang-ko">PostgreSQL 저장 (5초 Batch)</span><span class="lang-en">PostgreSQL Write (5s Batch)</span></td>
                     <td style="color: #f59e0b;">~200ms</td>
                 </tr>
             </table>
@@ -12609,6 +12608,23 @@ T9: Pagination     loadMoreMessages()
                 </tr>
             </table>
 
+            <!-- Related Modal -->
+            <div style="margin-top: 1.5rem;">
+                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem;">
+                    <span class="lang-ko">🔗 관련 모달</span>
+                    <span class="lang-en">🔗 Related Modal</span>
+                </div>
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(245,158,11,0.15)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer; display: inline-block;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-multi-llm-provider'), 300);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🧠</span>
+                        <div>
+                            <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택 →</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Reference -->
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid var(--accent-teal);">
                 <strong style="color: var(--accent-teal);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
@@ -12824,6 +12840,42 @@ else:
                         <span class="lang-ko">LLM 모델 선택 기능 E2E 검증 완료 →</span>
                         <span class="lang-en">LLM Model Selection E2E Verification →</span>
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Scan Pipeline -->
+    <div class="modal-overlay" id="modal-scan-pipeline">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-scan-pipeline')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🗺️ LLM Image Classification 파이프라인</span>
+                <span class="lang-en">🗺️ LLM Image Classification Pipeline</span>
+            </h3>
+            <div style="text-align: center;">
+                <img src="assets/images/image_classification_pipeline.png" alt="AI Classification Pipeline" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(139,92,246,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <strong style="color: #8b5cf6;">
+                    <span class="lang-ko">📋 파이프라인 단계</span>
+                    <span class="lang-en">📋 Pipeline Stages</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.8;">
+                    <span class="lang-ko">
+                        1️⃣ <strong>이미지 입력</strong> — 사용자가 폐기물 사진 업로드<br>
+                        2️⃣ <strong>Vision LLM 분석</strong> — Gemini Vision으로 이미지 내 객체 식별<br>
+                        3️⃣ <strong>폐기물 분류</strong> — 식별된 객체를 폐기물 카테고리로 매핑<br>
+                        4️⃣ <strong>RAG 검색</strong> — 해당 폐기물의 분리배출 방법 검색<br>
+                        5️⃣ <strong>응답 생성</strong> — 사용자 친화적인 분리배출 가이드 생성
+                    </span>
+                    <span class="lang-en">
+                        1️⃣ <strong>Image Input</strong> — User uploads waste photo<br>
+                        2️⃣ <strong>Vision LLM Analysis</strong> — Gemini Vision identifies objects<br>
+                        3️⃣ <strong>Waste Classification</strong> — Map objects to waste categories<br>
+                        4️⃣ <strong>RAG Search</strong> — Retrieve disposal methods<br>
+                        5️⃣ <strong>Response Generation</strong> — Generate user-friendly disposal guide
+                    </span>
                 </div>
             </div>
         </div>
