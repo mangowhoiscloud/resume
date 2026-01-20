@@ -12608,18 +12608,91 @@ T9: Pagination     loadMoreMessages()
                 </tr>
             </table>
 
-            <!-- Related Modal -->
+            <!-- Related Modals -->
             <div style="margin-top: 1.5rem;">
-                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem;">
+                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.75rem;">
                     <span class="lang-ko">🔗 관련 모달</span>
-                    <span class="lang-en">🔗 Related Modal</span>
+                    <span class="lang-en">🔗 Related Modals</span>
                 </div>
-                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(245,158,11,0.15)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer; display: inline-block;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-multi-llm-provider'), 300);">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1rem;">🧠</span>
-                        <div>
-                            <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
-                            <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택 →</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                    <!-- LangGraph Workflow -->
+                    <div style="padding: 0.75rem; background: rgba(236,72,153,0.1); border-radius: 8px; border: 1px solid rgba(236,72,153,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-domain-chat'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🔀</span>
+                            <div>
+                                <div style="color: #ec4899; font-weight: 600; font-size: 0.85rem;">LangGraph Workflow</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Agent StateGraph</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Intent Details -->
+                    <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-intent-classification'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🎯</span>
+                            <div>
+                                <div style="color: #8b5cf6; font-weight: 600; font-size: 0.85rem;">Intent Details</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Confidence, Chain-of-Intent</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Send API Router -->
+                    <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-send-api'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">⚡</span>
+                            <div>
+                                <div style="color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Send API Router</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Multi-Intent Fanout</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Aggregator -->
+                    <div style="padding: 0.75rem; background: rgba(16,185,129,0.1); border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-aggregator'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">📦</span>
+                            <div>
+                                <div style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Aggregator</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Result Collection, Fallback</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Summarize -->
+                    <div style="padding: 0.75rem; background: rgba(245,158,11,0.1); border-radius: 8px; border: 1px solid rgba(245,158,11,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-summarize'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">📝</span>
+                            <div>
+                                <div style="color: #f59e0b; font-weight: 600; font-size: 0.85rem;">Summarize</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Context Compression</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Bus -->
+                    <div style="padding: 0.75rem; background: rgba(14,165,233,0.1); border-radius: 8px; border: 1px solid rgba(14,165,233,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-event-bus-layer'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🚌</span>
+                            <div>
+                                <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">Event Bus</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">Streams, Token v2</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Optimistic Update -->
+                    <div style="padding: 0.75rem; background: rgba(251,146,60,0.1); border-radius: 8px; border: 1px solid rgba(251,146,60,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-optimistic-update'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">⚡</span>
+                            <div>
+                                <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Optimistic Update</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">FE-BE 동기화, 30s Retention</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Multi-LLM Provider -->
+                    <div style="padding: 0.75rem; background: rgba(168,85,247,0.1); border-radius: 8px; border: 1px solid rgba(168,85,247,0.3); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-multi-llm-provider'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🧠</span>
+                            <div>
+                                <div style="color: #a855f7; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택</div>
+                            </div>
                         </div>
                     </div>
                 </div>
