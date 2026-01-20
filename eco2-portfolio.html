@@ -2073,11 +2073,11 @@
             <span class="lang-en">Evolution journey toward production-ready quality<br>with Multi-LLM Agent based async distributed cluster</span>
         </p>
         <div class="hero-stats">
-            <div class="hero-stat">
-                <a href="https://kiali.dev.growbin.app/kiali/console/overview?duration=60&refresh=60000" target="_blank" rel="noopener" class="hero-stat-value" style="text-decoration: none; color: inherit; cursor: pointer;" title="Kiali Dashboard →">25</a>
+            <div class="hero-stat" style="cursor: pointer;" onclick="openModal('modal-cluster-nodes')">
+                <div class="hero-stat-value" title="클러스터 노드 시각화 →">25</div>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">클러스터 노드 🔗</span>
-                    <span class="lang-en">Cluster Nodes 🔗</span>
+                    <span class="lang-ko">클러스터 노드 📊</span>
+                    <span class="lang-en">Cluster Nodes 📊</span>
                 </div>
             </div>
             <div class="hero-stat">
@@ -12949,6 +12949,315 @@ else:
                         4️⃣ <strong>RAG Search</strong> — Retrieve disposal methods<br>
                         5️⃣ <strong>Response Generation</strong> — Generate user-friendly disposal guide
                     </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Cluster Nodes Visualization -->
+    <div class="modal-overlay" id="modal-cluster-nodes">
+        <div class="modal-content" style="max-width: 1400px;">
+            <button class="modal-close" onclick="closeModal('modal-cluster-nodes')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🖥️ 25-Node Kubernetes Cluster Architecture</span>
+                <span class="lang-en">🖥️ 25-Node Kubernetes Cluster Architecture</span>
+            </h3>
+
+            <!-- Cluster Overview Stats -->
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 8px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #8b5cf6;">1</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Control Plane</div>
+                </div>
+                <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 8px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #3b82f6;">9</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">API Nodes</div>
+                </div>
+                <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #f59e0b;">4</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Workers</div>
+                </div>
+                <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); border-radius: 8px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">6</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Data Layer</div>
+                </div>
+                <div style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 8px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #ec4899;">2</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Observability</div>
+                </div>
+                <div style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 8px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #0ea5e9;">3</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Network</div>
+                </div>
+            </div>
+
+            <!-- Visual Node Grid -->
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <!-- Control Plane -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #8b5cf6; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>👑</span> Control Plane
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(139,92,246,0.1)); border: 2px solid #8b5cf6; border-radius: 8px; padding: 0.5rem 0.75rem; min-width: 140px;">
+                            <div style="font-weight: 600; color: #8b5cf6; font-size: 0.8rem;">k8s-master</div>
+                            <div style="font-size: 0.65rem; color: var(--text-muted);">t3.xlarge · 16GB · 80GB</div>
+                            <div style="font-size: 0.6rem; color: var(--text-secondary); margin-top: 0.25rem;">API Server, etcd, Prometheus</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Nodes -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #3b82f6; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🔌</span> API Nodes (Business Logic)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-auth</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-users</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-my</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-scan ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-character</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-location</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-image</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-chat ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB</div>
+                        </div>
+                        <div style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #3b82f6; font-size: 0.75rem;">api-info</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workers -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #f59e0b; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚙️</span> Worker Nodes (Async Processing)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                        <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #f59e0b; font-size: 0.75rem;">worker-storage</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB · 40GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">I/O Bound · Eventlet</div>
+                        </div>
+                        <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #f59e0b; font-size: 0.75rem;">worker-storage-2</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB · 40GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">I/O Bound · Eventlet</div>
+                        </div>
+                        <div style="background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #f59e0b; font-size: 0.75rem;">worker-ai ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB · 40GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">LLM · Prefork Pool</div>
+                        </div>
+                        <div style="background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #f59e0b; font-size: 0.75rem;">worker-ai-2 ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB · 40GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">LLM · Prefork Pool</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Layer -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #10b981; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>💾</span> Data Layer (Persistence & Cache)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;">
+                        <div style="background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #10b981; font-size: 0.75rem;">postgresql ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.large · 8GB · 80GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">7 Domain DBs</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #10b981; font-size: 0.75rem;">redis-auth</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Blacklist, OAuth</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #10b981; font-size: 0.75rem;">redis-streams</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Event Bus</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #10b981; font-size: 0.75rem;">redis-cache</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Domain Cache</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #10b981; font-size: 0.75rem;">redis-pubsub</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Real-time Events</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #10b981; font-size: 0.75rem;">rabbitmq</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB · 40GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Message Queue</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observability -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #ec4899; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📊</span> Observability (Monitoring & Logging)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                        <div style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #ec4899; font-size: 0.75rem;">monitoring</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.large · 8GB · 60GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Prometheus, Grafana, Jaeger</div>
+                        </div>
+                        <div style="background: rgba(236,72,153,0.2); border: 1px solid rgba(236,72,153,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #ec4899; font-size: 0.75rem;">logging ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.xlarge · 16GB · 100GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Elasticsearch, Kibana, Fluent Bit</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network -->
+                <div>
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #0ea5e9; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🌐</span> Network Layer (Gateway & Events)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                        <div style="background: rgba(14,165,233,0.2); border: 1px solid rgba(14,165,233,0.5); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #0ea5e9; font-size: 0.75rem;">ingress-gateway ⭐</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.medium · 4GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Istio Ingress, ext-authz</div>
+                        </div>
+                        <div style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #0ea5e9; font-size: 0.75rem;">sse-gateway</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">SSE Fan-out, Pub/Sub Subscribe</div>
+                        </div>
+                        <div style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 6px; padding: 0.5rem;">
+                            <div style="font-weight: 600; color: #0ea5e9; font-size: 0.75rem;">event-router</div>
+                            <div style="font-size: 0.6rem; color: var(--text-muted);">t3.small · 2GB</div>
+                            <div style="font-size: 0.55rem; color: var(--text-secondary);">Streams → Pub/Sub Publisher</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Summary Table -->
+            <h4 style="color: var(--primary); margin-bottom: 0.8rem; font-size: 1rem;">
+                <span class="lang-ko">📋 리소스 요약</span>
+                <span class="lang-en">📋 Resource Summary</span>
+            </h4>
+            <table class="modal-table" style="font-size: 0.8rem;">
+                <tr>
+                    <th>Category</th>
+                    <th>Nodes</th>
+                    <th>Instance Types</th>
+                    <th>Total vCPU</th>
+                    <th>Total Memory</th>
+                    <th>Total Storage</th>
+                </tr>
+                <tr>
+                    <td style="color: #8b5cf6;">Control Plane</td>
+                    <td>1</td>
+                    <td>t3.xlarge</td>
+                    <td>4</td>
+                    <td>16GB</td>
+                    <td>80GB</td>
+                </tr>
+                <tr>
+                    <td style="color: #3b82f6;">API Nodes</td>
+                    <td>9</td>
+                    <td>t3.small(7), t3.medium(2)</td>
+                    <td>18</td>
+                    <td>22GB</td>
+                    <td>200GB</td>
+                </tr>
+                <tr>
+                    <td style="color: #f59e0b;">Workers</td>
+                    <td>4</td>
+                    <td>t3.medium</td>
+                    <td>8</td>
+                    <td>16GB</td>
+                    <td>160GB</td>
+                </tr>
+                <tr>
+                    <td style="color: #10b981;">Data Layer</td>
+                    <td>6</td>
+                    <td>t3.small(4), t3.medium(2), t3.large(1)</td>
+                    <td>12</td>
+                    <td>22GB</td>
+                    <td>180GB</td>
+                </tr>
+                <tr>
+                    <td style="color: #ec4899;">Observability</td>
+                    <td>2</td>
+                    <td>t3.large, t3.xlarge</td>
+                    <td>6</td>
+                    <td>24GB</td>
+                    <td>160GB</td>
+                </tr>
+                <tr>
+                    <td style="color: #0ea5e9;">Network</td>
+                    <td>3</td>
+                    <td>t3.small(2), t3.medium(1)</td>
+                    <td>6</td>
+                    <td>8GB</td>
+                    <td>60GB</td>
+                </tr>
+                <tr style="background: rgba(0,255,136,0.1); font-weight: 600;">
+                    <td style="color: var(--primary);">Total</td>
+                    <td>25</td>
+                    <td>-</td>
+                    <td>54 vCPU</td>
+                    <td>108GB</td>
+                    <td>840GB</td>
+                </tr>
+            </table>
+
+            <!-- External Links -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid #0ea5e9;">
+                <strong style="color: #0ea5e9;">🔗 <span class="lang-ko">외부 링크</span><span class="lang-en">External Links</span></strong>
+                <div style="margin-top: 0.75rem; display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="https://kiali.dev.growbin.app/kiali/console/overview?duration=60&refresh=60000" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Kiali - Service Mesh Topology
+                    </a>
+                    <a href="https://grafana.dev.growbin.app" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Grafana - Metrics Dashboard
+                    </a>
+                    <a href="https://jaeger.dev.growbin.app" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> Jaeger - Distributed Tracing
+                    </a>
+                </div>
+            </div>
+
+            <!-- Terraform Source -->
+            <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                    <strong style="color: #8b5cf6;">📁 Source:</strong>
+                    <code style="background: rgba(0,0,0,0.3); padding: 0.2rem 0.5rem; border-radius: 4px; margin-left: 0.5rem;">terraform/main.tf</code>
+                    <span style="color: var(--text-muted); margin-left: 0.5rem;">— IaC로 관리되는 AWS EC2 기반 Kubernetes 클러스터</span>
                 </div>
             </div>
         </div>
