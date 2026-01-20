@@ -2337,72 +2337,139 @@
                     <span class="lang-ko">🧠 Self-RAG Knowledge Base</span>
                     <span class="lang-en">🧠 Self-RAG Knowledge Base</span>
                 </div>
-                <div class="rag-items">
-                    <div class="rag-item foundations">
-                        <span class="rag-icon">📚</span>
-                        <span class="rag-label">Foundations</span>
-                        <span class="rag-desc">
-                            <span class="lang-ko">근원 기술 28편</span>
-                            <span class="lang-en">28 core tech articles</span>
+
+                <!-- docs/ 섹션 -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <span style="font-size: 1.2rem;">📁</span>
+                        <span style="font-weight: 600; color: var(--primary); font-size: 0.9rem;">docs/</span>
+                        <span style="color: var(--text-muted); font-size: 0.75rem;">
+                            <span class="lang-ko">— 프로젝트 의사결정 아카이브</span>
+                            <span class="lang-en">— Project decision archive</span>
                         </span>
                     </div>
-                    <div class="rag-item applied">
-                        <span class="rag-icon">🔧</span>
-                        <span class="rag-label">Applied</span>
-                        <span class="rag-desc">
-                            <span class="lang-ko">응용 기술</span>
-                            <span class="lang-en">Applied tech</span>
-                        </span>
-                    </div>
-                    <div class="rag-item plans">
-                        <span class="rag-icon">📋</span>
-                        <span class="rag-label">Plans</span>
-                        <span class="rag-desc">
-                            <span class="lang-ko">설계 문서 (ADR)</span>
-                            <span class="lang-en">Design docs (ADR)</span>
-                        </span>
-                    </div>
-                    <div class="rag-item reports">
-                        <span class="rag-icon">📈</span>
-                        <span class="rag-label">Reports</span>
-                        <span class="rag-desc">
-                            <span class="lang-ko">결과 기록</span>
-                            <span class="lang-en">Result records</span>
-                        </span>
+                    <div class="rag-items">
+                        <div class="rag-item foundations">
+                            <span class="rag-icon">📚</span>
+                            <span class="rag-label">Foundations</span>
+                            <span class="rag-desc">
+                                <span class="lang-ko">근원 기술 21편</span>
+                                <span class="lang-en">21 core tech</span>
+                            </span>
+                        </div>
+                        <div class="rag-item applied">
+                            <span class="rag-icon">🔧</span>
+                            <span class="rag-label">Applied</span>
+                            <span class="rag-desc">
+                                <span class="lang-ko">응용 기술 10편</span>
+                                <span class="lang-en">10 applied</span>
+                            </span>
+                        </div>
+                        <div class="rag-item plans">
+                            <span class="rag-icon">📋</span>
+                            <span class="rag-label">Plans</span>
+                            <span class="rag-desc">
+                                <span class="lang-ko">설계 문서 10편</span>
+                                <span class="lang-en">10 ADRs</span>
+                            </span>
+                        </div>
+                        <div class="rag-item reports">
+                            <span class="rag-icon">📈</span>
+                            <span class="rag-label">Reports</span>
+                            <span class="rag-desc">
+                                <span class="lang-ko">결과 기록 17편</span>
+                                <span class="lang-en">17 reports</span>
+                            </span>
+                        </div>
+                        <div class="rag-item" style="background: rgba(239,68,68,0.15);">
+                            <span class="rag-icon">🔥</span>
+                            <span class="rag-label">Troubleshooting</span>
+                            <span class="rag-desc">
+                                <span class="lang-ko">트러블슈팅 16편</span>
+                                <span class="lang-en">16 issues</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="rag-explanation" style="margin-top: 1.5rem; padding: 1rem 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--primary);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+
+                <!-- .claude/skills/ 섹션 -->
+                <div style="margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <span style="font-size: 1.2rem;">🛠️</span>
+                        <span style="font-weight: 600; color: #8b5cf6; font-size: 0.9rem;">.claude/skills/</span>
+                        <span style="color: var(--text-muted); font-size: 0.75rem;">
+                            <span class="lang-ko">— 18개 도메인 전문성 모듈</span>
+                            <span class="lang-en">— 18 domain expertise modules</span>
+                        </span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;">
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">langgraph</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">pipeline</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">chat-agent</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">flow</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">event-driven</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">architecture</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">clean-arch</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">CQRS</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">k8s-debug</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">kubectl</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">redis</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">patterns</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">postgres</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">schema</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">grpc</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">service</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">rag</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">pipeline</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">prompt</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">engineering</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">celery</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">rabbitmq</div>
+                        </div>
+                        <div style="background: rgba(139,92,246,0.15); padding: 0.4rem 0.6rem; border-radius: 6px; text-align: center; font-size: 0.7rem;">
+                            <div style="font-weight: 600; color: #8b5cf6;">+6 more</div>
+                            <div style="color: var(--text-muted); font-size: 0.6rem;">skills</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 설명 -->
+                <div class="rag-explanation" style="padding: 1rem 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; border-left: 3px solid var(--primary);">
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0;">
                         <span class="lang-ko">
-                            <strong style="color: var(--primary);">📁 docs/</strong> 및 <strong style="color: var(--primary);">.claude/skills/</strong> 디렉토리는 <strong>.gitignore</strong>로 관리되는 <strong>로컬 아카이브</strong>입니다.
-                            코드베이스와 함께 저장되어 <strong>AI Agent가 맥락을 참조</strong>하는 RAG(Retrieval-Augmented Generation) 소스로 동작합니다.
-                            이 중 <strong>선별된 글은 블로그로 포스팅</strong>되어 기술 공유와 기록을 병행합니다.
+                            <strong style="color: var(--primary);">docs/</strong>는 프로젝트 의사결정과 기술 근거를 담은 <strong>아카이브</strong>이고,
+                            <strong style="color: #8b5cf6;">.claude/skills/</strong>는 AI Agent에게 <strong>도메인 전문성</strong>을 부여하는 모듈입니다.
+                            모두 <strong>.gitignore</strong>로 관리되는 로컬 저장소이며, <strong>Progressive Disclosure</strong> 패턴으로 필요할 때만 로드됩니다.
+                            선별된 글은 <a href="https://rooftopsnow.tistory.com/" target="_blank" rel="noopener" style="color: var(--primary);">블로그</a>로 포스팅되어 기술 공유와 기록을 병행합니다.
                         </span>
                         <span class="lang-en">
-                            The <strong style="color: var(--primary);">docs/</strong> and <strong style="color: var(--primary);">.claude/skills/</strong> directories are <strong>local archives</strong> managed via <strong>.gitignore</strong>.
-                            Stored alongside the codebase, they serve as RAG (Retrieval-Augmented Generation) sources for <strong>AI Agent context reference</strong>.
-                            <strong>Selected articles are published as blog posts</strong>, combining technical sharing with documentation.
+                            <strong style="color: var(--primary);">docs/</strong> is an <strong>archive</strong> of project decisions and technical rationale,
+                            while <strong style="color: #8b5cf6;">.claude/skills/</strong> are modules that grant <strong>domain expertise</strong> to AI Agents.
+                            Both are local stores managed via <strong>.gitignore</strong>, loaded on-demand via <strong>Progressive Disclosure</strong> pattern.
+                            Selected articles are published to <a href="https://rooftopsnow.tistory.com/" target="_blank" rel="noopener" style="color: var(--primary);">blog</a> for sharing and documentation.
                         </span>
                     </p>
-                    <!-- Skills 상세 설명 -->
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; margin: 0;">
-                            <span class="lang-ko">
-                                <strong style="color: #8b5cf6;">🛠️ Skills</strong>는 AI Agent에게 <strong>도메인 전문성</strong>을 부여하는 모듈입니다.
-                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">SKILL.md</code> (워크플로우) +
-                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">references/</code> (참조 문서) +
-                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">scripts/</code> (실행 스크립트) 구조로 구성되며,
-                                <strong>Progressive Disclosure</strong> 패턴으로 필요할 때만 로드됩니다.
-                            </span>
-                            <span class="lang-en">
-                                <strong style="color: #8b5cf6;">🛠️ Skills</strong> are modules that grant <strong>domain expertise</strong> to AI Agents.
-                                Structured as <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">SKILL.md</code> (workflow) +
-                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">references/</code> (docs) +
-                                <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">scripts/</code> (executables),
-                                loaded on-demand via <strong>Progressive Disclosure</strong> pattern.
-                            </span>
-                        </p>
-                    </div>
                 </div>
             </div>
 
