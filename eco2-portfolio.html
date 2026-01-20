@@ -12611,6 +12611,43 @@ T9: Pagination     loadMoreMessages()
                 </tr>
             </table>
 
+            <!-- Deep Dive (Chat Domain Style) -->
+            <div style="margin-top: 1.5rem;">
+                <div style="font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">
+                    <span class="lang-ko">🔍 Deep Dive</span>
+                    <span class="lang-en">🔍 Deep Dive</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                    <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(139,92,246,0.15)); border-radius: 8px; border: 1px solid rgba(236,72,153,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-chat-optimistic-update'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">⚡</span>
+                            <div>
+                                <div style="color: #ec4899; font-weight: 600; font-size: 0.85rem;">Optimistic Update + Eventual Consistency</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">FE-BE 실시간 동기화, 30s Retention Window</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(34,197,94,0.15)); border-radius: 8px; border: 1px solid rgba(14,165,233,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-domain-chat'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🤖</span>
+                            <div>
+                                <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">Multi-Agent Chat Session</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">IndexedDB, Reconcile, State Machine</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(245,158,11,0.15)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer;" onclick="closeModal('modal-chat-multiagent'); setTimeout(() => openModal('modal-multi-llm-provider'), 300);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1rem;">🧠</span>
+                            <div>
+                                <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Multi-LLM Provider</div>
+                                <div style="color: var(--text-secondary); font-size: 0.7rem;">OpenAI, Gemini 동적 선택</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Related Modals -->
             <div style="margin-top: 1.5rem;">
                 <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.75rem;">
