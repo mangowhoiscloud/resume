@@ -4522,6 +4522,15 @@
                         </div>
                     </div>
                 </div>
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(59,130,246,0.1)); border-radius: 8px; border: 1px solid rgba(16,185,129,0.4); cursor: pointer;" onclick="openModal('modal-chat-consistency')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🔄</span>
+                        <div>
+                            <div style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Data Consistency</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Optimistic + Eventual</div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -12787,6 +12796,186 @@ T9: Pagination     loadMoreMessages()
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_progress</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_result</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">answer_stream</code></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Data Consistency (Optimistic Update + Eventual Consistency) -->
+    <div class="modal-overlay" id="modal-chat-consistency">
+        <div class="modal-content" style="max-width: 1050px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-consistency')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔄 Optimistic Update + Eventual Consistency 통합</span>
+                <span class="lang-en">🔄 Optimistic Update + Eventual Consistency Integration</span>
+            </h3>
+
+            <!-- Problem Statement -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(239,68,68,0.1); border-radius: 8px; border-left: 3px solid #ef4444;">
+                <strong style="color: #ef4444;">
+                    <span class="lang-ko">🔴 발견된 문제: Race Condition</span>
+                    <span class="lang-en">🔴 Problem: Race Condition</span>
+                </strong>
+                <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;">
+                    <span class="lang-ko">Optimistic Update(즉시)와 Eventual Consistency(~200ms 지연) 간의 타이밍 불일치로 메시지 소실 발생<br>
+                    • 사용자 메시지 전송 → Optimistic UI 표시 → 이전 메시지 로드 → 서버 미저장 상태에서 덮어쓰기 → <strong>메시지 사라짐</strong></span>
+                    <span class="lang-en">Timing mismatch between Optimistic Update (immediate) and Eventual Consistency (~200ms delay) causes message loss<br>
+                    • Send message → Optimistic UI → Load older messages → Server overwrites before persistence → <strong>Message lost</strong></span>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Data Consistency Architecture                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  Frontend (React)                          Backend                              │
+│  ┌─────────────────────┐                  ┌──────────────────────────────────┐ │
+│  │ useState (Optimistic)│ ──POST──────►   │ API → RabbitMQ → LangGraph       │ │
+│  │ IndexedDB (Persist)  │                  │         │                        │ │
+│  │ Reconcile Algorithm  │ ◄──SSE───────   │         ▼                        │ │
+│  └─────────────────────┘                  │  Redis Streams (Fan-out)         │ │
+│         │                                  │  ├─ eventrouter → SSE (~10ms)   │ │
+│         │ 500ms throttle                   │  └─ persistence → PG (~200ms)   │ │
+│         ▼                                  └──────────────────────────────────┘ │
+│  ┌─────────────────────┐                                                       │
+│  │ IndexedDB            │  TTL: 7일 (일반) / 30초 (synced)                      │
+│  │ + Auto Cleanup (1m)  │  Compound Index: [chat_id, timestamp]                │
+│  └─────────────────────┘                                                       │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <!-- Solution Grid -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <!-- Reconcile Algorithm -->
+                <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #8b5cf6; font-size: 0.85rem; margin-bottom: 0.5rem;">📊 Reconcile Algorithm</div>
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                        <span class="lang-ko">
+                        • <strong>pending/streaming</strong>: 항상 유지 (로컬 우선)<br>
+                        • <strong>committed (no server_id)</strong>: 30초 이내 유지<br>
+                        • <strong>중복 제거</strong>: server_id 기준 우선<br>
+                        • <strong>시간순 정렬</strong>: timestamp 기반 병합
+                        </span>
+                        <span class="lang-en">
+                        • <strong>pending/streaming</strong>: Always keep (local-first)<br>
+                        • <strong>committed (no server_id)</strong>: Keep within 30s<br>
+                        • <strong>Dedup</strong>: server_id takes priority<br>
+                        • <strong>Sort</strong>: Timestamp-based merge
+                        </span>
+                    </div>
+                </div>
+                <!-- Message State Machine -->
+                <div style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #3b82f6; font-size: 0.85rem; margin-bottom: 0.5rem;">🔀 Message Status State Machine</div>
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                        <span class="lang-ko">
+                        • <strong>pending</strong> → committed (SSE done 수신)<br>
+                        • <strong>pending</strong> → failed (timeout/error)<br>
+                        • <strong>streaming</strong> → committed (완료)<br>
+                        • <strong>ID 매핑</strong>: client_id(FE UUID) ↔ server_id(DB PK)
+                        </span>
+                        <span class="lang-en">
+                        • <strong>pending</strong> → committed (SSE done received)<br>
+                        • <strong>pending</strong> → failed (timeout/error)<br>
+                        • <strong>streaming</strong> → committed (complete)<br>
+                        • <strong>ID mapping</strong>: client_id(FE UUID) ↔ server_id(DB PK)
+                        </span>
+                    </div>
+                </div>
+                <!-- 30s Retention Window -->
+                <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #f59e0b; font-size: 0.85rem; margin-bottom: 0.5rem;">⏱️ 30s Retention Window</div>
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                        <span class="lang-ko">
+                        • Eventual Consistency 완료 대기 시간<br>
+                        • 동기화된 메시지 30초 후 IndexedDB 삭제<br>
+                        • 서버 데이터가 진실의 원천으로 전환<br>
+                        • Race Condition 방지 안전 구간
+                        </span>
+                        <span class="lang-en">
+                        • Eventual Consistency completion wait time<br>
+                        • Synced messages deleted from IndexedDB after 30s<br>
+                        • Server data becomes source of truth<br>
+                        • Safety window preventing Race Conditions
+                        </span>
+                    </div>
+                </div>
+                <!-- IndexedDB Persistence -->
+                <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #10b981; font-size: 0.85rem; margin-bottom: 0.5rem;">💾 IndexedDB Persistence</div>
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                        <span class="lang-ko">
+                        • 브라우저 새로고침 복구 (Cache-Aside)<br>
+                        • <strong>500ms Throttle</strong>: SSE 토큰 스트리밍 시 쓰기 10배 감소<br>
+                        • <strong>Compound Index</strong>: [chat_id, timestamp]<br>
+                        • <strong>1분 주기 Cleanup</strong>: 만료 메시지 자동 삭제
+                        </span>
+                        <span class="lang-en">
+                        • Browser refresh recovery (Cache-Aside)<br>
+                        • <strong>500ms Throttle</strong>: 10x write reduction during SSE streaming<br>
+                        • <strong>Compound Index</strong>: [chat_id, timestamp]<br>
+                        • <strong>1min Cleanup</strong>: Auto-delete expired messages
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Flow -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(139,92,246,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <strong style="color: #8b5cf6;">
+                    <span class="lang-ko">📈 통합 데이터 플로우 타임라인</span>
+                    <span class="lang-en">📈 Integrated Data Flow Timeline</span>
+                </strong>
+                <div style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.8; font-family: 'Fira Code', monospace;">
+                    <span class="lang-ko">
+                    T0: User sends → <strong>Optimistic Update</strong> (즉시 UI)<br>
+                    T1~T6: SSE streaming (vision → answer → done + server_id 할당)<br>
+                    T7~T8: PostgreSQL INSERT/COMMIT (~200ms)<br>
+                    T9: User scrolls → <strong>Reconcile</strong>(local + server) → 중복 제거 + 30초 유지
+                    </span>
+                    <span class="lang-en">
+                    T0: User sends → <strong>Optimistic Update</strong> (immediate UI)<br>
+                    T1~T6: SSE streaming (vision → answer → done + server_id assigned)<br>
+                    T7~T8: PostgreSQL INSERT/COMMIT (~200ms)<br>
+                    T9: User scrolls → <strong>Reconcile</strong>(local + server) → Dedup + 30s retention
+                    </span>
+                </div>
+            </div>
+
+            <!-- Consumer Group Table -->
+            <div style="margin-bottom: 1.5rem;">
+                <table class="modal-table" style="font-size: 0.75rem;">
+                    <tr>
+                        <th>Consumer Group</th>
+                        <th><span class="lang-ko">목적</span><span class="lang-en">Purpose</span></th>
+                        <th><span class="lang-ko">지연시간</span><span class="lang-en">Latency</span></th>
+                    </tr>
+                    <tr>
+                        <td><code>eventrouter</code></td>
+                        <td><span class="lang-ko">SSE 실시간 전송</span><span class="lang-en">SSE Real-time delivery</span></td>
+                        <td>~10ms</td>
+                    </tr>
+                    <tr>
+                        <td><code>chat-persistence</code></td>
+                        <td><span class="lang-ko">PostgreSQL 저장</span><span class="lang-en">PostgreSQL persistence</span></td>
+                        <td>~200ms</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Reference -->
+            <div style="padding: 0.75rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid var(--accent-teal, #0ea5e9);">
+                <strong style="color: #0ea5e9;">📚 <span class="lang-ko">블로그 원문</span><span class="lang-en">Blog Post</span></strong>
+                <div style="margin-top: 0.4rem;">
+                    <a href="https://rooftopsnow.tistory.com/235" target="_blank" rel="noopener" style="color: var(--text-secondary); font-size: 0.8rem;">
+                        <span class="lang-ko">Optimistic Update (FE) & Eventual Consistency (BE) 통합 트러블슈팅 →</span>
+                        <span class="lang-en">Optimistic Update (FE) & Eventual Consistency (BE) Integration Troubleshooting →</span>
+                    </a>
                 </div>
             </div>
         </div>
