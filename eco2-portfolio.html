@@ -4109,8 +4109,8 @@
 │                         │          └─────────────┘   └───────────────┘   │
 │                         │                                                 │
 │                  ┌──────▼──────┐                                         │
-│                  │ JWT 발급    │  Access 15분 / Refresh 7일               │
-│                  │ (HS256)     │  JTI 기반 무효화                         │
+│                  │ JWT 발급    │  Access 3h / Refresh 30d                │
+│                  │ (HS256)     │  JTI 기반 무효화, Token Rotation        │
 │                  └──────┬──────┘                                         │
 │                         │                                                 │
 │   ┌─────────────────────┼─────────────────────────────────────────────┐  │
@@ -4126,21 +4126,29 @@
             </div>
 
             <!-- OAuth Providers -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="background: rgba(234,67,53,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(234,67,53,0.3);">
-                    <h5 style="color: #ea4335; margin-bottom: 0.75rem;">🔴 Google OAuth</h5>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• Authorization Code + PKCE</div>
-                        <div>• code_challenge_method: S256</div>
-                        <div>• scope: email, profile, openid</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;">
+                <div style="background: rgba(234,67,53,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(234,67,53,0.3);">
+                    <h5 style="color: #ea4335; margin-bottom: 0.5rem; font-size: 0.85rem;">Google OAuth</h5>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                        <div>• PKCE (S256)</div>
+                        <div>• openid, email, profile</div>
+                        <div>• access_type=offline</div>
                     </div>
                 </div>
-                <div style="background: rgba(254,229,0,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(254,229,0,0.3);">
-                    <h5 style="color: #fee500; margin-bottom: 0.75rem;">🟡 Kakao OAuth</h5>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• Authorization Code + PKCE</div>
-                        <div>• code_challenge_method: S256</div>
-                        <div>• scope: profile_nickname, account_email</div>
+                <div style="background: rgba(254,229,0,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(254,229,0,0.3);">
+                    <h5 style="color: #fee500; margin-bottom: 0.5rem; font-size: 0.85rem;">Kakao OAuth</h5>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                        <div>• PKCE (S256)</div>
+                        <div>• Developer Console 기반</div>
+                        <div>• kakao_account.profile</div>
+                    </div>
+                </div>
+                <div style="background: rgba(30,200,0,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(30,200,0,0.3);">
+                    <h5 style="color: #1ec800; margin-bottom: 0.5rem; font-size: 0.85rem;">Naver OAuth</h5>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                        <div>• PKCE 미지원</div>
+                        <div>• profile, email</div>
+                        <div>• response 필드 매핑</div>
                     </div>
                 </div>
             </div>
@@ -4150,19 +4158,27 @@
                 <div class="domain-detail-grid">
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">PKCE Flow</div>
-                        <div class="domain-detail-value">code_verifier (64byte) → SHA256 → base64url = code_challenge</div>
+                        <div class="domain-detail-value">code_verifier (64byte urlsafe) → SHA256 → base64url = code_challenge (S256)</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">gRPC Integration</div>
-                        <div class="domain-detail-value">Users.GetOrCreateUser() 호출 → 신규 시 기본 캐릭터 자동 부여</div>
+                        <div class="domain-detail-label">Cookie</div>
+                        <div class="domain-detail-value">s_access / s_refresh, HttpOnly + Secure + SameSite=Lax, domain: .dev.growbin.app</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Token Rotation</div>
+                        <div class="domain-detail-value">Refresh 시 old JTI → Blacklist 발행, new pair 발급 + 세션 등록</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Session Store</div>
+                        <div class="domain-detail-value">Redis: user:tokens:{uid} (Set), token:meta:{jti} (JSON), TTL = token exp</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Auth Relay</div>
-                        <div class="domain-detail-value">Redis Fallback Outbox → RabbitMQ Fanout, aio_pika 비동기</div>
+                        <div class="domain-detail-value">Redis Fallback Outbox → RabbitMQ Fanout → ext-authz Local Cache 동기화</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">JWT Blacklist</div>
-                        <div class="domain-detail-value">JTI 기반, TTL = token 만료시간, Fanout 즉시 동기화</div>
+                        <div class="domain-detail-label">gRPC</div>
+                        <div class="domain-detail-value">Users.GetOrCreateUser() → 신규 시 기본 캐릭터(이코) 자동 부여</div>
                     </div>
                 </div>
             </div>
@@ -4189,21 +4205,20 @@
             <!-- Interface Comparison -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                 <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
-                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• GET /characters - 목록 조회</div>
-                        <div>• GET /characters/{id} - 상세 조회</div>
-                        <div>• POST/PUT/DELETE - Admin CRUD</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Frontend, Admin Panel에서 사용</div>
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">HTTP REST</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        <div>• <code>GET /catalog</code> — 캐릭터 카탈로그</div>
+                        <div>• <code>POST /internal/rewards</code> — 보상 평가</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">Internal: Istio AuthorizationPolicy</div>
                     </div>
                 </div>
                 <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
-                    <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (Internal)</h5>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• GetCharacter() - 페르소나 조회</div>
-                        <div>• ListCharacters() - 목록 조회</div>
-                        <div>• ValidateCharacter() - 존재 확인</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Chat Worker LangGraph에서 호출</div>
+                    <h5 style="color: #10b981; margin-bottom: 0.75rem;">gRPC (CharacterService)</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        <div>• <code>GetCharacterReward()</code> — 보상 판정</div>
+                        <div>• <code>GetDefaultCharacter()</code> — 기본 캐릭터</div>
+                        <div>• <code>GetCharacterByMatch()</code> — 분류 매칭</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">Chat Worker, Scan Worker에서 호출</div>
                     </div>
                 </div>
             </div>
@@ -4302,12 +4317,28 @@
             <div class="domain-details" style="margin-top: 1.5rem;">
                 <div class="domain-detail-grid">
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">Chat Integration</div>
-                        <div class="domain-detail-value">character_node에서 gRPC 호출 → 캐릭터 이미지 기반 스타일 유지</div>
+                        <div class="domain-detail-label">Reward Policy</div>
+                        <div class="domain-detail-value">disposal_rules=True + insufficiencies=False → middle_category 기반 캐릭터 매칭</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Ownership</div>
-                        <div class="domain-detail-value">스캔 분류 결과의 middle_category 기반 캐릭터 자동 매칭</div>
+                        <div class="domain-detail-value">UNIQUE(user_id, character_code) 멱등성, source: scan-reward / default-onboard</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Chat Integration</div>
+                        <div class="domain-detail-value">GetCharacterByMatch(match_label) → CDN 이미지 Reference → Gemini Image Gen</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Character Worker</div>
+                        <div class="domain-detail-value">Celery: match_character_task, reward_event_task, grant_default_task</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Name Detector</div>
+                        <div class="domain-detail-value">Longest-match-first 알고리즘, aliases 기반 사용자 메시지 캐릭터 감지</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">CDN Asset</div>
+                        <div class="domain-detail-value">images.dev.growbin.app/character/{cdn_code}.png, CharacterAssetPort 추상화</div>
                     </div>
                 </div>
             </div>
