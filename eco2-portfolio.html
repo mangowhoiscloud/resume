@@ -4587,39 +4587,39 @@
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Intent 분류 체계</h4>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
-                    <div class="intent-card" style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-waste')">
                         <div style="font-weight: 600; color: #8b5cf6;">🗑️ waste</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">폐기물 분리배출 (RAG)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-character')">
                         <div style="font-weight: 600; color: #f59e0b;">🌍 character</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">캐릭터 질문 (gRPC)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-location')">
                         <div style="font-weight: 600; color: #ef4444;">📍 location</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">위치 기반 검색 (gRPC)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">위치 기반 검색 (KakaoAPI)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-bulk-waste')">
                         <div style="font-weight: 600; color: #ec4899;">🛋️ bulk_waste</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">대형폐기물 (MOIS API)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-recyclable-price')">
                         <div style="font-weight: 600; color: #22c55e;">💰 recyclable_price</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">재활용 시세 (KECO API)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-collection-point')">
                         <div style="font-weight: 600; color: #0ea5e9;">📦 collection_point</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">수거함 위치 (KECO API)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-web-search')">
                         <div style="font-weight: 600; color: #a855f7;">🔍 web_search</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">웹 검색 (DuckDuckGo)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">웹 검색 (Native Tool Calling)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-image-generation')">
                         <div style="font-weight: 600; color: #fb923c;">🎨 image_generation</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">이미지 생성 (Responses API)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">이미지 생성 (Gemini Native API)</div>
                     </div>
-                    <div class="intent-card" style="background: rgba(107,114,128,0.15); border: 1px solid rgba(107,114,128,0.4); border-radius: 8px; padding: 0.75rem;">
+                    <div class="intent-card" style="background: rgba(107,114,128,0.15); border: 1px solid rgba(107,114,128,0.4); border-radius: 8px; padding: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-general')">
                         <div style="font-weight: 600; color: #6b7280;">💬 general</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">일반 대화 (Fallback)</div>
                     </div>
@@ -12980,6 +12980,683 @@ T9: Pagination     loadMoreMessages()
             </div>
         </div>
     </div>
+
+    <!-- ============================================================ -->
+    <!-- Intent Detail Modals (9 Intents) -->
+    <!-- ============================================================ -->
+
+    <!-- Modal: Intent - waste (RAG) -->
+    <div class="modal-overlay" id="modal-intent-waste">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-waste')">×</button>
+            <h3 class="modal-title">🗑️ waste - 폐기물 분리배출 (RAG)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                    waste Intent Pipeline (RAG)                       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User Message ──► rag_node ──► answer_node ──► SSE Stream          │
+│                      │                                              │
+│              ┌───────┴───────┐                                      │
+│              │  RetrieverPort │  (Vector DB Search)                  │
+│              │  ─────────────│                                      │
+│              │  • Query 임베딩                                       │
+│              │  • Similarity Search                                  │
+│              │  • Top-K 규정 문서 반환                                │
+│              └───────────────┘                                      │
+│                      │                                              │
+│              ┌───────┴───────┐                                      │
+│              │ SearchRAGCommand│                                     │
+│              │  (UseCase)     │                                      │
+│              │  • disposal_rules                                     │
+│              │  • classification                                     │
+│              │  • situation_tags                                     │
+│              └───────────────┘                                      │
+│                                                                     │
+│  Policy: NodeExecutor (FAIL_OPEN, timeout: 3000ms, retry: 1)       │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Clean Architecture</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: #8b5cf6; margin-bottom: 0.3rem;">Node (Adapter)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">rag_node.py<br>LangGraph glue code</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: #8b5cf6; margin-bottom: 0.3rem;">Command (UseCase)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">SearchRAGCommand<br>정책/흐름 제어</div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: #8b5cf6; margin-bottom: 0.3rem;">Service (Logic)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">RAGSearcherService<br>순수 비즈니스 로직</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">주입 프롬프트 (waste_instruction.txt)</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
+                    <strong>Context 변수:</strong> {disposal_rules}, {classification}, {situation_tags}<br><br>
+                    <strong>핵심 지침:</strong><br>
+                    • RAG 검색 결과(규정 문서)를 기반으로 분리배출 방법 안내<br>
+                    • disposal_rules에서 품목별 배출 규정 추출<br>
+                    • classification 결과로 세부 분류 확인<br>
+                    • situation_tags로 상황별 맞춤 안내 (비올 때, 야간 등)
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(139,92,246,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                <strong style="color: #8b5cf6;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/rag_node.py" target="_blank" style="color: #8b5cf6;">nodes/rag_node.py</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/waste_instruction.txt" target="_blank" style="color: #8b5cf6;">prompts/local/waste_instruction.txt</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/commands/search_rag_command.py" target="_blank" style="color: #8b5cf6;">commands/search_rag_command.py</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - character (gRPC) -->
+    <div class="modal-overlay" id="modal-intent-character">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-character')">×</button>
+            <h3 class="modal-title">🌍 character - 캐릭터 질문 (gRPC)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                 character Intent Pipeline (gRPC)                     │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User Message ──► character_node ──► answer_node ──► SSE Stream    │
+│                        │                                            │
+│              ┌─────────┴─────────┐                                  │
+│              │ LLM: 카테고리 추출  │  (CategoryExtractorService)     │
+│              │ "이코가 누구야?"     │                                 │
+│              │  → category: "이코" │                                 │
+│              └─────────┬─────────┘                                  │
+│                        │                                            │
+│              ┌─────────┴─────────┐                                  │
+│              │ CharacterClientPort│  (gRPC Call)                     │
+│              │ ──────────────────│                                  │
+│              │ • GetCharacter()   │                                  │
+│              │ • 13 캐릭터 데이터  │                                  │
+│              │ • 이미지 에셋 로드  │                                  │
+│              └───────────────────┘                                  │
+│                                                                     │
+│  Policy: NodeExecutor (FAIL_OPEN, timeout: 3000ms, retry: 1)       │
+│  ※ 선택적 컨텍스트 - 실패해도 파이프라인 진행                         │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">13 Eco² 캐릭터 패밀리</h4>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; font-size: 0.72rem;">
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🌍 이코<br><span style="color: var(--text-muted);">리더</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🧴 페티<br><span style="color: var(--text-muted);">플라스틱</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🥫 메탈리<br><span style="color: var(--text-muted);">금속</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">📰 파피<br><span style="color: var(--text-muted);">종이</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🍾 글라시<br><span style="color: var(--text-muted);">유리</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">👕 패브리<br><span style="color: var(--text-muted);">의류</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🔋 볼티<br><span style="color: var(--text-muted);">전자기기</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🍌 바나나<br><span style="color: var(--text-muted);">음식물</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🛢️ 오일리<br><span style="color: var(--text-muted);">폐유</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">💊 메디<br><span style="color: var(--text-muted);">의약품</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🪵 우디<br><span style="color: var(--text-muted);">목재</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🧱 브리키<br><span style="color: var(--text-muted);">건설폐기물</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">☢️ 케미<br><span style="color: var(--text-muted);">유해폐기물</span></div>
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(245,158,11,0.1); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                <strong style="color: #f59e0b;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/character_node.py" target="_blank" style="color: #f59e0b;">nodes/character_node.py</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/character_instruction.txt" target="_blank" style="color: #f59e0b;">prompts/local/character_instruction.txt</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/global/eco_character.txt" target="_blank" style="color: #f59e0b;">prompts/global/eco_character.txt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - location (KakaoAPI) -->
+    <div class="modal-overlay" id="modal-intent-location">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-location')">×</button>
+            <h3 class="modal-title">📍 location - 위치 기반 검색 (KakaoAPI)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│              location Intent Pipeline (Function Calling)             │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User Message ──► kakao_place_node ──► answer_node ──► SSE Stream  │
+│                        │                                            │
+│              ┌─────────┴──────────┐                                 │
+│              │ LLM Function Calling│                                │
+│              │ ───────────────────│                                 │
+│              │ search_kakao_place: │                                 │
+│              │  • query: "재활용센터"│                                │
+│              │  • search_type: keyword│                              │
+│              │  • radius: 5000 (m)  │                                │
+│              └─────────┬──────────┘                                 │
+│                        │                                            │
+│              ┌─────────┴──────────┐                                 │
+│              │ SearchKakaoPlace    │                                 │
+│              │ Command (UseCase)   │                                 │
+│              │ ───────────────────│                                 │
+│              │ KakaoLocalClientPort│  → REST API                    │
+│              │ • Keyword Search    │                                 │
+│              │ • Category Search   │                                 │
+│              └────────────────────┘                                 │
+│                                                                     │
+│  HITL: user_location 없으면 → notify_needs_input("location")       │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Function Definition</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.72rem; font-family: 'Fira Code', monospace; color: var(--text-secondary); line-height: 1.5;">
+                    <span style="color: #ef4444;">search_kakao_place</span>({<br>
+                    &nbsp;&nbsp;<span style="color: #22c55e;">query</span>: string,&nbsp;&nbsp;// "재활용센터", "제로웨이스트샵"<br>
+                    &nbsp;&nbsp;<span style="color: #22c55e;">search_type</span>: "keyword" | "category",<br>
+                    &nbsp;&nbsp;<span style="color: #22c55e;">category_code</span>?: string,&nbsp;&nbsp;// CE7(카페) 등<br>
+                    &nbsp;&nbsp;<span style="color: #22c55e;">radius</span>?: integer = 5000&nbsp;&nbsp;// 미터<br>
+                    })<br><br>
+                    <span style="color: var(--text-muted);">// function_call: {"name": "search_kakao_place"} (강제 호출)</span>
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(239,68,68,0.1); border-radius: 8px; border-left: 3px solid #ef4444;">
+                <strong style="color: #ef4444;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/kakao_place_node.py" target="_blank" style="color: #ef4444;">nodes/kakao_place_node.py</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/location_instruction.txt" target="_blank" style="color: #ef4444;">prompts/local/location_instruction.txt</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/commands/search_kakao_place_command.py" target="_blank" style="color: #ef4444;">commands/search_kakao_place_command.py</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - bulk_waste (MOIS API) -->
+    <div class="modal-overlay" id="modal-intent-bulk-waste">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-bulk-waste')">×</button>
+            <h3 class="modal-title">🛋️ bulk_waste - 대형폐기물 (MOIS API Agent)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│            bulk_waste Intent Pipeline (LLM Agent + MOIS API)        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User ──► bulk_waste_agent_node ──► answer_node ──► SSE Stream     │
+│                    │                                                │
+│         ┌──────────┴──────────┐                                     │
+│         │    LLM Agent Loop   │  (max 5 iterations)                 │
+│         │  ┌───────────────┐  │                                     │
+│         │  │ GPT-5.2 Strict│  │  or  │ Gemini 3 │                  │
+│         │  └───────┬───────┘  │                                     │
+│         │          │          │                                     │
+│         │    tool_choice: auto│                                     │
+│         │          │          │                                     │
+│         │  ┌───────┴───────┐  │                                     │
+│         │  │  Tool Registry │  │                                     │
+│         │  │───────────────│  │                                     │
+│         │  │• get_collection│  │  → 수거 방법/신청 URL/전화번호      │
+│         │  │  _info(sigungu)│  │                                     │
+│         │  │• search_fee    │  │  → 품목별 수수료 검색               │
+│         │  │  (sigungu,item)│  │                                     │
+│         │  └───────────────┘  │                                     │
+│         └─────────────────────┘                                     │
+│                                                                     │
+│  병렬 Tool 실행: asyncio.gather(*tool_calls)                       │
+│  Provider: OpenAI (Strict Mode) / Gemini (AUTO mode)                │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Tool Definitions (GPT-5.2 Strict Mode)</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.72rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #ec4899; font-weight: 600; margin-bottom: 0.3rem;">get_collection_info</div>
+                        sigungu: string (필수)<br>
+                        → 신청 URL, 전화번호<br>
+                        → 수거 방식, 수수료 납부
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.72rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #ec4899; font-weight: 600; margin-bottom: 0.3rem;">search_fee</div>
+                        sigungu: string (필수)<br>
+                        item_name: string (필수)<br>
+                        → 품목별 수수료 목록 (max 10)
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Agent System Prompt (핵심)</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                    <strong>Scope Discipline:</strong> get_collection_info, search_fee만 사용<br>
+                    <strong>Preambles (GPT-5.2):</strong> 도구 호출 전 이유 설명 필수<br>
+                    <strong>지역 추출:</strong> "강남구 대형폐기물" → sigungu="강남구"<br>
+                    <strong>Fallback:</strong> 지역명 없으면 도구 호출 X, 사용자에게 요청
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(236,72,153,0.1); border-radius: 8px; border-left: 3px solid #ec4899;">
+                <strong style="color: #ec4899;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/bulk_waste_agent_node.py" target="_blank" style="color: #ec4899;">nodes/bulk_waste_agent_node.py</a> (733 lines)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - recyclable_price (KECO API) -->
+    <div class="modal-overlay" id="modal-intent-recyclable-price">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-recyclable-price')">×</button>
+            <h3 class="modal-title">💰 recyclable_price - 재활용 시세 (KECO API Agent)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│        recyclable_price Intent Pipeline (LLM Agent + KECO API)      │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User ──► recyclable_price_agent_node ──► answer_node ──► SSE      │
+│                    │                                                │
+│         ┌──────────┴──────────┐                                     │
+│         │    LLM Agent Loop   │  (max 5 iterations)                 │
+│         │  ┌───────────────┐  │                                     │
+│         │  │ GPT-5.2/Gemini│  │                                     │
+│         │  └───────┬───────┘  │                                     │
+│         │          │          │                                     │
+│         │  ┌───────┴───────┐  │                                     │
+│         │  │  Tool Registry │  │                                     │
+│         │  │───────────────│  │                                     │
+│         │  │• search_price  │  │  → 품목명 검색 (부분 매칭)          │
+│         │  │  (item_name,   │  │                                     │
+│         │  │   region?)     │  │                                     │
+│         │  │• get_category  │  │  → 카테고리별 전체 조회             │
+│         │  │  _prices       │  │                                     │
+│         │  │  (category,    │  │                                     │
+│         │  │   region?)     │  │                                     │
+│         │  └───────────────┘  │                                     │
+│         └─────────────────────┘                                     │
+│                                                                     │
+│  8 Regions: capital, gangwon, chungbuk, chungnam,                   │
+│             jeonbuk, jeonnam, gyeongbuk, gyeongnam + national       │
+│  5 Categories: paper, plastic, glass, metal, tire                   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Tool Definitions</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.72rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #22c55e; font-weight: 600; margin-bottom: 0.3rem;">search_price</div>
+                        item_name: string (필수)<br>
+                        region?: enum (8개 권역)<br>
+                        → kg당 가격, 조사일, 형태별
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.72rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #22c55e; font-weight: 600; margin-bottom: 0.3rem;">get_category_prices</div>
+                        category: enum (필수)<br>
+                        region?: enum<br>
+                        → 카테고리 전체 품목 가격
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(34,197,94,0.1); border-radius: 8px; border-left: 3px solid #22c55e;">
+                <strong style="color: #22c55e;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/recyclable_price_agent_node.py" target="_blank" style="color: #22c55e;">nodes/recyclable_price_agent_node.py</a> (799 lines)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - collection_point (KECO API) -->
+    <div class="modal-overlay" id="modal-intent-collection-point">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-collection-point')">×</button>
+            <h3 class="modal-title">📦 collection_point - 수거함 위치 (KECO API Agent)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│       collection_point Intent Pipeline (LLM Agent + KECO API)       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User ──► collection_point_agent_node ──► answer_node ──► SSE      │
+│                    │                                                │
+│         ┌──────────┴──────────┐                                     │
+│         │    LLM Agent Loop   │  (max 5 iterations)                 │
+│         │  ┌───────────────┐  │                                     │
+│         │  │ GPT-5.2/Gemini│  │                                     │
+│         │  └───────┬───────┘  │                                     │
+│         │          │          │                                     │
+│         │  ┌───────┴──────────────┐                                 │
+│         │  │     Tool Registry    │                                 │
+│         │  │─────────────────────│                                  │
+│         │  │• search_collection   │  → 주소/상호명 검색              │
+│         │  │  _points             │                                 │
+│         │  │• get_nearby          │  → 좌표 기반 주변 검색           │
+│         │  │  _collection_points  │                                 │
+│         │  │• geocode             │  → 장소명→좌표 변환 (Kakao)     │
+│         │  └──────────────────────┘                                 │
+│         └─────────────────────────┘                                 │
+│                                                                     │
+│  Multi-Step Pattern:                                                │
+│  "[지역명] 근처 수거함" → geocode(지역) → get_nearby(lat,lon)       │
+│                                                                     │
+│  수거 품목: 폐전자제품, 폐건전지, 폐형광등                          │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Tool Definitions (3 Tools)</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.7rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.68rem;">search_collection_points</div>
+                        address_keyword?<br>
+                        name_keyword?<br>
+                        → 수거함 목록
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.7rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.68rem;">get_nearby_collection_points</div>
+                        latitude: number<br>
+                        longitude: number<br>
+                        radius_km?: 2.0
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.7rem; font-family: 'Fira Code', monospace; color: var(--text-secondary);">
+                        <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.68rem;">geocode</div>
+                        place_name: string<br>
+                        → lat, lon 반환<br>
+                        (KakaoAPI 위임)
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid #0ea5e9;">
+                <strong style="color: #0ea5e9;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/collection_point_agent_node.py" target="_blank" style="color: #0ea5e9;">nodes/collection_point_agent_node.py</a> (857 lines)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - web_search (Native Tool Calling) -->
+    <div class="modal-overlay" id="modal-intent-web-search">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-web-search')">×</button>
+            <h3 class="modal-title">🔍 web_search - 웹 검색 (Native Tool Calling)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│        web_search Intent Pipeline (OpenAI Responses API)            │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  GENERAL intent + web_search keyword detected                       │
+│  ──────────────────────────────────────────                         │
+│                                                                     │
+│  User Message ──► answer_node ──► SSE Stream                       │
+│                       │                                             │
+│              ┌────────┴────────┐                                    │
+│              │ Keyword Detection│                                   │
+│              │ ────────────────│                                    │
+│              │ "최신", "최근",  │                                    │
+│              │ "뉴스", "정책",  │                                    │
+│              │ "현재", "오늘",  │                                    │
+│              │ "소식" ...      │                                     │
+│              └────────┬────────┘                                    │
+│                       │ match found                                 │
+│              ┌────────┴────────┐                                    │
+│              │ OpenAI Responses │                                   │
+│              │ API with Native  │                                   │
+│              │ web_search Tool  │                                   │
+│              │ ────────────────│                                    │
+│              │ generate_with    │                                    │
+│              │ _tools(          │                                    │
+│              │  tools=["web     │                                    │
+│              │  _search"])      │                                    │
+│              └────────┬────────┘                                    │
+│                       │                                             │
+│              ┌────────┴────────┐                                    │
+│              │ Token Streaming  │                                   │
+│              │ notify_token_v2()│  → Redis Streams → SSE            │
+│              └─────────────────┘                                    │
+│                                                                     │
+│  ※ DuckDuckGo web_search_node.py는 DEPRECATED (Fallback용만 잔존)  │
+│  ※ 메인 경로: answer_node에서 네이티브 Tool 직접 사용               │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Native Tool Calling vs Legacy</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); padding: 0.75rem; border-radius: 8px;">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: #22c55e; margin-bottom: 0.3rem;">Current (Native)</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            • OpenAI Responses API<br>
+                            • tools=["web_search"]<br>
+                            • LLM이 검색+답변 통합 생성<br>
+                            • 스트리밍 직접 발행
+                        </div>
+                    </div>
+                    <div style="background: rgba(107,114,128,0.1); border: 1px solid rgba(107,114,128,0.3); padding: 0.75rem; border-radius: 8px;">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: #6b7280; margin-bottom: 0.3rem;">Legacy (Deprecated)</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            • DuckDuckGo/Tavily Client<br>
+                            • web_search_node.py<br>
+                            • 별도 노드 → 결과 주입<br>
+                            • Feedback Fallback용만 잔존
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(168,85,247,0.1); border-radius: 8px; border-left: 3px solid #a855f7;">
+                <strong style="color: #a855f7;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/answer_node.py" target="_blank" style="color: #a855f7;">nodes/answer_node.py</a> (네이티브 web_search 경로)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/commands/generate_answer_command.py" target="_blank" style="color: #a855f7;">commands/generate_answer_command.py</a> (WEB_SEARCH_KEYWORDS)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/web_instruction.txt" target="_blank" style="color: #a855f7;">prompts/local/web_instruction.txt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - image_generation (Gemini Native API) -->
+    <div class="modal-overlay" id="modal-intent-image-generation">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-image-generation')">×</button>
+            <h3 class="modal-title">🎨 image_generation - 이미지 생성 (Gemini Native API)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│       image_generation Intent Pipeline (Gemini Responses API)       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User Message ──► image_generation_node ──► answer_node ──► SSE    │
+│                         │                                           │
+│              ┌──────────┴──────────┐                                │
+│              │ Character Reference  │  (CharacterAssetPort)          │
+│              │ ────────────────────│                                │
+│              │ • 13 캐릭터 에셋 로드│                                │
+│              │ • 참조 이미지 base64 │                                │
+│              └──────────┬──────────┘                                │
+│                         │                                           │
+│              ┌──────────┴──────────┐                                │
+│              │ Gemini Responses API │                                │
+│              │ ────────────────────│                                │
+│              │ • gemini-2.0-flash-  │                                │
+│              │   preview-image-gen  │                                │
+│              │ • Native 이미지 생성  │                                │
+│              │ • response_modalities│                                │
+│              │   : ["TEXT","IMAGE"] │                                │
+│              └──────────┬──────────┘                                │
+│                         │                                           │
+│              ┌──────────┴──────────┐                                │
+│              │ ImageStoragePort     │  (gRPC → S3 Upload)            │
+│              │ ────────────────────│                                │
+│              │ • base64 → bytes     │                                │
+│              │ • gRPC UploadImage() │                                │
+│              │ • S3 URL 반환         │                                │
+│              └─────────────────────┘                                │
+│                                                                     │
+│  Timeout: 30000ms | System Prompt: Character Fidelity 원칙          │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">System Prompt (Character Fidelity)</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                    <strong>NON-NEGOTIABLE Rules:</strong><br>
+                    • 참조 이미지와 EXACT 동일 디자인 복사<br>
+                    • Same colors, proportions, style 유지<br>
+                    • 캐릭터가 즉시 인식 가능해야 함<br><br>
+                    <strong>Allowed:</strong> 포즈, 배경, 조명, 소품 변경<br>
+                    <strong>Forbidden:</strong> 캐릭터 재해석, 스타일 변경, 색상/비율 변경
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(251,146,60,0.1); border-radius: 8px; border-left: 3px solid #fb923c;">
+                <strong style="color: #fb923c;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/image_generation_node.py" target="_blank" style="color: #fb923c;">nodes/image_generation_node.py</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/image_generation/system.txt" target="_blank" style="color: #fb923c;">prompts/image_generation/system.txt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Intent - general (Fallback) -->
+    <div class="modal-overlay" id="modal-intent-general">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-general')">×</button>
+            <h3 class="modal-title">💬 general - 일반 대화 (Fallback + Multi-turn)</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│             general Intent Pipeline (Answer Generation)             │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User Message ──► answer_node ──► SSE Token Stream                 │
+│                       │                                             │
+│              ┌────────┴────────┐                                    │
+│              │ Context Assembly │                                   │
+│              │ ────────────────│                                    │
+│              │ • disposal_rules │  (waste 결과)                     │
+│              │ • character_ctx  │  (character 결과)                  │
+│              │ • location_ctx   │  (location 결과)                   │
+│              │ • price_ctx      │  (recyclable_price 결과)           │
+│              │ • bulk_waste_ctx │  (bulk_waste 결과)                 │
+│              │ • weather_ctx    │  (weather 결과)                    │
+│              │ • collection_ctx │  (collection_point 결과)           │
+│              │ • image_gen_ctx  │  (image_generation 결과)           │
+│              │ • web_search_ctx │  (web_search 결과)                 │
+│              └────────┬────────┘                                    │
+│                       │                                             │
+│              ┌────────┴────────┐                                    │
+│              │ PromptBuilder    │                                   │
+│              │ ────────────────│                                    │
+│              │ • System Prompt  │  (eco_character.txt)               │
+│              │ • Intent Prompt  │  (general_instruction.txt)         │
+│              │ • Context Inject │  (위 모든 컨텍스트)                │
+│              │ • History (10)   │  (Multi-turn 대화)                 │
+│              └────────┬────────┘                                    │
+│                       │                                             │
+│              ┌────────┴────────┐                                    │
+│              │ LLM Streaming   │                                    │
+│              │ ────────────────│                                    │
+│              │ • LangChain astream() │                               │
+│              │ • or generate_stream()│                               │
+│              │ → notify_token_v2()   │  → Redis → SSE              │
+│              └─────────────────┘                                    │
+│                                                                     │
+│  Lamport Clock: cleanup_sequence(job_id) at pipeline end            │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Token Streaming Architecture</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem;">LangChain Path</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            get_langchain_llm()<br>
+                            → SystemMessage + HumanMessage<br>
+                            → astream() 토큰 발행<br>
+                            → notify_token_v2()
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem;">Native Path (Gemini)</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            generate_stream()<br>
+                            → prompt + system_prompt<br>
+                            → 네이티브 스트리밍<br>
+                            → notify_token_v2()
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">주입 프롬프트 (general_instruction.txt)</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6;">
+                    <strong>역할:</strong> 환경/분리배출 관련 일반 대화 응대<br>
+                    <strong>성격:</strong> 친근하고 밝은 에코 캐릭터 페르소나<br>
+                    <strong>Fallback:</strong> 다른 Intent로 분류되지 않은 모든 질문<br>
+                    <strong>Multi-turn:</strong> 최근 10개 메시지 히스토리 유지
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(107,114,128,0.1); border-radius: 8px; border-left: 3px solid #6b7280;">
+                <strong style="color: #6b7280;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/answer_node.py" target="_blank" style="color: #6b7280;">nodes/answer_node.py</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/commands/generate_answer_command.py" target="_blank" style="color: #6b7280;">commands/generate_answer_command.py</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/general_instruction.txt" target="_blank" style="color: #6b7280;">prompts/local/general_instruction.txt</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/global/eco_character.txt" target="_blank" style="color: #6b7280;">prompts/global/eco_character.txt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- End of Intent Detail Modals -->
+    <!-- ============================================================ -->
 
     <!-- Modal: Multi-LLM Provider -->
     <div class="modal-overlay" id="modal-multi-llm-provider">
