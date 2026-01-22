@@ -3536,38 +3536,38 @@
                 <!-- Enhanced Pipeline Visualization -->
                 <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 1.5rem; margin: 1rem 0;">
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <!-- Main Pipeline Row - Clickable -->
+                        <!-- Main Pipeline Row -->
                         <div class="async-sse-flow" style="justify-content: center; flex-wrap: wrap;">
-                            <div class="async-item clickable" data-modal="modal-chat-intent" style="cursor: pointer;">
-                        <div class="async-icon">🎯</div>
+                            <div class="async-item clickable" onclick="openModal('modal-intent-classification')" style="cursor: pointer;">
+                                <div class="async-icon">🎯</div>
                                 <div class="async-name">Intent</div>
-                                <div class="async-desc">Multi-intent</div>
-                        </div>
+                                <div class="async-desc">9분류</div>
+                            </div>
                             <div class="pipeline-arrow">→</div>
-                            <div class="async-item clickable" data-modal="modal-chat-retriever" style="cursor: pointer;">
-                                <div class="async-icon">📋</div>
-                                <div class="async-name">Retriever</div>
-                                <div class="async-desc">Tag-based</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                            <div class="async-item clickable" data-modal="modal-chat-eval" style="cursor: pointer;">
-                                <div class="async-icon">📊</div>
-                                <div class="async-name">Eval</div>
-                                <div class="async-desc">Phase 1-4</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                            <div class="async-item clickable" data-modal="modal-chat-fallback" style="cursor: pointer;">
-                                <div class="async-icon">🔄</div>
-                                <div class="async-name">Fallback</div>
-                                <div class="async-desc">3-tier Chain</div>
-                    </div>
-                    <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
-                        <div class="async-icon">💬</div>
-                        <div class="async-name">Answer</div>
-                                <div class="async-desc">Stream</div>
-                    </div>
-                </div>
+                            <div class="async-item clickable" onclick="openModal('modal-send-api')" style="cursor: pointer;">
+                                <div class="async-icon">⚡</div>
+                                <div class="async-name">Router</div>
+                                <div class="async-desc">Send API</div>
+                            </div>
+                            <div class="pipeline-arrow">→</div>
+                            <div class="async-item clickable" onclick="openModal('modal-chat-toolcalling')" style="cursor: pointer;">
+                                <div class="async-icon">🔧</div>
+                                <div class="async-name">Subagents</div>
+                                <div class="async-desc">11종 ∥</div>
+                            </div>
+                            <div class="pipeline-arrow">→</div>
+                            <div class="async-item clickable" onclick="openModal('modal-chat-aggregator')" style="cursor: pointer;">
+                                <div class="async-icon">📦</div>
+                                <div class="async-name">Aggregator</div>
+                                <div class="async-desc">Collect</div>
+                            </div>
+                            <div class="pipeline-arrow">→</div>
+                            <div class="async-item clickable" onclick="openModal('modal-token-streaming')" style="cursor: pointer;">
+                                <div class="async-icon">💬</div>
+                                <div class="async-name">Answer</div>
+                                <div class="async-desc">Token v2</div>
+                            </div>
+                        </div>
                         <!-- Data Injection Row -->
                         <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 0.8rem; padding: 0 1rem; flex-wrap: wrap;">
                             <div style="text-align: center; min-width: 90px;">
@@ -3579,33 +3579,37 @@
                             <div style="text-align: center; min-width: 90px;">
                                 <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
                                 <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
-                                    <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">*.yaml</div>
+                                    <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">Enrichment</div>
                                 </div>
                             </div>
                             <div style="text-align: center; min-width: 90px;">
                                 <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
                                 <div style="background: linear-gradient(135deg, rgba(77, 170, 141, 0.15), rgba(77, 170, 141, 0.05)); border: 1px solid rgba(77, 170, 141, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
-                                    <div style="color: rgba(77, 170, 141, 0.9); font-weight: 600;">eval.txt</div>
+                                    <div style="color: rgba(77, 170, 141, 0.9); font-weight: 600;">Function Def</div>
                                 </div>
                             </div>
                             <div style="text-align: center; min-width: 90px;">
                                 <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↑</div>
                                 <div style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 165, 0, 0.05)); border: 1px solid rgba(255, 165, 0, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
-                                    <div style="color: rgba(255, 165, 0, 0.9); font-weight: 600;">Chain Config</div>
+                                    <div style="color: rgba(255, 165, 0, 0.9); font-weight: 600;">Lamport Clock</div>
                                 </div>
                             </div>
                             <div style="text-align: center; min-width: 90px;">
                                 <div style="color: var(--text-muted); font-size: 0.65rem; margin-bottom: 0.2rem;">↓</div>
                                 <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05)); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.65rem;">
-                                    <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">SSE Stream</div>
+                                    <div style="color: rgba(0, 255, 136, 0.9); font-weight: 600;">notify_token_v2</div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Recursive Loop + Click Hint -->
-                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 0.3rem; flex-wrap: wrap;">
+                        <!-- Tags -->
+                        <div style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 0.3rem; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(99, 102, 241, 0.1); border-radius: 15px; font-size: 0.65rem;">
+                                <span style="color: rgba(99, 102, 241, 0.9);">🧠</span>
+                                <span style="color: var(--text-secondary);">Multi-Model (GPT-5.2 / Gemini 3)</span>
+                            </div>
                             <div style="display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(139, 92, 246, 0.1); border-radius: 15px; font-size: 0.65rem;">
-                                <span style="color: rgba(139, 92, 246, 0.9);">🔁</span>
-                                <span style="color: var(--text-secondary);">Recursive Self-Improvement</span>
+                                <span style="color: rgba(139, 92, 246, 0.9);">⚙️</span>
+                                <span style="color: var(--text-secondary);">LangGraph StateGraph</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem; background: rgba(0, 255, 136, 0.1); border-radius: 15px; font-size: 0.65rem;">
                                 <span style="color: var(--text-muted);">💡</span>
@@ -3681,8 +3685,8 @@
             <div class="pipeline-subsection clickable" data-modal="modal-chat-infra" style="cursor: pointer;">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 클릭하여 상세</span></span>
-                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 Click for details</span></span>
+                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">완료</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 클릭하여 상세</span></span>
+                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">Complete</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 Click for details</span></span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -3694,19 +3698,25 @@
                     <div class="async-item">
                         <div class="async-icon">🔄</div>
                         <div class="async-name">Taskiq</div>
-                        <div class="async-desc">asyncio-native</div>
+                        <div class="async-desc">asyncio</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">🐰</div>
                         <div class="async-name">RabbitMQ</div>
-                        <div class="async-desc">Job Queue</div>
+                        <div class="async-desc">Quorum</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="async-item">
+                        <div class="async-icon">⚙️</div>
+                        <div class="async-name">LangGraph</div>
+                        <div class="async-desc">StateGraph</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">🌊</div>
-                        <div class="async-name">Event Relay</div>
-                        <div class="async-desc">3-Tier Redis</div>
+                        <div class="async-name">Redis Streams</div>
+                        <div class="async-desc">Token v2</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
@@ -3717,16 +3727,16 @@
                 </div>
                 <div class="llm-pipeline-specs" style="margin-top: 1rem;">
                     <div class="spec-item">
-                        <span class="spec-label">Workers</span>
-                        <span class="spec-value">4 × 10 tasks</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Timeout</span>
-                        <span class="spec-value">120s</span>
-                    </div>
-                    <div class="spec-item">
                         <span class="spec-label">Checkpointer</span>
-                        <span class="spec-value">RedisSaver</span>
+                        <span class="spec-value">CachedPostgresSaver</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Token</span>
+                        <span class="spec-value">XRANGE Recovery</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Memory</span>
+                        <span class="spec-value">3-Tier (Redis + PG)</span>
                     </div>
                 </div>
             </div>
