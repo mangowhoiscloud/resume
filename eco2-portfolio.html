@@ -3501,8 +3501,8 @@
             <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🤖 Chat Agentic Workflow <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">진행 중</span></span>
-                        <span class="lang-en">🤖 Chat Agentic Workflow <span class="status-badge in-progress" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px;">In Progress</span></span>
+                        <span class="lang-ko">🤖 Chat Agent <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">완료</span></span>
+                        <span class="lang-en">🤖 Chat Agent <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">Complete</span></span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -4298,12 +4298,12 @@
             <h3 class="modal-title">💬 Chat Domain</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
-                    <span class="lang-ko">📹 API 동작 (Agent 고도화 진행 중)</span>
-                    <span class="lang-en">📹 API Action (Agent)</span>
+                    <span class="lang-ko">📹 Chat Agent</span>
+                    <span class="lang-en">📹 Chat Agent</span>
                 </div>
                 <a href="https://frontend.dev.growbin.app" target="_blank" rel="noopener" class="domain-gif-link">
                     <div class="domain-gif-container">
-                        <img src="assets/gifs/chat.gif" alt="Chat API Demo">
+                        <img src="assets/gifs/chat-agent-demo.gif" alt="Chat Agent Demo">
                     </div>
                 </a>
             </div>
@@ -4321,7 +4321,7 @@
                     </div>
                     <div style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 6px; padding: 0.5rem;">
                         <div style="font-weight: 600; color: #ef4444; font-size: 0.85rem;">📍 location</div>
-                        <div style="font-size: 0.7rem; color: var(--text-secondary);">위치 기반 검색 (gRPC)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">위치 기반 검색 (KakaoAPI)</div>
                     </div>
                     <div style="background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.4); border-radius: 6px; padding: 0.5rem;">
                         <div style="font-weight: 600; color: #ec4899; font-size: 0.85rem;">🛋️ bulk_waste</div>
@@ -4337,11 +4337,11 @@
                     </div>
                     <div style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); border-radius: 6px; padding: 0.5rem;">
                         <div style="font-weight: 600; color: #a855f7; font-size: 0.85rem;">🔍 web_search</div>
-                        <div style="font-size: 0.7rem; color: var(--text-secondary);">웹 검색 (DuckDuckGo)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">웹 검색 (GPT 5.2, Gemini-3-flash 네이티브 툴콜링)</div>
                     </div>
                     <div style="background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); border-radius: 6px; padding: 0.5rem;">
                         <div style="font-weight: 600; color: #fb923c; font-size: 0.85rem;">🎨 image_generation</div>
-                        <div style="font-size: 0.7rem; color: var(--text-secondary);">이미지 생성 (Responses API)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">이미지 생성 (Gemini LLM Native API: Nano, Banana, Pro)</div>
                     </div>
                     <div style="background: rgba(107,114,128,0.15); border: 1px solid rgba(107,114,128,0.4); border-radius: 6px; padding: 0.5rem;">
                         <div style="font-weight: 600; color: #6b7280; font-size: 0.85rem;">💬 general</div>
@@ -4508,6 +4508,17 @@
                         <div>
                             <div style="color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Event Bus</div>
                             <div style="color: var(--text-secondary); font-size: 0.7rem;">Streams, Token v2</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(251,146,60,0.1)); border-radius: 8px; border: 1px solid rgba(251,146,60,0.4); cursor: pointer;" onclick="openModal('modal-chat-toolcalling')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🔧</span>
+                        <div>
+                            <div style="color: #fb923c; font-weight: 600; font-size: 0.85rem;">Tool Calling</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Native Function Calling</div>
                         </div>
                     </div>
                 </div>
@@ -12641,6 +12652,141 @@ T9: Pagination     loadMoreMessages()
                         <span class="lang-ko">Optimistic Update (FE) & Eventual Consistency (BE) 통합 트러블슈팅 →</span>
                         <span class="lang-en">Optimistic Update (FE) & Eventual Consistency (BE) Integration →</span>
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Tool Calling Architecture -->
+    <div class="modal-overlay" id="modal-chat-toolcalling">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-toolcalling')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔧 Tool Calling Architecture (Native Function Calling)</span>
+                <span class="lang-en">🔧 Tool Calling Architecture (Native Function Calling)</span>
+            </h3>
+
+            <!-- Tool Calling Flow Diagram -->
+            <div class="modal-diagram" style="font-size: 0.75rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    Native Tool Calling Pipeline                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌──────────┐     ┌──────────────────┐     ┌─────────────────────────┐   │
+│   │ 💬 User  │────►│ 🧠 LLM Router    │────►│ 🔧 Tool Selection       │   │
+│   │  Input   │     │ (Intent + Model) │     │ (Native Function Call)  │   │
+│   └──────────┘     └──────────────────┘     └───────────┬─────────────┘   │
+│                                                          │                  │
+│                    ┌─────────────────────────────────────┼──────────┐      │
+│                    │              Tool Registry           │          │      │
+│                    │                                      ▼          │      │
+│   ┌────────────────┼──────────────┬──────────────┬──────────────┐  │      │
+│   │                │              │              │              │  │      │
+│   │  📍 location   │  🎨 image    │  🔍 web      │  🗑️ waste   │  │      │
+│   │   _search     │  _generation │  _search     │  _classify   │  │      │
+│   │               │              │              │              │  │      │
+│   │  KakaoAPI     │  Gemini      │  GPT-5.2 /   │  RAG +       │  │      │
+│   │  Places       │  Native API  │  Gemini-3    │  Vision LLM  │  │      │
+│   │               │  Nano/Pro    │  -flash      │              │  │      │
+│   └───────────────┴──────────────┴──────────────┴──────────────┘  │      │
+│                    └──────────────────────────────────────────────┘      │
+│                                       │                                   │
+│                                       ▼                                   │
+│                    ┌──────────────────────────────┐                       │
+│                    │ 📊 Response Aggregation       │                       │
+│                    │ + SSE Streaming to Client     │                       │
+│                    └──────────────────────────────┘                       │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <!-- Tool Details Grid -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                <!-- location_search -->
+                <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #ef4444; font-size: 0.9rem; margin-bottom: 0.5rem;">📍 location_search</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>Provider:</strong> KakaoAPI (Places)</div>
+                        <div><strong>Input:</strong> user_location + query keyword</div>
+                        <div><strong>Output:</strong> 주변 시설 목록 (이름, 주소, 거리)</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">Native tool_call → KakaoAPI REST → JSON parse</div>
+                    </div>
+                </div>
+                <!-- image_generation -->
+                <div style="background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #fb923c; font-size: 0.9rem; margin-bottom: 0.5rem;">🎨 image_generation</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>Provider:</strong> Gemini LLM Native API</div>
+                        <div><strong>Models:</strong> Nano, Banana, Pro</div>
+                        <div><strong>Output:</strong> Base64 이미지 → S3 업로드 → URL</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">LLM 네이티브 이미지 생성 (별도 API 불필요)</div>
+                    </div>
+                </div>
+                <!-- web_search -->
+                <div style="background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #a855f7; font-size: 0.9rem; margin-bottom: 0.5rem;">🔍 web_search</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>Provider:</strong> GPT 5.2 / Gemini-3-flash</div>
+                        <div><strong>Method:</strong> 네이티브 툴콜링 (Built-in)</div>
+                        <div><strong>Output:</strong> 검색 결과 요약 + 소스 URL</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">LLM이 자체 웹 검색 수행 (외부 API 불필요)</div>
+                    </div>
+                </div>
+                <!-- waste_classify -->
+                <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 1rem;">
+                    <div style="font-weight: 600; color: #8b5cf6; font-size: 0.9rem; margin-bottom: 0.5rem;">🗑️ waste_classify (RAG)</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>Provider:</strong> Vision LLM + Rule Engine</div>
+                        <div><strong>Method:</strong> Modular RAG Pipeline</div>
+                        <div><strong>Output:</strong> 분리배출 방법 + 재질 분류</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">Pre-Retrieval → KB → Post-Retrieval 3단계</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Native vs Traditional Comparison -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border-left: 3px solid #10b981;">
+                <strong style="color: #10b981;">
+                    <span class="lang-ko">⚡ Native Tool Calling vs Traditional API 호출</span>
+                    <span class="lang-en">⚡ Native Tool Calling vs Traditional API Calls</span>
+                </strong>
+                <div style="margin-top: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.75rem;">
+                    <div>
+                        <div style="color: #10b981; font-weight: 600; margin-bottom: 0.3rem;">✅ Native (web_search, image_gen)</div>
+                        <div style="color: var(--text-secondary); line-height: 1.5;">
+                            <span class="lang-ko">• LLM 내장 기능으로 지연 최소화<br>• 별도 API 키/엔드포인트 불필요<br>• 컨텍스트 유지된 결과 반환</span>
+                            <span class="lang-en">• Minimal latency via LLM built-in<br>• No separate API keys/endpoints<br>• Context-aware result generation</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="color: #f59e0b; font-weight: 600; margin-bottom: 0.3rem;">🔄 External API (location, waste)</div>
+                        <div style="color: var(--text-secondary); line-height: 1.5;">
+                            <span class="lang-ko">• 실시간 데이터 필요 (위치, DB)<br>• 전용 데이터소스 접근 필요<br>• tool_call → API 호출 → 결과 주입</span>
+                            <span class="lang-en">• Real-time data needed (location, DB)<br>• Dedicated datasource access required<br>• tool_call → API call → result injection</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SSE Streaming -->
+            <div style="padding: 1rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                <strong style="color: #3b82f6;">
+                    <span class="lang-ko">🌊 Tool Execution SSE Streaming</span>
+                    <span class="lang-en">🌊 Tool Execution SSE Streaming</span>
+                </strong>
+                <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6;">
+                    <span class="lang-ko">도구 실행 중간 결과를 SSE로 실시간 스트리밍하여 사용자에게 진행 상황 표시:<br>
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_start</code> →
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_progress</code> →
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_result</code> →
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">answer_stream</code></span>
+                    <span class="lang-en">Real-time SSE streaming of intermediate tool execution results to show progress:<br>
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_start</code> →
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_progress</code> →
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_result</code> →
+                    <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">answer_stream</code></span>
                 </div>
             </div>
         </div>
