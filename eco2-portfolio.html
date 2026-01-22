@@ -2653,7 +2653,7 @@
                     <div class="category-info">
                         <div class="category-icon">🤖</div>
                         <h3 class="category-title">Multi-Agent Chat</h3>
-                        <div class="category-posts">8 posts</div>
+                        <div class="category-posts">10 posts</div>
                     </div>
                     <div class="category-badges">
                         <span class="status-badge deployed">
@@ -2663,6 +2663,11 @@
                         <span class="tech-badge">LangGraph</span>
                         <span class="tech-badge">Send API</span>
                         <span class="tech-badge">Token v2</span>
+                        <span class="tech-badge">Function Calling</span>
+                        <span class="tech-badge">GPT-5.2</span>
+                        <span class="tech-badge">Gemini 3</span>
+                        <span class="tech-badge">Clean Architecture</span>
+                        <span class="tech-badge">Redis Streams</span>
                     </div>
                 </div>
                 <div class="category-content">
@@ -2690,6 +2695,13 @@
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>Send API 병렬 라우팅</strong> Dynamic Router + Enrichment Rules로 waste → weather 자동 추가, Aggregator에서 결과 수집 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>Send API Parallel Routing</strong> Dynamic Router + Enrichment Rules auto-add weather for waste, results collected at Aggregator <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                            </div>
+                        </div>
+                        <div class="achievement clickable" onclick="openModal('modal-chat-toolcalling')" style="cursor: pointer;">
+                            <span class="achievement-icon">🔧</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Tool Calling</strong> GPT-5.2 Strict Mode + Gemini 3 Function Calling, MOIS·KECO·Kakao API 네이티브 도구 호출 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Tool Calling</strong> GPT-5.2 Strict Mode + Gemini 3 Function Calling, MOIS·KECO·Kakao API native tool invocation <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                         <div class="achievement clickable" onclick="openModal('modal-3tier-memory')" style="cursor: pointer;">
@@ -2725,6 +2737,13 @@
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>LangSmith + OTEL</strong> TelemetryConfigPort 추상화, Feature 단위 Run 추적, OTEL Span 통합 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
                                 <span class="lang-en"><strong>LangSmith + OTEL</strong> TelemetryConfigPort abstraction, Feature-level Run tracking, OTEL Span integration <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                            </div>
+                        </div>
+                        <div class="achievement clickable" onclick="openModal('modal-chat-consistency')" style="cursor: pointer;">
+                            <span class="achievement-icon">🔒</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Data Consistency</strong> Lamport Clock 순서 보장, cleanup_sequence 메모리 관리, Aggregator 정합성 검증 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Data Consistency</strong> Lamport Clock ordering, cleanup_sequence memory management, Aggregator integrity validation <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                     </div>
