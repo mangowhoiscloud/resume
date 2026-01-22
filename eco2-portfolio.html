@@ -2506,21 +2506,7 @@
                 </div>
             </div>
 
-            <!-- 2. Character -->
-            <div class="domain-card clickable" data-modal="modal-domain-character" style="--domain-color: #f59e0b;">
-                <div class="domain-icon">🌍</div>
-                <div class="domain-title">Character</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">캐릭터 수집 + gRPC</span>
-                    <span class="lang-en">Character Collection + gRPC</span>
-                </div>
-            </div>
-
-            <!-- 3. Chat -->
+            <!-- 2. Chat -->
             <div class="domain-card clickable" data-modal="modal-domain-chat" style="--domain-color: #10b981;">
                 <div class="domain-icon">💬</div>
                 <div class="domain-title">Chat</div>
@@ -2534,7 +2520,7 @@
                 </div>
             </div>
 
-            <!-- 4. Scan -->
+            <!-- 3. Scan -->
             <div class="domain-card clickable" data-modal="modal-domain-scan" style="--domain-color: #8b5cf6;">
                 <div class="domain-icon">📷</div>
                 <div class="domain-title">Scan</div>
@@ -2545,6 +2531,20 @@
                 <div class="domain-desc">
                     <span class="lang-ko">Vision AI 폐기물 분류</span>
                     <span class="lang-en">Vision AI Waste Classifier</span>
+                </div>
+            </div>
+
+            <!-- 4. Character -->
+            <div class="domain-card clickable" data-modal="modal-domain-character" style="--domain-color: #f59e0b;">
+                <div class="domain-icon">🌍</div>
+                <div class="domain-title">Character</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">캐릭터 수집 + gRPC</span>
+                    <span class="lang-en">Character Collection + gRPC</span>
                 </div>
             </div>
 
@@ -13233,21 +13233,21 @@ T9: Pagination     loadMoreMessages()
             </div>
 
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">13 Eco² 캐릭터 패밀리</h4>
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">13 Eco² 캐릭터 (character_names.yaml)</h4>
                 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; font-size: 0.72rem;">
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🌍 이코<br><span style="color: var(--text-muted);">리더</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🧴 페티<br><span style="color: var(--text-muted);">플라스틱</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🥫 메탈리<br><span style="color: var(--text-muted);">금속</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">📰 파피<br><span style="color: var(--text-muted);">종이</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🍾 글라시<br><span style="color: var(--text-muted);">유리</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">👕 패브리<br><span style="color: var(--text-muted);">의류</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🔋 볼티<br><span style="color: var(--text-muted);">전자기기</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🍌 바나나<br><span style="color: var(--text-muted);">음식물</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🛢️ 오일리<br><span style="color: var(--text-muted);">폐유</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">💊 메디<br><span style="color: var(--text-muted);">의약품</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🪵 우디<br><span style="color: var(--text-muted);">목재</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🧱 브리키<br><span style="color: var(--text-muted);">건설폐기물</span></div>
-                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">☢️ 케미<br><span style="color: var(--text-muted);">유해폐기물</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🌍 이코<br><span style="color: var(--text-muted);">대표 캐릭터</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🧴 페티<br><span style="color: var(--text-muted);">무색페트병</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🥫 메탈리<br><span style="color: var(--text-muted);">금속류</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">📄 페이피<br><span style="color: var(--text-muted);">종이</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🧃 플리<br><span style="color: var(--text-muted);">플라스틱류</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🛍️ 비니<br><span style="color: var(--text-muted);">비닐류</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">📦 폼이<br><span style="color: var(--text-muted);">발포합성수지</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🍾 글래시<br><span style="color: var(--text-muted);">유리병</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🥛 팩토리<br><span style="color: var(--text-muted);">종이팩</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">🔋 배리<br><span style="color: var(--text-muted);">전지</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">💡 라이티<br><span style="color: var(--text-muted);">조명제품</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">👕 코튼<br><span style="color: var(--text-muted);">의류및원단</span></div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.5rem; border-radius: 6px; text-align: center;">📱 일렉<br><span style="color: var(--text-muted);">전기전자제품</span></div>
                 </div>
             </div>
 
@@ -13255,7 +13255,8 @@ T9: Pagination     loadMoreMessages()
                 <strong style="color: #f59e0b;">📂 Source Files</strong>
                 <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
                     <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/character_node.py" target="_blank" style="color: #f59e0b;">nodes/character_node.py</a><br>
-                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/character_instruction.txt" target="_blank" style="color: #f59e0b;">prompts/local/character_instruction.txt</a><br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/data/character_names.yaml" target="_blank" style="color: #f59e0b;">data/character_names.yaml</a> (13종 정의)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/character_name_detector.py" target="_blank" style="color: #f59e0b;">character_name_detector.py</a><br>
                     <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/global/eco_character.txt" target="_blank" style="color: #f59e0b;">prompts/global/eco_character.txt</a>
                 </div>
             </div>
