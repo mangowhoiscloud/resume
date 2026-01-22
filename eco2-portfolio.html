@@ -4310,6 +4310,13 @@
             <!-- Intent Classification Grid - First -->
             <div style="margin-bottom: 1.5rem;">
                 <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">🎯 9-Class Intent Classification</div>
+                <!-- Intent Node Card -->
+                <div style="background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15)); border: 1px solid rgba(59,130,246,0.4); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem; cursor: pointer;" onclick="openModal('modal-intent-node')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="font-weight: 600; color: #3b82f6; font-size: 0.85rem;">🧠 Intent Node</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">LLM 분류 + Chain-of-Intent + Multi-Intent Detection + Keyword Boost</div>
+                    </div>
+                </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
                     <div style="background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.4); border-radius: 6px; padding: 0.5rem; cursor: pointer;" onclick="openModal('modal-intent-waste')">
                         <div style="font-weight: 600; color: #8b5cf6; font-size: 0.85rem;">🗑️ waste</div>
@@ -4341,7 +4348,7 @@
                     </div>
                     <div style="background: rgba(251,146,60,0.15); border: 1px solid rgba(251,146,60,0.4); border-radius: 6px; padding: 0.5rem; cursor: pointer;" onclick="openModal('modal-intent-image-generation')">
                         <div style="font-weight: 600; color: #fb923c; font-size: 0.85rem;">🎨 image_generation</div>
-                        <div style="font-size: 0.7rem; color: var(--text-secondary);">이미지 생성 (Gemini LLM Native API: Nano, Banana, Pro)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">이미지 생성 (Gemini LLM Native API: Nano Banana Pro)</div>
                     </div>
                     <div style="background: rgba(107,114,128,0.15); border: 1px solid rgba(107,114,128,0.4); border-radius: 6px; padding: 0.5rem; cursor: pointer;" onclick="openModal('modal-intent-general')">
                         <div style="font-weight: 600; color: #6b7280; font-size: 0.85rem;">💬 general</div>
@@ -12728,7 +12735,7 @@ T9: Pagination     loadMoreMessages()
                     <div style="font-weight: 600; color: #fb923c; font-size: 0.9rem; margin-bottom: 0.5rem;">🎨 image_generation</div>
                     <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
                         <div><strong>Provider:</strong> Gemini LLM Native API</div>
-                        <div><strong>Models:</strong> Nano, Banana, Pro</div>
+                        <div><strong>Models:</strong> Nano Banana Pro</div>
                         <div><strong>Output:</strong> Base64 이미지 → S3 업로드 → URL</div>
                         <div style="color: var(--text-muted); margin-top: 0.3rem;">LLM 네이티브 이미지 생성 (별도 API 불필요)</div>
                     </div>
@@ -12984,6 +12991,134 @@ T9: Pagination     loadMoreMessages()
     <!-- ============================================================ -->
     <!-- Intent Detail Modals (9 Intents) -->
     <!-- ============================================================ -->
+
+    <!-- Modal: Intent Node (Classification Pipeline) -->
+    <div class="modal-overlay" id="modal-intent-node">
+        <div class="modal-content" style="max-width: 950px;">
+            <button class="modal-close" onclick="closeModal('modal-intent-node')">×</button>
+            <h3 class="modal-title">🧠 Intent Node - 의도 분류 파이프라인</h3>
+
+            <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
+<pre style="font-size: 0.72rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                  Intent Classification Pipeline                      │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  User Message ──► intent_node ──► dynamic_router ──► subagents     │
+│                       │                                             │
+│         ┌─────────────┴─────────────┐                               │
+│         │    ClassifyIntentCommand    │  (UseCase)                   │
+│         │  ┌───────────────────────┐ │                              │
+│         │  │ 1. Cache 조회          │ │  SHA256(message) → Redis    │
+│         │  │    TTL: 3600s (1시간)  │ │                              │
+│         │  ├───────────────────────┤ │                              │
+│         │  │ 2. LLM 호출            │ │                              │
+│         │  │    intent.txt 프롬프트  │ │                              │
+│         │  │    → JSON 응답 파싱     │ │                              │
+│         │  ├───────────────────────┤ │                              │
+│         │  │ 3. IntentClassifier    │ │  (Service)                   │
+│         │  │    Service             │ │                              │
+│         │  │  • Keyword Boost +0.2  │ │                              │
+│         │  │  • Chain-of-Intent     │ │                              │
+│         │  │    Transition +0.15    │ │                              │
+│         │  │  • Length Penalty -0.1 │ │                              │
+│         │  │  • THRESHOLD: 0.6     │ │                              │
+│         │  ├───────────────────────┤ │                              │
+│         │  │ 4. Multi-Intent 감지   │ │                              │
+│         │  │    "그리고","또","같이" │ │                              │
+│         │  │    → Query Decompose   │ │                              │
+│         │  ├───────────────────────┤ │                              │
+│         │  │ 5. 캐릭터 이름 감지    │ │                              │
+│         │  │    "페티","이코" 등     │ │                              │
+│         │  │    → image_gen 참조용  │ │                              │
+│         │  ├───────────────────────┤ │                              │
+│         │  │ 6. Cache 저장          │ │                              │
+│         │  └───────────────────────┘ │                              │
+│         └────────────────────────────┘                              │
+│                                                                     │
+│  Output → state:                                                    │
+│    intent, confidence, is_complex, has_multi_intent,                │
+│    additional_intents, decomposed_queries, intent_history,          │
+│    detected_character                                               │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Confidence Scoring</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.75rem; font-family: 'Fira Code', monospace; color: var(--text-secondary); line-height: 1.6;">
+                    final_confidence = <span style="color: #3b82f6;">llm_confidence</span> + <span style="color: #22c55e;">keyword_boost</span> + <span style="color: #f59e0b;">transition_boost</span> + <span style="color: #ef4444;">length_penalty</span><br><br>
+                    <span style="color: #3b82f6;">llm_confidence</span>: 0.0~1.0 (LLM JSON 응답)<br>
+                    <span style="color: #22c55e;">keyword_boost</span>: 0.0~0.2 (키워드 맵 매칭)<br>
+                    <span style="color: #f59e0b;">transition_boost</span>: 0.0~0.15 (Chain-of-Intent, last_conf ≥ 0.7)<br>
+                    <span style="color: #ef4444;">length_penalty</span>: -0.1~0.0 (짧은 질문)<br><br>
+                    CONFIDENCE_THRESHOLD = <span style="color: #ef4444;">0.6</span> (미만 → general fallback)
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">주입 프롬프트 (intent.txt 핵심)</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem;">9 Categories</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            waste, character, location,<br>
+                            bulk_waste, recyclable_price,<br>
+                            collection_point, weather,<br>
+                            image_generation, general
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem;">판단 가이드라인</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            1. 의미 중심 판단 (키워드 X)<br>
+                            2. 대화 맥락 고려<br>
+                            3. 확신 낮으면 general<br>
+                            4. 복합 질문 → 핵심 의도 선택
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem;">Multi-turn Context</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            conversation_history[-6:]<br>
+                            (최근 3턴 참조)<br>
+                            → LLM 맥락 분류 지원
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem;">Output Format</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
+                            {"intent": "waste",<br>
+                            &nbsp;"confidence": 0.95,<br>
+                            &nbsp;"reasoning": "분리배출 방법"}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Chain-of-Intent Transitions</h4>
+                <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.72rem; color: var(--text-secondary); display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                    <div>waste → location: <span style="color: #22c55e;">+0.15</span></div>
+                    <div>waste → collection_point: <span style="color: #22c55e;">+0.10</span></div>
+                    <div>location → waste: <span style="color: #22c55e;">+0.10</span></div>
+                    <div>bulk_waste → location: <span style="color: #22c55e;">+0.10</span></div>
+                    <div style="grid-column: span 2; margin-top: 0.3rem; color: var(--text-muted);">※ last_confidence ≥ 0.7 + intent_history 기반 적용</div>
+                </div>
+            </div>
+
+            <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                <strong style="color: #3b82f6;">📂 Source Files</strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/intent_node.py" target="_blank" style="color: #3b82f6;">nodes/intent_node.py</a> (Node Adapter)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/commands/classify_intent_command.py" target="_blank" style="color: #3b82f6;">commands/classify_intent_command.py</a> (UseCase)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/services/intent_classifier_service.py" target="_blank" style="color: #3b82f6;">services/intent_classifier_service.py</a> (Business Logic)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/classification/intent.txt" target="_blank" style="color: #3b82f6;">prompts/classification/intent.txt</a> (System Prompt)
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal: Intent - waste (RAG) -->
     <div class="modal-overlay" id="modal-intent-waste">
