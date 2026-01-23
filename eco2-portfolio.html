@@ -2555,10 +2555,11 @@
                 <div class="domain-title">Location</div>
                 <div class="domain-type">
                     <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge" style="background: rgba(59,130,246,0.2); color: #60a5fa;">FE</span>
                 </div>
                 <div class="domain-desc">
-                    <span class="lang-ko">PostGIS 위치 검색</span>
-                    <span class="lang-en">PostGIS Location Search</span>
+                    <span class="lang-ko">Kakao 검색 + PostGIS 공간 쿼리</span>
+                    <span class="lang-en">Kakao Search + PostGIS Spatial</span>
                 </div>
             </div>
 
@@ -6299,7 +6300,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
     <div class="modal-overlay" id="modal-domain-location">
         <div class="modal-content" style="max-width: 900px;">
             <button class="modal-close" onclick="closeModal('modal-domain-location')">×</button>
-            <h3 class="modal-title">📍 Location Domain - PostGIS + Zoom Policy</h3>
+            <h3 class="modal-title">📍 Location Domain - Kakao Local API + PostGIS DB-First Merge</h3>
             <div class="domain-demo-section">
                 <div class="domain-demo-title">
                     <span class="lang-ko">📹 API 동작</span>
@@ -6318,14 +6319,26 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
                         <div>• GET /locations/centers</div>
-                        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">query: lat, lng, zoom → radius/limit 자동 결정</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">lat, lng, zoom → radius/limit 자동 결정</div>
+                        <div style="margin-top: 0.3rem;">• GET /locations/search</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">Kakao 키워드 + PostGIS 반경 병합, 50m 중복 제거</div>
+                        <div style="margin-top: 0.3rem;">• GET /locations/suggest</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">자동완성 (Kakao accuracy 정렬, max 5)</div>
+                        <div style="margin-top: 0.3rem;">• GET /locations/centers/{id}</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">상세 조회 + Kakao place_url 보강</div>
                     </div>
                 </div>
                 <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
                     <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (Internal)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
                         <div>• SearchNearby(lat, lng, zoom)</div>
-                        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">Chat Worker → Location 내부 호출</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">Chat Worker → Location 내부 호출</div>
+                    </div>
+                    <h5 style="color: #10b981; margin-top: 1rem; margin-bottom: 0.75rem;">🗺️ Kakao Local API</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div>• KakaoLocalClientPort (Port/Adapter)</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">httpx.AsyncClient + Lazy Init + asyncio.Lock</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">일일 30만 건, place_url 제공</div>
                     </div>
                 </div>
             </div>
@@ -6365,6 +6378,38 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- DB-First Merge Search Flow -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">DB-First Merge Search</h4>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); line-height: 1.7;">
+                    <div style="color: #f59e0b;">// SearchByKeywordQuery (DB-First Merge)</div>
+                    <div>1. Kakao 키워드 검색 (accuracy 정렬) → 중심 좌표 획득</div>
+                    <div>2. 획득 좌표 기반 Kakao 재검색 (<span style="color: #3b82f6;">distance</span> 정렬)</div>
+                    <div>3. PostGIS earth_distance() 반경 쿼리 → DB 결과 (메타데이터 풍부)</div>
+                    <div>4. <span style="color: #10b981;">50m Haversine</span> 좌표 비교로 DB↔Kakao 중복 제거</div>
+                    <div>5. DB 우선 병합 + Kakao 보충 (<span style="color: #ef4444;">음수 ID</span> = Kakao only, source 구분)</div>
+                    <div>6. distance_km 기준 최종 정렬 → 응답</div>
+                    <div style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.75rem;">// DB: 수거품목·운영시간·소개 등 풍부한 메타데이터 보유 → 우선 노출</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.75rem;">
+                    <div style="background: rgba(139,92,246,0.1); padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(139,92,246,0.3);">
+                        <div style="font-size: 0.75rem; color: #8b5cf6; font-weight: 600;">Suggest (자동완성)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">300ms debounce → Kakao accuracy 정렬</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">max 5건, 서버사이드 (API Key 보호)</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.1); padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-size: 0.75rem; color: #3b82f6; font-weight: 600;">Detail 보강</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">DB 조회 후 Kakao place_url·전화번호 병합</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Kakao 실패 시 DB 단독 응답 (Graceful Degradation)</div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 0.6rem; border-radius: 6px; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-size: 0.75rem; color: #10b981; font-weight: 600;">길찾기</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">Geolocation(maxAge:60s, timeout:3s)</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">from/현위치/to/목적지 → 권한 거부 시 목적지만</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Technical Details -->
             <div class="domain-details">
                 <div class="domain-detail-grid">
@@ -6373,12 +6418,28 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                         <div class="domain-detail-value">earth_distance() + ll_to_earth(), cube/earthdistance extension, Haversine fallback</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">Zoom Policy</div>
-                        <div class="domain-detail-value">zoom → (radius_m, limit) 연속 매핑, SQLAlchemy + func.earth_distance</div>
+                        <div class="domain-detail-label">Kakao 중복 제거</div>
+                        <div class="domain-detail-value">50m Haversine 기반 좌표 비교, DB 우선 병합, 음수 ID로 source 구분</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">데이터 소스</div>
-                        <div class="domain-detail-value">정부 공공데이터 (재활용센터, 수거함), KECO API</div>
+                        <div class="domain-detail-label">HTTP Client</div>
+                        <div class="domain-detail-value">httpx.AsyncClient, Lazy Init + asyncio.Lock, Graceful Degradation</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">MapSearchBar</div>
+                        <div class="domain-detail-value">300ms debounce → suggest 드롭다운, Enter/버튼 → full search 분기</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">MapCard + DetailSheet</div>
+                        <div class="domain-detail-value">source별 아이콘(keco/zerowaste/kakao), 첫 클릭: 선택 · 재클릭: 바텀시트, 수거품목·안내·place_url</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">StoreCategoryFilter</div>
+                        <div class="domain-detail-value">9개 store_category, 임시 상태 → "결과보기" 클릭 시 API 재호출</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">PWA Viewport</div>
+                        <div class="domain-detail-value">JS standalone 감지 (CSS media query iOS 불안정), 100dvh + env(safe-area-inset-*)</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Chat Integration</div>
