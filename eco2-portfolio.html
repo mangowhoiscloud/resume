@@ -6277,45 +6277,51 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
                     <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• GET /collection-points/nearby</div>
-                        <div>• GET /service-areas</div>
-                        <div>• POST /geocode, /reverse-geocode</div>
+                        <div>• GET /locations/centers</div>
+                        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">query: lat, lng, zoom → radius/limit 자동 결정</div>
                     </div>
                 </div>
                 <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
                     <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (Internal)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• GetNearbyCollectionPoints()</div>
-                        <div>• CheckServiceArea()</div>
-                        <div>• GetBulkWasteZone()</div>
+                        <div>• SearchNearby(lat, lng, zoom)</div>
+                        <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">Chat Worker → Location 내부 호출</div>
                     </div>
                 </div>
             </div>
 
             <!-- Zoom Policy -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Zoom Policy Service</h4>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Zoom Policy Service (Continuous 1-20)</h4>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;">
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-weight: 600; color: #8b5cf6;">Zoom 0-5</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">국가 레벨</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">50개, 클러스터링</div>
+                        <div style="font-weight: 600; color: #8b5cf6;">Zoom 1</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">50,000m</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">limit: 10</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-weight: 600; color: #f59e0b;">Zoom 6-10</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">시/도 레벨</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">200개, 중요도필터</div>
+                        <div style="font-weight: 600; color: #f59e0b;">Zoom 7</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">20,000m</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">limit: 30</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-weight: 600; color: #10b981;">Zoom 11-14</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">구/군 레벨</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">500개, 상세</div>
+                        <div style="font-weight: 600; color: #10b981;">Zoom 12</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">3,000m</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">limit: 80</div>
                     </div>
                     <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
-                        <div style="font-weight: 600; color: #3b82f6;">Zoom 15-20</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">동/리 레벨</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">1000개, 전체</div>
+                        <div style="font-weight: 600; color: #3b82f6;">Zoom 16</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">500m</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">limit: 150</div>
                     </div>
+                    <div style="background: var(--bg-card); padding: 0.75rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-subtle);">
+                        <div style="font-weight: 600; color: #ef4444;">Zoom 20</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">200m</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">limit: 200</div>
+                    </div>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); text-align: center;">
+                    ZOOM_RADIUS_TABLE + ZOOM_LIMIT_TABLE: 줌 레벨별 반경/개수 연속 매핑
                 </div>
             </div>
 
@@ -6324,11 +6330,11 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div class="domain-detail-grid">
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">PostGIS Query</div>
-                        <div class="domain-detail-value">ST_DWithin + ST_Distance, GIST 인덱스, geography 타입</div>
+                        <div class="domain-detail-value">earth_distance() + ll_to_earth(), cube/earthdistance extension, Haversine fallback</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">공간 쿼리</div>
-                        <div class="domain-detail-value">ST_Contains (영역 포함), ST_MakePoint (좌표 생성)</div>
+                        <div class="domain-detail-label">Zoom Policy</div>
+                        <div class="domain-detail-value">zoom → (radius_m, limit) 연속 매핑, SQLAlchemy + func.earth_distance</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">데이터 소스</div>
@@ -6336,7 +6342,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Chat Integration</div>
-                        <div class="domain-detail-value">location_node gRPC 호출, 반경 1km 내 수거함 5개</div>
+                        <div class="domain-detail-value">location_node HTTP 호출, 반경 5km (radius=5000), limit=5</div>
                     </div>
                 </div>
             </div>
@@ -6365,18 +6371,19 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
                     <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🌐 HTTP REST (External)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• GET /users/me - 프로필 조회</div>
-                        <div>• PATCH /users/me - 프로필 수정</div>
-                        <div>• DELETE /users/me - 계정 삭제</div>
-                        <div>• GET /users/me/characters - 소유 캐릭터</div>
+                        <div>• GET /me - 프로필 조회</div>
+                        <div>• PATCH /me - 프로필 수정</div>
+                        <div>• DELETE /me - 계정 삭제</div>
+                        <div>• GET /me/characters - 소유 캐릭터</div>
+                        <div>• GET /me/characters/{name}/ownership</div>
                     </div>
                 </div>
                 <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
                     <h5 style="color: #10b981; margin-bottom: 0.75rem;">⚡ gRPC (for Auth)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div>• GetOrCreateUser() - OAuth 로그인</div>
-                        <div>• GetUserById() - 사용자 조회</div>
-                        <div>• ValidateUser() - 존재 확인</div>
+                        <div>• GetOrCreateFromOAuth() - OAuth 로그인</div>
+                        <div>• GetUser() - 사용자 조회</div>
+                        <div>• UpdateLoginTime() - 로그인 시각 갱신</div>
                     </div>
                 </div>
             </div>
@@ -6408,11 +6415,11 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div class="domain-detail-grid">
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">gRPC Auth Integration</div>
-                        <div class="domain-detail-value">OAuth 로그인 시 GetOrCreateUser() 호출, 신규 사용자 생성</div>
+                        <div class="domain-detail-value">OAuth 로그인 시 GetOrCreateFromOAuth() 호출, UpdateLoginTime() 갱신</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Character Ownership</div>
-                        <div class="domain-detail-value">user_characters 다대다 테이블, acquired_at 기록</div>
+                        <div class="domain-detail-value">user_characters 다대다 테이블, acquired_at + status (owned/burned/traded)</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Reward Trigger</div>
@@ -6463,7 +6470,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │    │                      │                │                    │         │
 │    │ 3. Direct Upload (PUT)                │                    │         │
 │    ├───────────────────────────────────────▶│                    │         │
-│    │    (5분 만료)         │                │                    │         │
+│    │    (15분 만료)        │                │                    │         │
 │    │                      │                │                    │         │
 │    │ 4. Upload OK         │                │                    │         │
 │    │◀───────────────────────────────────────┤                    │         │
@@ -6477,29 +6484,29 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 └──────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
-            <!-- Image Purpose Types -->
+            <!-- Image Channels -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Image Purpose Types</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Image Channels (ImageChannel enum)</h4>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                     <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
-                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">📷 SCAN</div>
+                        <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">📷 scan</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                            <div>scans/{date}/{user}/{id}</div>
-                            <div style="color: var(--text-muted);">TTL: 30일</div>
+                            <div>scan/{uuid}.{ext}</div>
+                            <div style="color: var(--text-muted);">분류 스캔 이미지</div>
                         </div>
                     </div>
                     <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
-                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">👤 PROFILE</div>
+                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">💬 chat</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                            <div>profiles/{user}/{id}</div>
-                            <div style="color: var(--text-muted);">TTL: 영구</div>
+                            <div>chat/{uuid}.{ext}</div>
+                            <div style="color: var(--text-muted);">채팅 첨부 이미지</div>
                         </div>
                     </div>
                     <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
-                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">💬 CHAT</div>
+                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">👤 my</div>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                            <div>chat/{date}/{user}/{id}</div>
-                            <div style="color: var(--text-muted);">TTL: 7일</div>
+                            <div>my/{uuid}.{ext}</div>
+                            <div style="color: var(--text-muted);">프로필/개인 이미지</div>
                         </div>
                     </div>
                 </div>
@@ -6510,19 +6517,19 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div class="domain-detail-grid">
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Presigned URL</div>
-                        <div class="domain-detail-value">PUT only, 5분 만료, Content-Type 제한 (image/*)</div>
+                        <div class="domain-detail-value">PUT only, 15분 만료 (presign_expires_seconds=900)</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">CloudFront CDN</div>
                         <div class="domain-detail-value">images.dev.growbin.app, OAI (Origin Access Identity)</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">S3 Lifecycle</div>
-                        <div class="domain-detail-value">purpose별 자동 만료, scans/ 30일, chat/ 7일</div>
+                        <div class="domain-detail-label">S3 Path</div>
+                        <div class="domain-detail-value">{channel}/{uuid}.{ext}, channel: scan | chat | my</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Security</div>
-                        <div class="domain-detail-value">IRSA + Bucket Policy (CloudFront OAI only), 최대 10MB</div>
+                        <div class="domain-detail-value">IRSA + Bucket Policy (CloudFront OAI only), S3 Direct PUT</div>
                     </div>
                 </div>
             </div>
@@ -6564,8 +6571,8 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │  ║  │ • 5min Naver│───▶│  CollectNewsCommand                                 │   ║   │
 │  ║  │ • 30min News│    │    │                                                │   ║   │
 │  ║  │   Data.io   │    │    ▼                                                │   ║   │
-│  ║  │ • 03:00     │    │  ┌─────────────┐   ┌─────────────┐                  │   ║   │
-│  ║  │   cleanup   │    │  │ Naver API   │   │NewsData.io  │  API Calls       │   ║   │
+│  ║  │             │    │  ┌─────────────┐   ┌─────────────┐                  │   ║   │
+│  ║  │             │    │  │ Naver API   │   │NewsData.io  │  API Calls       │   ║   │
 │  ║  └─────────────┘    │  │ (3x, 1.10s) │   │(3x, 0.69s)  │  (1.79s)         │   ║   │
 │  ║                     │  └──────┬──────┘   └──────┬──────┘                  │   ║   │
 │  ║  emptyDir:          │         └────────┬────────┘                         │   ║   │
@@ -6577,12 +6584,12 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │  ║                     │                  ▼                                  │   ║   │
 │  ║                     │  ┌─────────────────────────────────────────────┐    │   ║   │
 │  ║                     │  │  PostgreSQL UPSERT (0.20s)                  │    │   ║   │
-│  ║                     │  │  psycopg2 + ThreadedConnectionPool          │    │   ║   │
+│  ║                     │  │  psycopg2 + ThreadedConnectionPool(min=2,max=10)│   ║   │
 │  ║                     │  └────────────────────┬────────────────────────┘    │   ║   │
 │  ║                     │                       ▼                             │   ║   │
 │  ║                     │  ┌─────────────────────────────────────────────┐    │   ║   │
 │  ║                     │  │  Redis Write-Through (0.04s)                │    │   ║   │
-│  ║                     │  │  TTL: lists 3600s / articles 86400s         │    │   ║   │
+│  ║                     │  │  TTL: 3600s (news_cache_ttl, 모든 캐시 동일) │    │   ║   │
 │  ║                     │  └─────────────────────────────────────────────┘    │   ║   │
 │  ║                     └─────────────────────────────────────────────────────┘   ║   │
 │  ║                                                                                ║   │
@@ -6597,8 +6604,8 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │  ║  │  Client  │────▶│  Info API   │────▶│    Redis    │──── HIT ────▶ Response  ║   │
 │  ║  │ (React)  │     │  (FastAPI)  │     │  (Primary)  │     source: "redis"     ║   │
 │  ║  └──────────┘     │             │     └──────┬──────┘                         ║   │
-│  ║                   │  asyncpg    │            │ MISS                           ║   │
-│  ║                   │  redis.aio  │            ▼                                ║   │
+│  ║                   │  redis.aio  │            │ MISS                           ║   │
+│  ║                   │  psycopg2   │            ▼                                ║   │
 │  ║                   └─────────────┘     ┌─────────────┐                         ║   │
 │  ║                                       │ PostgreSQL  │──── Fallback ──▶ Resp   ║   │
 │  ║                                       │ (Emergency) │     source: "postgres"  ║   │
@@ -6646,8 +6653,8 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
                         <h5 style="color: #10b981; margin-bottom: 0.75rem;">📖 API (Async)</h5>
                         <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                            <div>• <strong>asyncpg</strong> - FastAPI async 모델 일치</div>
-                            <div>• <strong>redis.asyncio</strong> - 비동기 네이티브</div>
+                            <div>• <strong>redis.asyncio</strong> - 비동기 캐시 조회</div>
+                            <div>• <strong>Cache-Aside</strong> - Redis miss → PostgreSQL fallback</div>
                             <div>• <strong>source 메타데이터</strong> - "redis"/"postgres"</div>
                             <div>• <strong>useInfiniteQuery</strong> - 무한스크롤</div>
                         </div>
