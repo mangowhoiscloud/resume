@@ -5519,35 +5519,30 @@ needs_fallback = len(missing_required) > 0
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Claude Code Cycle Mode</h4>
                 <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                    도메인별 세션을 분리하고 <strong>shift+tab</strong>으로 순차 전환하며 FE/BE/Agent를 병렬 진행합니다.
+                    역할별로 세션을 분리한 뒤 <strong>shift+tab</strong>으로 순차 전환하며 병렬 진행합니다. 각 세션은 독립된 컨텍스트를 유지하면서 동일 코드베이스를 대상으로 작업하고, 개발자는 방향 설정과 PR 리뷰에 집중합니다.
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
-                    <div style="background: rgba(59,130,246,0.15); padding: 0.6rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
-                        <div style="font-size: 0.7rem; color: #3b82f6; font-weight: 600;">Tab 1-2</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">FE Agent + SSE 안정화</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                    <div style="background: rgba(59,130,246,0.15); padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-size: 0.8rem; color: #3b82f6; font-weight: 700; margin-bottom: 0.4rem;">FE Session</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">
+                            UI 컴포넌트, SSE 스트리밍, IndexedDB 스키마, iOS 호환성
+                        </div>
                     </div>
-                    <div style="background: rgba(16,185,129,0.15); padding: 0.6rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
-                        <div style="font-size: 0.7rem; color: #10b981; font-weight: 600;">Tab 3-4</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">BE Chat Agents 기능</div>
+                    <div style="background: rgba(16,185,129,0.15); padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-size: 0.8rem; color: #10b981; font-weight: 700; margin-bottom: 0.4rem;">BE Session</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">
+                            도메인 로직, gRPC 서비스, LangGraph 에이전트, Worker 파이프라인
+                        </div>
                     </div>
-                    <div style="background: rgba(168,85,247,0.15); padding: 0.6rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
-                        <div style="font-size: 0.7rem; color: #a855f7; font-weight: 600;">Tab 5-6</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">도메인 고도화 + 배포</div>
+                    <div style="background: rgba(168,85,247,0.15); padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(168,85,247,0.3);">
+                        <div style="font-size: 0.8rem; color: #a855f7; font-weight: 700; margin-bottom: 0.4rem;">Observability</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">
+                            OTEL 트레이싱, K8s 매니페스트, 배포 파이프라인, 모니터링
+                        </div>
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
-                    <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
-                        <div style="font-weight: 700; color: #00ff88; font-size: 1.1rem;">29</div>
-                        <div style="color: var(--text-muted); font-size: 0.7rem;">PRs (단일 세션)</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
-                        <div style="font-weight: 700; color: #00ff88; font-size: 1.1rem;">19</div>
-                        <div style="color: var(--text-muted); font-size: 0.7rem;">기능 PR</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
-                        <div style="font-weight: 700; color: #00ff88; font-size: 1.1rem;">10</div>
-                        <div style="color: var(--text-muted); font-size: 0.7rem;">배포 PR</div>
-                    </div>
+                <div style="padding: 0.75rem 1rem; background: rgba(0,255,136,0.08); border-radius: 8px; border: 1px solid rgba(0,255,136,0.2); font-size: 0.8rem; color: var(--text-secondary);">
+                    <strong style="color: #00ff88;">운용 흐름:</strong> 각 세션에 Skills + Context를 주입 → 독립 실행 → shift+tab 전환으로 진행 상황 확인 → PR 생성 → 개발자 리뷰 후 머지
                 </div>
             </div>
 
