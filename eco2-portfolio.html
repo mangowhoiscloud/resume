@@ -5515,6 +5515,42 @@ needs_fallback = len(missing_required) > 0
                 </div>
             </div>
 
+            <!-- Cycle Mode Workflow -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Claude Code Cycle Mode</h4>
+                <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
+                    도메인별 세션을 분리하고 <strong>shift+tab</strong>으로 순차 전환하며 FE/BE/Agent를 병렬 진행합니다.
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                    <div style="background: rgba(59,130,246,0.15); padding: 0.6rem; border-radius: 8px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-size: 0.7rem; color: #3b82f6; font-weight: 600;">Tab 1-2</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">FE Agent + SSE 안정화</div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.15); padding: 0.6rem; border-radius: 8px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-size: 0.7rem; color: #10b981; font-weight: 600;">Tab 3-4</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">BE Chat Agents 기능</div>
+                    </div>
+                    <div style="background: rgba(168,85,247,0.15); padding: 0.6rem; border-radius: 8px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
+                        <div style="font-size: 0.7rem; color: #a855f7; font-weight: 600;">Tab 5-6</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">도메인 고도화 + 배포</div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 700; color: #00ff88; font-size: 1.1rem;">29</div>
+                        <div style="color: var(--text-muted); font-size: 0.7rem;">PRs (단일 세션)</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 700; color: #00ff88; font-size: 1.1rem;">19</div>
+                        <div style="color: var(--text-muted); font-size: 0.7rem;">기능 PR</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.6rem; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: 700; color: #00ff88; font-size: 1.1rem;">10</div>
+                        <div style="color: var(--text-muted); font-size: 0.7rem;">배포 PR</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Progressive Disclosure -->
             <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
                 <strong style="color: #8b5cf6;">Progressive Disclosure Pattern</strong>
