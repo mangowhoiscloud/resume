@@ -5519,7 +5519,7 @@ needs_fallback = len(missing_required) > 0
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Claude Code Cycle Mode</h4>
                 <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                    역할별로 세션을 분리한 뒤 <strong>shift+tab</strong>으로 순차 전환하며 병렬 진행합니다. 각 세션은 독립된 컨텍스트를 유지하면서 동일 코드베이스를 대상으로 작업하고, 개발자는 방향 설정과 PR 리뷰에 집중합니다.
+                    역할별 세션을 분리하고, <strong>shift+tab</strong>으로 Permission Mode를 순환(<code style="font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.3rem; border-radius: 3px;">Plan → Auto-Accept → Normal</code>)하며 운용합니다. <strong>Plan Mode</strong>에서 코드베이스를 read-only 분석한 뒤 방향을 확정하고, <strong>Auto-Accept</strong>로 전환해 무중단 실행합니다.
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
                     <div style="background: rgba(59,130,246,0.15); padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
@@ -5541,8 +5541,8 @@ needs_fallback = len(missing_required) > 0
                         </div>
                     </div>
                 </div>
-                <div style="padding: 0.75rem 1rem; background: rgba(0,255,136,0.08); border-radius: 8px; border: 1px solid rgba(0,255,136,0.2); font-size: 0.8rem; color: var(--text-secondary);">
-                    <strong style="color: #00ff88;">운용 흐름:</strong> 각 세션에 Skills + Context를 주입 → 독립 실행 → shift+tab 전환으로 진행 상황 확인 → PR 생성 → 개발자 리뷰 후 머지
+                <div style="padding: 0.75rem 1rem; background: rgba(0,255,136,0.08); border-radius: 8px; border: 1px solid rgba(0,255,136,0.2); font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                    <strong style="color: #00ff88;">운용 흐름:</strong> Skills + Context 주입 → <span style="color: #f59e0b;">⏸ Plan Mode</span> 코드베이스 분석·방향 확정 → <span style="color: #10b981;">⏵⏵ Auto-Accept</span> 무중단 실행 → PR 생성 → 개발자 리뷰 후 머지
                 </div>
             </div>
 
