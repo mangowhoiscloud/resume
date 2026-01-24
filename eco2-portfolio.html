@@ -7095,6 +7095,43 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
+            <!-- T1-T6 SSE Stage Progression -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">T1–T6 Scan SSE Streaming (stream_id 할당)</h4>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); line-height: 1.7;">
+                    <div style="color: #f59e0b;">// Worker XADD → Redis Streams → SSE Gateway → Client</div>
+                    <div>T1  <span style="color: #8b5cf6;">id: 1709234567890-0</span>  stage: <span style="color: #10b981;">queued</span>     → 접수 확인</div>
+                    <div>T2  <span style="color: #8b5cf6;">id: 1709234567891-0</span>  stage: <span style="color: #10b981;">vision</span>     → GPT Vision 분류 중</div>
+                    <div>T3  <span style="color: #8b5cf6;">id: 1709234567892-0</span>  stage: <span style="color: #10b981;">rule</span>       → Rule-based 검색 중</div>
+                    <div>T4  <span style="color: #8b5cf6;">id: 1709234567893-0</span>  type:  <span style="color: #3b82f6;">token</span>      → LLM 토큰 스트리밍 (N개)</div>
+                    <div>T5  <span style="color: #8b5cf6;">id: 1709234567899-0</span>  stage: <span style="color: #10b981;">answer</span>     → 답변 완료</div>
+                    <div>T6  <span style="color: #8b5cf6;">id: 1709234567900-0</span>  stage: <span style="color: #10b981;">done</span>       → 파이프라인 종료</div>
+                    <div style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.72rem;">// stream_id = Redis Stream ID → SSE id: 필드로 발행 → Last-Event-ID 복구 기준</div>
+                </div>
+            </div>
+
+            <!-- ID Relationships -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">ID 관계 정의</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                    <div style="background: rgba(139,92,246,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3);">
+                        <div style="font-weight: 600; color: #8b5cf6; font-size: 0.85rem;">chat_id</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">채팅 세션 UUID</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">세션 유지 동안 불변</div>
+                    </div>
+                    <div style="background: rgba(59,130,246,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                        <div style="font-weight: 600; color: #3b82f6; font-size: 0.85rem;">job_id</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">메시지별 작업 UUID</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">매 요청마다 신규 생성</div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <div style="font-weight: 600; color: #10b981; font-size: 0.85rem;">stream_id</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">Redis Stream Entry ID</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">SSE id: 필드로 발행</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Technical Details -->
             <div class="domain-details">
                 <div class="domain-detail-grid">
@@ -7121,7 +7158,8 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
                 <div style="font-size: 0.85rem; color: var(--text-secondary);">
                     📊 구현 상세: <a href="https://rooftopsnow.tistory.com/23" target="_blank" rel="noopener" style="color: #6366f1;">SSE Gateway 아키텍처</a> |
-                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Token v2 Recoverable Streaming</a>
+                    <a href="https://rooftopsnow.tistory.com/113" target="_blank" rel="noopener" style="color: #6366f1;">Token v2 Recoverable Streaming</a> |
+                    <a href="https://rooftopsnow.tistory.com/237" target="_blank" rel="noopener" style="color: #6366f1;">Event Router/SSE-Gateway 무결성</a>
                 </div>
             </div>
         </div>
@@ -7219,16 +7257,16 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Consumer Group 특징</h4>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                     <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
-                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">At-Least-Once</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">XACK 전 crash → 자동 재처리, 메시지 손실 없음</div>
+                        <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">Success-Only XACK</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">성공 시에만 XACK, 실패 시 PEL 유지 → Reclaimer 재처리</div>
                     </div>
                     <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
-                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">Load Balancing</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Consumer Group이 메시지 자동 분배, Pod 증가 시 자동 밸런싱</div>
+                        <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">Lua Script 원자성</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">State: 최신 seq만 유지, router:published:{job_id}:{seq} 멱등성 키</div>
                     </div>
                     <div style="background: rgba(168,85,247,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(168,85,247,0.3);">
-                        <div style="font-weight: 600; color: #a855f7; margin-bottom: 0.5rem;">Pending Recovery</div>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">XCLAIM으로 장시간 미처리 메시지 재할당 (60s idle)</div>
+                        <div style="font-weight: 600; color: #a855f7; margin-bottom: 0.5rem;">Reclaimer (XAUTOCLAIM)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">실패 메시지 주기적 재할당, 멀티 도메인 asyncio.gather 병렬 처리</div>
                     </div>
                 </div>
             </div>
@@ -7245,13 +7283,28 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                         <div class="domain-detail-value">Redis Hash, state:{entity}:{id}, HINCRBY 카운터, HSET 상태</div>
                     </div>
                     <div class="domain-detail-item">
-                        <div class="domain-detail-label">Handler Pattern</div>
-                        <div class="domain-detail-value">event_type별 핸들러 등록, 비동기 처리 후 XACK</div>
+                        <div class="domain-detail-label">ACK 정책</div>
+                        <div class="domain-detail-value">process_event 성공 시에만 XACK, 실패 시 continue (PEL 잔류 → Reclaimer 대상)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">Reclaimer</div>
+                        <div class="domain-detail-value">XAUTOCLAIM idle 60s, stream_id/stream_name 주입, 멀티 도메인 병렬 (asyncio.gather)</div>
+                    </div>
+                    <div class="domain-detail-item">
+                        <div class="domain-detail-label">멱등성</div>
+                        <div class="domain-detail-value">Lua Script: router:published:{job_id}:{seq} 키 존재 시 skip, Pub/Sub 중복 발행 방지</div>
                     </div>
                     <div class="domain-detail-item">
                         <div class="domain-detail-label">Monitoring</div>
-                        <div class="domain-detail-value">XPENDING으로 lag 추적, consumer별 처리량 메트릭</div>
+                        <div class="domain-detail-value">XPENDING lag 추적, domain+shard 라벨 분리, consumer별 메트릭</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Blog Reference -->
+            <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    📊 구현 상세: <a href="https://rooftopsnow.tistory.com/237" target="_blank" rel="noopener" style="color: #6366f1;">Event Router/SSE-Gateway 무결성 개선</a>
                 </div>
             </div>
         </div>
