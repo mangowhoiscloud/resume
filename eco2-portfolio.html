@@ -5522,9 +5522,12 @@ needs_fallback = len(missing_required) > 0
                                 <div style="margin-top: 0.3rem;"><strong style="color: #10b981;">Total API equivalent: ~$14,412</strong> <span style="color: var(--text-muted);">(Max $200/월로 처리)</span></div>
                             </div>
                             <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; padding-top: 0.5rem; color: var(--text-muted); font-size: 0.65rem;">
-                                // cache_read 94% 비중: 매 턴 시스템 프롬프트 + Skills + 대화 이력 재전송<br>
-                                // → Context-First 개발론의 핵심 — foundations/reports/skills 축적량이<br>
-                                //   곧 세션당 캐시 히트율로 직결. 루프 반복 시 동일 비용으로 더 정밀한 판단
+                                <div style="color: #f59e0b; margin-bottom: 0.3rem;">cache_read 94% — 왜?</div>
+                                <div style="display: flex; flex-direction: column; gap: 0.2rem;">
+                                    <div>• 매 턴 시스템 프롬프트 + Skills + 대화 이력을 전량 재전송</div>
+                                    <div>• foundations / reports / skills 축적량 = 세션당 캐시 히트율</div>
+                                    <div>• 루프 반복 시 동일 비용으로 더 정밀한 판단 → Context-First 개발론</div>
+                                </div>
                             </div>
                         </div>
                     </div>
