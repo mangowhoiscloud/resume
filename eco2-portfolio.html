@@ -3060,8 +3060,8 @@
                         <div class="achievement clickable" data-modal="modal-mq-concurrency">
                             <span class="achievement-icon">🔀</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>동시성 전략 분리</strong> I/O-bound: Gevent, CPU-bound: Threads</span>
-                                <span class="lang-en"><strong>Concurrency split</strong> I/O-bound: Gevent, CPU-bound: Threads</span>
+                                <span class="lang-ko"><strong>동시성 전략 분리</strong> prefork(단순 태스크) / Gevent(동기 I/O) / asyncio(LangGraph)</span>
+                                <span class="lang-en"><strong>Concurrency split</strong> prefork(simple tasks) / Gevent(sync I/O) / asyncio(LangGraph)</span>
                             </div>
                         </div>
                         <div class="achievement clickable" data-modal="modal-mq-idempotency">
@@ -9670,39 +9670,148 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 
     <!-- Modal: Message Queue - Concurrency Strategy -->
     <div class="modal-overlay" id="modal-mq-concurrency">
-        <div class="modal-content" style="max-width: 1100px;">
+        <div class="modal-content" style="max-width: 1200px;">
             <button class="modal-close" onclick="closeModal('modal-mq-concurrency')">×</button>
             <h3 class="modal-title">
-                <span class="lang-ko">🔀 동시성 전략 분리 (prefork vs Gevent)</span>
-                <span class="lang-en">🔀 Concurrency Strategy Split (prefork vs Gevent)</span>
+                <span class="lang-ko">🔀 동시성 전략 분리 (prefork vs Gevent vs asyncio)</span>
+                <span class="lang-en">🔀 Concurrency Strategy Split (prefork vs Gevent vs asyncio)</span>
             </h3>
+
+            <!-- 3-Way Architecture Diagram -->
             <div class="modal-diagram">
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                      I/O-bound Workload & Concurrency Strategy                  │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│   ❌ prefork (Before)                      ✅ gevent (After)                    │
-│   ────────────────────                     ─────────────────                    │
-│   Worker 1: [████████ 41s blocking ██████] Greenlet Pool: [A][B][C]...[done]   │
-│   Worker 2: ─────[████████ 41s ████████]   ↓  ↓  ↓      ↓  ↓                   │
-│   Worker 3: ──────────[████ 41s ████]      Auto yield on I/O wait              │
-│                                                                                 │
-│   Problem: 1 Worker = 1 Task = 41s hold   Solution: 100+ concurrent I/O        │
-│   Measured: 0.0323 RPS (6-9 workers)      Measured: ~4 RPS (OpenAI limit)      │
-│   Memory: ~3.6GB (prefork fork)           Memory: ~500MB (lightweight greenlet)│
-│                                                                                 │
-└─────────────────────────────────────────────────────────────────────────────────┘</div>
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                    Concurrency Model per Pipeline Characteristics                        │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌─ prefork ──────────────┐  ┌─ Gevent ──────────────────┐  ┌─ asyncio ─────────────┐ │
+│  │ OS Process (fork)      │  │ Greenlet (monkey-patch)    │  │ Coroutine (await)     │ │
+│  │ ~10-50MB / worker      │  │ ~4-8KB / greenlet          │  │ ~2-4KB / coroutine    │ │
+│  │ Context SW: ~1-10ms    │  │ Context SW: ~1-10µs        │  │ Context SW: ~100ns    │ │
+│  │                        │  │                            │  │                       │ │
+│  │ character-worker       │  │ scan-worker                │  │ chat-worker           │ │
+│  │ info-worker            │  │  -P gevent -c 100          │  │  Taskiq + aio-pika    │ │
+│  │ users-worker           │  │                            │  │                       │ │
+│  │                        │  │  Vision → Retrieval →      │  │  LangGraph astream()  │ │
+│  │ 단순 DB UPSERT,        │  │  Answer → Reward           │  │  async/await native   │ │
+│  │ 캐시 갱신 등            │  │  (I/O 65%: OpenAI API)    │  │  Multi-Agent 병렬     │ │
+│  │ 저레이턴시 태스크       │  │                            │  │                       │ │
+│  └────────────────────────┘  └────────────────────────────┘  └───────────────────────┘ │
+│                                                                                         │
+│  Decision Matrix:                                                                       │
+│  ┌────────────────────┬─────────────────────────────────────────────────────────────┐  │
+│  │ CPU-bound / 단순   │ → prefork (GIL 우회, 프로세스 격리)                          │  │
+│  │ I/O-bound + 동기   │ → Gevent (기존 동기 코드 monkey-patch로 비동기화)            │  │
+│  │ I/O-bound + 비동기 │ → asyncio (LangGraph/aiohttp native, 최소 오버헤드)          │  │
+│  └────────────────────┴─────────────────────────────────────────────────────────────┘  │
+│                                                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <!-- 3-Column Comparison Table -->
             <table class="modal-table">
                 <tr>
                     <th><span class="lang-ko">항목</span><span class="lang-en">Item</span></th>
-                    <th>prefork (Before)</th>
-                    <th>gevent (After)</th>
+                    <th>prefork (Celery)</th>
+                    <th>Gevent (Celery)</th>
+                    <th>asyncio (Taskiq)</th>
                 </tr>
-                <tr><td><span class="lang-ko">동시 I/O</span><span class="lang-en">Concurrent I/O</span></td><td><span class="lang-ko">6-9 (메모리 제한)</span><span class="lang-en">6-9 (memory limited)</span></td><td><strong>100+</strong></td></tr>
-                <tr><td><span class="lang-ko">메모리</span><span class="lang-en">Memory</span></td><td>~3.6GB</td><td><strong>~500MB</strong></td></tr>
-                <tr><td><span class="lang-ko">블로킹</span><span class="lang-en">Blocking</span></td><td>100% (41s/req)</td><td><strong><span class="lang-ko">자동 yield</span><span class="lang-en">Auto yield</span></strong></td></tr>
-                <tr><td>RPS</td><td>0.0323</td><td><strong><span class="lang-ko">~4 (OpenAI 한계)</span><span class="lang-en">~4 (OpenAI limit)</span></strong></td></tr>
+                <tr>
+                    <td><span class="lang-ko">실행 단위</span><span class="lang-en">Execution Unit</span></td>
+                    <td>OS Process</td>
+                    <td>Greenlet</td>
+                    <td><strong>Coroutine</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">메모리/단위</span><span class="lang-en">Memory/Unit</span></td>
+                    <td>~10-50MB</td>
+                    <td>~4-8KB</td>
+                    <td><strong>~2-4KB</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">컨텍스트 스위치</span><span class="lang-en">Context Switch</span></td>
+                    <td>~1-10ms</td>
+                    <td>~1-10µs</td>
+                    <td><strong>~100ns-1µs</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">동시 처리</span><span class="lang-en">Concurrency</span></td>
+                    <td><span class="lang-ko">6-9 (메모리 제한)</span><span class="lang-en">6-9 (memory limited)</span></td>
+                    <td>100+</td>
+                    <td><strong><span class="lang-ko">수천+ (이벤트 루프)</span><span class="lang-en">1000s+ (event loop)</span></strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">적용 워커</span><span class="lang-en">Applied Worker</span></td>
+                    <td>character, info, users</td>
+                    <td>scan-worker</td>
+                    <td><strong>chat-worker</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">선택 근거</span><span class="lang-en">Rationale</span></td>
+                    <td><span class="lang-ko">단순 DB 태스크, 프로세스 격리</span><span class="lang-en">Simple DB tasks, process isolation</span></td>
+                    <td><span class="lang-ko">기존 동기 코드 + 고 I/O (65% OpenAI)</span><span class="lang-en">Legacy sync code + high I/O (65% OpenAI)</span></td>
+                    <td><span class="lang-ko">LangGraph async native 극대화</span><span class="lang-en">LangGraph async native maximization</span></td>
+                </tr>
+                <tr>
+                    <td>RPS</td>
+                    <td><span class="lang-ko">충분 (경량 태스크)</span><span class="lang-en">Sufficient (lightweight tasks)</span></td>
+                    <td><span class="lang-ko">~4 (OpenAI rate limit)</span><span class="lang-en">~4 (OpenAI rate limit)</span></td>
+                    <td><strong><span class="lang-ko">LLM 응답 대기 중 다른 요청 처리</span><span class="lang-en">Processes other requests during LLM wait</span></strong></td>
+                </tr>
             </table>
+
+            <!-- Scan Worker Migration: prefork → Gevent -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,165,0,0.08); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                <strong style="color: #f59e0b;"><span class="lang-ko">📊 Scan Worker 마이그레이션: prefork → Gevent</span><span class="lang-en">📊 Scan Worker Migration: prefork → Gevent</span></strong>
+                <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 0.3rem;">❌ Before (prefork)</div>
+                            <div>• <code>-P prefork -c 8</code></div>
+                            <div>• Memory: ~3.6GB (8 forked processes)</div>
+                            <div>• 1 Worker = 1 Task = 41s blocking</div>
+                            <div>• Measured: 0.0323 RPS</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 0.3rem;">✅ After (Gevent)</div>
+                            <div>• <code>-P gevent -c 100</code></div>
+                            <div>• Memory: ~500MB (single process)</div>
+                            <div>• <span class="lang-ko">I/O 대기 시 자동 greenlet 전환</span><span class="lang-en">Auto greenlet switch on I/O wait</span></div>
+                            <div>• Measured: ~4 RPS (OpenAI limit)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gevent + asyncio Conflict -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(239,68,68,0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
+                <strong style="color: #ef4444;"><span class="lang-ko">⚠️ Gevent + asyncio 이벤트 루프 충돌 — 왜 Taskiq을 별도 도입했는가</span><span class="lang-en">⚠️ Gevent + asyncio Event Loop Conflict — Why Taskiq was adopted separately</span></strong>
+                <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    <div><span class="lang-ko">Gevent monkey-patch가 소켓/SSL/select를 덮어쓰면서 asyncio event loop와 충돌 → 98% 요청 실패</span><span class="lang-en">Gevent monkey-patch overrides socket/SSL/select, conflicting with asyncio event loop → 98% request failure</span></div>
+                    <div class="modal-diagram" style="font-size: 0.7rem; margin-top: 0.5rem; padding: 0.5rem;">
+Gevent Pool (libev event loop)
+  └── Greenlet: scan_vision_task()
+      └── run_async(analyze_images_async())
+          └── asyncio.new_event_loop()  ❌ 충돌!
+              └── libev가 이미 select/poll 점유
+
+해결: Gevent 워커에서는 동기 클라이언트만 사용 (monkey-patch가 자동 비동기화)
+결론: LangGraph(async native)는 Gevent와 공존 불가 → Taskiq asyncio 워커로 분리</div>
+                </div>
+            </div>
+
+            <!-- Worker Stack Summary -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.08); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);"><span class="lang-ko">🏗️ 현재 워커 스택</span><span class="lang-en">🏗️ Current Worker Stack</span></strong>
+                <table class="modal-table" style="margin-top: 0.75rem; font-size: 0.75rem;">
+                    <tr><th>Worker</th><th><span class="lang-ko">동시성</span><span class="lang-en">Concurrency</span></th><th>Engine</th><th>Broker</th><th><span class="lang-ko">파이프라인</span><span class="lang-en">Pipeline</span></th></tr>
+                    <tr><td>scan-worker</td><td>Gevent (100)</td><td>Celery</td><td>RabbitMQ</td><td>Vision→Retrieval→Answer→Reward</td></tr>
+                    <tr><td>chat-worker</td><td>asyncio</td><td>Taskiq</td><td>RabbitMQ (aio-pika)</td><td>LangGraph Multi-Agent astream()</td></tr>
+                    <tr><td>character-worker</td><td>prefork</td><td>Celery</td><td>RabbitMQ</td><td>DB UPSERT, cache sync</td></tr>
+                    <tr><td>info-worker</td><td>prefork</td><td>Celery</td><td>RabbitMQ</td><td>Beat: news collection (5m/30m)</td></tr>
+                    <tr><td>users-worker</td><td>prefork</td><td>Celery</td><td>RabbitMQ</td><td>save_character UPSERT</td></tr>
+                </table>
+            </div>
+
+            <!-- Grafana Snapshot -->
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📈 Grafana Snapshot</strong>
                 <div style="margin-top: 0.75rem;">
