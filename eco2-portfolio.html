@@ -2713,8 +2713,8 @@
                         <div class="achievement clickable" onclick="openModal('modal-3tier-memory')" style="cursor: pointer;">
                             <span class="achievement-icon">💾</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>3-Tier Memory</strong> Redis Hot(~1ms) + PostgreSQL Persistent + ChatState, CachedPostgresSaver 패턴 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
-                                <span class="lang-en"><strong>3-Tier Memory</strong> Redis Hot (~1ms) + PostgreSQL Persistent + ChatState, CachedPostgresSaver pattern <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                                <span class="lang-ko"><strong>3-Tier Memory</strong> Redis Primary(~1ms) + PostgreSQL Async Sync + ChatState, ReadThroughCheckpointer 패턴 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>3-Tier Memory</strong> Redis Primary (~1ms) + PostgreSQL Async Sync + ChatState, ReadThroughCheckpointer pattern <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                         <div class="achievement clickable" onclick="openModal('modal-token-streaming')" style="cursor: pointer;">
@@ -3730,7 +3730,7 @@
                 <div class="llm-pipeline-specs" style="margin-top: 1rem;">
                     <div class="spec-item">
                         <span class="spec-label">Checkpointer</span>
-                        <span class="spec-value">CachedPostgresSaver</span>
+                        <span class="spec-value">ReadThroughCheckpointer</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Token</span>
@@ -5711,24 +5711,29 @@ needs_fallback = len(missing_required) > 0
 
             <!-- Memory Architecture -->
             <div style="margin-bottom: 2rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Memory Layer Structure</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Redis Primary + PostgreSQL Async Sync</h4>
                 <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                         3-Tier Memory System                             │
+│              ReadThroughCheckpointer + CheckpointSyncService              │
 ├──────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │   ┌─────────────────────────────────────────────────────────────────┐    │
-│   │  L1: Redis Hot Cache (~1ms latency)                             │    │
+│   │  L1: Redis Primary (~1ms, pool 불필요)                          │    │
+│   │  ├─ Checkpoint: chat:checkpoint:cache:{thread_id} (TTL 24h)    │    │
 │   │  ├─ Intent Cache: intent:{hash} (TTL 3600s)                     │    │
-│   │  ├─ Checkpoint Cache: chat:checkpoint:cache:{thread_id} (24h)   │    │
-│   │  └─ Token Stream: Redis Streams (TTL 1h, seq-based)             │    │
+│   │  ├─ Token Stream: Redis Streams (TTL 1h, seq-based)             │    │
+│   │  └─ Sync Queue: checkpoint:sync:queue (BRPOP)                   │    │
 │   └─────────────────────────────────────────────────────────────────┘    │
-│                              ↓ Cache Miss                                │
+│          ↑ Write (Hot Path)         ↓ Read Miss (Cold Start Only)        │
+│          │                          │                                    │
+│   Worker (4 pods × 4 workers)       │ pool_max_size=2                    │
+│                                     ↓                                    │
 │   ┌─────────────────────────────────────────────────────────────────┐    │
-│   │  L2: PostgreSQL Persistent (10-50ms latency)                    │    │
-│   │  ├─ AsyncPostgresSaver (LangGraph Native Checkpointer)          │    │
-│   │  ├─ Conversation History (permanent retention)                  │    │
-│   │  └─ Message State with add_messages Reducer                     │    │
+│   │  L2: PostgreSQL Persistent (Async Batch Sync)                   │    │
+│   │  ├─ CheckpointSyncService (별도 Deployment, replicas=1)         │    │
+│   │  ├─ 5초 주기 배치 동기화 (BRPOP → Bulk Upsert)                  │    │
+│   │  ├─ pool_max_size=5 (단일 인스턴스)                              │    │
+│   │  └─ Conversation History (permanent retention)                  │    │
 │   └─────────────────────────────────────────────────────────────────┘    │
 │                              ↓ On Read                                   │
 │   ┌─────────────────────────────────────────────────────────────────┐    │
@@ -5742,39 +5747,68 @@ needs_fallback = len(missing_required) > 0
 └──────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
-            <!-- CachedPostgresSaver Pattern -->
+            <!-- ReadThroughCheckpointer Pattern -->
             <div style="margin-bottom: 2rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">CachedPostgresSaver Pattern</h4>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">ReadThroughCheckpointer + SyncableRedisSaver</h4>
                 <div class="modal-diagram" style="font-size: 0.8rem; line-height: 1.4;">
-# LangGraph Checkpointer with Redis Cache Layer
-checkpointer = CachedPostgresSaver(
-    redis_client=redis_sentinel,      # L1: Redis Sentinel 3-node
-    postgres_pool=async_pg_pool,       # L2: AsyncPG Connection Pool
-    cache_ttl=3600,                    # 1시간 캐시
+# Worker: Redis Primary Write (pool 불필요, ~1ms)
+checkpointer = ReadThroughCheckpointer(
+    redis_saver=SyncableRedisSaver(redis_client),   # L1: Write 전담
+    postgres_saver=AsyncPostgresSaver(pool_size=2),  # Cold start fallback only
+    cache_ttl=86400,                                 # 24h TTL
 )
 
-# Read Flow: Redis → PostgreSQL → ChatState
-# Write Flow: ChatState → PostgreSQL → Redis (Write-Through)</div>
+# Read Flow:  Redis hit → ChatState (99%+ hit rate, Temporal Locality)
+#             Redis miss → PostgreSQL → Redis promote (LRU) → ChatState
+# Write Flow: ChatState → Redis → Sync Queue 적재 (비동기)
+
+# Syncer: 별도 Deployment (chat-checkpoint-syncer, replicas=1)
+# BRPOP checkpoint:sync:queue → Bulk Upsert PostgreSQL (5초 주기)</div>
+            </div>
+
+            <!-- Connection Pool Reduction -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Connection Pool 절감 (psycopg_pool.PoolTimeout 해결)</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <h5 style="color: #ef4444; margin-bottom: 0.5rem;">Before (CachedPostgresSaver)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>Worker pool: <strong>192</strong> (4 pods × 4 workers × 12)</div>
+                            <div>Syncer: 없음</div>
+                            <div>전체: <strong>212 connections</strong></div>
+                            <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted);">8개 서브에이전트 병렬 checkpoint → PoolTimeout</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                        <h5 style="color: #10b981; margin-bottom: 0.5rem;">After (ReadThroughCheckpointer)</h5>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <div>Worker pool: <strong>8</strong> (Cold start only, size=2)</div>
+                            <div>Syncer pool: <strong>5</strong> (단일 인스턴스)</div>
+                            <div>전체: <strong>33 connections (84% 감소)</strong></div>
+                            <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted);">Redis 99%+ hit rate (Temporal Locality)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Layer Details -->
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                 <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
-                    <h5 style="color: #ef4444; margin-bottom: 0.75rem;">🔥 L1: Redis</h5>
+                    <h5 style="color: #ef4444; margin-bottom: 0.75rem;">🔥 L1: Redis Primary</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
                         <div><strong>Latency:</strong> ~1ms</div>
-                        <div><strong>Sentinel:</strong> 3-node HA</div>
-                        <div><strong>TTL:</strong> 3600s (Intent), 86400s (Checkpoint)</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">세션 상태, 캐시</div>
+                        <div><strong>Pattern:</strong> Read-Through</div>
+                        <div><strong>TTL:</strong> 86400s (Checkpoint), 3600s (Intent)</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Worker Hot Path, pool 불필요</div>
                     </div>
                 </div>
                 <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
-                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🗄️ L2: PostgreSQL</h5>
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">🗄️ L2: PostgreSQL (Async)</h5>
                     <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                        <div><strong>Latency:</strong> 10-50ms</div>
-                        <div><strong>Driver:</strong> asyncpg</div>
-                        <div><strong>Retention:</strong> Permanent</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">대화 이력, Checkpoint</div>
+                        <div><strong>Sync:</strong> 5초 배치</div>
+                        <div><strong>Driver:</strong> psycopg_pool</div>
+                        <div><strong>Pool:</strong> max=5 (Syncer only)</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">영속 보장, 단일 Syncer 프로세스</div>
                     </div>
                 </div>
                 <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
@@ -5785,6 +5819,13 @@ checkpointer = CachedPostgresSaver(
                         <div><strong>Type:</strong> TypedDict</div>
                         <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">현재 턴 컨텍스트</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Blog Reference -->
+            <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: rgba(99,102,241,0.1); border-radius: 8px; border-left: 3px solid #6366f1;">
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                    📊 구현 상세: <a href="https://rooftopsnow.tistory.com/242" target="_blank" rel="noopener" style="color: #6366f1;">ADR: PostgreSQL Checkpointer → Redis + Async Sync 전환</a>
                 </div>
             </div>
         </div>
@@ -7095,25 +7136,42 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </div>
             </div>
 
-            <!-- T1-T6 SSE Stage Progression -->
+            <!-- Multi-Agent SSE Stage Timeline -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">T1–T6 Scan SSE Streaming (stream_id 할당)</h4>
-                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); line-height: 1.7;">
-                    <div style="color: #f59e0b;">// Worker XADD → Redis Streams → SSE Gateway → Client</div>
-                    <div>T1  <span style="color: #8b5cf6;">id: 1709234567890-0</span>  stage: <span style="color: #10b981;">queued</span>     → 접수 확인</div>
-                    <div>T2  <span style="color: #8b5cf6;">id: 1709234567891-0</span>  stage: <span style="color: #10b981;">vision</span>     → GPT Vision 분류 중</div>
-                    <div>T3  <span style="color: #8b5cf6;">id: 1709234567892-0</span>  stage: <span style="color: #10b981;">rule</span>       → Rule-based 검색 중</div>
-                    <div>T4  <span style="color: #8b5cf6;">id: 1709234567893-0</span>  type:  <span style="color: #3b82f6;">token</span>      → LLM 토큰 스트리밍 (N개)</div>
-                    <div>T5  <span style="color: #8b5cf6;">id: 1709234567899-0</span>  stage: <span style="color: #10b981;">answer</span>     → 답변 완료</div>
-                    <div>T6  <span style="color: #8b5cf6;">id: 1709234567900-0</span>  stage: <span style="color: #10b981;">done</span>       → 파이프라인 종료</div>
-                    <div style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.72rem;">// stream_id = Redis Stream ID → SSE id: 필드로 발행 → Last-Event-ID 복구 기준</div>
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Multi-Agent SSE Timeline (seq 네임스페이스 분리)</h4>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); line-height: 1.65;">
+                    <div style="color: #f59e0b;">// Stage seq: 0~180 (18 stages × 10) | Token seq: 1000+ (별도 네임스페이스)</div>
+                    <div style="color: #f59e0b;">// server_id: POD_NAME → Consumer Group 내 consumer 식별 (event-router-0, -1, ...)</div>
+                    <div style="margin-top: 0.5rem;"><span style="color: var(--text-muted);">T1</span>  seq:<span style="color: #8b5cf6;">0</span>    stage: <span style="color: #10b981;">queued</span>          → 접수 확인</div>
+                    <div><span style="color: var(--text-muted);">T2</span>  seq:<span style="color: #8b5cf6;">10</span>   stage: <span style="color: #10b981;">intent</span>          → 9분류 Intent 분석</div>
+                    <div><span style="color: var(--text-muted);">T3</span>  seq:<span style="color: #8b5cf6;">20</span>   stage: <span style="color: #10b981;">vision</span>          → GPT Vision 분류 (이미지 있을 때)</div>
+                    <div style="color: #f59e0b; margin-top: 0.4rem;">// ─── Send API 병렬 Fanout (intent별 서브에이전트 동시 실행) ───</div>
+                    <div><span style="color: var(--text-muted);">T4a</span> seq:<span style="color: #8b5cf6;">30</span>   stage: <span style="color: #10b981;">waste_rag</span>       → 폐기물 RAG 검색</div>
+                    <div><span style="color: var(--text-muted);">T4b</span> seq:<span style="color: #8b5cf6;">40</span>   stage: <span style="color: #10b981;">character</span>       → 캐릭터 도메인 주입</div>
+                    <div><span style="color: var(--text-muted);">T4c</span> seq:<span style="color: #8b5cf6;">50</span>   stage: <span style="color: #10b981;">location</span>        → 위치 gRPC 조회</div>
+                    <div><span style="color: var(--text-muted);">T4d</span> seq:<span style="color: #8b5cf6;">60</span>   stage: <span style="color: #10b981;">kakao_place</span>     → Kakao 장소 검색</div>
+                    <div><span style="color: var(--text-muted);">T4e</span> seq:<span style="color: #8b5cf6;">70</span>   stage: <span style="color: #10b981;">bulk_waste</span>      → 대형폐기물 MOIS</div>
+                    <div><span style="color: var(--text-muted);">T4f</span> seq:<span style="color: #8b5cf6;">80</span>   stage: <span style="color: #10b981;">weather</span>         → 날씨 조회</div>
+                    <div><span style="color: var(--text-muted);">T4g</span> seq:<span style="color: #8b5cf6;">90</span>   stage: <span style="color: #10b981;">recyclable_price</span> → KECO 시세</div>
+                    <div><span style="color: var(--text-muted);">T4h</span> seq:<span style="color: #8b5cf6;">100</span>  stage: <span style="color: #10b981;">collection_point</span> → 수거함 검색</div>
+                    <div><span style="color: var(--text-muted);">T4i</span> seq:<span style="color: #8b5cf6;">110</span>  stage: <span style="color: #10b981;">web_search</span>      → 네이티브 웹 검색</div>
+                    <div><span style="color: var(--text-muted);">T4j</span> seq:<span style="color: #8b5cf6;">120</span>  stage: <span style="color: #10b981;">image_generation</span> → 이미지 생성</div>
+                    <div><span style="color: var(--text-muted);">T4k</span> seq:<span style="color: #8b5cf6;">130</span>  stage: <span style="color: #10b981;">general</span>         → 일반 Fallback</div>
+                    <div style="color: #f59e0b; margin-top: 0.4rem;">// ─── Aggregation → Answer ───</div>
+                    <div><span style="color: var(--text-muted);">T5</span>  seq:<span style="color: #8b5cf6;">140</span>  stage: <span style="color: #10b981;">aggregator</span>      → 서브에이전트 결과 병합</div>
+                    <div><span style="color: var(--text-muted);">T6</span>  seq:<span style="color: #8b5cf6;">150</span>  stage: <span style="color: #10b981;">feedback</span>        → RAG 품질 평가</div>
+                    <div><span style="color: var(--text-muted);">T7</span>  seq:<span style="color: #3b82f6;">1000+</span> type:  <span style="color: #3b82f6;">token</span>          → LLM 토큰 스트리밍 (N개, answer_node)</div>
+                    <div><span style="color: var(--text-muted);">T8</span>  seq:<span style="color: #8b5cf6;">160</span>  stage: <span style="color: #10b981;">answer</span>         → 답변 완료</div>
+                    <div><span style="color: var(--text-muted);">T9</span>  seq:<span style="color: #8b5cf6;">170</span>  stage: <span style="color: #10b981;">done</span>           → 파이프라인 종료</div>
+                    <div style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.68rem;">// stream_id = Redis Stream Entry ID → SSE id: 필드 → Last-Event-ID 복구 기준</div>
+                    <div style="color: var(--text-muted); font-size: 0.68rem;">// T4a~T4k: Send API 동적 생성, intent에 따라 선택적 병렬 실행</div>
                 </div>
             </div>
 
             <!-- ID Relationships -->
             <div style="margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">ID 관계 정의</h4>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
                     <div style="background: rgba(139,92,246,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3);">
                         <div style="font-weight: 600; color: #8b5cf6; font-size: 0.85rem;">chat_id</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">채팅 세션 UUID</div>
@@ -7122,12 +7180,17 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div style="background: rgba(59,130,246,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
                         <div style="font-weight: 600; color: #3b82f6; font-size: 0.85rem;">job_id</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">메시지별 작업 UUID</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">매 요청마다 신규 생성</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Shard key + Pub/Sub 채널 + State key</div>
                     </div>
                     <div style="background: rgba(16,185,129,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
                         <div style="font-weight: 600; color: #10b981; font-size: 0.85rem;">stream_id</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">Redis Stream Entry ID</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted);">SSE id: 필드로 발행</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">SSE id: 필드 → Last-Event-ID 복구 기준</div>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                        <div style="font-weight: 600; color: #f59e0b; font-size: 0.85rem;">server_id (POD_NAME)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">Consumer Group consumer 이름</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">event-router-0, -1, ... Pod별 할당</div>
                     </div>
                 </div>
             </div>
