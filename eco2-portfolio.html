@@ -2659,8 +2659,8 @@
                     </div>
                     <div class="category-badges">
                         <span class="status-badge deployed">
-                            <span class="lang-ko">배포 완료, E2E 검증중</span>
-                            <span class="lang-en">Deployed, E2E Testing</span>
+                            <span class="lang-ko">개발 및 E2E 검증 완료, 실시간 배포 중</span>
+                            <span class="lang-en">Dev & E2E Verified, Live Deployed</span>
                         </span>
                         <span class="tech-badge">LangGraph</span>
                         <span class="tech-badge">Send API</span>
@@ -2706,8 +2706,8 @@
                         <div class="achievement clickable" onclick="openModal('modal-chat-multimodel')" style="cursor: pointer;">
                             <span class="achievement-icon">🧠</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Multi-Model Orchestration</strong> LLMClientPort 추상화, OpenAI Responses API + Gemini SDK, Provider 자동 추론 및 런타임 모델 전환 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
-                                <span class="lang-en"><strong>Multi-Model Orchestration</strong> LLMClientPort abstraction, OpenAI Responses API + Gemini SDK, Provider auto-inference & runtime model switching <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                                <span class="lang-ko"><strong>Multi-Model Orchestration</strong> LLMClientPort 추상화, OpenAI Agents SDK(Primary) + Responses API(Fallback) + Gemini SDK, Provider 자동 추론 및 런타임 모델 전환 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>Multi-Model Orchestration</strong> LLMClientPort abstraction, OpenAI Agents SDK (Primary) + Responses API (Fallback) + Gemini SDK, Provider auto-inference & runtime model switching <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
                         <div class="achievement clickable" onclick="openModal('modal-3tier-memory')" style="cursor: pointer;">
@@ -5744,7 +5744,7 @@ needs_fallback = len(missing_required) > 0
                     </div>
                     <div>
                         <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem;">LLM API</div>
-                        <div style="color: var(--text-secondary);">OpenAI Responses API, Completions API, Gemini API</div>
+                        <div style="color: var(--text-secondary);">OpenAI Agents SDK / Responses API, Gemini API</div>
                     </div>
                 </div>
             </div>
@@ -13828,10 +13828,10 @@ T9: Pagination     loadMoreMessages()
                 </h4>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.8rem;">
                     <div style="background: rgba(99,102,241,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(99,102,241,0.3);">
-                        <strong style="color: #6366f1;">OpenAI Responses API</strong>
+                        <strong style="color: #6366f1;">OpenAI Agents SDK + Responses API (Fallback)</strong>
                         <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.75rem;">
-                            • <code>generate_with_tools()</code> — web_search 네이티브 호출<br>
-                            • <code>generate_structured()</code> — Structured Outputs (JSON Schema)<br>
+                            • <code>generate_with_tools()</code> — Agents SDK Primary + Responses Fallback<br>
+                            • <code>generate_structured()</code> — Agent output_type (Pydantic 자동 파싱)<br>
                             • <code>generate_function_call()</code> — Chat Completions functions<br>
                             • Image Generation — <code>gpt-image-1.5</code> tool<br>
                             • Streaming — <code>response.output_text.delta</code> 이벤트
@@ -13911,7 +13911,7 @@ T9: Pagination     loadMoreMessages()
                 <strong style="color: #6366f1;">📂 Source Files</strong>
                 <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
                     <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/ports/llm/llm_client.py" target="_blank" style="color: #6366f1;">ports/llm/llm_client.py</a> (LLMClientPort ABC)<br>
-                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/llm/clients/openai_client.py" target="_blank" style="color: #6366f1;">clients/openai_client.py</a> (OpenAI Responses API)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/llm/clients/openai_client.py" target="_blank" style="color: #6366f1;">clients/openai_client.py</a> (Agents SDK Primary + Responses Fallback)<br>
                     <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/llm/clients/gemini_client.py" target="_blank" style="color: #6366f1;">clients/gemini_client.py</a> (Gemini SDK)<br>
                     <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/domain/models/provider.py" target="_blank" style="color: #6366f1;">domain/models/provider.py</a> (MODEL_REGISTRY)<br>
                     <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/setup/dependencies.py" target="_blank" style="color: #6366f1;">setup/dependencies.py</a> (create_llm_client Factory)
@@ -14474,85 +14474,97 @@ T9: Pagination     loadMoreMessages()
         </div>
     </div>
 
-    <!-- Modal: Intent - web_search (Native Tool Calling) -->
+    <!-- Modal: Intent - web_search (Agents SDK) -->
     <div class="modal-overlay" id="modal-intent-web-search">
-        <div class="modal-content" style="max-width: 950px;">
+        <div class="modal-content" style="max-width: 1050px;">
             <button class="modal-close" onclick="closeModal('modal-intent-web-search')">×</button>
-            <h3 class="modal-title">🔍 web_search - 웹 검색 (Native Tool Calling)</h3>
+            <h3 class="modal-title">🔍 web_search - 웹 검색 (OpenAI Agents SDK)</h3>
 
             <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
 <pre style="font-size: 0.72rem; line-height: 1.4;">
-┌─────────────────────────────────────────────────────────────────────┐
-│        web_search Intent Pipeline (OpenAI Responses API)            │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  GENERAL intent + web_search keyword detected                       │
-│  ──────────────────────────────────────────                         │
-│                                                                     │
-│  User Message ──► answer_node ──► SSE Stream                       │
-│                       │                                             │
-│              ┌────────┴────────┐                                    │
-│              │ Keyword Detection│                                   │
-│              │ ────────────────│                                    │
-│              │ "최신", "최근",  │                                    │
-│              │ "뉴스", "정책",  │                                    │
-│              │ "현재", "오늘",  │                                    │
-│              │ "소식" ...      │                                     │
-│              └────────┬────────┘                                    │
-│                       │ match found                                 │
-│              ┌────────┴────────┐                                    │
-│              │ OpenAI Responses │                                   │
-│              │ API with Native  │                                   │
-│              │ web_search Tool  │                                   │
-│              │ ────────────────│                                    │
-│              │ generate_with    │                                    │
-│              │ _tools(          │                                    │
-│              │  tools=["web     │                                    │
-│              │  _search"])      │                                    │
-│              └────────┬────────┘                                    │
-│                       │                                             │
-│              ┌────────┴────────┐                                    │
-│              │ Token Streaming  │                                   │
-│              │ notify_token_v2()│  → Redis Streams → SSE            │
-│              └─────────────────┘                                    │
-│                                                                     │
-│  ※ DuckDuckGo web_search_node.py는 DEPRECATED (Fallback용만 잔존)  │
-│  ※ 메인 경로: answer_node에서 네이티브 Tool 직접 사용               │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│          web_search Intent Pipeline (Agents SDK + Fallback)                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  AS-IS (Responses API raw)              TO-BE (Agents SDK Primary)          │
+│  ─────────────────────────              ──────────────────────────          │
+│  Intent → /v1/responses (timeout빈발)  Intent → Agents SDK Runner          │
+│       → FC 2회 호출 (재확인)                 → WebSearchTool (재시도 내장)  │
+│       → 검색결과 미반영 (FAIL_OPEN)          → 1회 호출 (Router 신뢰)      │
+│                                                                             │
+│  ┌─ Primary: Agents SDK ─────────────────────────────────────────────────┐ │
+│  │                                                                       │ │
+│  │  agent = Agent(                                                       │ │
+│  │      model=OpenAIResponsesModel(model="gpt-5.2"),                     │ │
+│  │      tools=[WebSearchTool()],          # SDK 내장 재시도               │ │
+│  │      output_type=response_schema,      # Pydantic 자동 파싱           │ │
+│  │  )                                                                    │ │
+│  │  result = await Runner.run(agent, input=prompt)                       │ │
+│  │  → result.final_output  # 이미 구조화된 응답                          │ │
+│  │                                                                       │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                         │ Exception 발생 시                                 │
+│  ┌─ Fallback: Responses API ─────────────────────────────────────────────┐ │
+│  │  generate_with_responses_api(tools=["web_search"])                    │ │
+│  └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                             │
+│  ※ DuckDuckGo web_search_node.py는 DEPRECATED (Feedback Fallback용 잔존) │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 </pre>
             </div>
 
+            <!-- 3-column: Before / After / Effect -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">Native Tool Calling vs Legacy</h4>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
-                    <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); padding: 0.75rem; border-radius: 8px;">
-                        <div style="font-weight: 600; font-size: 0.8rem; color: #22c55e; margin-bottom: 0.3rem;">Current (Native)</div>
-                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
-                            • OpenAI Responses API<br>
-                            • tools=["web_search"]<br>
-                            • LLM이 검색+답변 통합 생성<br>
-                            • 스트리밍 직접 발행
-                        </div>
-                    </div>
-                    <div style="background: rgba(107,114,128,0.1); border: 1px solid rgba(107,114,128,0.3); padding: 0.75rem; border-radius: 8px;">
-                        <div style="font-weight: 600; font-size: 0.8rem; color: #6b7280; margin-bottom: 0.3rem;">Legacy (Deprecated)</div>
-                        <div style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;">
-                            • DuckDuckGo/Tavily Client<br>
-                            • web_search_node.py<br>
-                            • 별도 노드 → 결과 주입<br>
-                            • Feedback Fallback용만 잔존
-                        </div>
-                    </div>
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;"><span class="lang-ko">전환 비교</span><span class="lang-en">Migration Comparison</span></h4>
+                <table class="modal-table" style="font-size: 0.75rem;">
+                    <tr>
+                        <th><span class="lang-ko">기능</span><span class="lang-en">Feature</span></th>
+                        <th>AS-IS (Responses API raw)</th>
+                        <th>TO-BE (Agents SDK)</th>
+                    </tr>
+                    <tr><td>Web Search</td><td><span class="lang-ko">Responses API raw 호출 (타임아웃 빈발)</span><span class="lang-en">Responses API raw call (frequent timeout)</span></td><td><strong><span class="lang-ko">Agents SDK Primary + Fallback</span></strong></td></tr>
+                    <tr><td><span class="lang-ko">구조화 출력</span><span class="lang-en">Structured Output</span></td><td><span class="lang-ko">json_schema 수동 파싱</span><span class="lang-en">Manual json_schema parsing</span></td><td><strong><span class="lang-ko">Agent output_type 자동화 (Pydantic)</span><span class="lang-en">Agent output_type auto (Pydantic)</span></strong></td></tr>
+                    <tr><td><span class="lang-ko">결정 프로세스</span><span class="lang-en">Decision Process</span></td><td><span class="lang-ko">FC로 재확인 (2회 호출)</span><span class="lang-en">FC re-confirmation (2 calls)</span></td><td><strong><span class="lang-ko">Router 신뢰 (1회 호출, ~500ms↓)</span><span class="lang-en">Router trust (1 call, ~500ms↓)</span></strong></td></tr>
+                    <tr><td><span class="lang-ko">에러 핸들링</span><span class="lang-en">Error Handling</span></td><td><span class="lang-ko">미적용 (FAIL_OPEN 동작)</span><span class="lang-en">Not applied (FAIL_OPEN behavior)</span></td><td><strong><span class="lang-ko">SDK 내장 재시도 + Fallback 체인</span><span class="lang-en">SDK built-in retry + Fallback chain</span></strong></td></tr>
+                    <tr><td><span class="lang-ko">검증</span><span class="lang-en">Verification</span></td><td>—</td><td><strong>760 passed, 5 skipped</strong></td></tr>
+                </table>
+            </div>
+
+            <!-- Code Pattern -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(99,102,241,0.08); border-radius: 8px; border-left: 3px solid #6366f1;">
+                <strong style="color: #6366f1;"><span class="lang-ko">🔧 Primary + Fallback 패턴</span><span class="lang-en">🔧 Primary + Fallback Pattern</span></strong>
+                <div class="modal-diagram" style="font-size: 0.7rem; margin-top: 0.5rem; padding: 0.5rem;">
+async def generate_with_tools(self, prompt, tools, system_prompt=None):
+    try:
+        # Primary: Agents SDK (내장 재시도, 구조화 출력)
+        async for chunk in self._generate_with_agents_sdk(...):
+            yield chunk
+        return
+    except Exception as e:
+        logger.warning("Agents SDK failed, fallback to Responses API")
+
+    # Fallback: Responses API raw
+    async for chunk in self._generate_with_responses_api(...):
+        yield chunk</div>
+            </div>
+
+            <!-- Deployment Status -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(34,197,94,0.08); border-radius: 8px; border-left: 3px solid #22c55e;">
+                <strong style="color: #22c55e;"><span class="lang-ko">🚀 배포 현황</span><span class="lang-en">🚀 Deployment Status</span></strong>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    <span class="lang-ko">• 9-10 Pod (HPA), ArgoCD Synced, Health: Healthy</span>
+                    <span class="lang-en">• 9-10 Pods (HPA), ArgoCD Synced, Health: Healthy</span><br>
+                    • openai>=2.9.0, openai-agents>=0.7.0, langchain-openai>=0.3.0, langgraph>=0.2.0
                 </div>
             </div>
 
             <div style="padding: 0.75rem; background: rgba(168,85,247,0.1); border-radius: 8px; border-left: 3px solid #a855f7;">
                 <strong style="color: #a855f7;">📂 Source Files</strong>
                 <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
-                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/answer_node.py" target="_blank" style="color: #a855f7;">nodes/answer_node.py</a> (네이티브 web_search 경로)<br>
-                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/application/commands/generate_answer_command.py" target="_blank" style="color: #a855f7;">commands/generate_answer_command.py</a> (WEB_SEARCH_KEYWORDS)<br>
-                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/assets/prompts/local/web_instruction.txt" target="_blank" style="color: #a855f7;">prompts/local/web_instruction.txt</a>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/llm/clients/openai_client.py" target="_blank" style="color: #a855f7;">clients/openai_client.py</a> (Agents SDK Primary + Responses API Fallback)<br>
+                    <a href="https://github.com/eco2-team/backend/blob/develop/apps/chat_worker/infrastructure/orchestration/langgraph/nodes/answer_node.py" target="_blank" style="color: #a855f7;">nodes/answer_node.py</a> (web_search 경로)<br>
+                    <a href="https://rooftopsnow.tistory.com/248" target="_blank" style="color: #a855f7;">Blog: OpenAI Agents SDK 전환 분석 →</a>
                 </div>
             </div>
         </div>
