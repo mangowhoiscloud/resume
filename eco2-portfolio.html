@@ -2127,8 +2127,8 @@
                 <span class="lang-en">Agent-Driven Development</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">Anthropic의 Claude Code 개발론을 적용한 Context-First Development입니다. 구조화된 문서(foundations/plans/reports)와 17개 Skills가 Agent의 Self-RAG 컨텍스트로 축적되며, 각 세션의 결과가 다음 세션의 컨텍스트가 되는 재귀적 개선 루프를 형성합니다. 25-노드 분산 클러스터는 Agent가 Bash 도구로 직접 접근하는 Runtime Environment로, Research → Design → Implement → Deploy → Report 사이클을 통해 개발자와 Agent가 함께 성장합니다.</span>
-                <span class="lang-en">Context-First Development applying Anthropic's Claude Code methodology. Structured documents (foundations/plans/reports) and 17 Skills accumulate as Agent's Self-RAG context, forming a recursive improvement loop where each session's results become the next session's context. The 24-node distributed cluster serves as a Runtime Environment that Agent directly accesses via Bash tools, evolving together with the developer through the Research → Design → Implement → Deploy → Report cycle.</span>
+                <span class="lang-ko">Anthropic의 Claude Code 개발론을 적용한 Context-First Development입니다. 구조화된 문서(foundations/plans/reports)와 27개 Skills가 Agent의 Self-RAG 컨텍스트로 축적되며, 각 세션의 결과가 다음 세션의 컨텍스트가 되는 재귀적 개선 루프를 형성합니다. 25-노드 분산 클러스터는 Agent가 Bash 도구로 직접 접근하는 Runtime Environment로, Research → Design → Implement → Deploy → Report 사이클을 통해 개발자와 Agent가 함께 성장합니다.</span>
+                <span class="lang-en">Context-First Development applying Anthropic's Claude Code methodology. Structured documents (foundations/plans/reports) and 27 Skills accumulate as Agent's Self-RAG context, forming a recursive improvement loop where each session's results become the next session's context. The 24-node distributed cluster serves as a Runtime Environment that Agent directly accesses via Bash tools, evolving together with the developer through the Research → Design → Implement → Deploy → Report cycle.</span>
             </p>
         </div>
 
@@ -2214,8 +2214,8 @@
                             <span class="lang-en">Implement & Debug</span>
                         </div>
                         <div class="node-tooltip">
-                            <span class="lang-ko">💡 클릭하여 상세 보기<br>Cursor + Claude Code<br>17개 Skills 기반</span>
-                            <span class="lang-en">💡 Click for details<br>Cursor + Claude Code<br>17 Skills based</span>
+                            <span class="lang-ko">💡 클릭하여 상세 보기<br>Cursor + Claude Code<br>27개 Skills 기반</span>
+                            <span class="lang-en">💡 Click for details<br>Cursor + Claude Code<br>27 Skills based</span>
                         </div>
                     </div>
                 </div>
@@ -4614,6 +4614,35 @@
                     </div>
                 </div>
                 </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 0.75rem;">
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(245,158,11,0.1)); border-radius: 8px; border: 1px solid rgba(239,68,68,0.4); cursor: pointer;" onclick="openModal('modal-3tier-memory')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">💾</span>
+                        <div>
+                            <div style="color: #ef4444; font-weight: 600; font-size: 0.85rem;">3-Tier Memory</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">ReadThrough + Async Sync</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(14,165,233,0.1), rgba(59,130,246,0.1)); border-radius: 8px; border: 1px solid rgba(14,165,233,0.4); cursor: pointer;" onclick="openModal('modal-infra-sse')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">📡</span>
+                        <div>
+                            <div style="color: #0ea5e9; font-weight: 600; font-size: 0.85rem;">SSE Gateway</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Token v2 Recoverable</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0.75rem; background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(236,72,153,0.1)); border-radius: 8px; border: 1px solid rgba(168,85,247,0.4); cursor: pointer;" onclick="openModal('modal-infra-eventrouter')">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1rem;">🔀</span>
+                        <div>
+                            <div style="color: #a855f7; font-weight: 600; font-size: 0.85rem;">Event Router</div>
+                            <div style="color: var(--text-secondary); font-size: 0.7rem;">Consumer Group + Lua</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
 
             <!-- Domain Details - At the End -->
@@ -5126,7 +5155,7 @@ def dynamic_router(state: ChatState) -> list[Send]:
             </div>
 
             <!-- LangGraph 단일 Task 설계 -->
-            <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+            <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--primary); margin-bottom: 1.5rem;">
                 <strong style="color: var(--primary);">왜 LangGraph를 단일 Task로 큐잉하는가?</strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7;">
                     <code style="background: rgba(139,92,246,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">@broker.task("chat.process")</code>는
@@ -5142,6 +5171,42 @@ def dynamic_router(state: ChatState) -> list[Send]:
                         → gRPC(<code>grpc.aio</code>)는 asyncio 네이티브로 Graph 내부에서 ~1-100ms 응답.
                         Celery는 Fire & Forget에 적합하나, await 기반 결과 대기에는 부적합.
                     </span>
+                </div>
+            </div>
+
+            <!-- 3-Tier Memory: ReadThroughCheckpointer -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">💾 3-Tier Memory (ReadThroughCheckpointer)</h4>
+                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); line-height: 1.6;">
+                    <div style="color: #f59e0b;">// 노드 실행마다 Checkpoint 저장 → 8개 서브에이전트 병렬 시 동시 write</div>
+                    <div style="margin-top: 0.4rem;">
+                        <span style="color: #10b981;">Worker</span> → <span style="color: #ef4444;">Redis Primary</span> (~1ms, pool 불필요)
+                    </div>
+                    <div style="padding-left: 2rem;">
+                        └─ <span style="color: #8b5cf6;">SyncableRedisSaver</span>: chat:checkpoint:cache:{thread_id} (TTL 24h)
+                    </div>
+                    <div style="padding-left: 2rem;">
+                        └─ Sync Queue 적재 (RPUSH checkpoint:sync:queue)
+                    </div>
+                    <div style="margin-top: 0.4rem;">
+                        <span style="color: #3b82f6;">CheckpointSyncService</span> (별도 Deployment, replicas=1)
+                    </div>
+                    <div style="padding-left: 2rem;">
+                        └─ BRPOP → Bulk Upsert PostgreSQL (5초 주기 배치)
+                    </div>
+                    <div style="padding-left: 2rem;">
+                        └─ pool_max_size=5 (단일 인스턴스)
+                    </div>
+                    <div style="margin-top: 0.4rem;">
+                        <span style="color: #f59e0b;">Read Miss (Cold Start)</span> → PostgreSQL → Redis promote (LRU)
+                    </div>
+                    <div style="padding-left: 2rem;">
+                        └─ Temporal Locality: 연속 요청 hit rate ≈ 99%+
+                    </div>
+                    <div style="margin-top: 0.6rem; color: var(--text-muted); font-size: 0.7rem;">// Connection Pool: 212 → 33 (84% 감소), psycopg_pool.PoolTimeout 해결</div>
+                </div>
+                <div style="margin-top: 0.5rem; text-align: right;">
+                    <span style="font-size: 0.75rem; color: #6366f1; cursor: pointer; text-decoration: underline;" onclick="closeModal('modal-chat-langgraph'); setTimeout(() => openModal('modal-3tier-memory'), 300);">→ 3-Tier Memory 상세 보기</span>
                 </div>
             </div>
         </div>
@@ -5418,11 +5483,11 @@ needs_fallback = len(missing_required) > 0
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; font-size: 0.85rem;">
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">7일</div>
+                                <div style="font-weight: 600; color: #8b5cf6;">10일</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">사용 기간</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">1.2B</div>
+                                <div style="font-weight: 600; color: #8b5cf6;">5.05B</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">토큰 사용량</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
@@ -5430,11 +5495,11 @@ needs_fallback = len(missing_required) > 0
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">Plan</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">23</div>
+                                <div style="font-weight: 600; color: #8b5cf6;">258</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">세션 수</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">17</div>
+                                <div style="font-weight: 600; color: #8b5cf6;">27</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">Skills</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
@@ -5460,7 +5525,7 @@ needs_fallback = len(missing_required) > 0
 │   └───────────────────┘         └──────────────────┬────────────────────┘       │
 │                                                    ↓                            │
 │   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │                      🛠️ Skills (17개 모듈)                               │   │
+│   │                      🛠️ Skills (27개 모듈)                               │   │
 │   │   ┌────────────┬────────────┬────────────┬─────────────┬────────────┐   │   │
 │   │   │langgraph-  │clean-      │k8s-        │prompt-      │event-      │   │   │
 │   │   │pipeline    │architecture│debugging   │engineering  │driven      │   │   │
@@ -5494,7 +5559,7 @@ needs_fallback = len(missing_required) > 0
 
             <!-- Skills Grid -->
             <div style="margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">📦 17개 Custom Skills</h4>
+                <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1rem;">📦 27개 Custom Skills</h4>
                 <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
                     <span style="background: rgba(139,92,246,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">langgraph-pipeline</span>
                     <span style="background: rgba(59,130,246,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">clean-architecture</span>
@@ -5512,7 +5577,17 @@ needs_fallback = len(missing_required) > 0
                     <span style="background: rgba(129,140,248,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">mcp-builder</span>
                     <span style="background: rgba(253,224,71,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem; color: #333;">skill-creator</span>
                     <span style="background: rgba(248,113,113,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">doc-coauthoring</span>
-                    <span style="background: rgba(52,211,153,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">character-service</span>
+                    <span style="background: rgba(52,211,153,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">chat-agent-persistence</span>
+                    <span style="background: rgba(14,165,233,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">location-service</span>
+                    <span style="background: rgba(220,38,38,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">agent-feature</span>
+                    <span style="background: rgba(37,99,235,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">map-feature</span>
+                    <span style="background: rgba(5,150,105,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">data-integrity</span>
+                    <span style="background: rgba(217,70,239,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">code-quality</span>
+                    <span style="background: rgba(234,88,12,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">troubleshooting</span>
+                    <span style="background: rgba(100,116,139,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">webapp-testing</span>
+                    <span style="background: rgba(79,70,229,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">vercel-react-best-practices</span>
+                    <span style="background: rgba(225,29,72,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">resume-writer</span>
+                    <span style="background: rgba(161,161,170,0.2); padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.75rem;">pdf</span>
                 </div>
             </div>
 
@@ -8859,7 +8934,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 </tr>
                 <tr>
                     <td><strong>Skills</strong></td>
-                    <td><code>/.claude/skills/</code> (17개)</td>
+                    <td><code>/.claude/skills/</code> (27개)</td>
                     <td><span class="lang-ko">k8s-debug, load-test, pr-review 등 반복 작업 자동화</span><span class="lang-en">Automate k8s-debug, load-test, pr-review, etc.</span></td>
                 </tr>
                 <tr>
