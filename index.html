@@ -422,16 +422,14 @@
 <!-- About Me -->
 <div class="about-section">
     <p class="lang-ko-block">
-        <strong>분산 시스템 설계와 성능 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
-        분산 시스템에 대한 지속적인 관심으로, Ethereum 블록체인 기반 분산 경매/유통 플랫폼 캡스톤에서 시작해 Rakuten CNP(Enterprise Kubernetes, 로우레벨 C 분산 스토리지 서버) 실무를 거쳐, 현재는 LLM 기반 분산 비동기 클러스터를 설계·개발·운영하며 백엔드 및 인프라 역량을 확장·고도화하고 있습니다.
-        Agent-Driven Development 방식을 적용하여, GitOps로 동기화된 코드베이스를 개발자와 에이전트가 공유하는 단일 진실 공급원으로 삼고, 구조화된 문서(Foundations/Plans/Reports)와 Skills를 자체 RAG로 축적하여 에이전트가 프로젝트 컨텍스트를 이해한 상태에서 피드백 루프에 참여하도록 설계합니다. 코드베이스와 Observability 피드백 루프를 통해 클러스터와 에이전트가 함께 발전합니다.
-        기술 블로그를 통해 리서치부터 설계, 개발, 배포, 운영에 이르는 전 과정을 꾸준히 기록합니다.
+        <strong>분산 시스템 설계와 LLM 파이프라인 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
+        Rakuten 페타바이트급 분산 스토리지 실무를 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 멀티에이전트 파이프라인을 설계·운영하며 VU 50→500(10배) 확장을 달성했습니다.
+        Agent-Driven Development로 구조화된 Knowledge Base와 Skills를 자체 RAG로 축적하여, 코딩 에이전트가 프로젝트 컨텍스트를 이해한 상태에서 개발 피드백 루프에 참여하도록 설계합니다.
     </p>
     <p class="lang-en-block">
-        Backend engineer focused on <strong>distributed systems design and performance optimization</strong>.
-        With a continuous interest in distributed systems, I started with an Ethereum blockchain-based distributed auction/distribution platform capstone, gained hands-on experience at Rakuten CNP (Enterprise Kubernetes, low-level C distributed storage server), and am currently designing, developing, and operating LLM-based distributed asynchronous clusters while expanding and advancing my backend and infrastructure capabilities.
-        Applying Agent-Driven Development, I use GitOps-synced codebase as the single source of truth shared by developers and agents, accumulating structured documents (Foundations/Plans/Reports) and Skills as self-RAG so agents participate in feedback loops with full project context understanding. The cluster and agents evolve together through codebase and Observability feedback loops.
-        I consistently document the entire process from research to design, development, deployment, and operations through my technical blog.
+        Backend engineer focused on <strong>distributed systems design and LLM pipeline optimization</strong>.
+        After hands-on experience with Rakuten's petabyte-scale distributed storage, I now design and operate LangGraph multi-agent pipelines on a 24-Node Kubernetes cluster, achieving VU 50→500 (10x) scaling.
+        Applying Agent-Driven Development, I accumulate structured Knowledge Base and Skills as self-RAG so coding agents participate in development feedback loops with full project context understanding.
     </p>
 </div>
 
@@ -498,17 +496,45 @@
 <div class="experience-item">
     <div class="item-header">
         <div>
+            <span class="item-title">Eco² - LangGraph Multi-Agent Pipeline</span>
+            <span class="item-subtitle"> | Backend & Infrastructure (Solo)</span>
+            <a href="https://mangowhoiscloud.github.io/resume/eco2-portfolio.html" target="_blank" style="font-size: 0.8em; color: #1a73e8; margin-left: 8px;">[Portfolio]</a>
+        </div>
+        <span class="item-period" id="eco2-days">Oct 31, 2025 - Present</span>
+    </div>
+    <p class="item-description lang-ko">AI 분리수거 챗봇 백엔드 단독 설계·개발·운영 | 24-Node K8s 클러스터, 2025 새싹톤 우수상(181팀 중 TOP4)</p>
+    <p class="item-description lang-en">AI recycling chatbot backend — solo design, development, operations | 24-Node K8s cluster, 2025 SeSACTHON Excellence Award (TOP4/181 teams)</p>
+
+    <div class="metrics">
+        <strong>Key Metrics:</strong> VU 50→500 (10x), RPM 400+, Connection Pool 212→33 (84%↓), ext-authz p99 275ms @ VU 2,500
+    </div>
+
+    <ul>
+        <li><strong>LangGraph Multi-Intent Fanout:</strong> <span class="lang-ko">9분류 Intent 분석 후 11종 서브에이전트를 Send API로 동적 병렬 라우팅, 복합 질의를 단일 요청에서 병렬 처리</span><span class="lang-en">Dynamic parallel routing of 11 sub-agents via Send API after 9-class Intent analysis, processing compound queries in a single request</span></li>
+        <li><strong>Redis Event Bus 3-Tier:</strong> <span class="lang-ko">Streams(영속) + Pub/Sub(실시간 팬아웃) + State KV(복구) 분리, Lua Script 멱등성 + Lamport Clock seq 기반 이벤트 순서 보장 → SLA VU 300 달성</span><span class="lang-en">Streams (persistence) + Pub/Sub (realtime fan-out) + State KV (recovery) separation, Lua Script idempotency + Lamport Clock seq-based event ordering → SLA VU 300 achieved</span></li>
+        <li><strong>ReadThroughCheckpointer:</strong> <span class="lang-ko">Redis Primary + PostgreSQL Async Sync 분리, Temporal Locality 기반 LRU 승격, CheckpointSyncService 배치 영속화 → Connection Pool 212→33 (84% 감소)</span><span class="lang-en">Redis Primary + PostgreSQL Async Sync separation, Temporal Locality-based LRU promotion, CheckpointSyncService batch persistence → Connection Pool 212→33 (84% reduction)</span></li>
+        <li><strong>Taskiq Asyncio Worker:</strong> <span class="lang-ko">LangGraph asyncio-native 요구사항에 맞춰 도입, aio-pika + OpenAI/Gemini OTEL Instrumentor로 API→MQ→Worker→LLM 분산 트레이싱</span><span class="lang-en">Adopted for LangGraph asyncio-native requirement, API→MQ→Worker→LLM distributed tracing via aio-pika + OpenAI/Gemini OTEL Instrumentors</span></li>
+        <li><strong>Multi-LLM Resilience:</strong> <span class="lang-ko">OpenAI/Gemini Strategy 패턴 추상화 + Fallback 체인, Stateless Reducer + 체크포인팅으로 중간 실패 시 LLM 재호출 없이 복구</span><span class="lang-en">OpenAI/Gemini Strategy pattern abstraction + Fallback chain, Stateless Reducer + checkpointing for recovery without LLM re-call on intermediate failure</span></li>
+        <li><strong>Scan Pipeline:</strong> <span class="lang-ko">Vision→Rule-based Retrieval→Answer→Reward, 구조화 프롬프트로 할루시네이션 억제, Gevent 비동기로 I/O-bound 12초 파이프라인 병렬화</span><span class="lang-en">Vision→Rule-based Retrieval→Answer→Reward, hallucination suppression via structured prompts, Gevent async for 12s I/O-bound pipeline parallelization</span></li>
+        <li><strong>24-Node Infrastructure:</strong> <span class="lang-ko">ArgoCD GitOps + Istio mTLS + KEDA 오토스케일링, DOMA + Clean Architecture(Port/Adapter 4-Layer) 기반 7개 도메인 서비스 운영</span><span class="lang-en">ArgoCD GitOps + Istio mTLS + KEDA autoscaling, 7 domain services on DOMA + Clean Architecture (Port/Adapter 4-Layer)</span></li>
+        <li><strong>Agent-Driven Development:</strong> <span class="lang-ko">ADR·장애 로그·도메인 규칙을 Knowledge Base로 축적 → 자체 RAG + 27개 Skills로 에이전트 온보딩 가속, Permission Mode 전환으로 설계-구현-검증 사이클 운용</span><span class="lang-en">Accumulated ADR, incident logs, domain rules as Knowledge Base → self-RAG + 27 Skills for agent onboarding acceleration, Plan→Auto-Accept→Normal mode cycle for design-implement-verify workflow</span></li>
+    </ul>
+</div>
+
+<div class="experience-item">
+    <div class="item-header">
+        <div>
             <span class="item-title">Rakuten Symphony Korea</span>
-            <span class="item-subtitle"> - Cloud Engineer - Jr. Storage Developer (Server-side)</span>
+            <span class="item-subtitle"> - Cloud Engineer (Storage Server-side)</span>
         </div>
         <span class="item-period">Dec 2024 - Aug 2025</span>
     </div>
-    <p class="item-description lang-ko">Cloud BU | 정규직 | Rakuten CNP Storage 서버 유지 보수 및 Rakuten OStore 신규 개발</p>
-    <p class="item-description lang-en">Cloud BU | Full-time | Rakuten CNP Storage server maintenance and Rakuten OStore new development</p>
+    <p class="item-description lang-ko">Cloud BU | 정규직 | 페타바이트급 프로덕션 분산 스토리지 시스템 개발, 글로벌 팀(인도·일본·한국) 영어 기반 협업</p>
+    <p class="item-description lang-en">Cloud BU | Full-time | Petabyte-scale production distributed storage development, global team (India/Japan/Korea) English-based collaboration</p>
     <ul>
-        <li><strong>Robin Storage v5.5.0:</strong> <span class="lang-ko">Rakuten Mobile(일본)과 1&1(독일) 글로벌 2,000만 유저 통신망 기반 CNP 분산 스토리지 서버(C/RPC) — 스냅샷 로딩 시 RDVM 상태 수집 RPC 개발, <code>RDVM_STATE</code> 동시 접근 crash 수정 (mutex_lock 검증 로직 추가), <code>SEGMENT_LOCK</code> 성능 저하 버그 픽스 (down_write -> down_read 전환)</span><span class="lang-en">CNP distributed storage server (C/RPC) for Rakuten Mobile (Japan) and 1&1 (Germany) global 20M user telecom networks — Developed RDVM state collection RPC during snapshot loading, fixed <code>RDVM_STATE</code> concurrent access crash (added mutex_lock validation), fixed <code>SEGMENT_LOCK</code> performance degradation bug (down_write -> down_read)</span></li>
-        <li><strong>Rakuten OStore v1.0.0:</strong> <span class="lang-ko">Rakuten 그룹사 및 외부 엔터프라이즈 고객(Google 등) 대상 MinIO/S3 대체 Enterprise Object Storage — Install-time root account 생성 후 분산 게이트웨이 캐시에 주입, Eventual Consistency로 논리적 정합성과 빠른 성능 확보, 유저 deactivate 시 access key 미삭제 버그 수정</span><span class="lang-en">Enterprise Object Storage replacing MinIO/S3 for Rakuten Group and external enterprise customers (Google, etc.) — Install-time root account creation with distributed gateway cache injection, ensured logical consistency and fast performance with Eventual Consistency, fixed access key not deleted on user deactivation</span></li>
-        <li><strong>Global Collaboration:</strong> <span class="lang-ko">Rakuten Mobile & Symphony 소속 US, India, JP 엔지니어와 Jira/Confluence/GitOps 기반 개발 협업, 소속 팀 대상 영문 기술 발표 경험 다수</span><span class="lang-en">Development collaboration with US, India, JP engineers from Rakuten Mobile & Symphony via Jira/Confluence/GitOps, multiple English technical presentations to team</span></li>
+        <li><strong>CNP Storage (C/RPC):</strong> <span class="lang-ko">2,000만 유저 통신망 기반 분산 스토리지 — 멀티스레드 동시성 버그 mutex_lock crash 재현·분석, SEGMENT_LOCK down_write→down_read 전환으로 읽기 병렬성 확보 + 프로덕션 데이터 무결성 유지</span><span class="lang-en">Distributed storage for 20M-user telecom networks — Reproduced/analyzed multi-thread concurrency mutex_lock crash, SEGMENT_LOCK down_write→down_read conversion for read parallelism + production data integrity</span></li>
+        <li><strong>Object Storage (Go):</strong> <span class="lang-ko">Eventual Consistency 모델 기반 분산 게이트웨이 캐시 정합성 패턴 설계, Go로 대용량 오브젝트 고성능 병렬 I/O 처리 구현</span><span class="lang-en">Distributed gateway cache consistency pattern design based on Eventual Consistency model, high-performance parallel I/O for large objects in Go</span></li>
+        <li><strong>Production Operations:</strong> <span class="lang-ko">수백 대 규모 프로덕션 클라우드 온콜 장애 대응, 영어 기반 코드 리뷰·아키텍처 설계 논의·장애 분석, 팀 대상 영문 기술 발표</span><span class="lang-en">On-call incident response for hundreds of production cloud nodes, English-based code review/architecture discussion/incident analysis, English technical presentations</span></li>
     </ul>
 </div>
 
@@ -517,6 +543,18 @@
 <ul>
     <li><strong><span class="lang-ko">2025 새싹 해커톤 우수상</span><span class="lang-en">2025 SeSACTHON Excellence Award</span></strong> — <span class="lang-ko">본선 4위/32팀 (예선 181팀) | 주최: 서울특별시, 운영: 데이콘 (Dec 2025)</span><span class="lang-en">Finals 4th/32 teams (Prelims 181 teams) | Host: Seoul Metropolitan Government, Operated by: DACON (Dec 2025)</span></li>
 </ul>
+
+<!-- Skills -->
+<h2><span class="lang-ko">Skills</span><span class="lang-en">Skills</span></h2>
+<table class="skills-table" style="width:100%; border-collapse:collapse; font-size:9pt; margin-bottom:12px;">
+    <tr><td style="width:100px; padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Languages</td><td style="padding:3px 0;">Python, Go, C, Solidity</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">LLM / AI</td><td style="padding:3px 0;">LangGraph, LangChain, OpenAI Responses API, Gemini SDK, RAG, Prompt Engineering, Token Streaming (SSE)</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Infrastructure</td><td style="padding:3px 0;">Kubernetes (24-Node), ArgoCD, Istio, OpenTelemetry, KEDA, Docker</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Messaging</td><td style="padding:3px 0;">RabbitMQ, Redis Streams / Pub/Sub, Taskiq (asyncio), Celery (Gevent)</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Databases</td><td style="padding:3px 0;">PostgreSQL, Redis, Elasticsearch</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Architecture</td><td style="padding:3px 0;">Clean Architecture (Port/Adapter), DOMA, Event-Driven, Microservices</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">DevOps</td><td style="padding:3px 0;">GitOps, CI/CD, Kustomize, GitHub Actions</td></tr>
+</table>
 
 <!-- Education & Certifications -->
 <h2><span class="lang-ko">Education & Certifications</span><span class="lang-en">Education & Certifications</span></h2>
@@ -538,91 +576,8 @@
     </div>
 </div>
 
-<!-- Languages -->
-<h2><span class="lang-ko">Languages</span><span class="lang-en">Languages</span></h2>
-<ul>
-    <li><strong>Korean</strong> (Native) | <strong>English</strong> (Professional)</li>
-</ul>
-
-<!-- Technical Skills -->
-<h2><span class="lang-ko">Technical Skills</span><span class="lang-en">Technical Skills</span></h2>
-
-<div class="skills-grid">
-    <span class="skill-category">Language</span>
-    <span class="skill-items">Go, Python3, C, C++17, Java, Solidity</span>
-    
-    <span class="skill-category">Backend</span>
-    <span class="skill-items">FastAPI, Spring, gRPC, Protocol Buffers</span>
-    
-    <span class="skill-category">Infrastructure</span>
-    <span class="skill-items">Kubernetes, Istio, Calico CNI, Terraform, Ansible, Docker</span>
-    
-    <span class="skill-category">DevOps</span>
-    <span class="skill-items">ArgoCD, Helm, Kustomize, GitHub Actions, KEDA</span>
-    
-    <span class="skill-category">Database</span>
-    <span class="skill-items">PostgreSQL, Redis (Streams, Pub/Sub), Elasticsearch</span>
-    
-    <span class="skill-category">Messaging</span>
-    <span class="skill-items">RabbitMQ, Celery, Redis Streams</span>
-    
-    <span class="skill-category">Observability</span>
-    <span class="skill-items">Prometheus, Grafana, Jaeger, Kiali, OpenTelemetry, EFK Stack</span>
-    
-    <span class="skill-category">Cloud</span>
-    <span class="skill-items">AWS (EC2, S3, Route53, ALB, ACM, SSM)</span>
-</div>
-
 <!-- Projects -->
 <h2><span class="lang-ko">Projects</span><span class="lang-en">Projects</span></h2>
-
-<div class="project-item">
-    <div class="item-header">
-        <div>
-            <span class="item-title">Eco2 - Multi-LLM Recycling Agent</span>
-            <span class="item-subtitle"> | Backend & Infrastructure</span>
-            <a href="https://mangowhoiscloud.github.io/resume/eco2-portfolio.html" target="_blank" style="font-size: 0.8em; color: #1a73e8; margin-left: 8px;">[Portfolio]</a>
-        </div>
-        <span class="item-period" id="eco2-days">Oct 31, 2025 - Present</span>
-    </div>
-    <p class="item-description lang-ko">GPT/Gemini Vision + Rule-based Retrieval 기반 AI 분리수거 에이전트 | K8s 기반 24-Node 마이크로서비스 클러스터</p>
-    <p class="item-description lang-en">LLM recycling agent based on GPT/Gemini Vision + Rule-based Retrieval | K8s-based 24-Node microservices cluster</p>
-    
-    <div class="metrics">
-        <strong>Performance:</strong> ext-authz VU 2,500 RPS 1,477, p99 275ms, <span class="lang-ko">로컬 캐시</span><span class="lang-en">local cache</span> p99 2.3µs | Scan API SSE VU 300 <span class="lang-ko">완료율</span><span class="lang-en">completion rate</span> 99.9%<br>
-        <strong>Scan API Event Relay <span class="lang-ko">도입</span><span class="lang-en">Introduction</span>:</strong> VU 50/99% → VU 80/33% (<span class="lang-ko">이전</span><span class="lang-en">before</span>) → VU 250/99.9%, VU 400/98.9%, VU 500/94% (<span class="lang-ko">현재</span><span class="lang-en">current</span>)<br>
-        <strong>SSE Scan <span class="lang-ko">포화 지점</span><span class="lang-en">Saturation Point</span> (VU 600):</strong> Redis Pool 20→100, Celery Broker Pool 10→50, Greenlet M:1 <span class="lang-ko">단일 노드 CPU 포화 분석·해결</span><span class="lang-en">single node CPU saturation analysis & resolution</span>
-    </div>
-    
-    <ul>
-        <li><strong>Agent-Driven Development:</strong> <span class="lang-ko">GitOps로 배포 클러스터와 동기화된 코드베이스를 개발자와 에이전트가 공유하는 단일 진실 공급원으로 삼고, 터미널/CLI/Observability를 통해 에이전트가 클러스터 상태를 실시간으로 수집·파악하며, Foundations·Plans·Reports 등 구조화된 문서를 자체 RAG로 축적하여 히스토리와 아키텍처 컨텍스트를 이해한 상태에서 피드백 루프에 참여하도록 설계</span><span class="lang-en">Codebase synchronized with deployment cluster via GitOps serves as single source of truth shared by developers and agents, agents collect and understand cluster state in real-time via terminal/CLI/Observability, and participate in feedback loops with accumulated history and architecture context through self-RAG of structured documents (Foundations, Plans, Reports)</span></li>
-    </ul>
-    
-    <h4 style="margin: 12px 0 6px 0; color: #1a73e8; font-size: 0.95em;">▸ Backend</h4>
-    <ul>
-        <li><strong>DOMA + Clean Architecture:</strong> <span class="lang-ko">24-Node 클러스터에 배치된 7개 도메인 서비스, SSE Gateway/Event Router/Worker 등 Integration 컴포넌트, MQ/Redis Streams 등 다수의 분산 시스템을 용이하게 오케스트레이션·조합하기 위해 적용 — 도메인별 독립 서비스/워커/스키마 분리(DOMA), 각 서비스 내부는 Port/Adapter 기반 4-Layer 분리, CQRS로 Command/Query 책임 분리, 의존성 역전으로 Adapter 교체 용이성 확보</span><span class="lang-en">Applied to easily orchestrate 7 domain services deployed on 24-Node cluster, Integration components (SSE Gateway/Event Router/Worker), and multiple distributed systems (MQ/Redis Streams) — Domain-independent service/worker/schema separation (DOMA), Port/Adapter-based 4-Layer separation within each service, Command/Query responsibility separation with CQRS, easy Adapter replacement via dependency inversion</span></li>
-        <li><strong>Scan API Pipeline:</strong> Vision(LLM) → Rule-based Retrieval → Answer(LLM) → Reward, <span class="lang-ko">Structured JSON + 시스템 프롬프트로 결정론적으로 구성한 단방향 파이프라인 — LLM 2회 호출의 8-10초 high-latency I/O bound 워크로드 특성상 Gevent(Greenlet 비동기) 선택, MQ + Event Relay로 분산 비동기 큐잉/오케스트레이션, SSE로 클라이언트에게 실시간 진행상황 스트리밍</span><span class="lang-en">Deterministic unidirectional pipeline with Structured JSON + system prompts — Chose Gevent (Greenlet async) for 8-10s high-latency I/O bound workload with 2 LLM calls, distributed async queuing/orchestration with MQ + Event Relay, real-time progress streaming to clients via SSE</span></li>
-        <li><strong>Multi-LLM & Resilience:</strong> <span class="lang-ko">GPT/Gemini Vision API 런타임 선택 지원, Strategy 패턴 기반 LLM Provider 추상화 — 모델사 API 불안정성 헷징을 위해 Stateless Reducer Pattern + 체크포인팅 + Fallback 도입, 중간 실패 시 LLM 재호출 없이 체크포인트에서 복구</span><span class="lang-en">Runtime GPT/Gemini Vision API selection, Strategy pattern-based LLM Provider abstraction — Introduced Stateless Reducer Pattern + checkpointing + Fallback to hedge against model API instability, recovery from checkpoint without LLM re-call on intermediate failure</span></li>
-        <li><strong>Event Relay Layer:</strong> <span class="lang-ko">단일 호출에 LLM API 2회 호출되는 고I/O 바운드 파이프라인의 동시 접속 부하 취약점 해결 — Redis Streams + Pub/Sub + State KV 기반 3-tier 아키텍처, Event Router(Consumer Group, Lua Script 멱등성), SSE Gateway(Pub/Sub 구독, State 복구) — SLA 기준 VU 50→300 (600% 향상), 시스템 포화 지점 VU 80→500 (625% 향상)</span><span class="lang-en">Resolved concurrent connection load vulnerability in high I/O bound pipeline with 2 LLM API calls per request — 3-tier architecture based on Redis Streams + Pub/Sub + State KV, Event Router (Consumer Group, Lua Script idempotency), SSE Gateway (Pub/Sub subscription, State recovery) — VU 50→300 (600% improvement) by SLA, system saturation point VU 80→500 (625% improvement)</span></li>
-        <li><strong>Auth Offloading (ext-authz):</strong> <span class="lang-ko">모든 호출이 JWT/Blacklist 검증을 거치는 클러스터 글로벌 초크 → 고성능 경량 서버(Go gRPC)로 분리, RS256 JWT/JWKS 검증, HPA 2→4 pods 자동 스케일링</span><span class="lang-en">Cluster global choke with all calls going through JWT/Blacklist verification → Separated to high-performance lightweight server (Go gRPC), RS256 JWT/JWKS verification, HPA 2→4 pods auto-scaling</span></li>
-        <li><strong>Persistence Offloading:</strong> <span class="lang-ko">강결합 동기 로직(유저 생성) 제외, Service Layer의 Persistence 직접 접근 제거 → 모든 영속성 작업을 Integration Layer(RabbitMQ + Worker)로 위임, Eventual Consistency 기반 정합성 보장</span><span class="lang-en">Except for tightly coupled sync logic (user creation), removed direct Persistence access from Service Layer → Delegated all persistence operations to Integration Layer (RabbitMQ + Worker), consistency guaranteed via Eventual Consistency</span></li>
-        <li><strong>Local Cache Broadcasting:</strong> <span class="lang-ko">CQRS 분리로 READ 작업 비율이 집중된 도메인(ext-authz JWT AuthN/AuthZ 검증, Character catalog)에 한정 적용, RabbitMQ Fanout 기반 로컬 캐시 동기화로 Persistence Layer 대비 저레이턴시 접근</span><span class="lang-en">Applied only to domains with concentrated READ operations (ext-authz JWT AuthN/AuthZ verification, Character catalog) via CQRS separation, low-latency access compared to Persistence Layer via RabbitMQ Fanout-based local cache synchronization</span></li>
-        <li><strong>Outbox Pattern:</strong> <span class="lang-ko">Redis Outbox + auth-relay Worker로 메시지 발행 보장, At-Least-Once + 멱등성 처리로 Exactly-Once Semantics 구현</span><span class="lang-en">Guaranteed message publishing with Redis Outbox + auth-relay Worker, Exactly-Once Semantics via At-Least-Once + idempotency handling</span></li>
-        <li><strong>Worker Concurrency Strategy:</strong> <span class="lang-ko">워크로드 특성에 맞춘 동시성 모델 분리 — I/O 바운드 워커(LLM 호출, DB 영속화)는 Gevent Pool, CPU 바운드 워커(캐릭터 매칭 로직)는 Thread Pool로 구성하여 리소스 효율 최적화</span><span class="lang-en">Concurrency model separation based on workload characteristics — Gevent Pool for I/O bound workers (LLM calls, DB persistence), Thread Pool for CPU bound workers (character matching logic) for resource efficiency optimization</span></li>
-        <li><strong>Chat Agent (In Progress):</strong> <span class="lang-ko">LangGraph 기반 Multi-Agent 아키텍처로 Chat 도메인 고도화 — Taskiq asyncio-native Job Queue로 5-30초 LLM 파이프라인 비동기화, Intent Enum 기반 라우팅 + is_complex 필드로 Subagent 분기, RedisSaver 체크포인팅으로 대화 상태 복원, Multi-LLM Provider(OpenAI/Gemini) Tool Calling 지원</span><span class="lang-en">Upgrading Chat domain to LangGraph-based Multi-Agent architecture — Async-ified 5-30s LLM pipeline via Taskiq asyncio-native Job Queue, Intent Enum-based routing + is_complex field for Subagent branching, RedisSaver checkpointing for conversation state recovery, Multi-LLM Provider (OpenAI/Gemini/Anthropic) Tool Calling support</span></li>
-    </ul>
-
-    <h4 style="margin: 12px 0 6px 0; color: #1a73e8; font-size: 0.95em;">▸ Infrastructure</h4>
-    <ul>
-        <li><strong>GitOps & Canary:</strong> <span class="lang-ko">ArgoCD App-of-Apps, Sync-wave(00~70)로 의존성 기반 배포 순서 제어, Helm Charts + Kustomize overlay — 코드베이스 Git commit만으로 클러스터 상태 수렴(Zero-touch Deployment), Canary 배포로 단일 클러스터 내 서비스/개발 환경 격리</span><span class="lang-en">ArgoCD App-of-Apps, dependency-based deployment order control with Sync-wave(00~70), Helm Charts + Kustomize overlay — Cluster state convergence with just Git commit (Zero-touch Deployment), service/dev environment isolation within single cluster via Canary deployment</span></li>
-        <li><strong>CI Pipeline:</strong> <span class="lang-ko">용도별(services/workers/middleware/manifest) 파이프라인 분리, path-based 트리거로 변경 감지 → Black/Ruff lint → Pytest → Build/Push Matrix 전략 — GitHub pre-commit hook과 더불어 코드 퀄리티 검수에 집중, Radon 복잡도 분석으로 AI 에이전트 생성 코드 품질 지속 관리</span><span class="lang-en">Pipeline separation by purpose (services/workers/middleware/manifest), change detection via path-based triggers → Black/Ruff lint → Pytest → Build/Push Matrix strategy — Focus on code quality inspection with GitHub pre-commit hooks, continuous AI agent-generated code quality management via Radon complexity analysis</span></li>
-        <li><strong>Helm → Operator Migration:</strong> <span class="lang-ko">Bitnami 등 패키징 의존적 Helm Charts에서 Operator 기반으로 마이그레이션 — CR(Custom Resource)로 선언적 관리, 클러스터 형성 및 확장에 유리</span><span class="lang-en">Migration from packaging-dependent Helm Charts (Bitnami, etc.) to Operator-based — Declarative management with CR (Custom Resource), advantageous for cluster formation and scaling</span></li>
-        <li><strong>RabbitMQ Topology CR:</strong> <span class="lang-ko">Queue/Exchange/Binding을 Kubernetes CR로 선언적 관리, Named Direct Exchange로 1:N 라우팅 지원 — 1번 publish로 다중 Consumer 전달(reward → character + users), 네트워크 효율화 및 원자성 보장, Exchange 타입별 용도 분리(Direct/Fanout/DLX)</span><span class="lang-en">Declarative Queue/Exchange/Binding management via Kubernetes CR, 1:N routing support with Named Direct Exchange — Multiple Consumer delivery with single publish (reward → character + users), network efficiency and atomicity guarantee, purpose separation by Exchange type (Direct/Fanout/DLX)</span></li>
-        <li><strong>5-Layer Architecture:</strong> <span class="lang-ko">Edge→Service→Integration→Persistence + Platform 계층 구조 설계, 계층 간 의존성을 인접 레이어로 한정하여 분산환경 복잡도 관리 — 24-Node Self-managed Kubernetes(kubeadm) 클러스터에 서비스별 독립 노드로 마이크로서비스 배치, Istio Service Mesh(mTLS, Traffic Routing), Calico CNI(Network Policy), PostgreSQL(단일 DB, 도메인별 스키마 분리), Redis Cluster 4종 분리(Streams/Pub-Sub/Cache/Outbox)</span><span class="lang-en">Edge→Service→Integration→Persistence + Platform layer structure design, limiting inter-layer dependencies to adjacent layers for distributed environment complexity management — Microservices deployed on per-service independent nodes across 24-Node Self-managed Kubernetes (kubeadm) cluster, Istio Service Mesh (mTLS, Traffic Routing), Calico CNI (Network Policy), PostgreSQL (single DB, per-domain schema separation), 4 purpose-separated Redis Clusters (Streams/Pub-Sub/Cache/Outbox)</span></li>
-        <li><strong>Observability:</strong> Prometheus, Grafana, Alertmanager(Slack), OpenTelemetry, Jaeger, Kiali, EFK Stack<span class="lang-ko">으로 분산 트레이싱 및 로그 중앙화</span><span class="lang-en"> for distributed tracing and log centralization</span></li>
-        <li><strong>KEDA:</strong> <span class="lang-ko">큐잉 환경에서 HPA(컴퓨팅 리소스) 관측만으로는 수평확장 제어에 한계 → 이벤트 관측 데이터(RabbitMQ 큐 길이, Redis Streams Pending) 기반 오토스케일링</span><span class="lang-en">Limitations in horizontal scaling control with only HPA (computing resources) observation in queuing environments → Auto-scaling based on event observation data (RabbitMQ queue length, Redis Streams Pending)</span></li>
-    </ul>
-</div>
 
 <div class="project-item">
     <div class="item-header">
@@ -660,6 +615,13 @@
         <li><strong>Blockchain Infrastructure:</strong> <span class="lang-ko">genesis.json 기반 Private Network(chainId 49277) 구성, Truffle/Ganache 배포 파이프라인 자동화, Web3.js + MetaMask + IPFS 연동</span><span class="lang-en">Private Network configuration (chainId 49277) based on genesis.json, Truffle/Ganache deployment pipeline automation, Web3.js + MetaMask + IPFS integration</span></li>
     </ul>
 </div>
+
+<!-- Languages -->
+<h2><span class="lang-ko">Languages</span><span class="lang-en">Languages</span></h2>
+<ul style="margin-top:4px;">
+    <li><strong><span class="lang-ko">한국어</span><span class="lang-en">Korean</span></strong> — Native</li>
+    <li><strong><span class="lang-ko">영어</span><span class="lang-en">English</span></strong> — Business Level (OPIc IH)</li>
+</ul>
 
 <script>
     function setLang(lang) {
