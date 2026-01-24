@@ -5481,18 +5481,10 @@ needs_fallback = len(missing_required) > 0
                                 <div style="color: var(--text-muted); font-size: 0.8rem;">Anthropic CLI Agent</div>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; font-size: 0.85rem;">
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; font-size: 0.85rem; margin-bottom: 0.75rem;">
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
                                 <div style="font-weight: 600; color: #8b5cf6;">10일</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">사용 기간</div>
-                            </div>
-                            <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">5.05B</div>
-                                <div style="color: var(--text-muted); font-size: 0.7rem;">토큰 사용량</div>
-                            </div>
-                            <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">Max x20</div>
-                                <div style="color: var(--text-muted); font-size: 0.7rem;">Plan</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
                                 <div style="font-weight: 600; color: #8b5cf6;">258</div>
@@ -5503,8 +5495,36 @@ needs_fallback = len(missing_required) > 0
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">Skills</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                                <div style="font-weight: 600; color: #8b5cf6;">Max x20</div>
+                                <div style="color: var(--text-muted); font-size: 0.7rem;">Plan</div>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
                                 <div style="font-weight: 600; color: #8b5cf6;">Opus 4.5</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">주요 모델</div>
+                            </div>
+                        </div>
+                        <!-- Token Breakdown -->
+                        <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; line-height: 1.6; color: var(--text-secondary);">
+                            <div style="color: #f59e0b; margin-bottom: 0.3rem;">// Token Usage Breakdown (10일, 258 sessions)</div>
+                            <div>input_tokens      <span style="color: #8b5cf6;">2.53M</span>   → 캐시 미적중 새 입력</div>
+                            <div>cache_creation   <span style="color: #8b5cf6;">277.24M</span>   → 새로 캐시에 쓴 입력</div>
+                            <div>cache_read     <span style="color: #8b5cf6;">4,763.09M</span>   → 캐시에서 읽은 입력 (모델이 실제로 처리)</div>
+                            <div>output_tokens     <span style="color: #8b5cf6;">3.27M</span>   → 모델 생성 출력</div>
+                            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.4rem; padding-top: 0.4rem;">
+                                <strong style="color: #8b5cf6;">Total: 5.05B tokens</strong>
+                            </div>
+                            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; padding-top: 0.5rem;">
+                                <div style="color: #f59e0b;">// Opus 4.5 API 환산 비용</div>
+                                <div>input        2.53M  × $15/MTok    = <span style="color: #10b981;">$38</span></div>
+                                <div>cache_write  277M   × $18.75/MTok = <span style="color: #10b981;">$5,198</span></div>
+                                <div>cache_read   4,763M × $1.875/MTok = <span style="color: #10b981;">$8,931</span></div>
+                                <div>output       3.27M  × $75/MTok    = <span style="color: #10b981;">$245</span></div>
+                                <div style="margin-top: 0.3rem;"><strong style="color: #10b981;">Total API equivalent: ~$14,412</strong> <span style="color: var(--text-muted);">(Max $200/월로 처리)</span></div>
+                            </div>
+                            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; padding-top: 0.5rem; color: var(--text-muted); font-size: 0.65rem;">
+                                // cache_read 94% 비중: 매 턴 시스템 프롬프트 + Skills + 대화 이력 재전송<br>
+                                // → Context-First 개발론의 핵심 — foundations/reports/skills 축적량이<br>
+                                //   곧 세션당 캐시 히트율로 직결. 루프 반복 시 동일 비용으로 더 정밀한 판단
                             </div>
                         </div>
                     </div>
