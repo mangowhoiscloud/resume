@@ -3038,6 +3038,7 @@
                     <div class="category-badges">
                         <span class="tech-badge">RabbitMQ</span>
                         <span class="tech-badge">Celery</span>
+                        <span class="tech-badge">Taskiq</span>
                         <span class="tech-badge">Gevent</span>
                         <span class="tech-badge">Fanout</span>
                         <span class="tech-badge">DLQ</span>
@@ -3077,6 +3078,13 @@
                                 <span class="lang-en"><strong>Topology CR management</strong> declarative Queue/Exchange via K8s Operator</span>
                             </div>
                         </div>
+                        <div class="achievement clickable" data-modal="modal-mq-taskiq">
+                            <span class="achievement-icon">⚡</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Taskiq Asyncio Worker</strong> LangGraph asyncio-native 요구사항 → Taskiq 도입 (Chat)</span>
+                                <span class="lang-en"><strong>Taskiq Asyncio Worker</strong> LangGraph asyncio-native requirement → Taskiq adoption (Chat)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="category-footer">
@@ -3113,6 +3121,7 @@
                         <span class="tech-badge">Redis Streams</span>
                         <span class="tech-badge">Pub/Sub</span>
                         <span class="tech-badge">State KV</span>
+                        <span class="tech-badge">Reclaimer</span>
                         <span class="tech-badge">KEDA</span>
                         <span class="tech-badge">SSE Gateway</span>
                     </div>
@@ -3158,6 +3167,13 @@
                                 <span class="lang-en"><strong>KEDA trigger</strong> RabbitMQ queue (10-20msg) Worker 2→4, SSE connections (100/pod) 1→3</span>
                             </div>
                         </div>
+                        <div class="achievement clickable" data-modal="modal-stream-router-internals">
+                            <span class="achievement-icon">🔧</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Event Router 내부</strong> Multi-domain (scan+chat) + Lua 멱등성 + XAUTOCLAIM Reclaimer</span>
+                                <span class="lang-en"><strong>Event Router internals</strong> Multi-domain (scan+chat) + Lua idempotency + XAUTOCLAIM Reclaimer</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="category-footer">
@@ -3195,6 +3211,7 @@
                         <span class="tech-badge">Worker Queue</span>
                         <span class="tech-badge">Batch Processing</span>
                         <span class="tech-badge">Idempotency</span>
+                        <span class="tech-badge">Async Sync</span>
                     </div>
                 </div>
                 <div class="category-content">
@@ -3229,6 +3246,13 @@
                             <div class="achievement-text">
                                 <span class="lang-ko"><strong>캐시 무효화</strong> Fanout broadcast + TTL 10s + 신규 Worker 부팅 시 워밍</span>
                                 <span class="lang-en"><strong>Cache invalidation</strong> Fanout broadcast + TTL 10s + warming on new Worker boot</span>
+                            </div>
+                        </div>
+                        <div class="achievement clickable" data-modal="modal-ec-async-persistence">
+                            <span class="achievement-icon">🔁</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>Chat Async Persistence</strong> CheckpointSyncService (batch dedup) + Persistence Consumer (done→PG)</span>
+                                <span class="lang-en"><strong>Chat Async Persistence</strong> CheckpointSyncService (batch dedup) + Persistence Consumer (done→PG)</span>
                             </div>
                         </div>
                     </div>
@@ -5782,7 +5806,7 @@ needs_fallback = len(missing_required) > 0
                         <td>2025.10.31 – Present</td>
                         <td><strong>Backend/Infra Lead</strong><br><span style="color: var(--text-muted); font-size: 0.7rem;">Agent-Driven Workflow 설계 · 백엔드/인프라 개발</span></td>
                         <td>
-                            <div style="margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--text-primary); font-weight: 600;">25노드 K8s 분산 비동기 클러스터 (8 APIs, 6 Workers, 3 Infra) · 설계 → 개발 → 배포 → 운영</div>
+                            <div style="margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--text-primary); font-weight: 600;">24노드 K8s 분산 비동기 클러스터 (8 APIs, 6 Workers, 3 Infra) · 설계 → 개발 → 배포 → 운영</div>
                             <div style="margin-bottom: 0.4rem;"><strong style="color: #8b5cf6;">📐 Performance Improvement</strong></div>
                             <div style="font-size: 0.75rem; margin-bottom: 0.5rem; padding-left: 0.5rem; border-left: 2px solid rgba(139,92,246,0.4);">
                                 <div>• <strong>Auth Offloading</strong> — Istio EnvoyFilter + ext-authz(Go) JWT 검증 분리, <strong style="color: var(--primary);">48 → 1,500 RPS (31×)</strong></div>
@@ -7478,7 +7502,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <h3 class="modal-title">🏗️ 24-Nodes Platform Architecture</h3>
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                  Eco² Platform Architecture (25 Nodes + AWS)                    │
+│                  Eco² Platform Architecture (24 Nodes + AWS)                    │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  ┌─────────────────────────────── AWS ──────────────────────────────────────┐   │
@@ -8585,7 +8609,7 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │                                                                                 │
 │   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
 │   │   Cluster   │────►│    Logs     │────►│   Kibana    │────►│  Developer  │  │
-│   │ (25 Nodes)  │     │  (EFK)      │     │  Dashboard  │     │  Analysis   │  │
+│   │ (24 Nodes)  │     │  (EFK)      │     │  Dashboard  │     │  Analysis   │  │
 │   └─────────────┘     └─────────────┘     └─────────────┘     └──────┬──────┘  │
 │         │                                                            │         │
 │         │             ┌─────────────┐     ┌─────────────┐            │         │
@@ -10341,6 +10365,86 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
         </div>
     </div>
 
+    <!-- Modal: Eventual Consistency - Chat Async Persistence -->
+    <div class="modal-overlay" id="modal-ec-async-persistence">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-ec-async-persistence')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔁 Chat Async Persistence (3중 EC 패턴)</span>
+                <span class="lang-en">🔁 Chat Async Persistence (Triple EC Pattern)</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Chat Pipeline - 3중 Eventual Consistency                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ① CheckpointSyncService (LangGraph 체크포인트)                               │
+│   ─────────────────────────────────────────────                                 │
+│   chat-worker                    CheckpointSyncService (replicas=1)             │
+│   ┌──────────┐                   ┌──────────────────────────────────┐          │
+│   │ aput()   │──RPUSH──→        │ BRPOP (blocking, 5s timeout)     │          │
+│   │ Redis    │  sync:queue       │ Batch 수집 (max=50, drain=2s)   │          │
+│   └──────────┘                   │ Dedup: (thread_id, ns) → latest │          │
+│                                  │ Redis read → PG upsert          │          │
+│                                  │ 실패 → DLQ (checkpoint:sync:dlq)│          │
+│                                  └──────────────────────────────────┘          │
+│                                                                                 │
+│   ② ReadThroughCheckpointer (읽기 경로 최적화)                                 │
+│   ─────────────────────────────────────────────                                 │
+│   graph.ainvoke()                                                               │
+│   ┌──────────────┐     ┌──────────────────────────────────────────┐            │
+│   │ aget_tuple() │──→  │ Redis hit? → return (hot, ~1ms)          │            │
+│   │              │     │ Redis miss? → PG read → Redis promote   │            │
+│   │              │     │              (Temporal Locality)         │            │
+│   └──────────────┘     └──────────────────────────────────────────┘            │
+│                                                                                 │
+│   ③ Chat Persistence Consumer (메시지 영속화)                                  │
+│   ─────────────────────────────────────────────                                 │
+│   chat:events:{shard}            Persistence Consumer (group: chat-persistence) │
+│   ┌──────────────┐              ┌──────────────────────────────────┐           │
+│   │ done 이벤트  │──XREADGROUP─→│ MessageSaveHandler               │           │
+│   │ (chat-worker │              │ batch flush: 100개 or 5초        │           │
+│   │  발행)       │              │ → chat.messages INSERT           │           │
+│   └──────────────┘              │ XACK on success                  │           │
+│                                  └──────────────────────────────────┘           │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                <div style="color: #f59e0b; font-size: 0.8rem; margin-bottom: 0.5rem;">// checkpoint_sync_service.py — Batch Dedup 핵심 로직</div>
+                <pre style="color: var(--text-secondary); font-size: 0.75rem; line-height: 1.5; margin: 0; overflow-x: auto;">async def _collect_batch(self) -> list[SyncEvent]:
+    """BRPOP + drain → batch 수집."""
+    batch = []
+    first = await self._redis.brpop(SYNC_QUEUE_KEY, timeout=5)
+    if first:
+        batch.append(parse(first))
+        # drain: 추가 메시지를 2초간 수집
+        while len(batch) < 50:
+            item = await self._redis.rpop(SYNC_QUEUE_KEY)
+            if not item: break
+            batch.append(parse(item))
+    return batch
+
+# Dedup: 동일 (thread_id, checkpoint_ns)는 최신만 유지
+dedup = {(e.thread_id, e.ns): e for e in batch}</pre>
+            </div>
+            <table class="modal-table">
+                <tr><th>패턴</th><th>Write 경로</th><th>Consistency 보장</th></tr>
+                <tr><td>CheckpointSyncService</td><td>Redis → Queue → Batch → PG</td><td>DLQ fallback, Redis TTL 24h</td></tr>
+                <tr><td>ReadThroughCheckpointer</td><td>PG miss → Redis promote</td><td>Temporal Locality, LRU</td></tr>
+                <tr><td>Persistence Consumer</td><td>Streams → Batch flush → PG</td><td>Consumer Group, XACK</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">💡 설계 원칙</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • <strong>Redis Primary</strong>: 모든 읽기/쓰기의 hot path (~1ms)<br>
+                    • <strong>PostgreSQL Eventual</strong>: 비동기 배치로 영속화 (latency 무관)<br>
+                    • <strong>장애 격리</strong>: PG 불가 시 Queue 축적, 복구 후 자동 재개<br>
+                    • Chat 응답 지연에 DB 쓰기가 영향을 주지 않는 구조
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Event Streams - KEDA Autoscaling -->
     <div class="modal-overlay" id="modal-stream-keda">
         <div class="modal-content" style="max-width: 1100px;">
@@ -10397,6 +10501,107 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
                     <strong>Before (CPU HPA):</strong> 35% 완료율<br>
                     <strong>After (KEDA):</strong> 86.3% 완료율 → <strong>+51.3%p 개선</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Event Streams - Router Internals -->
+    <div class="modal-overlay" id="modal-stream-router-internals">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-stream-router-internals')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔧 Event Router 내부: Multi-domain + Lua + Reclaimer</span>
+                <span class="lang-en">🔧 Event Router Internals: Multi-domain + Lua + Reclaimer</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                     Event Router - Multi-domain Processing                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ Stream 소비 (Consumer Group: eventrouter) ──────────────────────────────┐ │
+│   │                                                                          │ │
+│   │   stream_configs = [("scan:events", 4), ("chat:events", 4)]              │ │
+│   │                                                                          │ │
+│   │   scan:events:0 ──┐                    chat:events:0 ──┐                │ │
+│   │   scan:events:1 ──┼─→ XREADGROUP       chat:events:1 ──┼─→ XREADGROUP  │ │
+│   │   scan:events:2 ──┤   (Consumer Group)  chat:events:2 ──┤               │ │
+│   │   scan:events:3 ──┘                    chat:events:3 ──┘                │ │
+│   │                                                                          │ │
+│   └──────────────────────────────────────────────────────────────────────────┘ │
+│                            │                                                    │
+│                            ▼                                                    │
+│   ┌─ Lua Script: UPDATE_STATE_SCRIPT (원자적) ───────────────────────────────┐ │
+│   │                                                                          │ │
+│   │   1. 멱등성 체크: router:published:{job_id}:{seq} EXISTS?                │ │
+│   │      └─ YES → return 0 (스킵)                                           │ │
+│   │      └─ NO  → 계속                                                      │ │
+│   │                                                                          │ │
+│   │   2. State 조건부 갱신: new_seq > current_seq?                           │ │
+│   │      └─ YES → SETEX {domain}:state:{job_id} (최신 상태 유지)            │ │
+│   │      └─ NO  → State 유지 (더 최신 값 보존)                              │ │
+│   │                                                                          │ │
+│   │   3. 처리 마킹: SETEX router:published:{job_id}:{seq} TTL=2h            │ │
+│   │                                                                          │ │
+│   │   4. return 1 → Pub/Sub 발행 (모든 이벤트 전달, 순서 무관)              │ │
+│   │                                                                          │ │
+│   └──────────────────────────────────────────────────────────────────────────┘ │
+│                            │                                                    │
+│                            ▼                                                    │
+│   ┌─ Reclaimer (XAUTOCLAIM) ─────────────────────────────────────────────────┐ │
+│   │                                                                          │ │
+│   │   주기: 60초마다 실행                                                    │ │
+│   │   대상: min_idle_ms = 300,000 (5분 이상 미ACK 메시지)                    │ │
+│   │   처리: asyncio.gather() → 모든 도메인/샤드 병렬 reclaim                 │ │
+│   │                                                                          │ │
+│   │   scan:events:0 ─┐                                                      │ │
+│   │   scan:events:1 ─┤                                                      │ │
+│   │   chat:events:0 ─┼─→ XAUTOCLAIM → re-process → ACK                     │ │
+│   │   chat:events:1 ─┤                                                      │ │
+│   │   ...            ─┘                                                      │ │
+│   │                                                                          │ │
+│   └──────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                <div style="color: #f59e0b; font-size: 0.8rem; margin-bottom: 0.5rem;">// apps/event_router/core/processor.py — Lua Script (핵심 발췌)</div>
+                <pre style="color: var(--text-secondary); font-size: 0.75rem; line-height: 1.5; margin: 0; overflow-x: auto;">UPDATE_STATE_SCRIPT = """
+local state_key = KEYS[1]      -- {domain}:state:{job_id}
+local publish_key = KEYS[2]    -- router:published:{job_id}:{seq}
+
+-- 멱등성: 이미 처리했으면 스킵
+if redis.call('EXISTS', publish_key) == 1 then
+    return 0
+end
+
+-- State 조건부 갱신 (더 큰 seq만)
+local current = redis.call('GET', state_key)
+if current then
+    local cur_seq = tonumber(cjson.decode(current).seq) or 0
+    if new_seq <= cur_seq then should_update_state = false end
+end
+if should_update_state then
+    redis.call('SETEX', state_key, state_ttl, event_data)
+end
+
+-- 처리 마킹 + Pub/Sub 발행 허용
+redis.call('SETEX', publish_key, published_ttl, '1')
+return 1
+"""</pre>
+            </div>
+            <table class="modal-table">
+                <tr><th>컴포넌트</th><th>역할</th><th>핵심 메커니즘</th></tr>
+                <tr><td>Consumer</td><td>XREADGROUP 기반 이벤트 소비</td><td>Multi-domain 8 streams 병렬</td></tr>
+                <tr><td>Processor</td><td>State 갱신 + Pub/Sub 발행</td><td>Lua Script 원자적 처리</td></tr>
+                <tr><td>Reclaimer</td><td>Pending 메시지 복구</td><td>XAUTOCLAIM (5분 idle)</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">🔑 수평 확장 보장</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • 여러 Pod이 같은 job_id 이벤트를 동시에 처리해도 안전<br>
+                    • 순서가 뒤집혀도 모든 이벤트는 Pub/Sub에 발행됨<br>
+                    • State는 가장 큰 seq로만 갱신 → 최신 상태 항상 유지<br>
+                    • Consumer 장애 시 Reclaimer가 5분 후 자동 재할당
                 </div>
             </div>
         </div>
@@ -10468,6 +10673,82 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     • ArgoCD가 자동 동기화 (선언적)<br>
                     • 환경별 Kustomize overlay 적용<br>
                     • 변경 이력 추적 가능
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Message Queue - Taskiq Asyncio Worker -->
+    <div class="modal-overlay" id="modal-mq-taskiq">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-mq-taskiq')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">⚡ Taskiq Asyncio Worker (Chat Pipeline)</span>
+                <span class="lang-en">⚡ Taskiq Asyncio Worker (Chat Pipeline)</span>
+            </h3>
+            <div class="modal-diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    Worker 이원 구조: Scan (Celery) vs Chat (Taskiq)              │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─ scan-worker (Celery + Gevent) ──────────────────────────────────────────┐ │
+│   │                                                                          │ │
+│   │   • 기존 AI 리서처 작성 동기 코드 기반                                   │ │
+│   │   • Gevent 몽키패칭으로 I/O 동시성 확보                                  │ │
+│   │   • Vision→Rule→Answer→Reward 체인 파이프라인                            │ │
+│   │   • prefork 대비 메모리 3.6GB → 500MB                                    │ │
+│   │                                                                          │ │
+│   └──────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+│   ┌─ chat-worker (Taskiq + asyncio) ─────────────────────────────────────────┐ │
+│   │                                                                          │ │
+│   │   • LangGraph가 asyncio-native → Taskiq 도입                            │ │
+│   │   • AioPikaBroker: RabbitMQ Direct Exchange (chat_tasks)                 │ │
+│   │   • 분산 트레이싱: aio-pika + OpenAI + Gemini + LangSmith OTEL          │ │
+│   │   • W3C traceparent 전파 → Jaeger에서 E2E 추적                          │ │
+│   │   • process_chat_task: timeout=300s, retries=3                           │ │
+│   │                                                                          │ │
+│   └──────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+│   ┌─ 공유 인프라 ────────────────────────────────────────────────────────────┐ │
+│   │                                                                          │ │
+│   │   RabbitMQ 클러스터 (3-node Quorum)                                      │ │
+│   │   ├─ scan.events (direct) → scan-worker                                 │ │
+│   │   ├─ chat_tasks (direct)  → chat-worker                                 │ │
+│   │   └─ K8s Topology Operator가 Exchange/Queue 선언적 관리                  │ │
+│   │                                                                          │ │
+│   │   Redis Event Bus (이벤트 발행 공유)                                     │ │
+│   │   ├─ scan:events:{shard} ← scan-worker                                  │ │
+│   │   └─ chat:events:{shard} ← chat-worker                                  │ │
+│   │                                                                          │ │
+│   └──────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                <div style="color: #f59e0b; font-size: 0.8rem; margin-bottom: 0.5rem;">// apps/chat_worker/setup/broker.py</div>
+                <pre style="color: var(--text-secondary); font-size: 0.75rem; line-height: 1.5; margin: 0; overflow-x: auto;">broker = AioPikaBroker(
+    url=settings.rabbitmq_url,
+    declare_exchange=not _is_production,  # 운영: Topology Operator 사용
+    exchange_name="chat_tasks",
+    exchange_type=ExchangeType.DIRECT,
+    routing_key="chat.process",
+    queue_name="chat.process",
+)</pre>
+            </div>
+            <table class="modal-table">
+                <tr><th>비교</th><th>scan-worker (Celery)</th><th>chat-worker (Taskiq)</th></tr>
+                <tr><td>런타임</td><td>Gevent (몽키패칭)</td><td>asyncio-native</td></tr>
+                <tr><td>LLM 프레임워크</td><td>동기 OpenAI SDK</td><td>LangGraph (async)</td></tr>
+                <tr><td>Exchange</td><td>scan.events (direct)</td><td>chat_tasks (direct)</td></tr>
+                <tr><td>이벤트 발행</td><td>Redis Streams (scan:events)</td><td>Redis Streams (chat:events)</td></tr>
+                <tr><td>트레이싱</td><td>-</td><td>aio-pika + OpenAI + Gemini OTEL</td></tr>
+            </table>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <strong style="color: var(--primary);">💡 선택 근거</strong>
+                <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    • LangGraph의 모든 API가 async/await 기반 → Celery의 동기 워커 모델과 불일치<br>
+                    • Taskiq: asyncio event loop 위에서 네이티브 실행, aio-pika로 RabbitMQ 비동기 소비<br>
+                    • 기존 scan-worker는 동기 코드 기반이므로 Gevent로 유지 (안정성 우선)
                 </div>
             </div>
         </div>
