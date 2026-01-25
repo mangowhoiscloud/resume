@@ -5908,7 +5908,7 @@ needs_fallback = len(missing_required) > 0
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">사용 기간</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
-                                <div style="font-weight: 600; color: #8b5cf6;">258</div>
+                                <div style="font-weight: 600; color: #8b5cf6;">35</div>
                                 <div style="color: var(--text-muted); font-size: 0.7rem;">세션 수</div>
                             </div>
                             <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; text-align: center;">
@@ -5926,21 +5926,21 @@ needs_fallback = len(missing_required) > 0
                         </div>
                         <!-- Token Breakdown -->
                         <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; line-height: 1.6; color: var(--text-secondary);">
-                            <div style="color: #f59e0b; margin-bottom: 0.3rem;">// Token Usage Breakdown (10일, 258 sessions)</div>
-                            <div>input_tokens      <span style="color: #8b5cf6;">2.53M</span>   → 캐시 미적중 새 입력</div>
-                            <div>cache_creation   <span style="color: #8b5cf6;">277.24M</span>   → 새로 캐시에 쓴 입력</div>
-                            <div>cache_read     <span style="color: #8b5cf6;">4,763.09M</span>   → 캐시에서 읽은 입력 (모델이 실제로 처리)</div>
-                            <div>output_tokens     <span style="color: #8b5cf6;">3.27M</span>   → 모델 생성 출력</div>
+                            <div style="color: #f59e0b; margin-bottom: 0.3rem;">// Token Usage Breakdown (10일, 35 sessions)</div>
+                            <div>input_tokens      <span style="color: #8b5cf6;">1.53M</span>   → 캐시 미적중 새 입력</div>
+                            <div>cache_creation   <span style="color: #8b5cf6;">160.98M</span>   → 새로 캐시에 쓴 입력</div>
+                            <div>cache_read     <span style="color: #8b5cf6;">2,696.55M</span>   → 캐시에서 읽은 입력 (모델이 실제로 처리)</div>
+                            <div>output_tokens     <span style="color: #8b5cf6;">1.22M</span>   → 모델 생성 출력</div>
                             <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.4rem; padding-top: 0.4rem;">
-                                <strong style="color: #8b5cf6;">Total: 5.05B tokens</strong>
+                                <strong style="color: #8b5cf6;">Total: 2.86B tokens</strong>
                             </div>
                             <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; padding-top: 0.5rem;">
                                 <div style="color: #f59e0b;">// Opus 4.5 API 환산 비용</div>
-                                <div>input        2.53M  × $15/MTok    = <span style="color: #10b981;">$38</span></div>
-                                <div>cache_write  277M   × $18.75/MTok = <span style="color: #10b981;">$5,198</span></div>
-                                <div>cache_read   4,763M × $1.875/MTok = <span style="color: #10b981;">$8,931</span></div>
-                                <div>output       3.27M  × $75/MTok    = <span style="color: #10b981;">$245</span></div>
-                                <div style="margin-top: 0.3rem;"><strong style="color: #10b981;">Total API equivalent: ~$14,412</strong> <span style="color: var(--text-muted);">(Max $200/월로 처리)</span></div>
+                                <div>input        1.49M  × $15/MTok    = <span style="color: #10b981;">$22</span></div>
+                                <div>cache_write  155M   × $18.75/MTok = <span style="color: #10b981;">$2,905</span></div>
+                                <div>cache_read   2,632M × $1.875/MTok = <span style="color: #10b981;">$4,935</span></div>
+                                <div>output       1.22M  × $75/MTok    = <span style="color: #10b981;">$92</span></div>
+                                <div style="margin-top: 0.3rem;"><strong style="color: #10b981;">Total API equivalent: ~$8,000</strong> <span style="color: var(--text-muted);">(Max $200/월로 처리)</span></div>
                             </div>
                             <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem; padding-top: 0.5rem;">
                                 <div style="color: #f59e0b; margin-bottom: 0.3rem;">cache_read 94%</div>
@@ -10339,7 +10339,7 @@ Gevent Pool (libev event loop)
 │                                                          ▼                           │
 │   ┌─────────────┐      ┌──────────────────┐      ┌─────────────────────┐            │
 │   │   Client    │◀─────│   SSE Gateway    │◀─────│     Pub/Sub         │            │
-│   │  (Browser)  │ SSE  │   (Stateless)    │ SUB  │ sse:events:{job_id} │            │
+│   │  (Browser)  │ SSE  │  (4 shard SUB)   │ SUB  │ sse:events:{shard}  │            │
 │   └─────────────┘      └──────────────────┘      └─────────────────────┘            │
 │                                ▲                                                     │
 │                                │ State Recovery                                      │
@@ -10372,12 +10372,12 @@ Gevent Pool (libev event loop)
                         </div>
                     </div>
                     <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
-                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">📡 Pub/Sub (실시간)</h5>
+                        <h5 style="color: #10b981; margin-bottom: 0.75rem;">📡 Pub/Sub (실시간) <span style="font-size: 0.7rem; color: #22c55e;">Shard 기반</span></h5>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                            <div><strong>Channel:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">sse:events:{job_id}</code></div>
-                            <div style="margin-top: 0.5rem;">• Topic-based routing</div>
-                            <div>• Stateless fan-out</div>
-                            <div>• No durability (ephemeral)</div>
+                            <div><strong>Channel:</strong> <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">sse:events:{shard}</code></div>
+                            <div style="margin-top: 0.5rem;">• <strong>4 shards</strong> (hash(job_id) % 4)</div>
+                            <div>• SSE GW: 4개 shard 구독 → job_id 내부 라우팅</div>
+                            <div>• <span style="color: #22c55e;">연결 수: O(N) → O(4)</span></div>
                             <div>• rfr-pubsub-redis 클러스터</div>
                         </div>
                     </div>
@@ -10429,6 +10429,46 @@ Gevent Pool (libev event loop)
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Pub/Sub Shard Optimization -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">🔀 Pub/Sub Shard 최적화: O(N) → O(4)</span>
+                    <span class="lang-en">🔀 Pub/Sub Shard Optimization: O(N) → O(4)</span>
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                    <div style="background: rgba(239,68,68,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239,68,68,0.3);">
+                        <h5 style="color: #ef4444; margin-bottom: 0.75rem;">❌ Before: job_id별 채널</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div><code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">sse:events:{job_id}</code></div>
+                            <div style="margin-top: 0.5rem;">• 1,000 VU = 1,000 Pub/Sub 연결</div>
+                            <div>• Redis 연결 한계 (기본 10,000) 도달 가능</div>
+                            <div>• 메모리 사용량 증가 (연결당 ~10KB)</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
+                        <h5 style="color: #22c55e; margin-bottom: 0.75rem;">✅ After: shard별 채널</h5>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            <div><code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">sse:events:{shard}</code> (shard = hash(job_id) % 4)</div>
+                            <div style="margin-top: 0.5rem;">• <strong style="color: #22c55e;">1,000 VU = 4 Pub/Sub 연결</strong></div>
+                            <div>• SSE GW: 시작 시 4개 shard 전체 구독</div>
+                            <div>• 메시지 내 job_id로 내부 라우팅</div>
+                        </div>
+                    </div>
+                </div>
+                <table class="modal-table" style="font-size: 0.85rem;">
+                    <tr>
+                        <th><span class="lang-ko">동시 접속 수</span><span class="lang-en">Concurrent Users</span></th>
+                        <th>Streams</th>
+                        <th>Pub/Sub (Before)</th>
+                        <th>Pub/Sub (After)</th>
+                        <th><span class="lang-ko">절감률</span><span class="lang-en">Reduction</span></th>
+                    </tr>
+                    <tr><td>100명</td><td>4개 (고정)</td><td style="color: #ef4444;">100개</td><td style="color: #22c55e;"><strong>4개</strong></td><td style="color: #22c55e;">96%</td></tr>
+                    <tr><td>1,000명</td><td>4개 (고정)</td><td style="color: #ef4444;">1,000개</td><td style="color: #22c55e;"><strong>4개</strong></td><td style="color: #22c55e;">99.6%</td></tr>
+                    <tr><td>10,000명</td><td>4개 (고정)</td><td style="color: #ef4444;">10,000개 ⚠️</td><td style="color: #22c55e;"><strong>4개</strong></td><td style="color: #22c55e;">99.96%</td></tr>
+                </table>
             </div>
 
             <!-- Connection Complexity Comparison -->
@@ -10611,8 +10651,8 @@ Gevent Pool (libev event loop)
 │   ┌─ Redis 3종 분리 ────────────────────────────────────────────────────────┐  │
 │   │                                                                         │  │
 │   │   Streams (영속)           Pub/Sub (실시간)        State KV (복구)      │  │
-│   │   scan:events:{shard}      sse:events:{job_id}     scan:state:{job_id}  │  │
-│   │   XADD (4개 샤드)          PUBLISH                  SETEX (TTL 30분)    │  │
+│   │   scan:events:{shard}      sse:events:{shard}      scan:state:{job_id}  │  │
+│   │   XADD (4개 샤드)          PUBLISH (4개 샤드)      SETEX (TTL 30분)    │  │
 │   │                                                                         │  │
 │   └─────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                 │
@@ -10621,7 +10661,7 @@ Gevent Pool (libev event loop)
 │   │   1. Client SSE 재연결 (네트워크 끊김 후)                              │   │
 │   │        │                                                               │   │
 │   │        ▼                                                               │   │
-│   │   2. SSE Gateway: Pub/Sub 구독 먼저 시작 (이벤트 누락 방지)            │   │
+│   │   2. SSE Gateway: 4개 shard Pub/Sub 구독 (job_id로 내부 라우팅)        │   │
 │   │        │                                                               │   │
 │   │        ▼                                                               │   │
 │   │   3. State KV 조회: scan:state:{job_id}                                │   │
