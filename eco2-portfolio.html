@@ -604,8 +604,8 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background: var(--accent-primary);
-            opacity: 0.5;
+            background: linear-gradient(to bottom, #22c55e 0%, #eab308 50%, #ef4444 100%);
+            opacity: 0.3;
         }
 
         .timeline-item {
@@ -617,13 +617,42 @@
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -0.45rem;
+            left: -0.55rem;
             top: 0.5rem;
-            width: 12px;
-            height: 12px;
-            background: var(--bg-deep);
-            border: 2px solid var(--text-secondary);
+            width: 14px;
+            height: 14px;
+            background: #ef4444;
+            border: 3px solid rgba(239, 68, 68, 0.3);
             border-radius: 50%;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+        }
+
+        /* 현재 보는 중 = 초록 */
+        .timeline-item.current::before {
+            background: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 12px 2px rgba(34, 197, 94, 0.4);
+            animation: pulse-green 1.5s ease-in-out infinite;
+        }
+
+        /* 이미 지나간 = 초록 (애니메이션 없음) */
+        .timeline-item.viewed::before {
+            background: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 8px 1px rgba(34, 197, 94, 0.3);
+        }
+
+        /* 바로 다음 = 주황 */
+        .timeline-item.next::before {
+            background: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 8px 2px rgba(245, 158, 11, 0.3);
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 12px 2px rgba(34, 197, 94, 0.4); }
+            50% { box-shadow: 0 0 20px 4px rgba(34, 197, 94, 0.6); }
         }
 
         .timeline-date {
@@ -2127,6 +2156,10 @@
                 <span class="lang-en">Service</span>
             </h2>
             <p class="section-desc">
+                <span class="lang-ko">Vision AI와 Multi-Agent 챗봇으로 재활용 분류부터 수거장소 안내까지, 분리배출의 모든 것을 돕는 에이전트입니다.</span>
+                <span class="lang-en">An agent powered by Vision AI and Multi-Agent chatbot, helping with everything from recycling classification to collection point guidance.</span>
+            </p>
+            <p class="section-desc" style="margin-top: 0.5rem; font-size: 0.95rem; opacity: 0.85;">
                 <span class="lang-ko">8개의 도메인 API, 6개의 Worker, 3개의 인프라 피쳐를 설계, 구현, 배포, 운영 중입니다.</span>
                 <span class="lang-en">Designing, implementing, deploying, and operating 8 domain APIs, 6 Workers, and 3 infrastructure features.</span>
             </p>
@@ -16254,6 +16287,45 @@ async def run_with_fallback(self, query: str) -> AgentResponse:
             el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
         });
+
+        // Timeline progress indicator (green=현재/지남, orange=다음, red=아직)
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const item = entry.target;
+                const itemIndex = Array.from(timelineItems).indexOf(item);
+
+                if (entry.isIntersecting) {
+                    // 현재 보는 아이템 = 초록
+                    item.classList.add('current');
+                    item.classList.remove('viewed', 'next');
+
+                    timelineItems.forEach((ti, idx) => {
+                        if (idx < itemIndex) {
+                            // 이미 지나간 = 초록
+                            ti.classList.add('viewed');
+                            ti.classList.remove('current', 'next');
+                        } else if (idx === itemIndex + 1) {
+                            // 바로 다음 = 주황
+                            ti.classList.add('next');
+                            ti.classList.remove('viewed', 'current');
+                        } else if (idx > itemIndex + 1) {
+                            // 그 외 아직 = 빨강 (기본값)
+                            ti.classList.remove('viewed', 'current', 'next');
+                        }
+                    });
+                } else if (entry.boundingClientRect.top < 0) {
+                    // 스크롤 위로 지나감 = 초록
+                    item.classList.add('viewed');
+                    item.classList.remove('current', 'next');
+                }
+            });
+        }, {
+            threshold: 0.5,
+            rootMargin: '-30% 0px -30% 0px'
+        });
+
+        timelineItems.forEach(item => timelineObserver.observe(item));
 
         // Modal functions
         function openModal(modalId) {
