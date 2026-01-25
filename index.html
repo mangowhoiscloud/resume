@@ -423,12 +423,12 @@
 <div class="about-section">
     <p class="lang-ko-block">
         <strong>분산 시스템 설계와 LLM 파이프라인 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
-        Rakuten 페타바이트급 분산 스토리지 실무를 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 멀티에이전트 파이프라인을 설계·운영하며 VU 50→500(x10), RPM 60→528(x8.8) 확장을 달성했습니다.
+        Rakuten 페타바이트급 분산 스토리지 실무를 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 멀티에이전트 파이프라인을 설계·개발·운영 중입니다. LLM API n-hop 파이프라인(10-20s/req)의 고레이턴시에 대응하기 위해 Event Bus Layer를 설계 개발, VU 50→500(x10), RPM 60→528(x8.8) 확장을 달성했습니다.
         Agent-Driven Development로 구조화된 Knowledge Base와 Skills를 자체 RAG로 축적하여, 코딩 에이전트가 프로젝트 컨텍스트를 이해한 상태에서 개발 피드백 루프에 참여하도록 설계합니다.
     </p>
     <p class="lang-en-block">
         Backend engineer focused on <strong>distributed systems design and LLM pipeline optimization</strong>.
-        After hands-on experience with Rakuten's petabyte-scale distributed storage, I now design and operate LangGraph multi-agent pipelines on a 24-Node Kubernetes cluster, achieving VU 50→500(x10), RPM 60→528(x8.8) scaling.
+        After hands-on experience with Rakuten's petabyte-scale distributed storage, I now design, develop, and operate LangGraph multi-agent pipelines on a 24-Node Kubernetes cluster. To address the high latency of LLM API n-hop pipelines (10-20s/req), I designed and developed an Event Bus Layer, achieving VU 50→500(x10), RPM 60→528(x8.8) scaling.
         Applying Agent-Driven Development, I accumulate structured Knowledge Base and Skills as self-RAG so coding agents participate in development feedback loops with full project context understanding.
     </p>
 </div>
@@ -525,7 +525,7 @@
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Messaging</td><td style="padding:3px 0;">RabbitMQ, Redis Streams / Pub/Sub, Taskiq (asyncio), Celery (Gevent)</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Databases</td><td style="padding:3px 0;">PostgreSQL, Redis, Elasticsearch</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Architecture</td><td style="padding:3px 0;">Clean Architecture (Port/Adapter), DOMA, Event-Driven, Microservices</td></tr>
-    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">DevOps</td><td style="padding:3px 0;">GitOps, CI/CD, Kustomize, GitHub Actions, OSS Operators (cert-manager, external-secrets, Redis Operator, RabbitMQ Topology, Prometheus, ECK)</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">DevOps</td><td style="padding:3px 0;">GitOps, CI/CD, Kustomize, GitHub Actions, OSS Operators (Redis, RabbitMQ, EFK etc.)</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Agents / Model</td><td style="padding:3px 0;">Claude Code, Cursor (Model: Claude Opus 4.5)</td></tr>
 </table>
 
