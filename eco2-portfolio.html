@@ -604,8 +604,8 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background: linear-gradient(to bottom, #22c55e 0%, #eab308 50%, #ef4444 100%);
-            opacity: 0.3;
+            background: linear-gradient(to bottom, #D4A853 0%, #D97706 50%, #92400E 100%);
+            opacity: 0.4;
         }
 
         .timeline-item {
@@ -621,38 +621,38 @@
             top: 0.5rem;
             width: 14px;
             height: 14px;
-            background: #ef4444;
-            border: 3px solid rgba(239, 68, 68, 0.3);
+            background: #92400E;
+            border: 3px solid rgba(146, 64, 14, 0.3);
             border-radius: 50%;
             transition: all 0.4s ease;
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            box-shadow: 0 0 0 0 rgba(146, 64, 14, 0);
         }
 
-        /* 현재 보는 중 = 초록 */
+        /* 현재 보는 중 = 골든 옐로우 (브라이트) */
         .timeline-item.current::before {
-            background: #22c55e;
-            border-color: rgba(34, 197, 94, 0.3);
-            box-shadow: 0 0 12px 2px rgba(34, 197, 94, 0.4);
-            animation: pulse-green 1.5s ease-in-out infinite;
+            background: #E5A83B;
+            border-color: rgba(229, 168, 59, 0.4);
+            box-shadow: 0 0 14px 3px rgba(229, 168, 59, 0.5);
+            animation: pulse-gold 1.5s ease-in-out infinite;
         }
 
-        /* 이미 지나간 = 초록 (애니메이션 없음) */
+        /* 이미 지나간 = 뮤트 골든 */
         .timeline-item.viewed::before {
-            background: #22c55e;
-            border-color: rgba(34, 197, 94, 0.3);
-            box-shadow: 0 0 8px 1px rgba(34, 197, 94, 0.3);
+            background: #D4A853;
+            border-color: rgba(212, 168, 83, 0.3);
+            box-shadow: 0 0 8px 1px rgba(212, 168, 83, 0.3);
         }
 
-        /* 바로 다음 = 주황 */
+        /* 바로 다음 = Anthropic 오렌지 */
         .timeline-item.next::before {
-            background: #f59e0b;
-            border-color: rgba(245, 158, 11, 0.3);
-            box-shadow: 0 0 8px 2px rgba(245, 158, 11, 0.3);
+            background: #D97706;
+            border-color: rgba(217, 119, 6, 0.3);
+            box-shadow: 0 0 10px 2px rgba(217, 119, 6, 0.35);
         }
 
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 12px 2px rgba(34, 197, 94, 0.4); }
-            50% { box-shadow: 0 0 20px 4px rgba(34, 197, 94, 0.6); }
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 14px 3px rgba(229, 168, 59, 0.5); }
+            50% { box-shadow: 0 0 22px 5px rgba(229, 168, 59, 0.7); }
         }
 
         .timeline-date {
@@ -2156,8 +2156,8 @@
                 <span class="lang-en">Service</span>
             </h2>
             <p class="section-desc">
-                <span class="lang-ko">Vision AI와 Multi-Agent 챗봇으로 재활용 분류부터 수거장소 안내까지, 분리배출의 모든 것을 돕는 에이전트입니다.</span>
-                <span class="lang-en">An agent powered by Vision AI and Multi-Agent chatbot, helping with everything from recycling classification to collection point guidance.</span>
+                <span class="lang-ko">Vision LLM과 Multi-Agent로 환경과 일상을 연결하는 에이전트입니다.</span>
+                <span class="lang-en">An agent connecting environment and daily life through Vision LLM and Multi-Agent.</span>
             </p>
             <p class="section-desc" style="margin-top: 0.5rem; font-size: 0.95rem; opacity: 0.85;">
                 <span class="lang-ko">8개의 도메인 API, 6개의 Worker, 3개의 인프라 피쳐를 설계, 구현, 배포, 운영 중입니다.</span>
