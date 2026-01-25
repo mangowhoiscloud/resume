@@ -2118,6 +2118,200 @@
         </div>
     </section>
 
+    <!-- Service Section -->
+    <section class="section" id="service">
+        <div class="section-header">
+            <div class="section-number">00</div>
+            <h2 class="section-title">
+                <span class="lang-ko">Service</span>
+                <span class="lang-en">Service</span>
+            </h2>
+            <p class="section-desc">
+                <span class="lang-ko">8개의 도메인 API, 6개의 Worker, 3개의 인프라 피쳐를 설계, 구현, 배포, 운영 중입니다.</span>
+                <span class="lang-en">Designing, implementing, deploying, and operating 8 domain APIs, 6 Workers, and 3 infrastructure features.</span>
+            </p>
+        </div>
+
+        <!-- YouTube Embed + Service Link -->
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+            <iframe
+                width="800"
+                height="450"
+                src="https://www.youtube.com/embed/aFtb-oPv2Bo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); max-width: 100%;">
+            </iframe>
+            <a href="https://frontend.dev.growbin.app/" target="_blank" rel="noopener"
+               style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
+                      background: linear-gradient(135deg, var(--ec-primary), var(--ec-secondary));
+                      color: #fff; font-weight: 600; font-size: 1.1rem; border-radius: 12px;
+                      text-decoration: none; box-shadow: 0 4px 16px rgba(229,168,59,0.3);
+                      transition: transform 0.2s, box-shadow 0.2s;">
+                🌿 <span class="lang-ko">서비스 바로가기 (PWA)</span><span class="lang-en">Try Service (PWA)</span>
+            </a>
+        </div>
+
+        <!-- Domain Showcase (4x2 Grid) -->
+        <div class="domain-showcase" style="grid-template-columns: repeat(4, 1fr);">
+            <!-- 1. Auth -->
+            <div class="domain-card clickable" data-modal="modal-domain-auth" style="--domain-color: #6366f1;">
+                <div class="domain-icon">🔐</div>
+                <div class="domain-title">Auth</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">OAuth 2.0 + JWT 인증</span>
+                    <span class="lang-en">OAuth 2.0 + JWT Auth</span>
+                </div>
+            </div>
+
+            <!-- 2. Chat -->
+            <div class="domain-card clickable" data-modal="modal-domain-chat" style="--domain-color: #10b981;">
+                <div class="domain-icon">💬</div>
+                <div class="domain-title">Chat</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                    <span class="domain-type-badge" style="background: #3b82f6;">FE</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">LangGraph 에이전트</span>
+                    <span class="lang-en">LangGraph Agent</span>
+                </div>
+            </div>
+
+            <!-- 3. Scan -->
+            <div class="domain-card clickable" data-modal="modal-domain-scan" style="--domain-color: #8b5cf6;">
+                <div class="domain-icon">📷</div>
+                <div class="domain-title">Scan</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Vision AI 폐기물 분류</span>
+                    <span class="lang-en">Vision AI Waste Classifier</span>
+                </div>
+            </div>
+
+            <!-- 4. Character -->
+            <div class="domain-card clickable" data-modal="modal-domain-character" style="--domain-color: #f59e0b;">
+                <div class="domain-icon">🌍</div>
+                <div class="domain-title">Character</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">캐릭터 수집 + gRPC</span>
+                    <span class="lang-en">Character Collection + gRPC</span>
+                </div>
+            </div>
+
+            <!-- 5. Location -->
+            <div class="domain-card clickable" data-modal="modal-domain-location" style="--domain-color: #ef4444;">
+                <div class="domain-icon">📍</div>
+                <div class="domain-title">Location</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge" style="background: rgba(59,130,246,0.2); color: #60a5fa;">FE</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Kakao 검색 + PostGIS 공간 쿼리</span>
+                    <span class="lang-en">Kakao Search + PostGIS Spatial</span>
+                </div>
+            </div>
+
+            <!-- 6. Users -->
+            <div class="domain-card clickable" data-modal="modal-domain-users" style="--domain-color: #0ea5e9;">
+                <div class="domain-icon">👤</div>
+                <div class="domain-title">Users</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">프로필 + 캐릭터 소유</span>
+                    <span class="lang-en">Profile + Character Ownership</span>
+                </div>
+            </div>
+
+            <!-- 7. Images -->
+            <div class="domain-card clickable" data-modal="modal-domain-image" style="--domain-color: #ec4899;">
+                <div class="domain-icon">🖼️</div>
+                <div class="domain-title">Images</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">S3 + CloudFront CDN</span>
+                    <span class="lang-en">S3 + CloudFront CDN</span>
+                </div>
+            </div>
+
+            <!-- 8. Info -->
+            <div class="domain-card clickable" data-modal="modal-domain-info" style="--domain-color: #14b8a6;">
+                <div class="domain-icon">📰</div>
+                <div class="domain-title">Info</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge">API</span>
+                    <span class="domain-type-badge worker">Worker</span>
+                    <span class="domain-type-badge" style="background: #3b82f6;">FE</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">환경/에너지/AI 뉴스피드</span>
+                    <span class="lang-en">Eco/Energy/AI Newsfeed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infrastructure Features (1x3 Centered) -->
+        <div class="domain-showcase" style="grid-template-columns: repeat(3, 1fr); max-width: 750px; margin: 1rem auto 0;">
+            <!-- ext-authz -->
+            <div class="domain-card clickable" data-modal="modal-infra-extauthz" style="--domain-color: #dc2626;">
+                <div class="domain-icon">🛡️</div>
+                <div class="domain-title">ext-authz</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge" style="background: #dc2626;">Infra</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Istio 외부 인가 (Go)</span>
+                    <span class="lang-en">Istio External Auth (Go)</span>
+                </div>
+            </div>
+
+            <!-- SSE Gateway -->
+            <div class="domain-card clickable" data-modal="modal-infra-sse" style="--domain-color: #7c3aed;">
+                <div class="domain-icon">📡</div>
+                <div class="domain-title">SSE Gateway</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge" style="background: #7c3aed;">Infra</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">실시간 이벤트 스트리밍</span>
+                    <span class="lang-en">Real-time Event Streaming</span>
+                </div>
+            </div>
+
+            <!-- Event Router -->
+            <div class="domain-card clickable" data-modal="modal-infra-eventrouter" style="--domain-color: #059669;">
+                <div class="domain-icon">🔀</div>
+                <div class="domain-title">Event Router</div>
+                <div class="domain-type">
+                    <span class="domain-type-badge" style="background: #059669;">Infra</span>
+                </div>
+                <div class="domain-desc">
+                    <span class="lang-ko">Redis Streams 라우팅</span>
+                    <span class="lang-en">Redis Streams Routing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Agent-Driven Development Section -->
     <section class="section" id="methodology">
         <div class="section-header">
@@ -2484,168 +2678,6 @@
                 <span class="lang-ko">프로젝트 카테고리</span>
                 <span class="lang-en">Project Categories</span>
             </h2>
-            <p class="section-desc">
-                <span class="lang-ko">8개의 도메인 API, 6개의 Worker, 3개의 인프라 피쳐를 설계, 구현, 배포, 운영 중입니다.</span>
-                <span class="lang-en">Designing, implementing, deploying, and operating 8 domain APIs, 6 Workers, and 3 infrastructure features.</span>
-            </p>
-        </div>
-
-        <!-- Domain Showcase -->
-        <div class="domain-showcase">
-            <!-- 1. Auth -->
-            <div class="domain-card clickable" data-modal="modal-domain-auth" style="--domain-color: #6366f1;">
-                <div class="domain-icon">🔐</div>
-                <div class="domain-title">Auth</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">OAuth 2.0 + JWT 인증</span>
-                    <span class="lang-en">OAuth 2.0 + JWT Auth</span>
-                </div>
-            </div>
-
-            <!-- 2. Chat -->
-            <div class="domain-card clickable" data-modal="modal-domain-chat" style="--domain-color: #10b981;">
-                <div class="domain-icon">💬</div>
-                <div class="domain-title">Chat</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                    <span class="domain-type-badge" style="background: #3b82f6;">FE</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">LangGraph 에이전트</span>
-                    <span class="lang-en">LangGraph Agent</span>
-                </div>
-            </div>
-
-            <!-- 3. Scan -->
-            <div class="domain-card clickable" data-modal="modal-domain-scan" style="--domain-color: #8b5cf6;">
-                <div class="domain-icon">📷</div>
-                <div class="domain-title">Scan</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">Vision AI 폐기물 분류</span>
-                    <span class="lang-en">Vision AI Waste Classifier</span>
-                </div>
-            </div>
-
-            <!-- 4. Character -->
-            <div class="domain-card clickable" data-modal="modal-domain-character" style="--domain-color: #f59e0b;">
-                <div class="domain-icon">🌍</div>
-                <div class="domain-title">Character</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">캐릭터 수집 + gRPC</span>
-                    <span class="lang-en">Character Collection + gRPC</span>
-                </div>
-            </div>
-
-            <!-- 5. Location -->
-            <div class="domain-card clickable" data-modal="modal-domain-location" style="--domain-color: #ef4444;">
-                <div class="domain-icon">📍</div>
-                <div class="domain-title">Location</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge" style="background: rgba(59,130,246,0.2); color: #60a5fa;">FE</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">Kakao 검색 + PostGIS 공간 쿼리</span>
-                    <span class="lang-en">Kakao Search + PostGIS Spatial</span>
-                </div>
-            </div>
-
-            <!-- 6. Users -->
-            <div class="domain-card clickable" data-modal="modal-domain-users" style="--domain-color: #0ea5e9;">
-                <div class="domain-icon">👤</div>
-                <div class="domain-title">Users</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">프로필 + 캐릭터 소유</span>
-                    <span class="lang-en">Profile + Character Ownership</span>
-                </div>
-            </div>
-
-            <!-- 7. Images -->
-            <div class="domain-card clickable" data-modal="modal-domain-image" style="--domain-color: #ec4899;">
-                <div class="domain-icon">🖼️</div>
-                <div class="domain-title">Images</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">S3 + CloudFront CDN</span>
-                    <span class="lang-en">S3 + CloudFront CDN</span>
-                </div>
-            </div>
-
-            <!-- 8. Info -->
-            <div class="domain-card clickable" data-modal="modal-domain-info" style="--domain-color: #14b8a6;">
-                <div class="domain-icon">📰</div>
-                <div class="domain-title">Info</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge">API</span>
-                    <span class="domain-type-badge worker">Worker</span>
-                    <span class="domain-type-badge" style="background: #3b82f6;">FE</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">환경/에너지/AI 뉴스피드</span>
-                    <span class="lang-en">Eco/Energy/AI Newsfeed</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Infrastructure Features -->
-        <div class="domain-showcase" style="grid-template-columns: repeat(3, 1fr); margin-top: 1rem;">
-            <!-- ext-authz -->
-            <div class="domain-card clickable" data-modal="modal-infra-extauthz" style="--domain-color: #dc2626;">
-                <div class="domain-icon">🛡️</div>
-                <div class="domain-title">ext-authz</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge" style="background: #dc2626;">Infra</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">Istio 외부 인가 (Go)</span>
-                    <span class="lang-en">Istio External Auth (Go)</span>
-                </div>
-            </div>
-
-            <!-- SSE Gateway -->
-            <div class="domain-card clickable" data-modal="modal-infra-sse" style="--domain-color: #7c3aed;">
-                <div class="domain-icon">📡</div>
-                <div class="domain-title">SSE Gateway</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge" style="background: #7c3aed;">Infra</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">실시간 이벤트 스트리밍</span>
-                    <span class="lang-en">Real-time Event Streaming</span>
-                </div>
-            </div>
-
-            <!-- Event Router -->
-            <div class="domain-card clickable" data-modal="modal-infra-eventrouter" style="--domain-color: #059669;">
-                <div class="domain-icon">🔀</div>
-                <div class="domain-title">Event Router</div>
-                <div class="domain-type">
-                    <span class="domain-type-badge" style="background: #059669;">Infra</span>
-                </div>
-                <div class="domain-desc">
-                    <span class="lang-ko">Redis Streams 라우팅</span>
-                    <span class="lang-en">Redis Streams Routing</span>
-                </div>
-            </div>
         </div>
 
         <div class="categories">
