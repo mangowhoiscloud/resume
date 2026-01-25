@@ -5170,7 +5170,7 @@ def dynamic_router(state: ChatState) -> list[Send]:
                     <tr><td>collection_point</td><td>collection_point</td><td>한국환경공단 KECO</td><td>HTTP</td></tr>
                     <tr><td>weather</td><td>weather / enrichment</td><td>기상청 KMA API</td><td>HTTP</td></tr>
                     <tr><td>web_search</td><td>web_search</td><td>DuckDuckGo/Tavily</td><td>HTTP</td></tr>
-                    <tr><td>image_generation</td><td>image_generation</td><td>OpenAI Responses API</td><td>HTTP</td></tr>
+                    <tr><td>image_generation</td><td>image_generation</td><td>Gemini SDK (gemini-3-pro-image)</td><td>HTTP</td></tr>
                     <tr><td>feedback</td><td>(after waste_rag)</td><td>LLM Evaluator + Fallback</td><td>Internal</td></tr>
                     <tr><td>general</td><td>general</td><td>Passthrough (LLM Only)</td><td>-</td></tr>
                 </table>
@@ -9478,6 +9478,21 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
             <button class="modal-close" onclick="closeModal('modal-obs-mesh')">×</button>
             <h3 class="modal-title">🗺️ Kiali + Jaeger Service Mesh Visualization</h3>
 
+            <!-- Prometheus Service Dependency Graph -->
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">📊 Prometheus Service Dependency DAG: Jaeger</span>
+                    <span class="lang-en">📊 Prometheus Service Dependency DAG: Jaeger</span>
+                </h4>
+                <div style="background: var(--bg-card); border-radius: 12px; padding: 1rem; border: 1px solid var(--border-subtle);">
+                    <img src="assets/gifs/prometheus-service-dag.png" alt="Prometheus Service Dependency Graph" style="width: 100%; border-radius: 8px;">
+                    <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">
+                        <span class="lang-ko">Prometheus가 중앙 허브로 모든 서비스에서 메트릭 수집 — 8개 도메인 API, 3개 Redis 인스턴스, event-router, sse-gateway, ext-authz 등 전체 서비스 토폴로지</span>
+                        <span class="lang-en">Prometheus as central hub collecting metrics from all services — 8 domain APIs, 3 Redis instances, event-router, sse-gateway, ext-authz and full service topology</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Dual Protocol Architecture -->
             <div class="modal-diagram" style="font-size: 0.8rem;">
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -9540,21 +9555,6 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │   └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
-
-            <!-- Prometheus Service Dependency Graph -->
-            <div style="margin-top: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
-                    <span class="lang-ko">📊 Prometheus Service Dependency DAG</span>
-                    <span class="lang-en">📊 Prometheus Service Dependency DAG</span>
-                </h4>
-                <div style="background: var(--bg-card); border-radius: 12px; padding: 1rem; border: 1px solid var(--border-subtle);">
-                    <img src="assets/gifs/prometheus-service-dag.png" alt="Prometheus Service Dependency Graph" style="width: 100%; border-radius: 8px;">
-                    <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">
-                        <span class="lang-ko">Prometheus가 중앙 허브로 모든 서비스에서 메트릭 수집 — 8개 도메인 API, 3개 Redis 인스턴스, event-router, sse-gateway, ext-authz 등 전체 서비스 토폴로지</span>
-                        <span class="lang-en">Prometheus as central hub collecting metrics from all services — 8 domain APIs, 3 Redis instances, event-router, sse-gateway, ext-authz and full service topology</span>
-                    </div>
-                </div>
-            </div>
 
             <table class="modal-table">
                 <tr><th>Tool</th><th>URL</th><th>Protocol</th><th>기능</th></tr>
@@ -13814,9 +13814,10 @@ T9: Pagination     loadMoreMessages()
 │  │   Adapter   │ │   Adapter   │ │   Adapter    │                  │
 │  ├─────────────┤ ├─────────────┤ ├──────────────┤                  │
 │  │ gpt-5.2     │ │ gemini-3-   │ │ OpenAI SDK   │                  │
-│  │ Responses   │ │ flash/pro   │ │ → Runnable   │                  │
-│  │ API         │ │ Gemini SDK  │ │ → astream()  │                  │
-│  │ (web_search)│ │ (FC, Image) │ │ Token capture│                  │
+│  │ Agents SDK  │ │ flash/pro   │ │ → Runnable   │                  │
+│  │ (Primary)   │ │ Gemini SDK  │ │ → astream()  │                  │
+│  │ +Responses  │ │ (FC, Image) │ │ Token capture│                  │
+│  │ (Fallback)  │ │             │ │              │                  │
 │  └─────────────┘ └─────────────┘ └──────────────┘                  │
 │                                                                     │
 │  ┌───────────────────────────────────────────────────────────────┐  │
@@ -14593,7 +14594,7 @@ async def generate_with_tools(self, prompt, tools, system_prompt=None):
             <div class="modal-diagram" style="font-size: 0.72rem; margin-bottom: 1.5rem;">
 <pre style="font-size: 0.72rem; line-height: 1.4;">
 ┌─────────────────────────────────────────────────────────────────────┐
-│       image_generation Intent Pipeline (Gemini Responses API)       │
+│       image_generation Intent Pipeline (Gemini SDK Native)          │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  User Message ──► image_generation_node ──► answer_node ──► SSE    │
@@ -14606,7 +14607,7 @@ async def generate_with_tools(self, prompt, tools, system_prompt=None):
 │              └──────────┬──────────┘                                │
 │                         │                                           │
 │              ┌──────────┴──────────┐                                │
-│              │ Gemini Responses API │                                │
+│              │ Gemini SDK Native    │                                │
 │              │ ────────────────────│                                │
 │              │ • gemini-2.0-flash-  │                                │
 │              │   preview-image-gen  │                                │
