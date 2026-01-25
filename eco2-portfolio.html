@@ -3775,14 +3775,9 @@
                 <span class="lang-ko">🏗️ 전체 시스템 아키텍처</span>
                 <span class="lang-en">🏗️ System Architecture Overview</span>
             </h3>
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <img src="https://github.com/user-attachments/assets/af4b4276-08aa-4859-bfc5-9c9135d944ca" 
-                     alt="Eco² System Architecture" 
-                     style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
-            </div>
-            
-            <!-- Data Flow Summary -->
-            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem;">
+
+            <!-- Data Flow Summary (moved to top) -->
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
                     <span class="lang-ko">📊 데이터 흐름 요약</span>
                     <span class="lang-en">📊 Data Flow Summary</span>
@@ -3849,6 +3844,13 @@
                         <td>OTLP, Zipkin</td>
                     </tr>
                 </table>
+            </div>
+
+            <!-- System Architecture Image -->
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <img src="https://github.com/user-attachments/assets/af4b4276-08aa-4859-bfc5-9c9135d944ca"
+                     alt="Eco² System Architecture"
+                     style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
             </div>
         </div>
     </section>
@@ -12592,14 +12594,14 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
         <div class="modal-content" style="max-width: 1200px;">
             <button class="modal-close" onclick="closeModal('modal-chat-infra')">×</button>
             <h3 class="modal-title">
-                <span class="lang-ko">🤖 Chat 인프라: Taskiq + asyncio 파이프라인 <span class="status-badge in-progress" style="font-size: 0.8rem;">진행 중</span></span>
-                <span class="lang-en">🤖 Chat Infrastructure: Taskiq + asyncio Pipeline <span class="status-badge in-progress" style="font-size: 0.8rem;">In Progress</span></span>
+                <span class="lang-ko">🤖 Chat 인프라: Taskiq + asyncio 파이프라인 <span class="status-badge" style="font-size: 0.8rem; background: rgba(16,185,129,0.2); color: #10b981;">완료</span></span>
+                <span class="lang-en">🤖 Chat Infrastructure: Taskiq + asyncio Pipeline <span class="status-badge" style="font-size: 0.8rem; background: rgba(16,185,129,0.2); color: #10b981;">Complete</span></span>
             </h3>
             
             <div class="modal-diagram">
 <pre>
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                    Chat Worker Infrastructure (Development)                      │
+│                    Chat Worker Infrastructure (Production)                       │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │   Dual-Path Messaging Architecture                                              │
@@ -12646,35 +12648,35 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
 </pre>
             </div>
 
-            <h4 style="color: var(--warning); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
-                <span class="lang-ko">🔄 설계 기반 예상 성능 (부하 테스트 예정)</span>
-                <span class="lang-en">🔄 Expected Performance (Load test pending)</span>
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">✅ 실측 성능 및 최적화</span>
+                <span class="lang-en">✅ Measured Performance & Optimization</span>
             </h4>
             <table class="modal-table">
                 <tr>
                     <th><span class="lang-ko">지표</span><span class="lang-en">Metric</span></th>
-                    <th><span class="lang-ko">목표값</span><span class="lang-en">Target</span></th>
-                    <th><span class="lang-ko">근거</span><span class="lang-en">Basis</span></th>
+                    <th><span class="lang-ko">결과</span><span class="lang-en">Result</span></th>
+                    <th><span class="lang-ko">상세</span><span class="lang-en">Detail</span></th>
                 </tr>
                 <tr>
                     <td><span class="lang-ko">동시 처리</span><span class="lang-en">Concurrency</span></td>
                     <td><strong>40 tasks</strong></td>
-                    <td>4 workers × 10 async-tasks</td>
+                    <td>4 workers × 10 async-tasks (--workers 4 --max-async-tasks 10)</td>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">Task 타임아웃</span><span class="lang-en">Task Timeout</span></td>
-                    <td><strong>120s</strong></td>
-                    <td><span class="lang-ko">Human-in-the-Loop 대기 포함</span><span class="lang-en">Includes Human-in-the-Loop wait</span></td>
+                    <td><span class="lang-ko">Connection Pool</span><span class="lang-en">Connection Pool</span></td>
+                    <td><strong>212→33 (84%↓)</strong></td>
+                    <td><span class="lang-ko">ReadThroughCheckpointer로 PostgreSQL 직접 접근 제거</span><span class="lang-en">Removed direct PostgreSQL access via ReadThroughCheckpointer</span></td>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">예상 E2E 레이턴시</span><span class="lang-en">Expected E2E Latency</span></td>
-                    <td><strong>5-30s</strong> (Avg)</td>
-                    <td><span class="lang-ko">Intent 0.5s + Retrieval 0.2s + LLM 3-8s + Eval</span><span class="lang-en">Intent 0.5s + Retrieval 0.2s + LLM 3-8s + Eval</span></td>
+                    <td><span class="lang-ko">체크포인트 접근</span><span class="lang-en">Checkpoint Access</span></td>
+                    <td><strong>~1ms (Redis)</strong></td>
+                    <td><span class="lang-ko">Cold: 10-50ms (PG) → Warm: ~1ms (Redis Cache)</span><span class="lang-en">Cold: 10-50ms (PG) → Warm: ~1ms (Redis Cache)</span></td>
                 </tr>
                 <tr>
-                    <td><span class="lang-ko">재시도</span><span class="lang-en">Retry</span></td>
-                    <td><strong>max 2</strong></td>
-                    <td><span class="lang-ko">retry_on_error=True</span><span class="lang-en">retry_on_error=True</span></td>
+                    <td><span class="lang-ko">멀티턴 검증</span><span class="lang-en">Multi-turn Verified</span></td>
+                    <td><strong>5턴 38 steps</strong></td>
+                    <td><span class="lang-ko">40 checkpoints, 45 blobs, 162 writes 검증</span><span class="lang-en">Verified 40 checkpoints, 45 blobs, 162 writes</span></td>
                 </tr>
             </table>
 
@@ -12737,8 +12739,8 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
                 </tr>
                 <tr>
                     <td>Checkpointer</td>
-                    <td><code>RedisSaver</code></td>
-                    <td><span class="lang-ko">Human-in-the-Loop 상태 저장</span><span class="lang-en">Human-in-the-Loop state</span></td>
+                    <td><code>ReadThroughCheckpointer</code></td>
+                    <td><span class="lang-ko">Redis Primary + PostgreSQL Async Sync (3-Tier Memory)</span><span class="lang-en">Redis Primary + PostgreSQL Async Sync (3-Tier Memory)</span></td>
                 </tr>
                 <tr>
                     <td>LLM Models</td>
@@ -12774,59 +12776,89 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
                 </tr>
             </table>
 
-            <h4 style="color: var(--warning); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
-                <span class="lang-ko">📺 SSE Gateway Recovery</span>
-                <span class="lang-en">📺 SSE Gateway Recovery</span>
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">📺 SSE Gateway Recovery (Token v2)</span>
+                <span class="lang-en">📺 SSE Gateway Recovery (Token v2)</span>
             </h4>
             <table class="modal-table">
                 <tr>
                     <th><span class="lang-ko">기능</span><span class="lang-en">Feature</span></th>
                     <th><span class="lang-ko">구현</span><span class="lang-en">Implementation</span></th>
+                    <th><span class="lang-ko">설정값</span><span class="lang-en">Config</span></th>
                 </tr>
                 <tr>
-                    <td>In-memory Fan-out</td>
-                    <td><span class="lang-ko">Lazy Pub/Sub subscription, 다중 클라이언트 브로드캐스트</span><span class="lang-en">Lazy Pub/Sub subscription, multi-client broadcast</span></td>
+                    <td>Stale Detection</td>
+                    <td><span class="lang-ko">3초 타임아웃 시 자동 재연결</span><span class="lang-en">Auto-reconnect on 3s timeout</span></td>
+                    <td><code>3s threshold</code></td>
                 </tr>
                 <tr>
-                    <td>State Recovery</td>
-                    <td><span class="lang-ko">Redis KV 스냅샷으로 현재 상태 복구</span><span class="lang-en">Redis KV snapshot for current state</span></td>
+                    <td>Max Reconnections</td>
+                    <td><span class="lang-ko">지수 간격으로 최대 3회 시도</span><span class="lang-en">3 attempts with exponential spacing</span></td>
+                    <td><code>3 attempts</code></td>
+                </tr>
+                <tr>
+                    <td>Fallback Polling</td>
+                    <td><span class="lang-ko">SSE 실패 시 폴링 전환</span><span class="lang-en">Polling fallback if SSE fails</span></td>
+                    <td><code>3s interval, 120s max</code></td>
+                </tr>
+                <tr>
+                    <td>Seq Encoding</td>
+                    <td><span class="lang-ko">Stage: STAGE_ORDER×10, Token: 1000+</span><span class="lang-en">Stage: STAGE_ORDER×10, Token: 1000+</span></td>
+                    <td><code>Last-Event-ID</code></td>
                 </tr>
                 <tr>
                     <td>Catch-up</td>
-                    <td><span class="lang-ko">XRANGE 쿼리로 누락 이벤트 재전송</span><span class="lang-en">XRANGE query for missed events</span></td>
-                </tr>
-                <tr>
-                    <td>Token v2 Recovery</td>
-                    <td><code>last_token_seq</code> <span class="lang-ko">파라미터로 토큰 스트림 복구</span><span class="lang-en">parameter for token stream recovery</span></td>
+                    <td><span class="lang-ko">XREVRANGE로 누락 이벤트 복구</span><span class="lang-en">XREVRANGE for missed events</span></td>
+                    <td><code>State KV + Streams</code></td>
                 </tr>
             </table>
 
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
                 <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
-                <div style="margin-top: 0.5rem;">
-                    <a href="https://rooftopsnow.tistory.com/210" target="_blank" rel="noopener" style="color: var(--text-secondary);">
-                        <span class="lang-ko">Taskiq + Event Bus 정합성 분석 →</span>
-                        <span class="lang-en">Taskiq + Event Bus Consistency Analysis →</span>
+                <div style="margin-top: 0.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+                    <a href="https://rooftopsnow.tistory.com/242" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">ReadThroughCheckpointer 최적화 →</span>
+                        <span class="lang-en">ReadThroughCheckpointer Optimization →</span>
+                    </a>
+                    <a href="https://rooftopsnow.tistory.com/237" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">Event Router ACK 정책 →</span>
+                        <span class="lang-en">Event Router ACK Policy →</span>
+                    </a>
+                    <a href="https://rooftopsnow.tistory.com/235" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">Token v2 XRANGE Recovery →</span>
+                        <span class="lang-en">Token v2 XRANGE Recovery →</span>
+                    </a>
+                    <a href="https://rooftopsnow.tistory.com/226" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">멀티턴 대화 검증 →</span>
+                        <span class="lang-en">Multi-turn Conversation Verification →</span>
+                    </a>
+                    <a href="https://rooftopsnow.tistory.com/225" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">3-Tier Memory 아키텍처 →</span>
+                        <span class="lang-en">3-Tier Memory Architecture →</span>
+                    </a>
+                    <a href="https://rooftopsnow.tistory.com/240" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">SSE Token v2 프로토콜 →</span>
+                        <span class="lang-en">SSE Token v2 Protocol →</span>
                     </a>
                 </div>
             </div>
 
-            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 165, 0, 0.1); border-radius: 8px; border-left: 3px solid var(--warning);">
-                <strong style="color: var(--warning);">🚧 <span class="lang-ko">개발 진행 상황</span><span class="lang-en">Development Status</span></strong>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border-left: 3px solid #10b981;">
+                <strong style="color: #10b981;">✅ <span class="lang-ko">E2E 검증 완료</span><span class="lang-en">E2E Verification Complete</span></strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
                     <span class="lang-ko">
-                        ✅ LangGraph 파이프라인 구현 완료<br>
-                        ✅ Intent Router + TagBasedRetriever 적용<br>
-                        ✅ Eval Agent + Fallback Chain 구현<br>
-                        🔄 부하 테스트 및 SLA 측정 예정<br>
-                        🔄 Human-in-the-Loop 시나리오 검증 예정
+                        ✅ LangGraph 파이프라인 구현 및 배포 완료<br>
+                        ✅ ReadThroughCheckpointer (Redis + PostgreSQL Async Sync)<br>
+                        ✅ 멀티턴 대화 검증 (5턴 38 steps, 40 checkpoints)<br>
+                        ✅ Connection Pool 최적화 (212→33, 84%↓)<br>
+                        ✅ Token v2 스트리밍 + XRANGE Recovery
                     </span>
                     <span class="lang-en">
-                        ✅ LangGraph pipeline implemented<br>
-                        ✅ Intent Router + TagBasedRetriever applied<br>
-                        ✅ Eval Agent + Fallback Chain implemented<br>
-                        🔄 Load testing and SLA measurement pending<br>
-                        🔄 Human-in-the-Loop scenario verification pending
+                        ✅ LangGraph pipeline implemented & deployed<br>
+                        ✅ ReadThroughCheckpointer (Redis + PostgreSQL Async Sync)<br>
+                        ✅ Multi-turn conversation verified (5 turns, 38 steps, 40 checkpoints)<br>
+                        ✅ Connection Pool optimization (212→33, 84%↓)<br>
+                        ✅ Token v2 streaming + XRANGE Recovery
                     </span>
                 </div>
             </div>
