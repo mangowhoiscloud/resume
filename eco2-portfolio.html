@@ -6231,39 +6231,39 @@ needs_fallback = len(missing_required) > 0
             <!-- Memory Architecture -->
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Redis Primary + PostgreSQL Async Sync</h4>
-                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
-┌──────────────────────────────────────────────────────────────────────────┐
-│              ReadThroughCheckpointer + CheckpointSyncService              │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│   ┌─────────────────────────────────────────────────────────────────┐    │
-│   │  L1: Redis Primary (~1ms, pool 불필요)                          │    │
-│   │  ├─ Checkpoint: chat:checkpoint:cache:{thread_id} (TTL 24h)    │    │
-│   │  ├─ Intent Cache: intent:{hash} (TTL 3600s)                     │    │
-│   │  ├─ Token Stream: Redis Streams (TTL 1h, seq-based)             │    │
-│   │  └─ Sync Queue: checkpoint:sync:queue (BRPOP)                   │    │
-│   └─────────────────────────────────────────────────────────────────┘    │
-│          ↑ Write (Hot Path)         ↓ Read Miss (Cold Start Only)        │
-│          │                          │                                    │
-│   Worker (4 pods × 4 workers)       │ pool_max_size=2                    │
-│                                     ↓                                    │
-│   ┌─────────────────────────────────────────────────────────────────┐    │
-│   │  L2: PostgreSQL Persistent (Async Batch Sync)                   │    │
-│   │  ├─ CheckpointSyncService (별도 Deployment, replicas=1)         │    │
-│   │  ├─ 5초 주기 배치 동기화 (BRPOP → Bulk Upsert)                  │    │
-│   │  ├─ pool_max_size=5 (단일 인스턴스)                              │    │
-│   │  └─ Conversation History (permanent retention)                  │    │
-│   └─────────────────────────────────────────────────────────────────┘    │
-│                              ↓ On Read                                   │
-│   ┌─────────────────────────────────────────────────────────────────┐    │
-│   │  L3: LangGraph ChatState (Application Memory)                   │    │
-│   │  ├─ messages: Annotated[list, add_messages] (accumulator)       │    │
-│   │  ├─ summary: str (compressed context)                           │    │
-│   │  ├─ intent_history: list[str] (Chain-of-Intent tracking)        │    │
-│   │  └─ context: dict[str, Any] (subagent results)                  │    │
-│   └─────────────────────────────────────────────────────────────────┘    │
-│                                                                          │
-└──────────────────────────────────────────────────────────────────────────┘</div>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌───────────────────────────────────────────────────────────────────────────────┐
+│               ReadThroughCheckpointer + CheckpointSyncService                  │
+├───────────────────────────────────────────────────────────────────────────────┤
+│                                                                                │
+│   ┌─────────────────────────────────────────────────────────────────────┐     │
+│   │  L1: Redis Primary (~1ms, 20 max connections)                       │     │
+│   │  ├─ Checkpoint: cp:{thread_id}:{ns}:{checkpoint_id} (TTL 24h)       │     │
+│   │  ├─ Intent Cache: chat:intent:{message_hash} (TTL 3600s)            │     │
+│   │  ├─ Sync Queue: checkpoint:sync:queue (LPUSH/BRPOP)                 │     │
+│   │  └─ DLQ: checkpoint:sync:dlq (failed events)                        │     │
+│   └─────────────────────────────────────────────────────────────────────┘     │
+│          ↑ Write (Hot Path)           ↓ Read Miss (Cold Start Only)           │
+│          │                            │                                       │
+│   Worker (2 pods × 40 tasks)          │ pool 1-2 (read-only)                  │
+│                                       ↓                                       │
+│   ┌─────────────────────────────────────────────────────────────────────┐     │
+│   │  L2: PostgreSQL Persistent (Async Batch Sync)                       │     │
+│   │  ├─ CheckpointSyncService (별도 Deployment, replicas=1)             │     │
+│   │  ├─ 5초 주기 배치 동기화 (BRPOP → Bulk Upsert, batch 50)            │     │
+│   │  ├─ pool 1-5 (단일 인스턴스)                                         │     │
+│   │  └─ langgraph_checkpoints (permanent retention)                     │     │
+│   └─────────────────────────────────────────────────────────────────────┘     │
+│                              ↓ On Read                                        │
+│   ┌─────────────────────────────────────────────────────────────────────┐     │
+│   │  L3: LangGraph ChatState (45+ fields, 9 layers)                     │     │
+│   │  ├─ messages: Annotated[list, add_messages] (accumulator)           │     │
+│   │  ├─ 10 Context Channels: disposal_rules, location, weather, ...     │     │
+│   │  ├─ intent_history: list[str] (Chain-of-Intent tracking)            │     │
+│   │  └─ summary: str (compressed context, 272K trigger)                 │     │
+│   └─────────────────────────────────────────────────────────────────────┘     │
+│                                                                                │
+└───────────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
             <!-- ReadThroughCheckpointer Pattern -->
