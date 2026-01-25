@@ -10072,15 +10072,6 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                 <span class="lang-en">🔀 Concurrency Strategy Split (prefork vs Gevent vs asyncio)</span>
             </h3>
 
-            <!-- Dual Worker Architecture Summary -->
-            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(139,92,246,0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
-                <strong style="color: #8b5cf6;"><span class="lang-ko">🏗️ Dual Worker Architecture</span><span class="lang-en">🏗️ Dual Worker Architecture</span></strong>
-                <div style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
-                    <span class="lang-ko">LangGraph의 <strong>asyncio(코루틴) 네이티브</strong> 특성을 극대화하고자 <strong>Taskiq asyncio 워커</strong>를 도입하여 Chat 파이프라인에 적용했습니다. 동기 I/O 기반 Scan 파이프라인은 <strong>Celery + Gevent</strong>로 분리하고, 단순 DB 태스크(character, info, users)는 <strong>prefork</strong>로 프로세스 격리했습니다. 파이프라인 특성에 따른 <strong>워커 이중화(Dual Worker)</strong>로 각 경로의 동시성 모델을 최적화했습니다.</span>
-                    <span class="lang-en">Introduced <strong>Taskiq asyncio worker</strong> for Chat pipeline to maximize LangGraph's <strong>asyncio (coroutine) native</strong> characteristics. Separated sync I/O-based Scan pipeline with <strong>Celery + Gevent</strong>, and isolated simple DB tasks (character, info, users) with <strong>prefork</strong> for process isolation. <strong>Dual Worker architecture</strong> optimizes concurrency models per pipeline characteristics.</span>
-                </div>
-            </div>
-
             <!-- 3-Way Architecture Diagram -->
             <div class="modal-diagram">
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
