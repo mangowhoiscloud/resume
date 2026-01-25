@@ -3388,6 +3388,91 @@
             </p>
         </div>
 
+        <!-- Architecture Diagram (moved to top) -->
+        <div class="architecture-diagram">
+            <h3 class="diagram-title">
+                <span class="lang-ko">🏗️ 전체 시스템 아키텍처</span>
+                <span class="lang-en">🏗️ System Architecture Overview</span>
+            </h3>
+
+            <!-- System Architecture Image (on top) -->
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <img src="https://github.com/user-attachments/assets/af4b4276-08aa-4859-bfc5-9c9135d944ca"
+                     alt="Eco² System Architecture"
+                     style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+            </div>
+
+            <!-- Data Flow Summary (below image) -->
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">📊 데이터 흐름 요약</span>
+                    <span class="lang-en">📊 Data Flow Summary</span>
+                </h4>
+                <table class="modal-table" style="font-size: 0.85rem;">
+                    <tr>
+                        <th style="width: 18%;"><span class="lang-ko">흐름</span><span class="lang-en">Flow</span></th>
+                        <th style="width: 57%;"><span class="lang-ko">경로</span><span class="lang-en">Path</span></th>
+                        <th style="width: 25%;"><span class="lang-ko">프로토콜</span><span class="lang-en">Protocol</span></th>
+                    </tr>
+                    <tr>
+                        <td>🌐 <strong>N-S Traffic</strong></td>
+                        <td>User → Route53 → ALB → Istio GW → ext-authz → APIs</td>
+                        <td>HTTPS, gRPC</td>
+                    </tr>
+                    <tr>
+                        <td>🔄 <strong>E-W Sync</strong></td>
+                        <td>auth ↔ users, character → users (mTLS Envoy Sidecar)</td>
+                        <td>gRPC</td>
+                    </tr>
+                    <tr>
+                        <td>🤖 <strong>Scan AI</strong></td>
+                        <td>Scan API → RabbitMQ → <strong>scan-worker</strong> (Vision→Rule→Answer→Reward) → OpenAI API</td>
+                        <td>AMQP, Celery Chain</td>
+                    </tr>
+                    <tr>
+                        <td>💬 <strong>Chat Agent</strong></td>
+                        <td>Chat API → <strong>chat-worker</strong> (Intent→TagRetriever→EvalAgent→Fallback) → <code>YAML inject</code> + OpenAI API</td>
+                        <td>Taskiq, LangGraph</td>
+                    </tr>
+                    <tr>
+                        <td>🎭 <strong>Character Batch</strong></td>
+                        <td>scan-worker → <strong>character-match</strong> → <strong>character-worker</strong> (batch) → <strong>users-worker</strong> (UPSERT) → PostgreSQL</td>
+                        <td>AMQP, Batch Insert</td>
+                    </tr>
+                    <tr>
+                        <td>📡 <strong>SSE Event</strong></td>
+                        <td>Workers → Redis Streams → Event Router → Pub/Sub → SSE GW → Client</td>
+                        <td>XADD, PUBLISH, SSE</td>
+                    </tr>
+                    <tr>
+                        <td>🔔 <strong>Auth Relay</strong></td>
+                        <td>Auth API → Redis Fallback Outbox → <strong>auth-relay</strong> → RabbitMQ Fanout → <strong>auth-worker</strong> → Redis Blacklist</td>
+                        <td>Fallback Outbox</td>
+                    </tr>
+                    <tr>
+                        <td>🔄 <strong>Cache Broadcast</strong></td>
+                        <td>RabbitMQ Fanout → ext-authz Blacklist + character-match Catalog (all replicas) Local Cache Sync</td>
+                        <td>AMQP Fanout</td>
+                    </tr>
+                    <tr>
+                        <td>📊 <strong>Metrics</strong></td>
+                        <td>Envoy Sidecars → Prometheus → Grafana / KEDA Autoscaling</td>
+                        <td>Prometheus scrape</td>
+                    </tr>
+                    <tr>
+                        <td>📝 <strong>Logs</strong></td>
+                        <td>All Pods (stdout) → Fluent Bit DaemonSet → Elasticsearch → Kibana</td>
+                        <td>HTTP (ECS format)</td>
+                    </tr>
+                    <tr>
+                        <td>🔍 <strong>Traces</strong></td>
+                        <td>Envoy → OTel Collector → Jaeger (trace_id correlation, Kiali viz)</td>
+                        <td>OTLP, Zipkin</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
         <!-- Option 3 Style: Development Flow with Observability -->
         <div class="dev-flow-diagram">
             <div class="flow-title">
@@ -3767,91 +3852,6 @@
                 </div>
             </div>
 
-        </div>
-
-        <!-- Architecture Diagram -->
-        <div class="architecture-diagram">
-            <h3 class="diagram-title">
-                <span class="lang-ko">🏗️ 전체 시스템 아키텍처</span>
-                <span class="lang-en">🏗️ System Architecture Overview</span>
-            </h3>
-
-            <!-- Data Flow Summary (moved to top) -->
-            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
-                    <span class="lang-ko">📊 데이터 흐름 요약</span>
-                    <span class="lang-en">📊 Data Flow Summary</span>
-                </h4>
-                <table class="modal-table" style="font-size: 0.85rem;">
-                    <tr>
-                        <th style="width: 18%;"><span class="lang-ko">흐름</span><span class="lang-en">Flow</span></th>
-                        <th style="width: 57%;"><span class="lang-ko">경로</span><span class="lang-en">Path</span></th>
-                        <th style="width: 25%;"><span class="lang-ko">프로토콜</span><span class="lang-en">Protocol</span></th>
-                    </tr>
-                    <tr>
-                        <td>🌐 <strong>N-S Traffic</strong></td>
-                        <td>User → Route53 → ALB → Istio GW → ext-authz → APIs</td>
-                        <td>HTTPS, gRPC</td>
-                    </tr>
-                    <tr>
-                        <td>🔄 <strong>E-W Sync</strong></td>
-                        <td>auth ↔ users, character → users (mTLS Envoy Sidecar)</td>
-                        <td>gRPC</td>
-                    </tr>
-                    <tr>
-                        <td>🤖 <strong>Scan AI</strong></td>
-                        <td>Scan API → RabbitMQ → <strong>scan-worker</strong> (Vision→Rule→Answer→Reward) → OpenAI API</td>
-                        <td>AMQP, Celery Chain</td>
-                    </tr>
-                    <tr>
-                        <td>💬 <strong>Chat Agent</strong></td>
-                        <td>Chat API → <strong>chat-worker</strong> (Intent→TagRetriever→EvalAgent→Fallback) → <code>YAML inject</code> + OpenAI API</td>
-                        <td>Taskiq, LangGraph</td>
-                    </tr>
-                    <tr>
-                        <td>🎭 <strong>Character Batch</strong></td>
-                        <td>scan-worker → <strong>character-match</strong> → <strong>character-worker</strong> (batch) → <strong>users-worker</strong> (UPSERT) → PostgreSQL</td>
-                        <td>AMQP, Batch Insert</td>
-                    </tr>
-                    <tr>
-                        <td>📡 <strong>SSE Event</strong></td>
-                        <td>Workers → Redis Streams → Event Router → Pub/Sub → SSE GW → Client</td>
-                        <td>XADD, PUBLISH, SSE</td>
-                    </tr>
-                    <tr>
-                        <td>🔔 <strong>Auth Relay</strong></td>
-                        <td>Auth API → Redis Fallback Outbox → <strong>auth-relay</strong> → RabbitMQ Fanout → <strong>auth-worker</strong> → Redis Blacklist</td>
-                        <td>Fallback Outbox</td>
-                    </tr>
-                    <tr>
-                        <td>🔄 <strong>Cache Broadcast</strong></td>
-                        <td>RabbitMQ Fanout → ext-authz Blacklist + character-match Catalog (all replicas) Local Cache Sync</td>
-                        <td>AMQP Fanout</td>
-                    </tr>
-                    <tr>
-                        <td>📊 <strong>Metrics</strong></td>
-                        <td>Envoy Sidecars → Prometheus → Grafana / KEDA Autoscaling</td>
-                        <td>Prometheus scrape</td>
-                    </tr>
-                    <tr>
-                        <td>📝 <strong>Logs</strong></td>
-                        <td>All Pods (stdout) → Fluent Bit DaemonSet → Elasticsearch → Kibana</td>
-                        <td>HTTP (ECS format)</td>
-                    </tr>
-                    <tr>
-                        <td>🔍 <strong>Traces</strong></td>
-                        <td>Envoy → OTel Collector → Jaeger (trace_id correlation, Kiali viz)</td>
-                        <td>OTLP, Zipkin</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- System Architecture Image -->
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <img src="https://github.com/user-attachments/assets/af4b4276-08aa-4859-bfc5-9c9135d944ca"
-                     alt="Eco² System Architecture"
-                     style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
-            </div>
         </div>
     </section>
 
