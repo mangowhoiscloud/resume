@@ -3762,7 +3762,7 @@
                     <div class="pipeline-arrow">→</div>
                     <div class="async-item">
                         <div class="async-icon">🌊</div>
-                        <div class="async-name">Event Relay</div>
+                        <div class="async-name">Event Bus</div>
                         <div class="async-desc">3-Tier Redis</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
@@ -3793,11 +3793,11 @@
             </div>
 
             <!-- Production-Ready: Chat -->
-            <div class="pipeline-subsection clickable" data-modal="modal-chat-infra" style="cursor: pointer;">
+            <div class="pipeline-subsection">
                 <div class="subsection-header">
                     <div class="subsection-title">
-                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">완료</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 클릭하여 상세</span></span>
-                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">Complete</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 Click for details</span></span>
+                        <span class="lang-ko">🤖 Chat: Taskiq + asyncio <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">완료</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 각 단계 클릭</span></span>
+                        <span class="lang-en">🤖 Chat: Taskiq + asyncio <span class="status-badge" style="font-size: 0.7rem; padding: 2px 6px; margin-left: 8px; background: rgba(16,185,129,0.2); color: #10b981;">Complete</span> <span style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">🔍 Click each stage</span></span>
                     </div>
                     <div class="llm-pipeline-credit">
                         <span class="lang-ko">Backend / Infra</span>
@@ -3806,46 +3806,46 @@
                     </div>
                 </div>
                 <div class="async-sse-flow">
-                    <div class="async-item">
+                    <div class="async-item clickable" onclick="openModal('modal-chat-taskiq')" style="cursor: pointer;">
                         <div class="async-icon">🔄</div>
                         <div class="async-name">Taskiq</div>
                         <div class="async-desc">asyncio</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
+                    <div class="async-item clickable" onclick="openModal('modal-chat-rabbitmq')" style="cursor: pointer;">
                         <div class="async-icon">🐰</div>
                         <div class="async-name">RabbitMQ</div>
                         <div class="async-desc">Quorum</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
+                    <div class="async-item clickable" onclick="openModal('modal-chat-langgraph')" style="cursor: pointer;">
                         <div class="async-icon">⚙️</div>
                         <div class="async-name">LangGraph</div>
                         <div class="async-desc">StateGraph</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
+                    <div class="async-item clickable" onclick="openModal('modal-chat-eventbus')" style="cursor: pointer;">
                         <div class="async-icon">🌊</div>
-                        <div class="async-name">Redis Streams</div>
+                        <div class="async-name">Event Bus</div>
                         <div class="async-desc">Token v2</div>
                     </div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="async-item">
+                    <div class="async-item clickable" onclick="openModal('modal-chat-sse')" style="cursor: pointer;">
                         <div class="async-icon">📺</div>
                         <div class="async-name">SSE</div>
                         <div class="async-desc">Client</div>
                     </div>
                 </div>
                 <div class="llm-pipeline-specs" style="margin-top: 1rem;">
-                    <div class="spec-item">
+                    <div class="spec-item clickable" onclick="openModal('modal-3tier-memory')" style="cursor: pointer;">
                         <span class="spec-label">Checkpointer</span>
                         <span class="spec-value">ReadThroughCheckpointer</span>
                     </div>
-                    <div class="spec-item">
+                    <div class="spec-item clickable" onclick="openModal('modal-chat-eventbus')" style="cursor: pointer;">
                         <span class="spec-label">Token</span>
                         <span class="spec-value">XRANGE Recovery</span>
                     </div>
-                    <div class="spec-item">
+                    <div class="spec-item clickable" onclick="openModal('modal-3tier-memory')" style="cursor: pointer;">
                         <span class="spec-label">Memory</span>
                         <span class="spec-value">3-Tier (Redis + PG)</span>
                     </div>
@@ -4599,7 +4599,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); cursor: pointer;" onclick="openModal('modal-chat-event-bus')">
+                <div style="padding: 0.75rem; background: rgba(59,130,246,0.1); border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); cursor: pointer;" onclick="openModal('modal-chat-eventbus')">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 1rem;">🚌</span>
                         <div>
@@ -4959,9 +4959,9 @@ def dynamic_router(state: ChatState) -> list[Send]:
     </div>
 
     <!-- Modal: Chat Event Bus -->
-    <div class="modal-overlay" id="modal-chat-event-bus">
+    <div class="modal-overlay" id="modal-chat-eventbus">
         <div class="modal-content" style="max-width: 900px;">
-            <button class="modal-close" onclick="closeModal('modal-chat-event-bus')">×</button>
+            <button class="modal-close" onclick="closeModal('modal-chat-eventbus')">×</button>
             <h3 class="modal-title">🚌 Chat Event Bus Architecture</h3>
 
             <!-- Event Bus Flow Diagram -->
@@ -5075,6 +5075,384 @@ def dynamic_router(state: ChatState) -> list[Send]:
                             <div>Replicas: 1 → 2</div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat Taskiq -->
+    <div class="modal-overlay" id="modal-chat-taskiq">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-taskiq')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🔄 Taskiq: asyncio-native Worker</span>
+                <span class="lang-en">🔄 Taskiq: asyncio-native Worker</span>
+            </h3>
+
+            <div class="modal-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     Taskiq Worker Architecture                               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   Command:                                                                   │
+│   taskiq worker chat_worker.main:broker --workers 4 --max-async-tasks 10    │
+│                                                                              │
+│   ┌──────────────────────────────────────────────────────────────────────┐  │
+│   │  Worker Pool (4 processes × 10 async = 40 concurrent tasks)          │  │
+│   │  ─────────────────────────────────────────────────────────────────   │  │
+│   │                                                                       │  │
+│   │   Worker 1        Worker 2        Worker 3        Worker 4           │  │
+│   │   ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐          │  │
+│   │   │asyncio  │    │asyncio  │    │asyncio  │    │asyncio  │          │  │
+│   │   │loop     │    │loop     │    │loop     │    │loop     │          │  │
+│   │   │         │    │         │    │         │    │         │          │  │
+│   │   │ 10 tasks│    │ 10 tasks│    │ 10 tasks│    │ 10 tasks│          │  │
+│   │   └─────────┘    └─────────┘    └─────────┘    └─────────┘          │  │
+│   │                                                                       │  │
+│   └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+│   Task Definition:                                                           │
+│   ┌──────────────────────────────────────────────────────────────────────┐  │
+│   │  @broker.task(task_name="chat.process", timeout=120, max_retries=2)  │  │
+│   │  async def process_chat(job_id, session_id, message, image_url=None):│  │
+│   │      async with LangGraphApp(...) as app:                            │  │
+│   │          await app.ainvoke(...)                                      │  │
+│   │          await event_bus.publish(...)                                │  │
+│   └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚡ Celery vs Taskiq 비교</span>
+                <span class="lang-en">⚡ Celery vs Taskiq Comparison</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">항목</span><span class="lang-en">Aspect</span></th>
+                    <th>Celery (Scan Worker)</th>
+                    <th>Taskiq (Chat Worker)</th>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">동시성 모델</span><span class="lang-en">Concurrency Model</span></td>
+                    <td>gevent (greenlet)</td>
+                    <td><strong>asyncio (native)</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">LangGraph 호환</span><span class="lang-en">LangGraph Compat</span></td>
+                    <td>△ (<span class="lang-ko">래핑 필요</span><span class="lang-en">Wrapping needed</span>)</td>
+                    <td><strong>✅ Native async</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">Broker</span><span class="lang-en">Broker</span></td>
+                    <td>RabbitMQ</td>
+                    <td><strong>RabbitMQ (AioPikaBroker)</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">결과 반환</span><span class="lang-en">Result Return</span></td>
+                    <td>AsyncResult</td>
+                    <td><strong>TaskiqResult</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="lang-ko">사용처</span><span class="lang-en">Use Case</span></td>
+                    <td>Scan Worker (Vision)</td>
+                    <td><strong>Chat Worker (LangGraph)</strong></td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">📊 성능 지표</span>
+                <span class="lang-en">📊 Performance Metrics</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); text-align: center;">
+                    <div style="color: #10b981; font-size: 1.5rem; font-weight: 700;">40</div>
+                    <div style="color: var(--text-secondary); font-size: 0.85rem;"><span class="lang-ko">동시 처리 태스크</span><span class="lang-en">Concurrent Tasks</span></div>
+                    <div style="color: var(--text-muted); font-size: 0.75rem;">4 workers × 10 async</div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); text-align: center;">
+                    <div style="color: #3b82f6; font-size: 1.5rem; font-weight: 700;">120s</div>
+                    <div style="color: var(--text-secondary); font-size: 0.85rem;"><span class="lang-ko">태스크 타임아웃</span><span class="lang-en">Task Timeout</span></div>
+                    <div style="color: var(--text-muted); font-size: 0.75rem;">timeout=120</div>
+                </div>
+                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3); text-align: center;">
+                    <div style="color: #f59e0b; font-size: 1.5rem; font-weight: 700;">2</div>
+                    <div style="color: var(--text-secondary); font-size: 0.85rem;"><span class="lang-ko">최대 재시도</span><span class="lang-en">Max Retries</span></div>
+                    <div style="color: var(--text-muted); font-size: 0.75rem;">max_retries=2</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                    <a href="https://rooftopsnow.tistory.com/243" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">Taskiq asyncio 워커 설정 →</span>
+                        <span class="lang-en">Taskiq asyncio Worker Configuration →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat RabbitMQ -->
+    <div class="modal-overlay" id="modal-chat-rabbitmq">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-rabbitmq')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">🐇 RabbitMQ: Job Execution Path</span>
+                <span class="lang-en">🐇 RabbitMQ: Job Execution Path</span>
+            </h3>
+
+            <div class="modal-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     RabbitMQ Job Submission Flow                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   Dual-Path Messaging Architecture                                           │
+│   ════════════════════════════════════════════════════════════════════       │
+│   Path 1: RabbitMQ (Job Execution)    │   Path 2: Redis (Event Streaming)   │
+│   ─────────────────────────────────   │   ─────────────────────────────     │
+│   DIRECT exchange: chat_tasks          │   Streams + Pub/Sub (3-Tier)        │
+│   Queue: chat.process                  │   Durable → Router → Volatile       │
+│                                                                              │
+│   ┌─────────────────────────────────────────────────────────────────────┐   │
+│   │  chat-api                              chat-worker                   │   │
+│   │  ┌─────────────────────┐              ┌─────────────────────┐       │   │
+│   │  │ AioPikaBroker       │   AMQP       │ @broker.task        │       │   │
+│   │  │ .kiq(job_id,        │ ──────────▶  │ async def process() │       │   │
+│   │  │      session_id,    │   JSON       │   → LangGraph       │       │   │
+│   │  │      message,       │              │   → Event Publish   │       │   │
+│   │  │      image_url?)    │              └─────────────────────┘       │   │
+│   │  └─────────────────────┘                                             │   │
+│   └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚙️ RabbitMQ Topology 구성</span>
+                <span class="lang-en">⚙️ RabbitMQ Topology Configuration</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">구성 요소</span><span class="lang-en">Component</span></th>
+                    <th><span class="lang-ko">설정</span><span class="lang-en">Config</span></th>
+                    <th><span class="lang-ko">설명</span><span class="lang-en">Description</span></th>
+                </tr>
+                <tr>
+                    <td>Broker</td>
+                    <td><code>AioPikaBroker</code></td>
+                    <td><span class="lang-ko">RabbitMQ asyncio 클라이언트</span><span class="lang-en">RabbitMQ asyncio client</span></td>
+                </tr>
+                <tr>
+                    <td>Exchange</td>
+                    <td><code>chat_tasks (direct)</code></td>
+                    <td><span class="lang-ko">Topology CR로 미리 생성</span><span class="lang-en">Pre-created by Topology CR</span></td>
+                </tr>
+                <tr>
+                    <td>Queue</td>
+                    <td><code>chat.process</code></td>
+                    <td><span class="lang-ko">DLX, TTL 설정 포함</span><span class="lang-en">With DLX, TTL settings</span></td>
+                </tr>
+                <tr>
+                    <td>Routing Key</td>
+                    <td><code>chat.process</code></td>
+                    <td><span class="lang-ko">Direct 라우팅</span><span class="lang-en">Direct routing</span></td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔄 Message Flow</span>
+                <span class="lang-en">🔄 Message Flow</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                    <div style="text-align: center; color: #3b82f6; font-size: 1.2rem; margin-bottom: 0.5rem;">1️⃣</div>
+                    <h5 style="color: #3b82f6; margin-bottom: 0.5rem; text-align: center;">Submit</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        <code>broker.kiq(job_id, session_id, message)</code>
+                    </div>
+                </div>
+                <div style="background: rgba(245,158,11,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(245,158,11,0.3);">
+                    <div style="text-align: center; color: #f59e0b; font-size: 1.2rem; margin-bottom: 0.5rem;">2️⃣</div>
+                    <h5 style="color: #f59e0b; margin-bottom: 0.5rem; text-align: center;">Route</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        <span class="lang-ko">DIRECT exchange → Queue</span>
+                        <span class="lang-en">DIRECT exchange → Queue</span>
+                    </div>
+                </div>
+                <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                    <div style="text-align: center; color: #10b981; font-size: 1.2rem; margin-bottom: 0.5rem;">3️⃣</div>
+                    <h5 style="color: #10b981; margin-bottom: 0.5rem; text-align: center;">Consume</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        <span class="lang-ko">Taskiq Worker 수신</span>
+                        <span class="lang-en">Taskiq Worker consumes</span>
+                    </div>
+                </div>
+                <div style="background: rgba(139,92,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3);">
+                    <div style="text-align: center; color: #8b5cf6; font-size: 1.2rem; margin-bottom: 0.5rem;">4️⃣</div>
+                    <h5 style="color: #8b5cf6; margin-bottom: 0.5rem; text-align: center;">Execute</h5>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                        <span class="lang-ko">LangGraph 실행</span>
+                        <span class="lang-en">LangGraph execution</span>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚡ KEDA Autoscaling</span>
+                <span class="lang-en">⚡ KEDA Autoscaling</span>
+            </h4>
+            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <table class="modal-table" style="margin: 0;">
+                    <tr>
+                        <th><span class="lang-ko">트리거</span><span class="lang-en">Trigger</span></th>
+                        <th><span class="lang-ko">메트릭</span><span class="lang-en">Metric</span></th>
+                        <th><span class="lang-ko">임계값</span><span class="lang-en">Threshold</span></th>
+                        <th><span class="lang-ko">스케일</span><span class="lang-en">Scale</span></th>
+                    </tr>
+                    <tr>
+                        <td>RabbitMQ</td>
+                        <td>Queue Length</td>
+                        <td>5 messages</td>
+                        <td>1 → 4 replicas</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chat SSE Gateway -->
+    <div class="modal-overlay" id="modal-chat-sse">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeModal('modal-chat-sse')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📺 SSE Gateway: Token v2 Streaming</span>
+                <span class="lang-en">📺 SSE Gateway: Token v2 Streaming</span>
+            </h3>
+
+            <div class="modal-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        SSE Gateway Architecture                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌───────────────────┐                      ┌──────────────────────────┐   │
+│   │   Event Router    │    PUBLISH           │     SSE Gateway          │   │
+│   │  (Consumer Group) │ ────────────────────▶│                          │   │
+│   └───────────────────┘                      │   ┌──────────────────┐   │   │
+│                                               │   │ In-memory fan-out│   │──▶│ SSE
+│   ┌───────────────────┐                      │   └──────────────────┘   │   │
+│   │   Redis Streams   │    XRANGE            │   ┌──────────────────┐   │   │
+│   │ chat:events:{id}  │ ◀────────────────────│   │ State recovery   │   │   │
+│   └───────────────────┘   (catch-up)         │   │ (Redis KV)       │   │   │
+│                                               │   └──────────────────┘   │   │
+│   ┌───────────────────┐                      │   ┌──────────────────┐   │   │
+│   │   Redis Pub/Sub   │    SUBSCRIBE         │   │ Last-Event-ID    │   │   │
+│   │ chat:{job_id}     │ ────────────────────▶│   │ header           │   │   │
+│   └───────────────────┘                      │   └──────────────────┘   │   │
+│                                               └──────────────────────────┘   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">🔄 Token v2 Recovery Protocol</span>
+                <span class="lang-en">🔄 Token v2 Recovery Protocol</span>
+            </h4>
+            <table class="modal-table">
+                <tr>
+                    <th><span class="lang-ko">기능</span><span class="lang-en">Feature</span></th>
+                    <th><span class="lang-ko">구현</span><span class="lang-en">Implementation</span></th>
+                    <th><span class="lang-ko">설정값</span><span class="lang-en">Config</span></th>
+                </tr>
+                <tr>
+                    <td>Stale Detection</td>
+                    <td><span class="lang-ko">3초 타임아웃 시 자동 재연결</span><span class="lang-en">Auto-reconnect on 3s timeout</span></td>
+                    <td><code>3s threshold</code></td>
+                </tr>
+                <tr>
+                    <td>Max Reconnections</td>
+                    <td><span class="lang-ko">지수 간격으로 최대 3회 시도</span><span class="lang-en">3 attempts with exponential spacing</span></td>
+                    <td><code>3 attempts</code></td>
+                </tr>
+                <tr>
+                    <td>Fallback Polling</td>
+                    <td><span class="lang-ko">SSE 실패 시 폴링 전환</span><span class="lang-en">Polling fallback if SSE fails</span></td>
+                    <td><code>3s interval, 120s max</code></td>
+                </tr>
+                <tr>
+                    <td>Seq Encoding</td>
+                    <td><span class="lang-ko">Stage: STAGE_ORDER×10, Token: 1000+</span><span class="lang-en">Stage: STAGE_ORDER×10, Token: 1000+</span></td>
+                    <td><code>Last-Event-ID</code></td>
+                </tr>
+                <tr>
+                    <td>Catch-up</td>
+                    <td><span class="lang-ko">XREVRANGE로 누락 이벤트 복구</span><span class="lang-en">XREVRANGE for missed events</span></td>
+                    <td><code>State KV + Streams</code></td>
+                </tr>
+            </table>
+
+            <h4 style="color: var(--accent-teal); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">📊 Consumer Groups (Two-Path)</span>
+                <span class="lang-en">📊 Consumer Groups (Two-Path)</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="background: rgba(16,185,129,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3);">
+                    <h5 style="color: #10b981; margin-bottom: 0.75rem;">🚀 eventrouter</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div><strong><span class="lang-ko">목적</span><span class="lang-en">Purpose</span>:</strong> <span class="lang-ko">실시간 SSE 브로드캐스트</span><span class="lang-en">Real-time SSE broadcast</span></div>
+                        <div><strong><span class="lang-ko">지연</span><span class="lang-en">Latency</span>:</strong> ~10ms</div>
+                        <div><strong><span class="lang-ko">동작</span><span class="lang-en">Action</span>:</strong> PUBLISH → Pub/Sub</div>
+                    </div>
+                </div>
+                <div style="background: rgba(59,130,246,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3);">
+                    <h5 style="color: #3b82f6; margin-bottom: 0.75rem;">💾 chat-persistence</h5>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <div><strong><span class="lang-ko">목적</span><span class="lang-en">Purpose</span>:</strong> <span class="lang-ko">PostgreSQL 영구 저장</span><span class="lang-en">PostgreSQL persistence</span></div>
+                        <div><strong><span class="lang-ko">지연</span><span class="lang-en">Latency</span>:</strong> ~200ms</div>
+                        <div><strong><span class="lang-ko">동작</span><span class="lang-en">Action</span>:</strong> XACK → INSERT</div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
+                <span class="lang-ko">⚡ KEDA Autoscaling</span>
+                <span class="lang-en">⚡ KEDA Autoscaling</span>
+            </h4>
+            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <table class="modal-table" style="margin: 0;">
+                    <tr>
+                        <th><span class="lang-ko">트리거</span><span class="lang-en">Trigger</span></th>
+                        <th><span class="lang-ko">메트릭</span><span class="lang-en">Metric</span></th>
+                        <th><span class="lang-ko">임계값</span><span class="lang-en">Threshold</span></th>
+                        <th><span class="lang-ko">스케일</span><span class="lang-en">Scale</span></th>
+                    </tr>
+                    <tr>
+                        <td>Prometheus</td>
+                        <td>sse_active_connections</td>
+                        <td>100/pod</td>
+                        <td>1 → 3 replicas</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(138,43,226,0.1); border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                <strong style="color: var(--accent-purple);">📚 <span class="lang-ko">참고</span><span class="lang-en">Reference</span></strong>
+                <div style="margin-top: 0.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+                    <a href="https://rooftopsnow.tistory.com/240" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">SSE Token v2 프로토콜 →</span>
+                        <span class="lang-en">SSE Token v2 Protocol →</span>
+                    </a>
+                    <a href="https://rooftopsnow.tistory.com/235" target="_blank" rel="noopener" style="color: var(--text-secondary);">
+                        <span class="lang-ko">Token v2 XRANGE Recovery →</span>
+                        <span class="lang-en">Token v2 XRANGE Recovery →</span>
+                    </a>
                 </div>
             </div>
         </div>
