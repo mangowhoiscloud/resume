@@ -4968,31 +4968,42 @@ def dynamic_router(state: ChatState) -> list[Send]:
             <!-- Event Bus Flow Diagram -->
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Event Bus: Redis Streams + Pub/Sub</h4>
-                <div class="modal-diagram" style="font-size: 0.75rem; line-height: 1.4;">
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                          Chat Event Bus Architecture                          │
-├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                               │
-│   ┌─────────────┐      ┌──────────────────┐      ┌─────────────────────┐     │
-│   │ Chat Worker │─────▶│ Redis Streams    │─────▶│   Event Router      │     │
-│   │ (LangGraph) │ XADD │ chat:events:{id} │ XREAD│   (Consumer Group)  │     │
-│   └─────────────┘      └──────────────────┘      └─────────────────────┘     │
-│         │                                                   │                 │
-│         │                                                   │ PUBLISH         │
-│         │                                                   ▼                 │
-│         │              ┌──────────────────┐      ┌─────────────────────┐     │
-│         └─────────────▶│ Token Stream v2  │      │    Pub/Sub          │     │
-│           Progress     │ chat:tokens:{id} │      │ chat:pubsub:{job_id}│     │
-│                        └──────────────────┘      └─────────────────────┘     │
-│                                                             │                 │
-│                                                             │ SUBSCRIBE       │
-│                                                             ▼                 │
-│                        ┌──────────────────┐      ┌─────────────────────┐     │
-│                        │  PostgreSQL      │◀─────│   SSE Gateway       │────▶│
-│                        │  (Persistence)   │ CDC  │   (Streaming)       │ SSE │
-│                        └──────────────────┘      └─────────────────────┘     │
-│                                                                               │
-└──────────────────────────────────────────────────────────────────────────────┘</div>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.35;">
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                           Chat Event Bus Architecture                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                    │
+│  ┌─────────────────┐     XADD      ┌────────────────────┐    XREADGROUP           │
+│  │   Chat Worker   │──────────────▶│   Redis Streams    │◀──────────────┐         │
+│  │   (LangGraph)   │               │ chat:events:{shard}│               │         │
+│  └────────┬────────┘               │     (4 shards)     │    ┌──────────┴───────┐ │
+│           │                        └────────────────────┘    │   Event Router   │ │
+│           │ Token v2                                         │ (Consumer Group) │ │
+│           ▼                                                  └──────────┬───────┘ │
+│  ┌─────────────────┐               ┌────────────────────┐               │         │
+│  │ chat:tokens:    │               │    State KV        │◀──────────────┤ Lua     │
+│  │   {job_id}      │               │ chat:state:{job_id}│   UPDATE      │ Script  │
+│  └─────────────────┘               └────────────────────┘               │         │
+│           │                                 │                           │ PUBLISH │
+│           │ Catch-up                        │ Fallback                  ▼         │
+│           │                                 │                ┌─────────────────┐  │
+│           ▼                                 ▼                │     Pub/Sub     │  │
+│  ┌───────────────────────────────────────────────────────┐   │sse:events:      │  │
+│  │                     SSE Gateway                        │◀─┤   {job_id}      │  │
+│  │  SUBSCRIBE + State Fallback + Streams Catch-up         │   └─────────────────┘  │
+│  └────────────────────────────┬──────────────────────────┘                        │
+│                               │ SSE                                                │
+│                               ▼                                                    │
+│                          [ Client ]                                                │
+│                                                                                    │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│  Checkpoint: Redis Primary + PostgreSQL Async Sync                                 │
+│  ┌─────────────────┐   ~1ms    ┌──────────────┐  5s batch  ┌──────────────────┐   │
+│  │ SyncableRedis   │──────────▶│    Redis     │───────────▶│   PostgreSQL     │   │
+│  │    Saver        │   SET     │  checkpoint  │  UPSERT    │  (Durable Store) │   │
+│  └─────────────────┘           └──────────────┘            └──────────────────┘   │
+│  ReadThroughCheckpointer: Redis Hit → return / Miss → PG read → Redis promote     │
+└───────────────────────────────────────────────────────────────────────────────────┘</div>
             </div>
 
             <!-- Token Streaming v2 -->
