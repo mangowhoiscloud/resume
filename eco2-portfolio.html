@@ -3918,7 +3918,8 @@
                 <div class="tech-items">
                     <span class="tech-item">GPT-5.2</span>
                     <span class="tech-item">Gemini-3.0-flash</span>
-                    <span class="tech-item">Agentic Workflow</span>
+                    <span class="tech-item">OpenAI Agents SDK</span>
+                    <span class="tech-item">Gemini SDK</span>
                     <span class="tech-item">LangGraph</span>
                 </div>
             </div>
@@ -9539,6 +9540,22 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
 │   └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
+
+            <!-- Prometheus Service Dependency Graph -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">
+                    <span class="lang-ko">📊 Prometheus Service Dependency DAG</span>
+                    <span class="lang-en">📊 Prometheus Service Dependency DAG</span>
+                </h4>
+                <div style="background: var(--bg-card); border-radius: 12px; padding: 1rem; border: 1px solid var(--border-subtle);">
+                    <img src="assets/gifs/prometheus-service-dag.png" alt="Prometheus Service Dependency Graph" style="width: 100%; border-radius: 8px;">
+                    <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">
+                        <span class="lang-ko">Prometheus가 중앙 허브로 모든 서비스에서 메트릭 수집 — 8개 도메인 API, 3개 Redis 인스턴스, event-router, sse-gateway, ext-authz 등 전체 서비스 토폴로지</span>
+                        <span class="lang-en">Prometheus as central hub collecting metrics from all services — 8 domain APIs, 3 Redis instances, event-router, sse-gateway, ext-authz and full service topology</span>
+                    </div>
+                </div>
+            </div>
+
             <table class="modal-table">
                 <tr><th>Tool</th><th>URL</th><th>Protocol</th><th>기능</th></tr>
                 <tr><td>Kiali</td><td>kiali.dev.growbin.app</td><td>-</td><td>Service Graph, Traffic Flow, Health Status</td></tr>
