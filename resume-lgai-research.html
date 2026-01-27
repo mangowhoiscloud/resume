@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>류지환 Resume - Backend Engineer</title>
+<title>류지환 Resume - AI Agent Engineer</title>
 <style>
     @page {
         size: A4;
         margin: 15mm;
     }
-    
+
     * {
         box-sizing: border-box;
     }
-    
+
     body {
         font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
         line-height: 1.6;
@@ -24,7 +24,7 @@
         padding: 20px;
         background: #fff;
     }
-    
+
     /* Language Toggle */
     .lang-toggle {
         position: fixed;
@@ -38,7 +38,7 @@
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         z-index: 1000;
     }
-    
+
     .lang-toggle button {
         padding: 8px 16px;
         border: none;
@@ -50,16 +50,16 @@
         background: #f0f0f0;
         color: #666;
     }
-    
+
     .lang-toggle button.active {
         background: #3498db;
         color: #fff;
     }
-    
+
     .lang-toggle button:hover:not(.active) {
         background: #e0e0e0;
     }
-    
+
     /* Language visibility */
     .lang-ko, .lang-en { display: none; }
     body.ko .lang-ko { display: inline; }
@@ -68,7 +68,7 @@
     body.en .lang-en-block { display: block; }
     body.ko .lang-en-block { display: none; }
     body.en .lang-ko-block { display: none; }
-    
+
     /* Header */
     .header {
         text-align: center;
@@ -76,20 +76,20 @@
         padding-bottom: 15px;
         border-bottom: 3px solid #3498db;
     }
-    
+
     .header h1 {
         font-size: 22pt;
         margin: 0 0 5px 0;
         color: #2c3e50;
         font-weight: 700;
     }
-    
+
     .header .subtitle {
         font-size: 12pt;
         color: #7f8c8d;
         margin: 0;
     }
-    
+
     /* Contact Info */
     .contact-info {
         display: flex;
@@ -99,16 +99,16 @@
         margin-top: 10px;
         font-size: 9pt;
     }
-    
+
     .contact-info a {
         color: #3498db;
         text-decoration: none;
     }
-    
+
     .contact-info span {
         color: #95a5a6;
     }
-    
+
     /* About Section */
     .about-section {
         background: linear-gradient(90deg, #f8f9fa 0%, #fff 100%);
@@ -119,15 +119,15 @@
         line-height: 1.7;
         color: #34495e;
     }
-    
+
     .about-section p {
         margin: 0;
     }
-    
+
     .about-section strong {
         color: #2c3e50;
     }
-    
+
     /* Section Headers */
     h2 {
         font-size: 13pt;
@@ -138,7 +138,7 @@
         margin-bottom: 12px;
         page-break-after: avoid;
     }
-    
+
     h3 {
         font-size: 11pt;
         color: #34495e;
@@ -146,29 +146,29 @@
         margin-bottom: 8px;
         page-break-after: avoid;
     }
-    
+
     /* Timeline Graph - Vertical Style */
     .timeline-section {
         margin: 25px 0;
         page-break-inside: avoid;
     }
-    
+
     .timeline-section h2 {
         border-left: 4px solid #3498db;
         padding-left: 10px;
         margin-bottom: 20px;
     }
-    
+
     .timeline-container {
         position: relative;
     }
-    
+
     .timeline-item {
         position: relative;
         padding: 12px 0 12px 20px;
         border-left: none;
     }
-    
+
     /* Timeline dot */
     .timeline-item::before {
         content: '';
@@ -181,21 +181,21 @@
         border: 3px solid #fff;
         box-shadow: 0 0 0 2px currentColor, 0 2px 8px rgba(0,0,0,0.15);
     }
-    
+
     .timeline-item.education::before { color: #3498db; background: #3498db; }
     .timeline-item.project::before { color: #27ae60; background: #27ae60; }
     .timeline-item.work::before { color: #e74c3c; background: #e74c3c; }
-    .timeline-item.current::before { 
-        color: #9b59b6; 
+    .timeline-item.current::before {
+        color: #9b59b6;
         background: #9b59b6;
         animation: pulse-dot 2s infinite;
     }
-    
+
     @keyframes pulse-dot {
         0%, 100% { box-shadow: 0 0 0 2px #9b59b6, 0 2px 8px rgba(0,0,0,0.15); }
         50% { box-shadow: 0 0 0 4px #9b59b6, 0 2px 12px rgba(155,89,182,0.4); }
     }
-    
+
     .timeline-item .item-period {
         font-size: 8pt;
         color: #7f8c8d;
@@ -203,30 +203,30 @@
         display: block;
         margin-bottom: 3px;
     }
-    
+
     .timeline-item .item-title {
         font-size: 10pt;
         font-weight: 700;
         color: #2c3e50;
     }
-    
+
     .timeline-item .item-desc {
         font-size: 8.5pt;
         color: #5d6d7e;
         margin-top: 2px;
     }
-    
+
     .timeline-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0 40px;
     }
-    
+
     .timeline-row > div {
         position: relative;
         padding-left: 30px;
     }
-    
+
     .timeline-row > div::before {
         content: '';
         position: absolute;
@@ -237,7 +237,7 @@
         background: linear-gradient(180deg, #3498db 0%, #9b59b6 100%);
         border-radius: 2px;
     }
-    
+
     .timeline-legend {
         display: flex;
         justify-content: flex-start;
@@ -246,93 +246,76 @@
         padding-left: 30px;
         font-size: 8pt;
     }
-    
+
     .legend-item {
         display: flex;
         align-items: center;
         gap: 5px;
     }
-    
+
     .legend-color {
         width: 10px;
         height: 10px;
         border-radius: 50%;
     }
-    
+
     .legend-color.education { background: #3498db; }
     .legend-color.project { background: #27ae60; }
     .legend-color.work { background: #e74c3c; }
     .legend-color.current { background: #9b59b6; }
-    
+
     /* Experience & Projects */
     .experience-item, .project-item {
         margin-bottom: 18px;
         page-break-inside: avoid;
     }
-    
+
     .item-header {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
         margin-bottom: 5px;
     }
-    
+
     .item-title {
         font-size: 11pt;
         font-weight: 700;
         color: #2c3e50;
     }
-    
+
     .item-subtitle {
         font-size: 9pt;
         color: #7f8c8d;
     }
-    
+
     .item-period {
         font-size: 9pt;
         color: #95a5a6;
         white-space: nowrap;
     }
-    
+
     .item-description {
         font-size: 9pt;
         color: #5d6d7e;
         margin: 5px 0;
         font-style: italic;
     }
-    
+
     /* Lists */
     ul {
         padding-left: 18px;
         margin: 8px 0;
     }
-    
+
     li {
         margin-bottom: 4px;
         font-size: 9pt;
     }
-    
+
     li strong {
         color: #2c3e50;
     }
-    
-    /* Skills Grid */
-    .skills-grid {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        gap: 8px 15px;
-        font-size: 9pt;
-    }
-    
-    .skill-category {
-        font-weight: 700;
-        color: #3498db;
-    }
-    
-    .skill-items {
-        color: #5d6d7e;
-    }
-    
+
     /* Metrics Highlight */
     .metrics {
         background: #f8f9fa;
@@ -341,54 +324,54 @@
         margin: 10px 0;
         font-size: 9pt;
     }
-    
+
     .metrics strong {
         color: #27ae60;
     }
-    
+
     /* Two Column Layout */
     .two-column {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
-    
+
     /* Print Styles */
     @media print {
         .lang-toggle {
             display: none !important;
         }
-        
+
         body {
             padding: 0;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
-        
+
         a {
             text-decoration: none;
             color: #2c3e50;
         }
-        
+
         .timeline-section {
             background: #f8f9fa !important;
         }
-        
+
         h2 + ul, h3 + ul {
             page-break-inside: avoid;
         }
-        
+
         .experience-item, .project-item {
             page-break-inside: avoid;
         }
     }
-    
+
     @media (max-width: 768px) {
         .lang-toggle {
             top: 10px;
             right: 10px;
         }
-        
+
         .lang-toggle button {
             padding: 6px 12px;
             font-size: 11px;
@@ -410,7 +393,7 @@
         <span class="lang-ko">류지환 (Jihwan Ryu)</span>
         <span class="lang-en">Jihwan Ryu (류지환)</span>
     </h1>
-    <p class="subtitle">Backend Engineer</p>
+    <p class="subtitle">AI Agent Engineer</p>
     <div class="contact-info">
         <span>ryoo0504@gmail.com</span>
         <a href="https://github.com/mangowhoiscloud">GitHub</a> <a href="https://github.com/mng990" style="color:#95a5a6">(Legacy)</a>
@@ -422,14 +405,16 @@
 <!-- About Me -->
 <div class="about-section">
     <p class="lang-ko-block">
-        <strong>분산 시스템 설계와 LLM 파이프라인 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
-        Rakuten 페타바이트급 분산 스토리지 실무를 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 멀티에이전트 파이프라인을 설계·개발·운영 중입니다. LLM API n-hop 파이프라인(10-20s/req)의 고레이턴시에 대응하기 위해 Event Bus Layer를 설계 개발, VU 50→500(x10), RPM 60→367.9(x6.1) 확장을 달성했습니다.
-        Agent-Driven Development로 구조화된 Knowledge Base와 Skills를 자체 RAG로 축적하여, 코딩 에이전트가 프로젝트 컨텍스트를 이해한 상태에서 개발 피드백 루프에 참여하도록 설계합니다.
+        <strong>AI Agent 시스템 설계와 LLM 서비스 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
+        Rakuten 페타바이트급 분산 스토리지 서버 개발을 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 기반 10종 서브에이전트 Multi-Agent 시스템을 설계·개발·운영 중입니다.
+        9분류 Intent Classifier에서 다단계 Confidence Scoring(LLM 신뢰도, 키워드 맵 보정, Chain-of-Intent 문맥 반영)으로 분류 후 Send API 동적 병렬 라우팅으로 복합 질의를 병렬 처리하고, LLMClientPort 추상화로 Multi-LLM Fallback Chain을 구현했습니다.
+        LLM API n-hop 파이프라인(10-20s/req)의 고레이턴시에 대응하기 위해 Event Bus Layer(O(n×m) → O(n) 연결 복잡도)를 설계 개발, VU 50→500(x10), RPM 60→367.9(x6.1) 확장을 달성했습니다.
     </p>
     <p class="lang-en-block">
-        Backend engineer focused on <strong>distributed systems design and LLM pipeline optimization</strong>.
-        After hands-on experience with Rakuten's petabyte-scale distributed storage, I now design, develop, and operate LangGraph multi-agent pipelines on a 24-Node Kubernetes cluster. To address the high latency of LLM API n-hop pipelines (10-20s/req), I designed and developed an Event Bus Layer, achieving VU 50→500(x10), RPM 60→367.9(x6.1) scaling.
-        Applying Agent-Driven Development, I accumulate structured Knowledge Base and Skills as self-RAG so coding agents participate in development feedback loops with full project context understanding.
+        Backend engineer focused on <strong>AI Agent system design and LLM service optimization</strong>.
+        After developing Rakuten's petabyte-scale distributed storage servers, I now design, develop, and operate LangGraph-based 10-type sub-agent Multi-Agent systems on a 24-Node Kubernetes cluster.
+        After classification through multi-stage Confidence Scoring (LLM confidence, keyword map calibration, Chain-of-Intent context) in the 9-class Intent Classifier, implemented Send API dynamic parallel routing for parallel processing of compound queries, and Multi-LLM Fallback Chain via LLMClientPort abstraction.
+        To address LLM API n-hop pipeline latency (10-20s/req), designed Event Bus Layer (O(n×m) → O(n) connection complexity), achieving VU 50→500(x10), RPM 60→367.9(x6.1) scaling.
     </p>
 </div>
 
@@ -519,14 +504,13 @@
 <!-- Skills -->
 <h2><span class="lang-ko">Skills</span><span class="lang-en">Skills</span></h2>
 <table class="skills-table" style="width:100%; border-collapse:collapse; font-size:9pt; margin-bottom:12px;">
-    <tr><td style="width:100px; padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Languages</td><td style="padding:3px 0;">Python, Go, C, Solidity</td></tr>
-    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">LLM / AI</td><td style="padding:3px 0;">LangGraph, OpenAI Agents SDK, Gemini SDK, RAG, Prompt Engineering, Token Streaming (SSE), LangSmith</td></tr>
+    <tr><td style="width:110px; padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Languages</td><td style="padding:3px 0;">Python, Go, C, Solidity</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Agent / LLM</td><td style="padding:3px 0;">LangGraph, OpenAI Agents SDK, Gemini SDK, RAG, Prompt Engineering, Token Streaming (SSE), LangSmith</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Infrastructure</td><td style="padding:3px 0;">Kubernetes, ArgoCD, Istio, OpenTelemetry, KEDA, Docker</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Messaging</td><td style="padding:3px 0;">RabbitMQ, Redis Streams / Pub/Sub, Taskiq (asyncio), Celery (Gevent)</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Databases</td><td style="padding:3px 0;">PostgreSQL, Redis, Elasticsearch</td></tr>
     <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Architecture</td><td style="padding:3px 0;">Clean Architecture (Port/Adapter), DOMA, Event-Driven, Microservices</td></tr>
-    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">DevOps</td><td style="padding:3px 0;">GitOps, CI/CD, Kustomize, GitHub Actions, OSS Operators (Redis, RabbitMQ, EFK etc.)</td></tr>
-    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Agents / Model</td><td style="padding:3px 0;">Claude Code, Cursor (Model: Claude Opus 4.5)</td></tr>
+    <tr><td style="padding:3px 8px 3px 0; font-weight:600; vertical-align:top;">Observability</td><td style="padding:3px 0;">Prometheus, Grafana, Jaeger, OpenTelemetry, LangSmith</td></tr>
 </table>
 
 <!-- Education & Certifications -->
@@ -555,36 +539,47 @@
 <div class="project-item">
     <div class="item-header">
         <div>
-            <span class="item-title">Eco² - LangGraph Multi-Agent Pipeline</span>
+            <span class="item-title">Eco² - LangGraph Multi-Agent AI Service</span>
             <span class="item-subtitle"> | Backend & Infrastructure (Solo)</span>
             <a href="https://mangowhoiscloud.github.io/resume/eco2-portfolio.html" target="_blank" style="font-size: 0.8em; color: #1a73e8; margin-left: 8px;">[Portfolio]</a>
             <a href="https://frontend.dev.growbin.app" target="_blank" style="font-size: 0.8em; color: #1a73e8; margin-left: 4px;">[Service]</a>
         </div>
-        <span class="item-period" id="eco2-days">Oct 31, 2025 - Present</span>
+        <span class="item-period">Oct 2025 - Present</span>
     </div>
-    <p class="item-description lang-ko">LLM(GPT-5.2, Gemini-3.0-flash) 기반 Multi-Agent 분리수거 웹앱 백엔드 설계·개발·운영<br>개발 10.31~ · 서비스 배포 12.02~<br>24-Node K8s, 2025 새싹톤 우수상(181팀 중 TOP4)</p>
-    <p class="item-description lang-en">LLM(GPT-5.2, Gemini-3.0-flash) Multi-Agent recycling web app backend — design, development, operations<br>Dev 10.31~ · Service Deploy 12.02~<br>24-Node K8s, 2025 SeSACTHON Excellence Award (TOP4/181 teams)</p>
+    <p class="item-description lang-ko">LLM(GPT-5.2, Gemini-3.0-flash) 기반 Multi-Agent 분리수거 웹앱 백엔드 설계·개발·운영<br>24-Node K8s, 2025 새싹톤 우수상(181팀 중 TOP4)</p>
+    <p class="item-description lang-en">LLM(GPT-5.2, Gemini-3.0-flash) Multi-Agent recycling web app backend — design, development, operations<br>24-Node K8s, 2025 SeSACTHON Excellence Award (TOP4/181 teams)</p>
 
     <div class="metrics">
-        <strong>Key Metrics:</strong> VU 50→500 (10x, Rule-based Retrieval + LLM 2회 호출 · 추론 8-10s×2 고레이턴시 API 기준), RPM 367.9, Connection Pool 212→33 (84%↓), ext-authz p99 275ms @ VU 2,500
+        <strong>Key Metrics:</strong> VU 50→500 (10x), RPM 60→367.9 (6.1x), Connection Pool 212→33 (84%↓), ext-authz P50 57→7.5ms (87%↓)
     </div>
 
     <ul>
         <li><strong>LangGraph Multi-Intent Fanout:</strong> <span class="lang-ko">10분류 Intent 분석 후 10종 서브에이전트를 Send API로 동적 병렬 라우팅(waste_rag, location, bulk_waste, weather 등), 복합 질의를 단일 요청에서 병렬 처리</span><span class="lang-en">Dynamic parallel routing of 10 sub-agents via Send API after 10-class Intent analysis (waste_rag, location, bulk_waste, weather, etc.), processing compound queries in a single request</span></li>
-        <li><strong>Tag-Based Contextual Retrieval:</strong> <span class="lang-ko">Anthropic Contextual Retrieval 패턴 기반 2-tier RAG — item_class_list(167개 품목) + situation_tags(80개 상황) YAML 검색 → 18개 분류 규정 JSON 매칭, Classification→Keyword Fallback 전략, Relevance scoring으로 chunk 우선순위 결정</span><span class="lang-en">2-tier RAG based on Anthropic Contextual Retrieval pattern — item_class_list (167 items) + situation_tags (80 situations) YAML search → 18 category regulation JSON matching, Classification→Keyword Fallback strategy, chunk prioritization via Relevance scoring</span></li>
-        <li><strong>Global/Local Prompt Optimization:</strong> <span class="lang-ko">Global(캐릭터 정의·톤·규칙) + Local(Intent별 지침) 분리 패턴, 구조화 응답 템플릿(핵심 답변→구체적 방법→상태 개선 팁), LRU 캐싱으로 프롬프트 로드 최적화</span><span class="lang-en">Global (character definition, tone, rules) + Local (per-intent instructions) separation pattern, structured response template (core answer→detailed method→improvement tips), prompt load optimization via LRU caching</span></li>
-        <li><strong>External API Integration:</strong> <span class="lang-ko">8개 공공/외부 API 통합 — 공공: MOIS(대형폐기물), KECO(재활용 시세·수거함), KMA(기상청) / 외부: Kakao Local(장소검색·지오코딩), DuckDuckGo·Tavily(웹검색) / 내부 gRPC: Character, Location, Image 서비스</span><span class="lang-en">8 public/external API integrations — Public: MOIS (bulk waste), KECO (recyclable prices, collection points), KMA (weather) / External: Kakao Local (place search, geocoding), DuckDuckGo/Tavily (web search) / Internal gRPC: Character, Location, Image services</span></li>
-        <li><strong>Intent Confidence Scoring:</strong> <span class="lang-ko">LLM 분류 신뢰도 + 키워드 맵 매칭 보정(+0.2) + Chain-of-Intent 전이 보너스(+0.15) + 짧은 질문 페널티(-0.1)로 final_confidence 산출, 0.6 미만 시 Fallback Chain(rag → web_search → general_llm)으로 품질 보장, FeedbackQuality 점수 기반 응답 품질 평가</span><span class="lang-en">Calculate final_confidence via LLM classification confidence + keyword map matching (+0.2) + Chain-of-Intent transition bonus (+0.15) + short question penalty (-0.1), Fallback Chain (rag → web_search → general_llm) for scores below 0.6, FeedbackQuality-based response quality evaluation</span></li>
-        <li><strong>Redis Event Bus 3-Tier:</strong> <span class="lang-ko">Streams(영속) + Pub/Sub(실시간 팬아웃) + State KV(복구) 분리, Lua Script 멱등성 + Lamport Clock seq 기반 이벤트 순서 보장 → Scan Pipeline(LLMx2), VU 50→500(x10), RPM 60→367.9(x6.1)</span><span class="lang-en">Streams (persistence) + Pub/Sub (realtime fan-out) + State KV (recovery) separation, Lua Script idempotency + Lamport Clock seq-based event ordering → Scan Pipeline(LLMx2), VU 50→500(x10), RPM 60→367.9(x6.1)</span></li>
-        <li><strong>Pub/Sub Shard 최적화:</strong> <span class="lang-ko">job_id별 채널 → shard별 채널(hash % 4) 변경, SSE Gateway가 4개 shard 구독 후 job_id로 내부 라우팅 → Pub/Sub 연결 O(N)→O(4), 1,000 VU 기준 99.6% 연결 절감</span><span class="lang-en">Changed from per-job_id channels to shard-based channels (hash % 4), SSE Gateway subscribes to 4 shards with internal job_id routing → Pub/Sub connections O(N)→O(4), 99.6% connection reduction at 1,000 VU</span></li>
-        <li><strong>ReadThroughCheckpointer:</strong> <span class="lang-ko">Redis Primary + PostgreSQL Async Sync 분리, Temporal Locality 기반 LRU 승격, CheckpointSyncService 배치 영속화 → Connection Pool 212→33 (84% 감소)</span><span class="lang-en">Redis Primary + PostgreSQL Async Sync separation, Temporal Locality-based LRU promotion, CheckpointSyncService batch persistence → Connection Pool 212→33 (84% reduction)</span></li>
-        <li><strong>Concurrency:</strong> <span class="lang-ko">LLM 호출(10-20s/req)로 인해 prefork 모델에서는 동시 처리량이 프로세스 수에 의해 제한되고 비용이 커짐 → I/O-bound 구간을 Gevent(협력적 스케줄링) 기반 동시 처리로 전환해 in-flight 요청 확대, LangGraph(asyncio) 파이프라인은 Taskiq 워커로 분리해 event loop 유지</span><span class="lang-en">LLM calls (10-20s/req) limited prefork model concurrency to process count with high cost → Switched I/O-bound sections to Gevent (cooperative scheduling) for concurrent processing, expanding in-flight requests. LangGraph (asyncio) pipeline separated to Taskiq worker to maintain event loop</span></li>
-        <li><strong>Multi-LLM Resilience:</strong> <span class="lang-ko">LLMClientPort 추상화로 OpenAI/Gemini Provider 자동 추론 및 런타임 전환, NodePolicy(FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker로 노드 장애 시 그래프 중단 방지, Stateless Reducer + 체크포인팅으로 중간 실패 시 LLM 재호출 없이 복구</span><span class="lang-en">LLMClientPort abstraction for OpenAI/Gemini provider auto-inference and runtime switching, NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker prevents graph interruption on node failure, Stateless Reducer + checkpointing for recovery without LLM re-call on intermediate failure</span></li>
-        <li><strong>Scan Pipeline (RAG):</strong> <span class="lang-ko">Vision(OCR/분류)→RAG Retrieval→Answer→Reward 4단계, 구조화 프롬프트로 할루시네이션 억제, Feedback Node가 RAG 품질 평가 후 저품질 시 Web Search Fallback, Gevent 협력적 스케줄링으로 I/O 대기 겹쳐 처리량 개선</span><span class="lang-en">4-stage Vision (OCR/classification)→RAG Retrieval→Answer→Reward, hallucination suppression via structured prompts, Feedback Node evaluates RAG quality and triggers Web Search Fallback on low quality, Gevent cooperative scheduling overlaps I/O wait for throughput improvement</span></li>
-        <li><strong>Auth Offloading:</strong> <span class="lang-ko">모든 요청이 ext-authz→Redis를 경유하며 Redis 경합으로 42 RPS 병목, P99 80ms 발생 → Istio EnvoyFilter ext-authz(Go) Local sync.Map 캐시 전환, RabbitMQ Fanout broadcast로 Pod 간 블랙리스트 동기화 → 48→1,500 RPS(31×), P50 57→7.5ms(87%↓), Cache Hit >99%</span><span class="lang-en">All requests routed through ext-authz→Redis causing 42 RPS bottleneck at P99 80ms → Switched to Istio EnvoyFilter ext-authz(Go) with local sync.Map cache, RabbitMQ Fanout broadcast for cross-pod blacklist sync → 48→1,500 RPS (31×), P50 57→7.5ms (87%↓), Cache Hit >99%</span></li>
-        <li><strong>Persistence Offloading:</strong> <span class="lang-ko">API가 인증+DB 쓰기를 직접 처리하여 DB 응답 대기만큼 클라이언트 레이턴시 증가, 수평 확장 시 DB 커넥션 폭증 → API는 Redis Streams XADD로 이벤트 발행만 수행, Worker가 비동기 DB 처리, Outbox Fallback으로 99.5% 전달 보장 → API 응답 50ms→5ms(90%↓), API/Worker 독립 스케일링</span><span class="lang-en">API handling auth+DB writes directly increased client latency by DB wait time, horizontal scaling caused DB connection explosion → API publishes events via Redis Streams XADD only, Workers handle async DB processing, Outbox Fallback ensures 99.5% delivery → API response 50ms→5ms (90%↓), independent API/Worker scaling</span></li>
-        <li><strong>Eventual Consistency:</strong> <span class="lang-ko">강결합·즉시 응답이 필요한 로직(OAuth 등)을 제외한 스코프에 적용 — Scan Reward: Judge Phase에서 즉시 SSE 응답 후 Fire-and-Forget Dispatch, Deterministic UUID 멱등성 키로 동시 Persist → 500→100ms(80%↓). Chat: FE Optimistic Update + BE Eventual Write + 30초 Retention Window로 논리적 정합성 확보. Auth: Local Cache + RabbitMQ Fanout Broadcast로 Pod 간 동기화</span><span class="lang-en">Applied to scopes excluding tightly-coupled immediate-response logic (OAuth, etc.) — Scan Reward: immediate SSE response at Judge Phase, Fire-and-Forget Dispatch with Deterministic UUID idempotency key for concurrent Persist → 500→100ms (80%↓). Chat: FE Optimistic Update + BE Eventual Write + 30s Retention Window for logical consistency. Auth: Local Cache + RabbitMQ Fanout Broadcast for cross-pod sync</span></li>
-        <li><strong>Agent-Driven Development:</strong> <span class="lang-ko">ADR·장애 로그·도메인 규칙을 Knowledge Base로 축적 → 자체 RAG + 27개 커스텀 skills로 에이전트 온보딩 가속, Anthropic·Vercel 등 공식 벤더 skills도 적극 활용, Permission Mode 전환으로 설계-구현-검증 사이클 운용</span><span class="lang-en">Accumulated ADR, incident logs, domain rules as Knowledge Base → self-RAG + 27 custom skills for agent onboarding acceleration, actively leveraging official vendor skills (Anthropic, Vercel), Plan→Auto-Accept→Normal mode cycle for design-implement-verify workflow</span></li>
+        <li><strong>Intent Confidence Scoring:</strong> <span class="lang-ko">다단계 신뢰도 산정(LLM 분류 신뢰도, 키워드 맵 매칭 보정, Chain-of-Intent 문맥 연속성 반영), 저신뢰 시 Fallback Chain(rag → web_search → general_llm) 트리거</span><span class="lang-en">Multi-stage confidence scoring (LLM classification confidence, keyword map matching calibration, Chain-of-Intent context continuity), triggers Fallback Chain (rag → web_search → general_llm) on low confidence</span></li>
+        <li><strong>Agent UX (Optimistic Update):</strong> <span class="lang-ko">Optimistic Update(즉시 UI)와 Eventual Consistency(~200ms 지연) 간 타이밍 불일치 해결 — 30초 Retention Window + client_id/server_id 매핑으로 메시지 소실 방지, Message Status State Machine(pending→streaming→committed→failed)</span><span class="lang-en">Resolved timing mismatch between Optimistic Update (immediate UI) and Eventual Consistency (~200ms delay) — 30s Retention Window + client_id/server_id mapping to prevent message loss, Message Status State Machine (pending→streaming→committed→failed)</span></li>
+        <li><strong>SSE 재연결 복구:</strong> <span class="lang-ko">클라이언트 재연결 시 Last-Event-ID 헤더 전송 → State KV에서 현재 상태 조회 → XRANGE로 누락 이벤트 catch-up, Token v2 Recoverable Streaming으로 네트워크 끊김 후 토큰 스트림 복구</span><span class="lang-en">Client reconnection sends Last-Event-ID header → Query current state from State KV → XRANGE catch-up for missed events, Token v2 Recoverable Streaming for token stream recovery after network disconnect</span></li>
+        <li><strong>Redis Event Bus 3-Tier:</strong> <span class="lang-ko">Streams(영속) + Pub/Sub(실시간 팬아웃) + State KV(복구) 분리, Consumer Group Fan-out으로 SSE(~10ms)와 PostgreSQL 저장(~200ms) 독립 처리</span><span class="lang-en">Streams (persistence) + Pub/Sub (realtime fan-out) + State KV (recovery) separation, Consumer Group Fan-out for independent SSE (~10ms) and PostgreSQL persistence (~200ms) processing</span></li>
+        <li><strong>Multi-LLM Resilience:</strong> <span class="lang-ko">LLMClientPort 추상화로 OpenAI/Gemini Provider 런타임 전환, NodePolicy(FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker로 노드 장애 시 그래프 중단 방지</span><span class="lang-en">LLMClientPort abstraction for OpenAI/Gemini provider runtime switching, NodePolicy (FAIL_OPEN/CLOSE/FALLBACK) + Circuit Breaker prevents graph interruption on node failure</span></li>
+        <li><strong>RAG Pipeline:</strong> <span class="lang-ko">Anthropic Contextual Retrieval 패턴 기반 2-tier RAG(18개 분류 규정 + 80개 상황 태그), Feedback Node가 RAG 품질 평가 후 저품질 시 Web Search Fallback</span><span class="lang-en">2-tier RAG based on Anthropic Contextual Retrieval pattern (18 category regulations + 80 situation tags), Feedback Node evaluates RAG quality and triggers Web Search Fallback on low quality</span></li>
+        <li><strong>Auth Offloading:</strong> <span class="lang-ko">Istio ext-authz(Go) Local sync.Map 캐시 + RabbitMQ Fanout broadcast로 Pod 간 블랙리스트 동기화 → 48→1,500 RPS(31×), Cache Hit >99%</span><span class="lang-en">Istio ext-authz(Go) with local sync.Map cache + RabbitMQ Fanout broadcast for cross-pod blacklist sync → 48→1,500 RPS (31×), Cache Hit >99%</span></li>
+        <li><strong>Observability:</strong> <span class="lang-ko">Prometheus + Grafana + Jaeger + OpenTelemetry로 분산 트레이싱, LangSmith로 LLM 파이프라인 모니터링</span><span class="lang-en">Distributed tracing with Prometheus + Grafana + Jaeger + OpenTelemetry, LLM pipeline monitoring with LangSmith</span></li>
+    </ul>
+</div>
+
+<div class="project-item">
+    <div class="item-header">
+        <div>
+            <span class="item-title">Aimo - AI Conflict Mediation Service</span>
+            <span class="item-subtitle"> | Backend</span>
+            <a href="https://github.com/KTB16Team/Aimo-Backend" target="_blank" style="font-size: 0.8em; color: #1a73e8; margin-left: 8px;">[GitHub]</a>
+        </div>
+        <span class="item-period">Oct 2024 - Dec 2024</span>
+    </div>
+    <p class="item-description lang-ko">AI 기반 갈등 중재 서비스 — 3종 AI 모델(GPT-4, BERT, Whisper)로 과실 비율 판정 | KakaoTech Bootcamp Final Project</p>
+    <p class="item-description lang-en">AI-powered conflict mediation service — fault ratio judgment with 3 AI models (GPT-4, BERT, Whisper) | KakaoTech Bootcamp Final Project</p>
+    <ul>
+        <li><strong>AI 비동기 파이프라인:</strong> <span class="lang-ko">음성/이미지를 S3 Presigned URL로 업로드 후 FastAPI AI Server(STT/OCR)에서 처리, Callback API로 판정 결과를 수신하여 과실비율 산출 및 저장</span><span class="lang-en">Upload voice/image via S3 Presigned URL, process in FastAPI AI Server (STT/OCR), receive judgment results via Callback API for fault ratio calculation and storage</span></li>
+        <li><strong>API 설계 표준화:</strong> <span class="lang-ko">4인 팀 협업을 위한 공통 응답/예외 처리 체계 수립(BaseResponse, ApiException), Factory Method 패턴으로 계층 간 결합도 감소</span><span class="lang-en">Established common response/exception handling system (BaseResponse, ApiException) for 4-member team collaboration, reduced layer coupling with Factory Method pattern</span></li>
     </ul>
 </div>
 
@@ -596,32 +591,11 @@
         </div>
         <span class="item-period">Sep 2024</span>
     </div>
-    <p class="item-description lang-ko">LLM & RAG 기반 시니어 꿈 실현 스토리텔링 서비스 | KakaoTech Hackathon — Eco² 이전, 단일 노드 환경에서 분산 아키텍처의 초안을 실험한 프로젝트</p>
-    <p class="item-description lang-en">Senior dream realization storytelling service based on LLM & RAG | KakaoTech Hackathon — Pre-Eco² project experimenting with distributed architecture drafts in single-node environment</p>
+    <p class="item-description lang-ko">LLM & RAG 기반 시니어 꿈 실현 스토리텔링 서비스 | KakaoTech Hackathon</p>
+    <p class="item-description lang-en">Senior dream realization storytelling service based on LLM & RAG | KakaoTech Hackathon</p>
     <ul>
-        <li><strong>Single-Node Microservices:</strong> <span class="lang-ko">Docker 네트워크로 단일 EC2에서 Spring Backend, FastAPI AI Server, Persistence Layer(Elasticsearch, MySQL)를 컨테이너 단위 분리 — Eco² 마이크로서비스 아키텍처의 원형</span><span class="lang-en">Container-level separation of Spring Backend, FastAPI AI Server, Persistence Layer (Elasticsearch, MySQL) on single EC2 via Docker network — Prototype of Eco² microservices architecture</span></li>
-        <li><strong>Nginx Reverse Proxy:</strong> <span class="lang-ko">단일 진입점에서 path-based 라우팅(/api → Backend, /ai → AI Server)으로 서비스 간 트래픽 분배 — ALB + Bridge Ingress Controller + Istio Virtual Routing의 전신</span><span class="lang-en">Traffic distribution between services via path-based routing (/api → Backend, /ai → AI Server) from single entry point — Predecessor to ALB + Bridge Ingress Controller + Istio Virtual Routing</span></li>
-        <li><strong>Legacy CI/CD:</strong> <span class="lang-ko">GitHub Actions + S3 + CodeDeploy로 경량 배포 파이프라인 구축, 배포 시간 80% 단축 — ArgoCD GitOps 이전 단계</span><span class="lang-en">Lightweight deployment pipeline with GitHub Actions + S3 + CodeDeploy, 80% deployment time reduction — Pre-ArgoCD GitOps stage</span></li>
-        <li><strong>LLM + RAG:</strong> <span class="lang-ko">Elasticsearch 벡터 검색 + LangChain RAG로 시니어 꿈 기반 스토리/이미지 생성 — Eco² Scan API 파이프라인의 초기 실험</span><span class="lang-en">Senior dream-based story/image generation with Elasticsearch vector search + LangChain RAG — Early experiment for Eco² Scan API pipeline</span></li>
-        <li><strong><span class="lang-ko">리소스 최적화</span><span class="lang-en">Resource Optimization</span>:</strong> <span class="lang-ko">Swap 메모리, Docker 리소스 제한으로 EC2 안정화 (CPU 89%→40%) — 제한된 환경에서의 성능 튜닝 경험</span><span class="lang-en">EC2 stabilization with Swap memory, Docker resource limits (CPU 89%→40%) — Performance tuning experience in constrained environments</span></li>
-    </ul>
-</div>
-
-<div class="project-item">
-    <div class="item-header">
-        <div>
-            <span class="item-title lang-ko">Ethereum Multi-token 기반 분산형 경매/유통 플랫폼</span>
-            <span class="item-title lang-en">Ethereum Multi-token Distributed Auction/Distribution Platform</span>
-            <span class="item-subtitle"> | Blockchain Backend & Infrastructure</span>
-        </div>
-        <span class="item-period">Feb - Nov 2022</span>
-    </div>
-    <p class="item-description lang-ko">Web3.0 기반 탈중앙화 경매 시스템 | 거래 및 유통 과정의 투명성·신뢰성 확보</p>
-    <p class="item-description lang-en">Web3.0-based decentralized auction system | Ensuring transparency and reliability in trading and distribution processes</p>
-    <ul>
-        <li><strong>Smart Contract Backend:</strong> <span class="lang-ko">ERC-1155 기반 상품/경매/화폐(MMT) Multi-Token 단일 컨트랙트 통합, 경매 비즈니스 로직(입찰/낙찰/정산/취소) + Governance 권한 관리 온체인 구현</span><span class="lang-en">ERC-1155 based product/auction/currency (MMT) Multi-Token single contract integration, on-chain implementation of auction business logic (bid/award/settlement/cancel) + Governance permission management</span></li>
-        <li><strong>Supply Chain Traceability:</strong> <span class="lang-ko">유통 이력 추적 체인 구현, 콜드체인 환경 데이터(온습도) 온체인 기록, 배송 상태 FSM(Empty→Prepare→Delivery)</span><span class="lang-en">Distribution history tracking chain implementation, cold chain environment data (temperature/humidity) on-chain recording, delivery status FSM (Empty→Prepare→Delivery)</span></li>
-        <li><strong>Blockchain Infrastructure:</strong> <span class="lang-ko">genesis.json 기반 Private Network(chainId 49277) 구성, Truffle/Ganache 배포 파이프라인 자동화, Web3.js + MetaMask + IPFS 연동</span><span class="lang-en">Private Network configuration (chainId 49277) based on genesis.json, Truffle/Ganache deployment pipeline automation, Web3.js + MetaMask + IPFS integration</span></li>
+        <li><strong>Single-Node Microservices:</strong> <span class="lang-ko">Docker 네트워크로 단일 EC2에서 Spring Backend, FastAPI AI Server, Persistence Layer를 컨테이너 단위 분리</span><span class="lang-en">Container-level separation of Spring Backend, FastAPI AI Server, Persistence Layer on single EC2 via Docker network</span></li>
+        <li><strong>LLM + RAG:</strong> <span class="lang-ko">Elasticsearch 벡터 검색 + LangChain RAG로 시니어 꿈 기반 스토리/이미지 생성</span><span class="lang-en">Senior dream-based story/image generation with Elasticsearch vector search + LangChain RAG</span></li>
     </ul>
 </div>
 
@@ -637,38 +611,28 @@
         document.body.className = lang;
         document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        
-        // Update page title
+
         if (lang === 'ko') {
-            document.title = '류지환 Resume - Backend Engineer';
+            document.title = '류지환 Resume - AI Agent Engineer';
             document.documentElement.lang = 'ko';
         } else {
-            document.title = 'Jihwan Ryu Resume - Backend Engineer';
+            document.title = 'Jihwan Ryu Resume - AI Agent Engineer';
             document.documentElement.lang = 'en';
         }
-        
-        // Save preference
+
         localStorage.setItem('resume-lang', lang);
     }
-    
-    // Load saved preference or detect browser language
+
     document.addEventListener('DOMContentLoaded', function() {
         const saved = localStorage.getItem('resume-lang');
         if (saved) {
             setLang(saved);
         } else {
-            // Auto-detect browser language
             const browserLang = navigator.language || navigator.userLanguage;
             if (browserLang && !browserLang.startsWith('ko')) {
                 setLang('en');
             }
         }
-
-        // Calculate days since Eco2 project start
-        const start = new Date('2025-10-31');
-        const now = new Date();
-        const days = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
-        document.getElementById('eco2-days').textContent = `Oct 31, 2025 - Present (${days} days)`;
     });
 </script>
 

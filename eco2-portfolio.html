@@ -2117,10 +2117,10 @@
                 </div>
             </div>
             <div class="hero-stat">
-                <a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" rel="noopener" class="hero-stat-value" style="text-decoration: none; color: inherit; cursor: pointer;" title="Grafana Snapshot →">300 VU</a>
+                <a href="https://snapshots.raintank.io/dashboard/snapshot/ZcKhGJho3PmmovpclCoQOHqG9RMkWb8U" target="_blank" rel="noopener" class="hero-stat-value" style="text-decoration: none; color: inherit; cursor: pointer;" title="Grafana Snapshot →">1000 VU</a>
                 <div class="hero-stat-label">
-                    <span class="lang-ko">SLA 528 RPM (Scan SSE) 📊</span>
-                    <span class="lang-en">SLA 528 RPM (Scan SSE) 📊</span>
+                    <span class="lang-ko">97.8% · 373.4 RPM · p95 173.3s 📊</span>
+                    <span class="lang-en">97.8% · 373.4 RPM · p95 173.3s 📊</span>
                 </div>
             </div>
             <div class="hero-stat">
@@ -3200,8 +3200,8 @@
                 </div>
                 <div class="category-content">
                     <p class="category-desc">
-                        <span class="lang-ko">LLM 파이프라인을 동기 요청으로 배포한 초기에는, <strong>10+초 API 지연이 scan-api 스레드를 점유</strong>해 동시 처리에 한계가 있었습니다. SSE 전환 후에도 Celery Events 구조(SSE당 RabbitMQ 21연결)는 50 VU에서 연결 341개로 폭증, 503 에러가 발생했습니다. Redis Streams 기반 이벤트 릴레이로 연결 복잡도를 O(n×m) → O(n)으로 개선하고, Streams(영속) + Pub/Sub(실시간) + State KV(복구)로 책임을 분리해 <strong>300 VU SLA</strong>를 확보했습니다.</span>
-                        <span class="lang-en">When initially deploying the LLM pipeline as synchronous requests, <strong>10+s API latency occupied scan-api threads</strong>, limiting concurrent processing. After SSE transition, Celery Events structure (21 RabbitMQ connections per SSE) exploded to 341 connections at 50 VU, causing 503 errors. Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery), achieving <strong>300 VU SLA</strong>.</span>
+                        <span class="lang-ko">LLM 파이프라인을 동기 요청으로 배포한 초기에는, <strong>10+초 API 지연이 scan-api 스레드를 점유</strong>해 동시 처리에 한계가 있었습니다. SSE 전환 후에도 Celery Events 구조(SSE당 RabbitMQ 21연결)는 50 VU에서 연결 341개로 폭증, 503 에러가 발생했습니다. Redis Streams 기반 이벤트 릴레이로 연결 복잡도를 O(n×m) → O(n)으로 개선하고, Streams(영속) + Pub/Sub(실시간) + State KV(복구)로 책임을 분리해 <strong>500 VU 100% 완료율</strong>을 달성했습니다.</span>
+                        <span class="lang-en">When initially deploying the LLM pipeline as synchronous requests, <strong>10+s API latency occupied scan-api threads</strong>, limiting concurrent processing. After SSE transition, Celery Events structure (21 RabbitMQ connections per SSE) exploded to 341 connections at 50 VU, causing 503 errors. Switched to Redis Streams-based event relay, improved connection complexity from O(n×m) → O(n), separated responsibilities: Streams (persistence) + Pub/Sub (realtime) + State KV (recovery), achieving <strong>500 VU 100% completion</strong>.</span>
                     </p>
                     <div class="achievements">
                         <div class="achievement clickable" data-modal="modal-event-bus-layer">
@@ -3214,8 +3214,8 @@
                         <div class="achievement clickable" data-modal="modal-stream-metrics">
                             <span class="achievement-icon">🎯</span>
                             <div class="achievement-text">
-                                <span class="lang-ko"><strong>Scan SSE 지표</strong> 300 VU 99.9% 완료율, 402 req/m, E2E p95 48.5초</span>
-                                <span class="lang-en"><strong>Scan SSE metrics</strong> 300 VU 99.9% completion, 402 req/m, E2E p95 48.5s</span>
+                                <span class="lang-ko"><strong>Scan SSE 지표</strong> 500 VU 100% 완료율, 367.9 req/m, E2E p95 83.3초</span>
+                                <span class="lang-en"><strong>Scan SSE metrics</strong> 500 VU 100% completion, 367.9 req/m, E2E p95 83.3s</span>
                             </div>
                         </div>
                         <div class="achievement clickable" data-modal="modal-stream-llm">
@@ -3850,16 +3850,16 @@
                         <span class="spec-value">gevent 100</span>
                     </div>
                     <div class="spec-item">
-                        <span class="spec-label">🎯 SLA (VU 300)</span>
-                        <span class="spec-value">99.9%</span>
+                        <span class="spec-label">🎯 SLA (VU 500)</span>
+                        <span class="spec-value">100%</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">E2E p95</span>
-                        <span class="spec-value">48.5s</span>
+                        <span class="spec-value">83.3s</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Throughput</span>
-                        <span class="spec-value">402 req/m</span>
+                        <span class="spec-value">367.9 req/m</span>
                     </div>
                 </div>
             </div>
@@ -6759,8 +6759,8 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                     <div style="background: rgba(34,197,94,0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(34,197,94,0.3);">
                         <div style="font-weight: 600; color: #22c55e; margin-bottom: 0.5rem; font-size: 0.85rem;">✅ Phase 3: Event Bus</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary);">
-                            <div>500 VU: <strong>94%</strong> (단일 노드 한계)</div>
-                            <div>SLA: 300 VU <strong>99.9%</strong></div>
+                            <div>1000 VU: <strong>97.8%</strong> (포화 지점)</div>
+                            <div>SLA: 500 VU <strong>100%</strong></div>
                             <div style="color: #22c55e; margin-top: 0.25rem;">O(n×m) → O(n) 연결</div>
                         </div>
                     </div>
@@ -6806,57 +6806,57 @@ FALLBACK_CHAIN: dict[str, list[str]] = {
                             <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">VU</th>
                             <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">완료율</th>
                             <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">처리량</th>
-                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">E2E p99</th>
+                            <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">E2E p95</th>
                             <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">API p95</th>
                             <th style="padding: 0.5rem; text-align: center; border-bottom: 1px solid var(--border-subtle);">Snapshot</th>
                         </tr>
+                        <tr style="background: rgba(34,197,94,0.15);">
+                            <td style="padding: 0.4rem; text-align: center; font-weight: 600;">500</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>100%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">367.9 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">83.3s</td>
+                            <td style="padding: 0.4rem; text-align: center;">232ms</td>
+                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/acaYWQuYqSHJSXzV54qnA0c8N0FGMX6R" target="_blank" style="color: #22c55e; font-weight: 600;">⭐ SLA</a></td>
+                        </tr>
                         <tr>
-                            <td style="padding: 0.4rem; text-align: center;">50</td>
+                            <td style="padding: 0.4rem; text-align: center;">600</td>
                             <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.7%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">198 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">17.7s</td>
-                            <td style="padding: 0.4rem; text-align: center;">93ms</td>
-                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/ZdMIItsw6ZRFhXKLO1M1BJDW14QkHC4o" target="_blank" style="color: var(--primary);">Grafana</a></td>
+                            <td style="padding: 0.4rem; text-align: center;">358.6 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">108.3s</td>
+                            <td style="padding: 0.4rem; text-align: center;">360ms</td>
+                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/zs6Mbbdc9FRTrEBbAoHTL6tsKJmbqZf6" target="_blank" style="color: var(--primary);">Grafana</a></td>
                         </tr>
                         <tr style="background: rgba(0,0,0,0.1);">
-                            <td style="padding: 0.4rem; text-align: center;">200</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.8%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">370 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">33.2s</td>
-                            <td style="padding: 0.4rem; text-align: center;">83ms</td>
-                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/Xbr36P3VSZhqvE8RHv2vlpgNm8lHcwSs" target="_blank" style="color: var(--primary);">Grafana</a></td>
+                            <td style="padding: 0.4rem; text-align: center;">700</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.2%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">329.1 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">122.3s</td>
+                            <td style="padding: 0.4rem; text-align: center;">444ms</td>
+                            <td style="padding: 0.4rem; text-align: center;"><a href="https://grafana.dev.growbin.app/d/scan-sse-pipeline/f09f93a1-scan-sse-pipeline-event-bus?from=2026-01-27T06:32:35.036Z&to=2026-01-27T06:37:41.547Z" target="_blank" style="color: var(--primary);">Live</a></td>
                         </tr>
                         <tr>
-                            <td style="padding: 0.4rem; text-align: center;">250</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.9%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">418 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">40.5s</td>
-                            <td style="padding: 0.4rem; text-align: center;">78ms</td>
-                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/g3Qa0xMImwNmNuzQTXGW6C6I5VBopY5J" target="_blank" style="color: var(--primary);">Grafana</a></td>
+                            <td style="padding: 0.4rem; text-align: center;">800</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.7%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">367.3 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">144.6s</td>
+                            <td style="padding: 0.4rem; text-align: center;">734ms</td>
+                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/VV9dOtFB57B6cDhqAFaPwQU93kds3nlO" target="_blank" style="color: var(--primary);">Grafana</a></td>
                         </tr>
-                        <tr style="background: rgba(34,197,94,0.15);">
-                            <td style="padding: 0.4rem; text-align: center; font-weight: 600;">300</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.9%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">402 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">48.5s</td>
-                            <td style="padding: 0.4rem; text-align: center;">83ms</td>
-                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: #22c55e; font-weight: 600;">⭐ SLA</a></td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem; text-align: center;">400</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #f59e0b;"><strong>98.9%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">422 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">62.2s</td>
-                            <td style="padding: 0.4rem; text-align: center;">207ms</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #f59e0b;">⚠️ 한계 근접</td>
+                        <tr style="background: rgba(0,0,0,0.1);">
+                            <td style="padding: 0.4rem; text-align: center;">900</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #22c55e;"><strong>99.7%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">405.5 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">149.6s</td>
+                            <td style="padding: 0.4rem; text-align: center;">635ms</td>
+                            <td style="padding: 0.4rem; text-align: center;"><a href="https://snapshots.raintank.io/dashboard/snapshot/WBoZVhb5eXwfaFcphMAubQwrEMXJrPFp" target="_blank" style="color: var(--primary);">Grafana</a></td>
                         </tr>
                         <tr style="background: rgba(239,68,68,0.1);">
-                            <td style="padding: 0.4rem; text-align: center; font-weight: 600;">500</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #ef4444;"><strong>94.0%</strong></td>
-                            <td style="padding: 0.4rem; text-align: center;">438 req/m</td>
-                            <td style="padding: 0.4rem; text-align: center;">76.4s</td>
-                            <td style="padding: 0.4rem; text-align: center;">154ms</td>
-                            <td style="padding: 0.4rem; text-align: center; color: #ef4444;">❌ 단일 노드 한계</td>
+                            <td style="padding: 0.4rem; text-align: center; font-weight: 600;">1000</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #f59e0b;"><strong>97.8%</strong></td>
+                            <td style="padding: 0.4rem; text-align: center;">373.4 req/m</td>
+                            <td style="padding: 0.4rem; text-align: center;">173.3s</td>
+                            <td style="padding: 0.4rem; text-align: center;">787ms</td>
+                            <td style="padding: 0.4rem; text-align: center; color: #f59e0b;">⚠️ 포화 지점</td>
                         </tr>
                     </table>
                 </div>
@@ -10571,7 +10571,7 @@ Gevent Pool (libev event loop)
                         <td>Router(1) + SSE(SUB) = O(n)</td>
                         <td style="color: #22c55e;"><strong>≈20개</strong></td>
                         <td>✅ HPA/KEDA</td>
-                        <td style="color: #22c55e;">99.9% @ 300VU</td>
+                        <td style="color: #22c55e;">100% @ 500VU</td>
                     </tr>
                 </table>
             </div>
@@ -10613,12 +10613,12 @@ Gevent Pool (libev event loop)
                     <th>Scan API p95</th>
                     <th><span class="lang-ko">스냅샷</span><span class="lang-en">Snapshot</span></th>
                 </tr>
-                <tr><td>50</td><td><strong>99.7%</strong></td><td>198 req/m</td><td>17.7s</td><td>93ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/ZdMIItsw6ZRFhXKLO1M1BJDW14QkHC4o" target="_blank">→</a></td></tr>
-                <tr><td>200</td><td><strong>99.8%</strong></td><td>370 req/m</td><td>33.2s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/Xbr36P3VSZhqvE8RHv2vlpgNm8lHcwSs" target="_blank">→</a></td></tr>
-                <tr><td>250</td><td><strong>99.9%</strong></td><td>418 req/m</td><td>40.5s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/g3Qa0xMImwNmNuzQTXGW6C6I5VBopY5J" target="_blank">→</a></td></tr>
-                <tr style="background: rgba(0,255,136,0.1);"><td><strong>300</strong></td><td><strong>99.9%</strong></td><td>402 req/m</td><td>48.5s</td><td>83ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: var(--primary);">SLA →</a></td></tr>
-                <tr><td>400</td><td>98.9%</td><td>427 req/m</td><td style="color: #ffaa00;">62.0s</td><td style="color: #ffaa00;">207ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/frzezh23ZWCrpiWNprpEtv3tFsdTEouI" target="_blank">→</a></td></tr>
-                <tr><td>500</td><td style="color: #ff6b6b;">94.0%</td><td>428 req/m</td><td style="color: #ff6b6b;">76.3s</td><td>154ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/dtBvLo3J2JlQ3LwWbcM6iwBJJuhboow5" target="_blank">→</a></td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>500</strong></td><td><strong>100%</strong></td><td>367.9 req/m</td><td>83.3s</td><td>232ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/acaYWQuYqSHJSXzV54qnA0c8N0FGMX6R" target="_blank" style="color: var(--primary);">SLA →</a></td></tr>
+                <tr><td>600</td><td><strong>99.7%</strong></td><td>358.6 req/m</td><td>108.3s</td><td>360ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/zs6Mbbdc9FRTrEBbAoHTL6tsKJmbqZf6" target="_blank">→</a></td></tr>
+                <tr><td>700</td><td><strong>99.2%</strong></td><td>329.1 req/m</td><td>122.3s</td><td>444ms</td><td><a href="https://grafana.dev.growbin.app/d/scan-sse-pipeline/f09f93a1-scan-sse-pipeline-event-bus?from=2026-01-27T06:32:35.036Z&to=2026-01-27T06:37:41.547Z" target="_blank">Live →</a></td></tr>
+                <tr><td>800</td><td><strong>99.7%</strong></td><td>367.3 req/m</td><td>144.6s</td><td>734ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/VV9dOtFB57B6cDhqAFaPwQU93kds3nlO" target="_blank">→</a></td></tr>
+                <tr><td>900</td><td><strong>99.7%</strong></td><td>405.5 req/m</td><td>149.6s</td><td>635ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/WBoZVhb5eXwfaFcphMAubQwrEMXJrPFp" target="_blank">→</a></td></tr>
+                <tr><td>1000</td><td style="color: #ffaa00;">97.8%</td><td>373.4 req/m</td><td style="color: #ffaa00;">173.3s</td><td style="color: #ffaa00;">787ms</td><td><a href="https://snapshots.raintank.io/dashboard/snapshot/ZcKhGJho3PmmovpclCoQOHqG9RMkWb8U" target="_blank">→</a></td></tr>
             </table>
             <div class="modal-refs">
                 <div class="modal-refs-title">
@@ -10638,16 +10638,16 @@ Gevent Pool (libev event loop)
                 </strong>
                 <div style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
                     <span class="lang-ko">
-                        <strong>SLA 기준:</strong> E2E p95 &lt; 60초 → <strong>300 VU</strong>가 안전 한계<br>
-                        <strong>400 VU:</strong> 98.9% 완료율 유지, 하지만 E2E p95 62초 (SLA 초과)<br>
-                        <strong>500 VU:</strong> 완료율 94%로 하락, 시스템 포화 상태<br>
-                        <strong>확장 전략:</strong> Karpenter 적용 시 400 VU × 노드수 확장 가능
+                        <strong>SLA 기준:</strong> 100% 완료율 → <strong>500 VU</strong>가 SLA 기준<br>
+                        <strong>600-900 VU:</strong> 99.2%+ 완료율 유지, Safe Range<br>
+                        <strong>1000 VU:</strong> 완료율 97.8%로 하락, 포화 지점<br>
+                        <strong>테스트 환경:</strong> OpenAI Tier 4 (TPM 4M), Worker minReplica=2, maxReplica=5
                     </span>
                     <span class="lang-en">
-                        <strong>SLA Criteria:</strong> E2E p95 &lt; 60s → <strong>300 VU</strong> is safe limit<br>
-                        <strong>400 VU:</strong> 98.9% completion maintained, but E2E p95 62s (SLA exceeded)<br>
-                        <strong>500 VU:</strong> Completion drops to 94%, system saturation<br>
-                        <strong>Scaling Strategy:</strong> With Karpenter, 400 VU × node count scalable
+                        <strong>SLA Criteria:</strong> 100% completion → <strong>500 VU</strong> is SLA baseline<br>
+                        <strong>600-900 VU:</strong> 99.2%+ completion maintained, Safe Range<br>
+                        <strong>1000 VU:</strong> Completion drops to 97.8%, saturation point<br>
+                        <strong>Test Env:</strong> OpenAI Tier 4 (TPM 4M), Worker minReplica=2, maxReplica=5
                     </span>
                 </div>
             </div>
@@ -10676,7 +10676,7 @@ Gevent Pool (libev event loop)
 │   reward (15%) ███████████████  1.7초 (Character Match)                         │
 │                                                                                 │
 │   ──────────────────────────────────────────────────────────────────────────    │
-│   Total: ~11-12초 (저부하 평균) / 🎯 SLA 300 VU: p95 48.5초                     │
+│   Total: ~11-12초 (저부하 평균) / 🎯 SLA 500 VU: p95 83.3초                     │
 │                                                                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
@@ -10688,7 +10688,7 @@ Gevent Pool (libev event loop)
 │   └─ Character matching: 15% (DB + gRPC I/O)                                    │
 │                                                                                 │
 │   → Gevent (greenlet) 전환으로 100+ 동시 I/O 가능                               │
-│   → 300 VU에서 99.9% 완료율 달성 (SLA 기준)                                     │
+│   → 500 VU에서 100% 완료율 달성 (SLA 기준)                                      │
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘</div>
             <table class="modal-table">
@@ -10697,7 +10697,7 @@ Gevent Pool (libev event loop)
                 <tr><td>answer</td><td>4.8초</td><td>42%</td><td>OpenAI Chat API (gpt-5.2)</td></tr>
                 <tr><td>reward</td><td>1.7초</td><td>15%</td><td>Character Match gRPC</td></tr>
                 <tr><td>rule</td><td>0.3초</td><td>3%</td><td>PostgreSQL 쿼리</td></tr>
-                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~11.3초</strong></td><td>100%</td><td>🎯 SLA: 300 VU p95 48.5초</td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~11.3초</strong></td><td>100%</td><td>🎯 SLA: 500 VU p95 83.3초</td></tr>
             </table>
         </div>
     </div>
@@ -12140,8 +12140,8 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <td><span class="lang-ko">비동기 Gevent 전환 후</span><span class="lang-en">After Gevent migration</span></td>
                 </tr>
                 <tr style="background: rgba(0,255,136,0.1);">
-                    <td><strong>🎯 SLA</strong> (k6 VU 300)</td>
-                    <td colspan="2"><span class="lang-ko">E2E p95: <strong>48.5s</strong> (전체 Chain 기준)</span><span class="lang-en">E2E p95: <strong>48.5s</strong> (total Chain)</span></td>
+                    <td><strong>🎯 SLA</strong> (k6 VU 500)</td>
+                    <td colspan="2"><span class="lang-ko">E2E p95: <strong>83.3s</strong> (전체 Chain 기준)</span><span class="lang-en">E2E p95: <strong>83.3s</strong> (total Chain)</span></td>
                 </tr>
             </table>
         </div>
@@ -12223,8 +12223,8 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <td><span class="lang-ko">비동기 Gevent 전환 후</span><span class="lang-en">After Gevent migration</span></td>
                 </tr>
                 <tr style="background: rgba(0,255,136,0.1);">
-                    <td><strong>🎯 SLA</strong> (k6 VU 300)</td>
-                    <td colspan="2"><span class="lang-ko">E2E p95: <strong>48.5s</strong> (전체 Chain 기준)</span><span class="lang-en">E2E p95: <strong>48.5s</strong> (total Chain)</span></td>
+                    <td><strong>🎯 SLA</strong> (k6 VU 500)</td>
+                    <td colspan="2"><span class="lang-ko">E2E p95: <strong>83.3s</strong> (전체 Chain 기준)</span><span class="lang-en">E2E p95: <strong>83.3s</strong> (total Chain)</span></td>
                 </tr>
             </table>
         </div>
@@ -12315,29 +12315,29 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
                     <th>E2E p95</th>
                     <th><span class="lang-ko">상태</span><span class="lang-en">Status</span></th>
                 </tr>
-                <tr>
-                    <td>50</td>
-                    <td>99.7%</td>
-                    <td>17.7s</td>
-                    <td>✅</td>
-                </tr>
-                <tr>
-                    <td>250</td>
-                    <td>99.9%</td>
-                    <td>40.5s</td>
-                    <td>✅</td>
-                </tr>
                 <tr style="background: rgba(0,255,136,0.1);">
-                    <td><strong>🎯 300 (SLA)</strong></td>
-                    <td><strong>99.9%</strong></td>
-                    <td><strong>48.5s</strong></td>
-                    <td>✅ <span class="lang-ko">안전 한계</span><span class="lang-en">Safe limit</span></td>
+                    <td><strong>🎯 500 (SLA)</strong></td>
+                    <td><strong>100%</strong></td>
+                    <td><strong>83.3s</strong></td>
+                    <td>✅ <span class="lang-ko">SLA 기준</span><span class="lang-en">SLA baseline</span></td>
+                </tr>
+                <tr>
+                    <td>700</td>
+                    <td>99.2%</td>
+                    <td>122.3s</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>900</td>
+                    <td>99.7%</td>
+                    <td>149.6s</td>
+                    <td>✅</td>
                 </tr>
                 <tr style="background: rgba(255,165,0,0.1);">
-                    <td>400</td>
-                    <td>98.9%</td>
-                    <td style="color: var(--warning);">62.0s</td>
-                    <td>⚠️ SLA &gt; 60s</td>
+                    <td>1000</td>
+                    <td>97.8%</td>
+                    <td style="color: var(--warning);">173.3s</td>
+                    <td>⚠️ <span class="lang-ko">포화 지점</span><span class="lang-en">Saturation</span></td>
                 </tr>
             </table>
             <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(0, 255, 136, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
@@ -12924,8 +12924,8 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
             </div>
 
             <h4 style="color: var(--primary); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
-                <span class="lang-ko">🎯 SLA 성능 지표 (k6 VU 300 기준)</span>
-                <span class="lang-en">🎯 SLA Performance Metrics (k6 VU 300 baseline)</span>
+                <span class="lang-ko">🎯 SLA 성능 지표 (k6 VU 500 기준)</span>
+                <span class="lang-en">🎯 SLA Performance Metrics (k6 VU 500 baseline)</span>
             </h4>
             <table class="modal-table">
                 <tr>
@@ -12935,47 +12935,47 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
                     <th><span class="lang-ko">처리량</span><span class="lang-en">Throughput</span></th>
                     <th><span class="lang-ko">상태</span><span class="lang-en">Status</span></th>
                 </tr>
-                <tr>
-                    <td>50</td>
-                    <td>99.7%</td>
-                    <td>17.7s</td>
-                    <td>198 req/m</td>
-                    <td>✅</td>
-                </tr>
-                <tr>
-                    <td>200</td>
-                    <td>99.8%</td>
-                    <td>33.2s</td>
-                    <td>370 req/m</td>
-                    <td>✅</td>
-                </tr>
-                <tr>
-                    <td>250</td>
-                    <td>99.9%</td>
-                    <td>40.5s</td>
-                    <td>418 req/m</td>
-                    <td>✅</td>
-                </tr>
                 <tr style="background: rgba(0,255,136,0.1);">
-                    <td><strong>🎯 300 (SLA)</strong></td>
-                    <td><strong>99.9%</strong></td>
-                    <td><strong>48.5s</strong></td>
-                    <td><strong>402 req/m</strong></td>
-                    <td>✅ <span class="lang-ko">안전 한계</span><span class="lang-en">Safe limit</span></td>
+                    <td><strong>🎯 500 (SLA)</strong></td>
+                    <td><strong>100%</strong></td>
+                    <td><strong>83.3s</strong></td>
+                    <td><strong>367.9 req/m</strong></td>
+                    <td>✅ <span class="lang-ko">SLA 기준</span><span class="lang-en">SLA baseline</span></td>
+                </tr>
+                <tr>
+                    <td>600</td>
+                    <td>99.7%</td>
+                    <td>108.3s</td>
+                    <td>358.6 req/m</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>700</td>
+                    <td>99.2%</td>
+                    <td>122.3s</td>
+                    <td>329.1 req/m</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>800</td>
+                    <td>99.7%</td>
+                    <td>144.6s</td>
+                    <td>367.3 req/m</td>
+                    <td>✅</td>
+                </tr>
+                <tr>
+                    <td>900</td>
+                    <td>99.7%</td>
+                    <td>149.6s</td>
+                    <td>405.5 req/m</td>
+                    <td>✅</td>
                 </tr>
                 <tr style="background: rgba(255,165,0,0.1);">
-                    <td>400</td>
-                    <td>98.9%</td>
-                    <td style="color: var(--warning);">62.0s</td>
-                    <td>427 req/m</td>
-                    <td>⚠️ SLA &gt; 60s</td>
-                </tr>
-                <tr style="background: rgba(255,0,0,0.1);">
-                    <td>500</td>
-                    <td style="color: var(--danger);">94.0%</td>
-                    <td style="color: var(--danger);">76.3s</td>
-                    <td>428 req/m</td>
-                    <td>❌ <span class="lang-ko">포화</span><span class="lang-en">Saturated</span></td>
+                    <td>1000</td>
+                    <td style="color: var(--warning);">97.8%</td>
+                    <td style="color: var(--warning);">173.3s</td>
+                    <td>373.4 req/m</td>
+                    <td>⚠️ <span class="lang-ko">포화 지점</span><span class="lang-en">Saturation</span></td>
                 </tr>
             </table>
 
@@ -12994,7 +12994,7 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
                 <tr><td>answer (seq:30-31)</td><td>3.69s</td><td>40%</td><td>OpenAI Chat API (gpt-5.2)</td></tr>
                 <tr><td>reward (seq:40-41)</td><td>0.22s</td><td>2%</td><td><span class="lang-ko">Character gRPC (완벽 분류 시에만)</span><span class="lang-en">Character gRPC (perfect only)</span></td></tr>
                 <tr><td>rule (seq:20-21)</td><td>0.05s</td><td>1%</td><td>Lite RAG (Memory, JSON)</td></tr>
-                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~9.12s</strong></td><td>100%</td><td>🎯 SLA 300 VU E2E p95 48.5s</td></tr>
+                <tr style="background: rgba(0,255,136,0.1);"><td><strong>Total</strong></td><td><strong>~9.12s</strong></td><td>100%</td><td>🎯 SLA 500 VU E2E p95 83.3s</td></tr>
             </table>
 
             <h4 style="color: var(--accent-purple); margin: 1.5rem 0 0.8rem; font-size: 1.1rem;">
@@ -13082,12 +13082,12 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
             <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
                 <strong style="color: var(--primary);">📈 <span class="lang-ko">스냅샷 링크</span><span class="lang-en">Snapshot Links</span></strong>
                 <div style="margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="https://snapshots.raintank.io/dashboard/snapshot/ZdMIItsw6ZRFhXKLO1M1BJDW14QkHC4o" target="_blank" style="color: var(--text-secondary);">VU 50 →</a>
-                    <a href="https://snapshots.raintank.io/dashboard/snapshot/Xbr36P3VSZhqvE8RHv2vlpgNm8lHcwSs" target="_blank" style="color: var(--text-secondary);">VU 200 →</a>
-                    <a href="https://snapshots.raintank.io/dashboard/snapshot/g3Qa0xMImwNmNuzQTXGW6C6I5VBopY5J" target="_blank" style="color: var(--text-secondary);">VU 250 →</a>
-                    <a href="https://snapshots.raintank.io/dashboard/snapshot/9LbgErvCS0N94vDc9NwO15kVAk7eLzLM" target="_blank" style="color: var(--primary); font-weight: bold;">🎯 VU 300 SLA →</a>
-                    <a href="https://snapshots.raintank.io/dashboard/snapshot/frzezh23ZWCrpiWNprpEtv3tFsdTEouI" target="_blank" style="color: var(--warning);">VU 400 →</a>
-                    <a href="https://snapshots.raintank.io/dashboard/snapshot/dtBvLo3J2JlQ3LwWbcM6iwBJJuhboow5" target="_blank" style="color: var(--danger);">VU 500 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/acaYWQuYqSHJSXzV54qnA0c8N0FGMX6R" target="_blank" style="color: var(--primary); font-weight: bold;">🎯 VU 500 SLA →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/zs6Mbbdc9FRTrEBbAoHTL6tsKJmbqZf6" target="_blank" style="color: var(--text-secondary);">VU 600 →</a>
+                    <a href="https://grafana.dev.growbin.app/d/scan-sse-pipeline/f09f93a1-scan-sse-pipeline-event-bus?from=2026-01-27T06:32:35.036Z&to=2026-01-27T06:37:41.547Z" target="_blank" style="color: var(--text-secondary);">VU 700 Live →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/VV9dOtFB57B6cDhqAFaPwQU93kds3nlO" target="_blank" style="color: var(--text-secondary);">VU 800 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/WBoZVhb5eXwfaFcphMAubQwrEMXJrPFp" target="_blank" style="color: var(--text-secondary);">VU 900 →</a>
+                    <a href="https://snapshots.raintank.io/dashboard/snapshot/ZcKhGJho3PmmovpclCoQOHqG9RMkWb8U" target="_blank" style="color: var(--warning);">VU 1000 →</a>
                 </div>
             </div>
         </div>
