@@ -423,12 +423,12 @@
 <div class="about-section">
     <p class="lang-ko-block">
         <strong>분산 시스템 설계와 LLM 파이프라인 최적화</strong>에 집중하는 백엔드 엔지니어입니다.
-        Rakuten 페타바이트급 분산 스토리지 실무를 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 멀티에이전트 파이프라인을 설계·개발·운영 중입니다. LLM API n-hop 파이프라인(10-20s/req)의 고레이턴시에 대응하기 위해 Event Bus Layer를 설계 개발, VU 50→500(x10), RPM 60→367.9(x6.1) 확장을 달성했습니다.
+        Rakuten 페타바이트급 분산 스토리지 실무를 거쳐, 현재 24-Node Kubernetes 클러스터에서 LangGraph 멀티에이전트 파이프라인을 설계·개발·운영 중입니다. LLM API n-hop 파이프라인(10-20s/req)의 고레이턴시에 대응하기 위해 Event Bus Layer를 설계 개발, VU 1000 97.8% · 373 RPM · p95 173s 포화지점을 달성했습니다.
         Agent-Driven Development로 구조화된 Knowledge Base와 Skills를 자체 RAG로 축적하여, 코딩 에이전트가 프로젝트 컨텍스트를 이해한 상태에서 개발 피드백 루프에 참여하도록 설계합니다.
     </p>
     <p class="lang-en-block">
         Backend engineer focused on <strong>distributed systems design and LLM pipeline optimization</strong>.
-        After hands-on experience with Rakuten's petabyte-scale distributed storage, I now design, develop, and operate LangGraph multi-agent pipelines on a 24-Node Kubernetes cluster. To address the high latency of LLM API n-hop pipelines (10-20s/req), I designed and developed an Event Bus Layer, achieving VU 50→500(x10), RPM 60→367.9(x6.1) scaling.
+        After hands-on experience with Rakuten's petabyte-scale distributed storage, I now design, develop, and operate LangGraph multi-agent pipelines on a 24-Node Kubernetes cluster. To address the high latency of LLM API n-hop pipelines (10-20s/req), I designed and developed an Event Bus Layer, reaching saturation point at VU 1000 with 97.8% completion · 373 RPM · p95 173s.
         Applying Agent-Driven Development, I accumulate structured Knowledge Base and Skills as self-RAG so coding agents participate in development feedback loops with full project context understanding.
     </p>
 </div>
@@ -566,7 +566,7 @@
     <p class="item-description lang-en">LLM(GPT-5.2, Gemini-3.0-flash) Multi-Agent recycling web app backend — design, development, operations<br>Dev 10.31~ · Service Deploy 12.02~<br>24-Node K8s, 2025 SeSACTHON Excellence Award (TOP4/181 teams)</p>
 
     <div class="metrics">
-        <strong>Key Metrics:</strong> VU 50→500 (10x, Rule-based Retrieval + LLM 2회 호출 · 추론 8-10s×2 고레이턴시 API 기준), RPM 367.9, Connection Pool 212→33 (84%↓), ext-authz p99 275ms @ VU 2,500
+        <strong>Key Metrics:</strong> Scan API (LLM×2) VU 1000 97.8% · 373 RPM · p95 173s, Connection Pool 212→33 (84%↓), ext-authz 1,477 RPS p99 275ms @ VU 2,500
     </div>
 
     <ul>
@@ -575,7 +575,7 @@
         <li><strong>Global/Local Prompt Optimization:</strong> <span class="lang-ko">Global(캐릭터 정의·톤·규칙) + Local(Intent별 지침) 분리 패턴, 구조화 응답 템플릿(핵심 답변→구체적 방법→상태 개선 팁), LRU 캐싱으로 프롬프트 로드 최적화</span><span class="lang-en">Global (character definition, tone, rules) + Local (per-intent instructions) separation pattern, structured response template (core answer→detailed method→improvement tips), prompt load optimization via LRU caching</span></li>
         <li><strong>External API Integration:</strong> <span class="lang-ko">8개 공공/외부 API 통합 — 공공: MOIS(대형폐기물), KECO(재활용 시세·수거함), KMA(기상청) / 외부: Kakao Local(장소검색·지오코딩), DuckDuckGo·Tavily(웹검색) / 내부 gRPC: Character, Location, Image 서비스</span><span class="lang-en">8 public/external API integrations — Public: MOIS (bulk waste), KECO (recyclable prices, collection points), KMA (weather) / External: Kakao Local (place search, geocoding), DuckDuckGo/Tavily (web search) / Internal gRPC: Character, Location, Image services</span></li>
         <li><strong>Intent Confidence Scoring:</strong> <span class="lang-ko">LLM 분류 신뢰도 + 키워드 맵 매칭 보정(+0.2) + Chain-of-Intent 전이 보너스(+0.15) + 짧은 질문 페널티(-0.1)로 final_confidence 산출, 0.6 미만 시 Fallback Chain(rag → web_search → general_llm)으로 품질 보장, FeedbackQuality 점수 기반 응답 품질 평가</span><span class="lang-en">Calculate final_confidence via LLM classification confidence + keyword map matching (+0.2) + Chain-of-Intent transition bonus (+0.15) + short question penalty (-0.1), Fallback Chain (rag → web_search → general_llm) for scores below 0.6, FeedbackQuality-based response quality evaluation</span></li>
-        <li><strong>Redis Event Bus 3-Tier:</strong> <span class="lang-ko">Streams(영속) + Pub/Sub(실시간 팬아웃) + State KV(복구) 분리, Lua Script 멱등성 + Lamport Clock seq 기반 이벤트 순서 보장 → Scan Pipeline(LLMx2), VU 50→500(x10), RPM 60→367.9(x6.1)</span><span class="lang-en">Streams (persistence) + Pub/Sub (realtime fan-out) + State KV (recovery) separation, Lua Script idempotency + Lamport Clock seq-based event ordering → Scan Pipeline(LLMx2), VU 50→500(x10), RPM 60→367.9(x6.1)</span></li>
+        <li><strong>Redis Event Bus 3-Tier:</strong> <span class="lang-ko">Streams(영속) + Pub/Sub(실시간 팬아웃) + State KV(복구) 분리, Lua Script 멱등성 + Lamport Clock seq 기반 이벤트 순서 보장 → Scan Pipeline(LLM×2) VU 1000 97.8% · 373 RPM · p95 173s</span><span class="lang-en">Streams (persistence) + Pub/Sub (realtime fan-out) + State KV (recovery) separation, Lua Script idempotency + Lamport Clock seq-based event ordering → Scan Pipeline (LLM×2) VU 1000 97.8% · 373 RPM · p95 173s</span></li></invoke>
         <li><strong>Pub/Sub Shard 최적화:</strong> <span class="lang-ko">job_id별 채널 → shard별 채널(hash % 4) 변경, SSE Gateway가 4개 shard 구독 후 job_id로 내부 라우팅 → Pub/Sub 연결 O(N)→O(4), 1,000 VU 기준 99.6% 연결 절감</span><span class="lang-en">Changed from per-job_id channels to shard-based channels (hash % 4), SSE Gateway subscribes to 4 shards with internal job_id routing → Pub/Sub connections O(N)→O(4), 99.6% connection reduction at 1,000 VU</span></li>
         <li><strong>ReadThroughCheckpointer:</strong> <span class="lang-ko">Redis Primary + PostgreSQL Async Sync 분리, Temporal Locality 기반 LRU 승격, CheckpointSyncService 배치 영속화 → Connection Pool 212→33 (84% 감소)</span><span class="lang-en">Redis Primary + PostgreSQL Async Sync separation, Temporal Locality-based LRU promotion, CheckpointSyncService batch persistence → Connection Pool 212→33 (84% reduction)</span></li>
         <li><strong>Concurrency:</strong> <span class="lang-ko">LLM 호출(10-20s/req)로 인해 prefork 모델에서는 동시 처리량이 프로세스 수에 의해 제한되고 비용이 커짐 → I/O-bound 구간을 Gevent(협력적 스케줄링) 기반 동시 처리로 전환해 in-flight 요청 확대, LangGraph(asyncio) 파이프라인은 Taskiq 워커로 분리해 event loop 유지</span><span class="lang-en">LLM calls (10-20s/req) limited prefork model concurrency to process count with high cost → Switched I/O-bound sections to Gevent (cooperative scheduling) for concurrent processing, expanding in-flight requests. LangGraph (asyncio) pipeline separated to Taskiq worker to maintain event loop</span></li>
