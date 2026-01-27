@@ -14062,112 +14062,152 @@ T9: Pagination     loadMoreMessages()
 
     <!-- Modal: Tool Calling Architecture -->
     <div class="modal-overlay" id="modal-chat-toolcalling">
-        <div class="modal-content" style="max-width: 1000px;">
+        <div class="modal-content" style="max-width: 1100px;">
             <button class="modal-close" onclick="closeModal('modal-chat-toolcalling')">×</button>
             <h3 class="modal-title">
-                <span class="lang-ko">🔧 Tool Calling Architecture (Native Function Calling)</span>
-                <span class="lang-en">🔧 Tool Calling Architecture (Native Function Calling)</span>
+                <span class="lang-ko">🔧 Tool Calling Architecture (10 Sub-agents)</span>
+                <span class="lang-en">🔧 Tool Calling Architecture (10 Sub-agents)</span>
             </h3>
 
-            <!-- Tool Calling Flow Diagram -->
-            <div class="modal-diagram" style="font-size: 0.75rem; margin-bottom: 1.5rem;">
-<pre style="font-size: 0.72rem; line-height: 1.4;">
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    Native Tool Calling Pipeline                              │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   ┌──────────┐     ┌──────────────────┐     ┌─────────────────────────┐   │
-│   │ 💬 User  │────►│ 🧠 LLM Router    │────►│ 🔧 Tool Selection       │   │
-│   │  Input   │     │ (Intent + Model) │     │ (Native Function Call)  │   │
-│   └──────────┘     └──────────────────┘     └───────────┬─────────────┘   │
-│                                                          │                  │
-│                    ┌─────────────────────────────────────┼──────────┐      │
-│                    │              Tool Registry           │          │      │
-│                    │                                      ▼          │      │
-│   ┌────────────────┼──────────────┬──────────────┬──────────────┐  │      │
-│   │                │              │              │              │  │      │
-│   │  📍 location   │  🎨 image    │  🔍 web      │  🗑️ waste   │  │      │
-│   │   _search     │  _generation │  _search     │  _classify   │  │      │
-│   │               │              │              │              │  │      │
-│   │  KakaoAPI     │  Gemini      │  GPT-5.2 /   │  RAG +       │  │      │
-│   │  Places       │  Native API  │  Gemini-3    │  Vision LLM  │  │      │
-│   │               │  Nano/Pro    │  -flash      │              │  │      │
-│   └───────────────┴──────────────┴──────────────┴──────────────┘  │      │
-│                    └──────────────────────────────────────────────┘      │
-│                                       │                                   │
-│                                       ▼                                   │
-│                    ┌──────────────────────────────┐                       │
-│                    │ 📊 Response Aggregation       │                       │
-│                    │ + SSE Streaming to Client     │                       │
-│                    └──────────────────────────────┘                       │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-</pre>
-            </div>
-
-            <!-- Tool Details Grid -->
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
-                <!-- location_search -->
-                <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 1rem;">
-                    <div style="font-weight: 600; color: #ef4444; font-size: 0.9rem; margin-bottom: 0.5rem;">📍 location_search</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
-                        <div><strong>Provider:</strong> KakaoAPI (Places)</div>
-                        <div><strong>Input:</strong> user_location + query keyword</div>
-                        <div><strong>Output:</strong> 주변 시설 목록 (이름, 주소, 거리)</div>
-                        <div style="color: var(--text-muted); margin-top: 0.3rem;">Native tool_call → KakaoAPI REST → JSON parse</div>
-                    </div>
+            <!-- 10 Intent & Sub-agent Table -->
+            <div style="margin-bottom: 1.5rem;">
+                <div style="font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">
+                    <span class="lang-ko">📋 Intent & Sub-agent 매핑 (10개)</span>
+                    <span class="lang-en">📋 Intent & Sub-agent Mapping (10)</span>
                 </div>
-                <!-- image_generation -->
-                <div style="background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.3); border-radius: 8px; padding: 1rem;">
-                    <div style="font-weight: 600; color: #fb923c; font-size: 0.9rem; margin-bottom: 0.5rem;">🎨 image_generation</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
-                        <div><strong>Provider:</strong> Gemini SDK Native</div>
-                        <div><strong>Models:</strong> gemini-3-pro-image</div>
-                        <div><strong>Output:</strong> Base64 → gRPC Images API → CDN URL</div>
-                        <div style="color: var(--text-muted); margin-top: 0.3rem;">Character Reference 지원, 13종 캐릭터 에셋 활용</div>
-                    </div>
-                </div>
-                <!-- web_search -->
-                <div style="background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 1rem;">
-                    <div style="font-weight: 600; color: #a855f7; font-size: 0.9rem; margin-bottom: 0.5rem;">🔍 web_search</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
-                        <div><strong>Provider:</strong> GPT 5.2 / Gemini-3-flash</div>
-                        <div><strong>Method:</strong> 네이티브 툴콜링 (Built-in)</div>
-                        <div><strong>Output:</strong> 검색 결과 요약 + 소스 URL</div>
-                        <div style="color: var(--text-muted); margin-top: 0.3rem;">LLM이 자체 웹 검색 수행 (외부 API 불필요)</div>
-                    </div>
-                </div>
-                <!-- waste_classify -->
-                <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 1rem;">
-                    <div style="font-weight: 600; color: #8b5cf6; font-size: 0.9rem; margin-bottom: 0.5rem;">🗑️ waste_classify (RAG)</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6;">
-                        <div><strong>Provider:</strong> Vision LLM + Rule Engine</div>
-                        <div><strong>Method:</strong> Modular RAG Pipeline</div>
-                        <div><strong>Output:</strong> 분리배출 방법 + 재질 분류</div>
-                        <div style="color: var(--text-muted); margin-top: 0.3rem;">Pre-Retrieval → KB → Post-Retrieval 3단계</div>
-                    </div>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem;">
+                        <thead>
+                            <tr style="background: rgba(59,130,246,0.15);">
+                                <th style="padding: 0.5rem; border: 1px solid var(--border-subtle); text-align: left; color: var(--primary);">Intent</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--border-subtle); text-align: left; color: var(--primary);">Node</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--border-subtle); text-align: left; color: var(--primary);">
+                                    <span class="lang-ko">방식</span>
+                                    <span class="lang-en">Method</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #8b5cf6;">🗑️</span> waste</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">waste_rag</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(139,92,246,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">RAG (Tag-Based)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #f59e0b;">🌍</span> character</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">character</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(245,158,11,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">gRPC</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #ef4444;">📍</span> location</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">location</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(239,68,68,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Tool Calling (Kakao)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #ec4899;">🛋️</span> bulk_waste</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">bulk_waste</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(236,72,153,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Tool Calling (MOIS)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #22c55e;">💰</span> recyclable_price</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">recyclable_price</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(34,197,94,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Tool Calling (KECO)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #0ea5e9;">📦</span> collection_point</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">collection_point</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(14,165,233,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Tool Calling (KECO)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #06b6d4;">🌤️</span> weather</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">weather</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(6,182,212,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Tool Calling (KMA)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #fb923c;">🎨</span> image_generation</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">image_generation</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(251,146,60,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Gemini Image API</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #a855f7;">🔍</span> web_search</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">web_search</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(168,85,247,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">Native Tool (OpenAI/Gemini)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="color: #6b7280;">💬</span> general</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle); font-family: monospace;">general</td>
+                                <td style="padding: 0.4rem 0.5rem; border: 1px solid var(--border-subtle);"><span style="background: rgba(107,114,128,0.2); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">LLM Direct</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- Native vs Traditional Comparison -->
-            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(16,185,129,0.1); border-radius: 8px; border-left: 3px solid #10b981;">
-                <strong style="color: #10b981;">
-                    <span class="lang-ko">⚡ Native Tool Calling vs Traditional API 호출</span>
-                    <span class="lang-en">⚡ Native Tool Calling vs Traditional API Calls</span>
+            <!-- Method Categories -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;">
+                <!-- Tool Calling (5) -->
+                <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 0.75rem;">
+                    <div style="font-weight: 600; color: #ef4444; font-size: 0.85rem; margin-bottom: 0.5rem;">🔧 Tool Calling (5)</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>location</strong>: Kakao Local API</div>
+                        <div><strong>bulk_waste</strong>: MOIS 공공 API</div>
+                        <div><strong>recyclable_price</strong>: KECO API</div>
+                        <div><strong>collection_point</strong>: KECO API</div>
+                        <div><strong>weather</strong>: KMA 기상청 API</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">@function_tool 데코레이터 정의</div>
+                    </div>
+                </div>
+                <!-- Native Tool (2) -->
+                <div style="background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 0.75rem;">
+                    <div style="font-weight: 600; color: #a855f7; font-size: 0.85rem; margin-bottom: 0.5rem;">⚡ Native Tool (2)</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>web_search</strong>: GPT-5.2 / Gemini-3-flash 내장</div>
+                        <div><strong>image_generation</strong>: Gemini-3-pro-image</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">LLM 네이티브 기능, 외부 API 불필요</div>
+                        <div style="color: var(--text-muted);">google.genai.types.Tool 직접 사용</div>
+                    </div>
+                </div>
+                <!-- Other (3) -->
+                <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 0.75rem;">
+                    <div style="font-weight: 600; color: #10b981; font-size: 0.85rem; margin-bottom: 0.5rem;">📦 Other Methods (3)</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.6;">
+                        <div><strong>waste_rag</strong>: Tag-Based RAG Pipeline</div>
+                        <div><strong>character</strong>: gRPC (Characters API)</div>
+                        <div><strong>general</strong>: LLM Direct (Fallback)</div>
+                        <div style="color: var(--text-muted); margin-top: 0.3rem;">RAG 167품목 + 80상황 태그 검색</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SDK Usage -->
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(251,146,60,0.1); border-radius: 8px; border-left: 3px solid #fb923c;">
+                <strong style="color: #fb923c;">
+                    <span class="lang-ko">🛠️ SDK 직접 사용 (LangChain 추상화 배제)</span>
+                    <span class="lang-en">🛠️ Direct SDK Usage (No LangChain Abstraction)</span>
                 </strong>
-                <div style="margin-top: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.75rem;">
+                <div style="margin-top: 0.75rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; font-size: 0.75rem;">
                     <div>
-                        <div style="color: #10b981; font-weight: 600; margin-bottom: 0.3rem;">✅ Native (web_search, image_gen)</div>
+                        <div style="color: #fb923c; font-weight: 600; margin-bottom: 0.3rem;">OpenAI SDK</div>
                         <div style="color: var(--text-secondary); line-height: 1.5;">
-                            <span class="lang-ko">• LLM 내장 기능으로 지연 최소화<br>• 별도 API 키/엔드포인트 불필요<br>• 컨텍스트 유지된 결과 반환</span>
-                            <span class="lang-en">• Minimal latency via LLM built-in<br>• No separate API keys/endpoints<br>• Context-aware result generation</span>
+                            <code style="background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 3px; font-size: 0.65rem;">tools=[{"type": "function"}]</code><br>
+                            <span class="lang-ko">네이티브 Function Calling</span>
+                            <span class="lang-en">Native Function Calling</span>
                         </div>
                     </div>
                     <div>
-                        <div style="color: #f59e0b; font-weight: 600; margin-bottom: 0.3rem;">🔄 External API (location, waste)</div>
+                        <div style="color: #fb923c; font-weight: 600; margin-bottom: 0.3rem;">Gemini SDK</div>
                         <div style="color: var(--text-secondary); line-height: 1.5;">
-                            <span class="lang-ko">• 실시간 데이터 필요 (위치, DB)<br>• 전용 데이터소스 접근 필요<br>• tool_call → API 호출 → 결과 주입</span>
-                            <span class="lang-en">• Real-time data needed (location, DB)<br>• Dedicated datasource access required<br>• tool_call → API call → result injection</span>
+                            <code style="background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 3px; font-size: 0.65rem;">google.genai.types.Tool</code><br>
+                            <span class="lang-ko">Web Search, Image Gen 내장</span>
+                            <span class="lang-en">Built-in Web Search, Image Gen</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="color: #fb923c; font-weight: 600; margin-bottom: 0.3rem;">Agents SDK</div>
+                        <div style="color: var(--text-secondary); line-height: 1.5;">
+                            <code style="background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 3px; font-size: 0.65rem;">@function_tool</code><br>
+                            <span class="lang-ko">데코레이터 기반 Tool 정의</span>
+                            <span class="lang-en">Decorator-based Tool Definition</span>
                         </div>
                     </div>
                 </div>
@@ -14176,16 +14216,16 @@ T9: Pagination     loadMoreMessages()
             <!-- SSE Streaming -->
             <div style="padding: 1rem; background: rgba(59,130,246,0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
                 <strong style="color: #3b82f6;">
-                    <span class="lang-ko">🌊 Tool Execution SSE Streaming</span>
-                    <span class="lang-en">🌊 Tool Execution SSE Streaming</span>
+                    <span class="lang-ko">🌊 Tool Execution → SSE Streaming</span>
+                    <span class="lang-en">🌊 Tool Execution → SSE Streaming</span>
                 </strong>
                 <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6;">
-                    <span class="lang-ko">도구 실행 중간 결과를 SSE로 실시간 스트리밍하여 사용자에게 진행 상황 표시:<br>
+                    <span class="lang-ko">Tool 실행 결과가 Event Bus를 통해 실시간 스트리밍:<br>
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_start</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_progress</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_result</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">answer_stream</code></span>
-                    <span class="lang-en">Real-time SSE streaming of intermediate tool execution results to show progress:<br>
+                    <span class="lang-en">Tool execution results stream in real-time via Event Bus:<br>
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_start</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_progress</code> →
                     <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 0.7rem;">tool_result</code> →
