@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cover Letter - Upstage AI Agent Engineer</title>
+<style>
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.8;
+        font-size: 10.5pt;
+        color: #2c3e50;
+        max-width: 210mm;
+        margin: 0 auto;
+        padding: 30px;
+        background: #fff;
+    }
+
+    /* Header */
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #3498db;
+    }
+
+    .header h1 {
+        font-size: 18pt;
+        margin: 0 0 5px 0;
+        color: #2c3e50;
+        font-weight: 700;
+    }
+
+    .header .subtitle {
+        font-size: 11pt;
+        color: #7f8c8d;
+        margin: 0;
+    }
+
+    .header .position {
+        font-size: 12pt;
+        color: #3498db;
+        margin: 10px 0 0 0;
+        font-weight: 600;
+    }
+
+    /* Meta Info */
+    .meta-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        font-size: 9.5pt;
+        color: #7f8c8d;
+    }
+
+    /* Section */
+    h2 {
+        font-size: 12pt;
+        color: #2c3e50;
+        border-left: 4px solid #3498db;
+        padding-left: 10px;
+        margin-top: 25px;
+        margin-bottom: 12px;
+    }
+
+    h3 {
+        font-size: 10.5pt;
+        color: #34495e;
+        margin-top: 15px;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    p {
+        margin: 0 0 12px 0;
+        text-align: justify;
+    }
+
+    ul {
+        padding-left: 20px;
+        margin: 8px 0 15px 0;
+    }
+
+    li {
+        margin-bottom: 6px;
+    }
+
+    strong {
+        color: #2c3e50;
+    }
+
+    /* Highlight Box */
+    .highlight {
+        background: #f8f9fa;
+        border-left: 3px solid #3498db;
+        padding: 12px 15px;
+        margin: 15px 0;
+        font-size: 10pt;
+    }
+
+    /* Tech Stack */
+    .tech-stack {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 6px 15px;
+        font-size: 9.5pt;
+        margin: 10px 0;
+    }
+
+    .tech-category {
+        font-weight: 600;
+        color: #3498db;
+    }
+
+    .tech-items {
+        color: #5d6d7e;
+    }
+
+    /* Footer */
+    .footer {
+        margin-top: 40px;
+        text-align: right;
+        font-size: 10pt;
+        color: #2c3e50;
+    }
+
+    .footer .date {
+        color: #7f8c8d;
+        margin-bottom: 5px;
+    }
+
+    .footer .name {
+        font-size: 12pt;
+        font-weight: 600;
+    }
+
+    /* Print */
+    @media print {
+        body {
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Cover Letter</h1>
+    <p class="subtitle">류지환 (Jihwan Ryu)</p>
+    <p class="position">AI Agent Engineer 지원</p>
+</div>
+
+<div class="meta-info">
+    <span>지원 회사: Upstage</span>
+    <span>ryoo0504@gmail.com</span>
+</div>
+
+<h2>1. 지원 동기</h2>
+
+<p>
+업스테이지의 "Making AI Beneficial" 비전과 문서 워크플로우 자동화라는 제품 방향성에 깊이 공감하여 지원합니다.
+</p>
+
+<p>
+저는 Eco² 프로젝트에서 LangGraph 기반 10개 서브에이전트 오케스트레이션과 Tag-Based Contextual Retrieval 파이프라인을 설계하고, 2025년 12월부터 프로덕션 환경에서 운영해왔습니다. 이 과정에서 고객 질의를 정형화된 Intent로 분류하고, RAG 품질을 평가하여 Fallback Chain으로 응답 품질을 보장하는 전 구간 품질 관리 체계를 직접 설계했습니다.
+</p>
+
+<p>
+업스테이지의 Information Extract와 AI Space가 해결하려는 문서 기반 업무 자동화는, 제가 Eco²에서 구축한 검색-생성-응답 파이프라인과 본질적으로 동일한 문제 구조를 가지고 있습니다. 준 프로덕션 규모에서 쌓은 Agent 설계 경험을 기반으로, 실제 기업 고객의 문서 워크플로우 문제를 해결하는 제품 개발에 기여하고 싶습니다.
+</p>
+
+<h2>2. 관련 경험</h2>
+
+<h3>Agent 시스템 설계 및 구현</h3>
+<ul>
+    <li>LangGraph StateGraph 기반 10개 전문 서브에이전트 설계 (waste_rag, location, bulk_waste, weather 등)</li>
+    <li>Send API를 활용한 동적 병렬 라우팅으로 복합 질의를 단일 요청에서 처리</li>
+    <li>Intent-Based Enrichment: 주요 Intent에 weather, web_search 등 보조 컨텍스트 자동 주입</li>
+</ul>
+
+<h3>RAG 파이프라인 설계 및 튜닝</h3>
+<ul>
+    <li>Anthropic Contextual Retrieval 패턴 기반 2-tier 검색 (~200 품목 + ~100 상황 태그)</li>
+    <li>Classification → Keyword Fallback 전략, Relevance scoring으로 chunk 우선순위 결정</li>
+    <li>Feedback Node가 RAG 품질을 LLM으로 평가, 저품질 시 Web Search → General LLM Fallback Chain</li>
+</ul>
+
+<h3>Function Calling / Tool Use</h3>
+<ul>
+    <li>Location Agent: Native SDK(OpenAI/Gemini) Function Calling으로 Kakao Local API 도구 호출</li>
+    <li>8개 공공/외부 API 통합 (MOIS, KECO, KMA, Kakao Local, DuckDuckGo/Tavily)</li>
+</ul>
+
+<h3 style="margin-top: 25px;">품질 평가 및 벤치마크</h3>
+<ul>
+    <li>Intent Confidence Scoring: LLM 신뢰도 + 키워드 매칭 보정 + Chain-of-Intent 전이 보너스</li>
+    <li>FeedbackQuality 점수 기반 응답 품질 평가, 0.6 미만 시 Fallback 트리거</li>
+    <li>k6 부하 테스트로 VU 50→500(x10), RPM 60→528(x8.8) 스케일링 검증</li>
+</ul>
+
+<h3>프롬프트 엔지니어링</h3>
+<ul>
+    <li>Global/Local Prompt Optimization 패턴: 캐릭터 정의(Global) + Intent별 지침(Local) 분리</li>
+    <li>구조화 응답 템플릿으로 할루시네이션 억제, LRU 캐싱으로 프롬프트 로드 최적화</li>
+</ul>
+
+<h2>3. 기술 스택</h2>
+
+<div class="tech-stack">
+    <span class="tech-category">Agent Framework</span>
+    <span class="tech-items">LangGraph, OpenAI Agents SDK</span>
+    <span class="tech-category">LLM</span>
+    <span class="tech-items">GPT-5.2, Gemini-3.0-flash</span>
+    <span class="tech-category">Backend</span>
+    <span class="tech-items">Python 3.11, FastAPI, Celery, Gevent, Taskiq</span>
+    <span class="tech-category">Infrastructure</span>
+    <span class="tech-items">Kubernetes (24-Node), Redis, PostgreSQL, RabbitMQ</span>
+    <span class="tech-category">Observability</span>
+    <span class="tech-items">Prometheus, Grafana, Jaeger, OpenTelemetry, LangSmith</span>
+</div>
+
+<h2>4. 입사 후 기여 방향</h2>
+
+<ul>
+    <li><strong>Agent 파이프라인 설계:</strong> 문서 워크플로우 특화 Multi-Agent 아키텍처 설계</li>
+    <li><strong>품질 평가 체계 구축:</strong> RAG 품질 벤치마크 및 Confidence 기반 Fallback 정책 수립</li>
+    <li><strong>프로덕션 안정성:</strong> Circuit Breaker, Checkpoint, Resilience 패턴 적용</li>
+</ul>
+
+<div class="footer">
+    <p class="date">2026년 1월</p>
+    <p class="name">류지환 드림</p>
+</div>
+
+</body>
+</html>
