@@ -169,15 +169,15 @@
 <h2>1. 지원 동기</h2>
 
 <p>
-업스테이지의 "Making AI Beneficial" 비전과 문서 워크플로우 자동화라는 제품 방향성에 깊이 공감하여 지원합니다.
+업스테이지의 Document Intelligence가 보험 클레임 처리에서 95% 이상의 정확도를 달성했다는 사례를 보며, "LLM을 실제 비즈니스 문제 해결에 적용 가능한 제품으로 구현한다"는 AI Product Division의 방향성에 깊이 공감했습니다. 특히 JD에서 강조하는 "진짜 고객의 문제를 해결"한다는 표현이 인상적이었습니다. 연구 성과를 논문으로 끝내지 않고, 실제 Fortune 500 기업과 보험사가 사용하는 제품으로 전환하는 과정에 참여하고 싶어 지원합니다.
 </p>
 
 <p>
-저는 Eco² 프로젝트에서 LangGraph 기반 10개 서브에이전트 오케스트레이션과 Tag-Based Contextual Retrieval 파이프라인을 설계하고, 2025년 12월부터 프로덕션 환경에서 운영해왔습니다. 이 과정에서 고객 질의를 정형화된 Intent로 분류하고, RAG 품질을 평가하여 Fallback Chain으로 응답 품질을 보장하는 전 구간 품질 관리 체계를 직접 설계했습니다.
+저는 Eco² 프로젝트에서 재활용 분류 도메인의 Multi-Agent 시스템을 설계하며 비슷한 문제를 경험했습니다. 사용자가 "이거 어떻게 버려?"라고 물으면, 시스템은 이미지를 분류하고, 18개 분류 규정에서 관련 정보를 검색하고, 사용자 위치 기반으로 수거장소를 안내해야 합니다. 단순한 LLM 호출이 아니라, Intent 분류 → RAG 검색 → 품질 평가 → 응답 생성의 전 구간에서 정확도를 관리해야 했습니다. 이 과정에서 Confidence Scoring 체계를 설계하고, RAG 품질이 낮을 때 Web Search로 Fallback하는 정책을 구현하며 "정확도가 곧 사용자 신뢰"라는 점을 체감했습니다.
 </p>
 
 <p>
-업스테이지의 Information Extract와 AI Space가 해결하려는 문서 기반 업무 자동화는, 제가 Eco²에서 구축한 검색-생성-응답 파이프라인과 본질적으로 동일한 문제 구조를 가지고 있습니다. 준 프로덕션 규모에서 쌓은 Agent 설계 경험을 기반으로, 실제 기업 고객의 문서 워크플로우 문제를 해결하는 제품 개발에 기여하고 싶습니다.
+업스테이지의 Information Extract가 인보이스, 클레임, 계약서에서 key-value를 추출하는 문제는, 제가 Eco²에서 폐기물 규정 문서에서 분류 기준을 추출하던 문제와 구조적으로 동일합니다. 다만 업스테이지가 다루는 보험·금융 도메인은 오류 비용이 훨씬 크고, 규제 요건이 엄격하며, 문서 형식의 변이가 큽니다. 이러한 고난도 환경에서 Agent 기반 제품을 개발하고, 벤치마크를 설계하며, 고객 피드백을 반영해 정확도를 높이는 경험을 통해 엔지니어로서 한 단계 성장하고 싶습니다.
 </p>
 
 <h2>2. 관련 경험</h2>
@@ -191,7 +191,7 @@
 
 <h3>RAG 파이프라인 설계 및 튜닝</h3>
 <ul>
-    <li>Anthropic Contextual Retrieval 패턴 기반 2-tier 검색 (~200 품목 + ~100 상황 태그)</li>
+    <li>Anthropic Contextual Retrieval 패턴 기반 2-tier 검색 (18개 분류 규정 + 80개 상황 태그)</li>
     <li>Classification → Keyword Fallback 전략, Relevance scoring으로 chunk 우선순위 결정</li>
     <li>Feedback Node가 RAG 품질을 LLM으로 평가, 저품질 시 Web Search → General LLM Fallback Chain</li>
 </ul>

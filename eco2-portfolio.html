@@ -3676,7 +3676,7 @@
                                 <div style="color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.3rem;">↑ inject</div>
                                 <div style="background: linear-gradient(135deg, rgba(244, 197, 106, 0.15), rgba(244, 197, 106, 0.05)); border: 1px solid rgba(244, 197, 106, 0.3); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.75rem;">
                                     <div style="color: rgba(244, 197, 106, 0.9); font-weight: 600;">YAML KB</div>
-                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">200+ 품목</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 0.2rem;">167개 품목</div>
                                 </div>
                             </div>
                             <div style="text-align: center; flex: 1;">
@@ -12174,7 +12174,7 @@ radon cc apps/ -a -nc  # A등급만 제외하고 표시</pre>
 │                  │ ├── 소분류: PET/PP/PE/...    │                   │
 │                  │ └── 규정: 세척/라벨제거/...  │                   │
 │                  │                              │                   │
-│                  │ 📊 200+ 품목 규정 수록       │                   │
+│                  │ 📊 167개 품목 규정 수록       │                   │
 │                  └──────────────────────────────┘                   │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
@@ -12637,7 +12637,7 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
 │   │                                                                  │   │
 │   │ item_class_list.yaml          situation_tags.yaml               │   │
 │   │ ┌─────────────────────┐       ┌─────────────────────┐          │   │
-│   │ │ 200+ 품목            │       │ 100+ 상황 태그       │          │   │
+│   │ │ 167개 품목            │       │ 80개 상황 태그       │          │   │
 │   │ │ ├── 플라스틱         │       │ ├── 청소            │          │   │
 │   │ │ │   ├── PET         │       │ ├── 분리수거        │          │   │
 │   │ │ │   ├── PP          │       │ ├── 재활용          │          │   │
@@ -12664,12 +12664,12 @@ celery -A scan_worker worker --pool=gevent --concurrency=100
                 </tr>
                 <tr>
                     <td><code>item_class_list.yaml</code></td>
-                    <td><span class="lang-ko">200+ 품목 분류 체계</span><span class="lang-en">200+ item classification</span></td>
+                    <td><span class="lang-ko">167개 품목 분류 체계</span><span class="lang-en">200+ item classification</span></td>
                     <td><span class="lang-ko">분리배출 질문 시 품목 매칭</span><span class="lang-en">Item matching for disposal questions</span></td>
                 </tr>
                 <tr>
                     <td><code>situation_tags.yaml</code></td>
-                    <td><span class="lang-ko">100+ 상황 태그</span><span class="lang-en">100+ situation tags</span></td>
+                    <td><span class="lang-ko">80개 상황 태그</span><span class="lang-en">100+ situation tags</span></td>
                     <td><span class="lang-ko">컨텍스트 기반 검색 강화</span><span class="lang-en">Contextual search enhancement</span></td>
                 </tr>
             </table>
