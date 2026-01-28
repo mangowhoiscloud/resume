@@ -2827,6 +2827,13 @@
                                 <span class="lang-en"><strong>LangSmith + OTEL</strong> TelemetryConfigPort abstraction, Feature-level Run tracking, OTEL Span integration <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
                             </div>
                         </div>
+                        <div class="achievement clickable" onclick="openModal('modal-token-tracking')" style="cursor: pointer;">
+                            <span class="achievement-icon">📈</span>
+                            <div class="achievement-text">
+                                <span class="lang-ko"><strong>LangSmith Token Tracking</strong> 11개 LLM 호출 경로별 토큰 추적, usage_metadata 표준화 <span style="color: var(--primary); font-size: 0.85rem;">→ 상세 보기</span></span>
+                                <span class="lang-en"><strong>LangSmith Token Tracking</strong> Token tracking for 11 LLM call paths, usage_metadata standardization <span style="color: var(--primary); font-size: 0.85rem;">→ View Details</span></span>
+                            </div>
+                        </div>
                         <div class="achievement clickable" onclick="openModal('modal-chat-consistency')" style="cursor: pointer;">
                             <span class="achievement-icon">🔒</span>
                             <div class="achievement-text">
@@ -16378,6 +16385,126 @@ async def run_with_fallback(self, query: str) -> AgentResponse:
                     </a>
                     <a href="https://smith.langchain.com" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                         <span style="color: var(--primary);">→</span> LangSmith - LLM Observability
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: LangSmith Token Tracking -->
+    <div class="modal-overlay" id="modal-token-tracking">
+        <div class="modal-content" style="max-width: 1100px;">
+            <button class="modal-close" onclick="closeModal('modal-token-tracking')">×</button>
+            <h3 class="modal-title">
+                <span class="lang-ko">📈 LangSmith Token Tracking - 11개 LLM 경로 토큰 추적</span>
+                <span class="lang-en">📈 LangSmith Token Tracking - 11 LLM Path Token Tracking</span>
+            </h3>
+
+            <!-- Problem Statement -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">❌ 문제: 토큰 0 / $0.00</span>
+                    <span class="lang-en">❌ Problem: Token 0 / $0.00</span>
+                </h4>
+                <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 1rem;">
+                    <span class="lang-ko">LangSmith 대시보드에서 39번의 LLM 호출이 있었음에도 "토큰: 0 / $0.00"으로 표시되는 문제 발생</span>
+                    <span class="lang-en">LangSmith dashboard showed "Tokens: 0 / $0.00" despite 39 LLM calls being made</span>
+                </div>
+            </div>
+
+            <!-- Solution: 11 LLM Paths -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #10b981; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">✅ 해결: 11개 LLM 호출 경로별 토큰 추적</span>
+                    <span class="lang-en">✅ Solution: Token Tracking for 11 LLM Call Paths</span>
+                </h4>
+                <div class="modal-diagram" style="font-size: 0.7rem; line-height: 1.4;">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        11 LLM Call Paths Token Tracking                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  OpenAI (4가지)                          Gemini (7가지)                      │
+│  ┌─────────────────────────────┐        ┌─────────────────────────────┐    │
+│  │ 1. Non-Streaming            │        │ 5. Non-Streaming            │    │
+│  │ 2. Streaming                │        │ 6. Streaming                │    │
+│  │ 3. Function Calling         │        │ 7. Function Calling         │    │
+│  │ 4. Agents SDK               │        │ 8. Image Analysis           │    │
+│  │                             │        │ 9. Image Generation         │    │
+│  │                             │        │ 10. Grounding Search        │    │
+│  │                             │        │ 11. Native Tool Use         │    │
+│  └─────────────────────────────┘        └─────────────────────────────┘    │
+│                                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  🔑 Key: LangChain usage_metadata 필드로 표준화                              │
+│                                                                             │
+│  response.usage_metadata = {                                                │
+│      "input_tokens": prompt_tokens,                                         │
+│      "output_tokens": completion_tokens,                                    │
+│      "total_tokens": total_tokens                                           │
+│  }                                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #8b5cf6; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">📊 결과: 48,721 토큰 추적 성공</span>
+                    <span class="lang-en">📊 Result: 48,721 Tokens Successfully Tracked</span>
+                </h4>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold; color: #8b5cf6;">48,721</div>
+                        <div style="color: var(--text-secondary); font-size: 0.85rem;">
+                            <span class="lang-ko">총 토큰</span>
+                            <span class="lang-en">Total Tokens</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold; color: #10b981;">$0.68</div>
+                        <div style="color: var(--text-secondary); font-size: 0.85rem;">
+                            <span class="lang-ko">비용 추적</span>
+                            <span class="lang-en">Cost Tracked</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px; background: rgba(244,197,106,0.1); border: 1px solid rgba(244,197,106,0.3); border-radius: 8px; padding: 1rem; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold; color: #f4c56a;">11</div>
+                        <div style="color: var(--text-secondary); font-size: 0.85rem;">
+                            <span class="lang-ko">LLM 경로</span>
+                            <span class="lang-en">LLM Paths</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Video -->
+            <div style="margin-top: 1.5rem;">
+                <h4 style="color: #06b6d4; margin-bottom: 1rem; font-size: 1rem;">
+                    <span class="lang-ko">🎬 데모 영상</span>
+                    <span class="lang-en">🎬 Demo Video</span>
+                </h4>
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.3);">
+                    <iframe
+                        src="https://www.youtube.com/embed/hoF6Uq1YVNs"
+                        title="LangSmith Token Tracking Demo"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- External Links -->
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(14,165,233,0.1); border-radius: 8px; border-left: 3px solid var(--accent-teal);">
+                <strong style="color: var(--accent-teal);">🔗 <span class="lang-ko">외부 링크</span><span class="lang-en">External Links</span></strong>
+                <div style="margin-top: 0.75rem; display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="https://rooftopsnow.tistory.com/250" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span>
+                        <span class="lang-ko">블로그 포스트 - LangSmith Token Tracking 개선</span>
+                        <span class="lang-en">Blog Post - LangSmith Token Tracking Improvement</span>
+                    </a>
+                    <a href="https://smith.langchain.com" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: var(--primary);">→</span> LangSmith Dashboard
                     </a>
                 </div>
             </div>
